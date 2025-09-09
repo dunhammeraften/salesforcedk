@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>To be able to open the SMS tab under Cases and send bulk SMS</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Send SMS from Case</label>
+    <license>Salesforce</license>
+    <pageAccesses>
+        <apexPage>Case_SMS</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+</PermissionSet>

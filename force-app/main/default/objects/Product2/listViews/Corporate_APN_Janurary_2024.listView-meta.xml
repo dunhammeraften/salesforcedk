@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Corporate_APN_Janurary_2024</fullName>
+    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+    <columns>PRODUCT2.NAME</columns>
+    <columns>PRODUCT2.CUSTOMER_PRODUCT_ID</columns>
+    <columns>ProductAPI_Telia_Product_Id__c</columns>
+    <columns>SBQQ__BillingFrequency__c</columns>
+    <columns>SBQQ__Specifications__c</columns>
+    <columns>SBQQ__PriceEditable__c</columns>
+    <columns>SBQQ__QuantityEditable__c</columns>
+    <columns>SBQQ__SubscriptionType__c</columns>
+    <columns>L2_Approval_Required_to_Sell_Product__c</columns>
+    <columns>SBQQ__ConfigurationEvent__c</columns>
+    <columns>SBQQ__ConfigurationType__c</columns>
+    <columns>SBQQ__OptionSelectionMethod__c</columns>
+    <columns>SBQQ__Component__c</columns>
+    <columns>activate_with_other_products__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PRODUCT2.CUSTOMER_PRODUCT_ID</field>
+        <operation>equals</operation>
+        <value>11250</value>
+    </filters>
+    <filters>
+        <field>PRODUCT2.CUSTOMER_PRODUCT_ID</field>
+        <operation>equals</operation>
+        <value>11251</value>
+    </filters>
+    <filters>
+        <field>PRODUCT2.CUSTOMER_PRODUCT_ID</field>
+        <operation>equals</operation>
+        <value>11252</value>
+    </filters>
+    <filters>
+        <field>PRODUCT2.CUSTOMER_PRODUCT_ID</field>
+        <operation>equals</operation>
+        <value>11253</value>
+    </filters>
+    <label>Corporate APN - Janurary 2024</label>
+</ListView>

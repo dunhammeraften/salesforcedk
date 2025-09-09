@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_category_2__c</fullName>
+    <label>Product category 2</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Product_category__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Dark Fiber</fullName>
+                <default>false</default>
+                <label>Dark Fiber</label>
+            </value>
+            <value>
+                <fullName>Ethernet Nordic</fullName>
+                <default>false</default>
+                <label>Ethernet Nordic</label>
+            </value>
+            <value>
+                <fullName>Ethernet Nordic Capacity</fullName>
+                <default>false</default>
+                <label>Ethernet Nordic Capacity</label>
+            </value>
+            <value>
+                <fullName>Internet</fullName>
+                <default>false</default>
+                <label>Internet</label>
+            </value>
+            <value>
+                <fullName>Sea Cable</fullName>
+                <default>false</default>
+                <label>Sea Cable</label>
+            </value>
+            <value>
+                <fullName>Location</fullName>
+                <default>false</default>
+                <label>Location</label>
+            </value>
+            <value>
+                <fullName>Power</fullName>
+                <default>false</default>
+                <label>Power</label>
+            </value>
+            <value>
+                <fullName>Special numbers</fullName>
+                <default>false</default>
+                <label>Special numbers</label>
+            </value>
+            <value>
+                <fullName>Service - Colocation</fullName>
+                <default>false</default>
+                <label>Service - Colocation</label>
+            </value>
+            <value>
+                <fullName>Service - Capacity</fullName>
+                <default>false</default>
+                <label>Service - Capacity</label>
+            </value>
+            <value>
+                <fullName>Service - Fixed</fullName>
+                <default>false</default>
+                <label>Service - Fixed</label>
+            </value>
+            <value>
+                <fullName>DN Access Multi Fiber</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DN Access Multi Fiber</label>
+            </value>
+            <value>
+                <fullName>DN Access Multi G.SHDSL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DN Access Multi G.SHDSL</label>
+            </value>
+            <value>
+                <fullName>DN Access Multi VDSL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DN Access Multi VDSL</label>
+            </value>
+            <value>
+                <fullName>EPL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>EPL</label>
+            </value>
+            <value>
+                <fullName>Ethernet Local Loop</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ethernet Local Loop</label>
+            </value>
+            <value>
+                <fullName>Ethernet fiber</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ethernet fiber</label>
+            </value>
+            <value>
+                <fullName>Fiber</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fiber</label>
+            </value>
+            <value>
+                <fullName>SLA Platinum</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SLA Platinum</label>
+            </value>
+            <value>
+                <fullName>Service</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Service</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Dark Fiber</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Ethernet Nordic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Ethernet Nordic Capacity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Internet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Sea Cable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Capacity</controllingFieldValue>
+            <valueName>Service - Capacity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Colocation</controllingFieldValue>
+            <valueName>Location</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Colocation</controllingFieldValue>
+            <valueName>Power</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Colocation</controllingFieldValue>
+            <valueName>Service - Colocation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed</controllingFieldValue>
+            <valueName>Special numbers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed</controllingFieldValue>
+            <valueName>Service - Fixed</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

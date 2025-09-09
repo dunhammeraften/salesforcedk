@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Category__c</fullName>
+    <description>Service Revenue that has no product category specified.</description>
+    <inlineHelpText>Service Revenue that has no product category specified.</inlineHelpText>
+    <label>No Category</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

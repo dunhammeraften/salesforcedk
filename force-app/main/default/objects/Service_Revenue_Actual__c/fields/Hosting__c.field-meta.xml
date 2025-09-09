@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosting__c</fullName>
+    <description>Service Revenue from product category &quot;Hosting&quot;.</description>
+    <inlineHelpText>Service Revenue from product category &quot;Hosting&quot;.</inlineHelpText>
+    <label>Hosting</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

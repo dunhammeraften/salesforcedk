@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Special_terms_from_quote__c</fullName>
+    <description>This shows the special terms from the quote to be displayed on the contract object, so that it can be displayed on the case overview</description>
+    <externalId>false</externalId>
+    <formula>IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Global Volume Discount&quot;), &quot;Global Volume Discount&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Mobildækning - Eksisterende Lokaliteter&quot;), &quot;Mobildækning - Eksisterende Lokaliteter&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Mobildækning - Nye Lokaliteter&quot;), &quot;Mobildækning - Nye Lokaliteter&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Benchmark - 10%&quot;), &quot;Benchmark - 10%&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Benchmark - 15%&quot;), &quot;Benchmark - 15%&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Benchmark - 20%&quot;), &quot;Benchmark - 20%&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Årlig Reduktion - 5%&quot;), &quot;Årlig Reduktion - 5%&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Årlig Reduktion - 10%&quot;), &quot;Årlig Reduktion - 10%&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Rapportering&quot;), &quot;Rapportering&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Forlængelse 2 Gange 12 Måneder - 5% Rabat&quot;), &quot;Forlængelse 2 Gange 12 Måneder - 5% Rabat&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Forlængelse 2 Gange 12 Måneder - Uandret Priser og Vilkår&quot;), &quot;Forlængelse 2 Gange 12 Måneder - Uandret Priser og Vilkår&quot; + BR(), NULL) + 
+IF(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Driftshåndbog&quot;), &quot;Driftshåndbog&quot; + BR(), NULL) + 
+IF(AND(INCLUDES( SBQQ__Quote__r.Additional_Special_Terms_on_Contract__c , &quot;Undtaget fra prisindeksering&quot;), Exempt_for_price_index_regulation__c  = TRUE), &quot;Undtaget fra prisindeksering&quot; + BR(), NULL)</formula>
+    <inlineHelpText>Shows the special terms from the quote</inlineHelpText>
+    <label>Special terms from quote</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProductAPI_Telia_Product_Id__c</fullName>
+    <description>Telia specific informationof the product to be used in Fokus</description>
+    <externalId>false</externalId>
+    <label>Telia Product Id</label>
+    <length>150</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

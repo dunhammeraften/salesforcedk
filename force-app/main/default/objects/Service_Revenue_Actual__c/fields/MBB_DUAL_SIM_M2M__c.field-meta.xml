@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MBB_DUAL_SIM_M2M__c</fullName>
+    <description>Service Revenue from product category &quot;MBB, DUAL SIM, M2M&quot;.</description>
+    <formula>MBB__c +  M2M_IOT__c +  M2M__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Service Revenue from product category &quot;MBB, DUAL SIM, M2M&quot;.</inlineHelpText>
+    <label>MBB, DUAL SIM, M2M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

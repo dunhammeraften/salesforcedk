@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubType__c</fullName>
+    <label>SubType</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Transfer</fullName>
+                <default>false</default>
+                <label>Transfer</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Product change</fullName>
+                <default>false</default>
+                <label>Product change</label>
+            </value>
+            <value>
+                <fullName>Incident</fullName>
+                <default>false</default>
+                <label>Incident</label>
+            </value>
+            <value>
+                <fullName>Set-up</fullName>
+                <default>false</default>
+                <label>Set-up</label>
+            </value>
+            <value>
+                <fullName>Business Internet Data Collection</fullName>
+                <default>false</default>
+                <label>Business Internet Data Collection</label>
+            </value>
+            <value>
+                <fullName>Home Office Data Collection</fullName>
+                <default>false</default>
+                <label>Home Office Data Collection</label>
+            </value>
+            <value>
+                <fullName>Business Internet Implementation Period</fullName>
+                <default>false</default>
+                <label>Business Internet Implementation Period</label>
+            </value>
+            <value>
+                <fullName>Home Office Implementation Period</fullName>
+                <default>false</default>
+                <label>Home Office Implementation Period</label>
+            </value>
+            <value>
+                <fullName>Home Office Project Manager</fullName>
+                <default>false</default>
+                <label>Home Office Project Manager</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Transfer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Termination</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Product change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Technical Support</controllingFieldValue>
+            <valueName>Incident</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Technical Support</controllingFieldValue>
+            <valueName>Set-up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Business Internet Data Collection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Home Office Data Collection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Business Internet Implementation Period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Home Office Implementation Period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Home Office Project Manager</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

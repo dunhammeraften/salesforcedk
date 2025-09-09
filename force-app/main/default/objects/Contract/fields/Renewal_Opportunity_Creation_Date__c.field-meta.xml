@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Opportunity_Creation_Date__c</fullName>
+    <description>Date when a renewal Opportunity should be created automatically. Set by a Flow on Contract creation.</description>
+    <label>Renewal Opportunity Creation Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

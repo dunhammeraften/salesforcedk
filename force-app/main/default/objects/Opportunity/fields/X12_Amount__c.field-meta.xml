@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X12_Amount__c</fullName>
+    <description>Used for compensation purposes to calculate k12 amount of new sales on renewal quotes and from other channels</description>
+    <formula>IF(
+NOT(ISBLANK(SBQQ__PrimaryQuote__c)) &amp;&amp; ISPICKVAL(Type, &apos;Renewal&apos;),
+((SBQQ__PrimaryQuote__r.Comp_New_Sales_Renewal_Subscription__c/SBQQ__PrimaryQuote__r.SBQQ__SubscriptionTerm__c)*12+ SBQQ__PrimaryQuote__r.Comp_New_Sales_Renewal_One_Time__c), 
+
+IF(
+NOT(ISBLANK(SBQQ__PrimaryQuote__c)) &amp;&amp; (ISPICKVAL(Type, &apos;New_Business&apos;) || ISPICKVAL(Type, &apos;Upsale&apos;)|| ISPICKVAL(Type, &apos;Cross_sale&apos;)) , ((SBQQ__PrimaryQuote__r.Comp_New_Sales_Subscription__c/SBQQ__PrimaryQuote__r.SBQQ__SubscriptionTerm__c)*12+ SBQQ__PrimaryQuote__r.Comp_New_Sales_One_Time__c),
+
+IF(
+  RecordType.DeveloperName= &apos;Sales_other_channels&apos;,(Comp_Internet__c*1.0)+(Comp_M2M__c*0.8)+(Comp_MBB__c*1.0)+  (Comp_MPLS__c*1.0)+(Comp_Non_TENCE__c*1.2)+(Comp_SIP_Fastnet__c*1.2)+(Comp_TENCE__c*1.2)+(Comp_UC__c*1.2)+(Comp_Voice__c*1.0)+(Comp_DaaS__c*1.2)+(Comp_Call_Guide__c*1.2)+(Comp_Dual_SIM__c*1.0)+( Comp_Fastnettelefoni__c*0.8),0)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Used for compensation to calculate k12 of new sales on renewal quotes,  new sales from other channels + k12 on New Business, Cross-sale, Upsale Opportunities (incl product gearing) - this amount can be changed by Activation if Quantity changes</inlineHelpText>
+    <label>Comp K12 Amount New Sales</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

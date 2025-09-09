@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Usage_Analyzer__c</fullName>
+    <description>Field used in Matrix solution to get name of icon to use in matrix to indicate the need toupgrade of package. If one of icons is not ok one need to find new one from list here: https://www.lightningdesignsystem.com/icons/ and replace the old one with new one in formula.
+IF( OR( Quote_Line__r.SBQQ__Product__r.Available_Monthly_Data_MB__c=0 , ISBLANK( Avg_Monthly_Data_Used_MB__c ), ISBLANK( Quote_Line__r.SBQQ__Product__r.Available_Monthly_Data_MB__c ), Avg_Monthly_Data_Used_MB__c=0 ),
+ &apos;standard:question_feed&apos;, 
+ IF( ( Avg_Monthly_Data_Used_MB__c / Quote_Line__r.SBQQ__Product__r.Available_Monthly_Data_MB__c ) &gt; 0.9, &apos;standard:incident&apos;, &apos;standard:care_request_reviewer&apos; ) )</description>
+    <externalId>false</externalId>
+    <formula>IF( Quote_Line__r.SBQQ__Product__r.Available_Monthly_Data_MB__c=0,
+ &apos;utility:help&apos;, 
+ IF( ( Avg_Monthly_Data_Used_MB__c / Quote_Line__r.SBQQ__Product__r.Available_Monthly_Data_MB__c ) &gt; 0.9, &apos;utility:arrowup&apos;, &apos;utility:arrowdown&apos; ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Field holds name of icon we want to use to indicate status of data usage.</inlineHelpText>
+    <label>Data Usage Analyzer</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

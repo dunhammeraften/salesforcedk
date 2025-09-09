@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Create_Subscription_Line_Detail__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Set to true when Order line detail is created so a flow will fire and create a related Subscription line detail record.</description>
+    <label>Create Subscription Line Detail</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

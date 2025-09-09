@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Wholesale_Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Order Contact</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Wholesale_Account__c</field>
+            <operation>equals</operation>
+            <valueField>Wholesale_Contact__c.Wholesale_Account__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Wholesale_Contact__c</referenceTo>
+    <relationshipLabel>Wholesale Orders</relationshipLabel>
+    <relationshipName>Wholesale_Orders</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

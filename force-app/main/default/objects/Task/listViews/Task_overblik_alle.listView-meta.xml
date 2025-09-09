@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_overblik_alle</fullName>
+    <columns>SUBJECT</columns>
+    <columns>WHO_NAME</columns>
+    <columns>WHAT_NAME</columns>
+    <columns>DUE_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>PRIORITY</columns>
+    <columns>STATUS</columns>
+    <columns>UPDATEDBY_USER.ALIAS</columns>
+    <columns>OWNER_ROLE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DUE_DATE</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>STATUS</field>
+        <operation>equals</operation>
+        <value>Open</value>
+    </filters>
+    <filters>
+        <field>OWNER_ROLE</field>
+        <operation>equals</operation>
+        <value>Mobile &amp; UC Delivery</value>
+    </filters>
+    <label>Task overblik - Mobile &amp; UC Delivery</label>
+</ListView>

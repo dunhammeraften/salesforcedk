@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_not_change_Voice_to_Renewal</fullName>
+    <active>true</active>
+    <description>Prevent users from changing the Type of an Opportunity to Renewal if it has certain Voice products in scope.</description>
+    <errorConditionFormula>ISCHANGED(Type) &amp;&amp; 
+ISPICKVAL(Type,&apos;Renewal&apos;) &amp;&amp; (
+  INCLUDES( Product_s_in_scope__c, &apos;Voice&apos;)||
+  INCLUDES( Product_s_in_scope__c, &apos;Dual SIM&apos;) ||
+  INCLUDES( Product_s_in_scope__c, &apos;M2M&apos;)||
+  INCLUDES( Product_s_in_scope__c, &apos;MBB&apos;) ||
+  INCLUDES( Product_s_in_scope__c, &apos;Unified Communication&apos;)
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to change this opportunity to type Renewal as it has one of the following products in scope: Voice, Dual SIM, M2M, MBB or Unified Communication.</errorMessage>
+</ValidationRule>

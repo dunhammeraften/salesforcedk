@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link_to_Original_Contract_X__c</fullName>
+    <description>US412 - Old contracts migration. Link to the original contract.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to the original contract (only for migrated contracts).</inlineHelpText>
+    <label>Link to Original Contract (X folder)</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

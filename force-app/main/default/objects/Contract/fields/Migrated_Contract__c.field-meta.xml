@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Migrated_Contract__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>US412 - Contract Migration. Indicated if the contract was migrated.
+
+This contract was migrated (created before Salesforce CPQ then imported to the system). Please note that the migrated contracts had several end dates and needed to be split into several subcontracts (mobile, data, fastnet). The field &quot;Contract Type (if Migrated)&quot; indicates which subcontract. The fields &quot;Link to Original Contract&quot; contain the link to the original full contract (available in both X folder and Sharepoint). The field &quot;Products&quot; contains the Products for the whole contract. To see the other subcontracts, please go to the Account and look at the Contracts related list.</description>
+    <inlineHelpText>Indicates if the contract was migrated. Contracts with several end dates were split in several subcontracts (mobile, fastnet, data), &quot;Contract Type (if Migrated)&quot; indicates which subcontract it is. Full contract can be found in &quot;Link to Original Contract&quot;</inlineHelpText>
+    <label>Migrated Contract</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

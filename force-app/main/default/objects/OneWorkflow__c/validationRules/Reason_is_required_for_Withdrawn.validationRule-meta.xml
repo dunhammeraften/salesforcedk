@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_is_required_for_Withdrawn</fullName>
+    <active>true</active>
+    <description>You must enter a Reason for Withdraw if status is selected as &quot;Withdrawn&quot;,</description>
+    <errorConditionFormula>AND(ISPICKVAL(Update_Type__c, &apos;Withdrawn&apos;) ,ISPICKVAL(ReasonForWithdrawal__c, &apos;&apos;))</errorConditionFormula>
+    <errorMessage>You must enter a Reason for Withdraw if status is selected as &quot;Withdrawn&quot;</errorMessage>
+</ValidationRule>

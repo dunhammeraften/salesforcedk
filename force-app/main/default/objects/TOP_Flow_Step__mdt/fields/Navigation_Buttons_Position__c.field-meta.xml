@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Navigation_Buttons_Position__c</fullName>
+    <description>Where to display flow navigation buttons</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Where to display flow navigation buttons</inlineHelpText>
+    <label>Navigation Buttons Position</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Top</fullName>
+                <default>true</default>
+                <label>Top</label>
+            </value>
+            <value>
+                <fullName>Bottom</fullName>
+                <default>false</default>
+                <label>Bottom</label>
+            </value>
+            <value>
+                <fullName>Top and Bottom</fullName>
+                <default>false</default>
+                <label>Top and Bottom</label>
+            </value>
+            <value>
+                <fullName>Hidden</fullName>
+                <default>false</default>
+                <label>Hidden</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

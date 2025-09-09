@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used during Home Office pilot for users who should have read access to fields related to new home office products. Once home office is fully live, these permissions should be added to Telia Enterprise Service Profile</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SBQQ__Quote__c.Calculated_Volume_Discount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SBQQ__Quote__c.Diff_HO_discount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SBQQ__Quote__c.Discount_on_Technician_fee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SBQQ__Quote__c.Home_Office_Discount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Home Office Product Deploy Read Permission</label>
+    <license>Salesforce</license>
+</PermissionSet>

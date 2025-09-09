@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description_is_needed_for_Create</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISPICKVAL(Update_Type__c, &apos;Create&apos;) , ISBLANK(Description__c) )</errorConditionFormula>
+    <errorMessage>Please enter value in the Description</errorMessage>
+</ValidationRule>

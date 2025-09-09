@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SLA__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <inlineHelpText>Search Products:
+SLA Internet Fiber 212xx
+SLA Internet DSL 222xx
+SLA Datanet DSL 815xx
+SLA Datanet Fiber 825xx
+SLA Datanet 4G 834xx</inlineHelpText>
+    <label>SLA</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product2.IsActive</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.ProductCode</field>
+            <operation>notContain</operation>
+            <value>TPX</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.Name</field>
+            <operation>contains</operation>
+            <value>SLA</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.Name</field>
+            <operation>notContain</operation>
+            <value>Home Office</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Address lines (SLA)</relationshipLabel>
+    <relationshipName>Address_lines1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

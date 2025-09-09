@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NPS_Check_Trigger__c</fullName>
+    <description>Used for triggering &quot;User send reminder NPS&quot; Flow, set to true when date of sending has arrived</description>
+    <formula>($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) = TODAY() || ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c) = TODAY()</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>NPS Check Trigger</label>
+    <type>Checkbox</type>
+</CustomField>

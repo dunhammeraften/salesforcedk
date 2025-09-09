@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Changes_List_to_a_Service__c</fullName>
+    <description>This field is holding list of changes done to the service like: adding or substracting any addons like HBO to/from number.</description>
+    <inlineHelpText>List of changes in IT friendly format.</inlineHelpText>
+    <label>Changes List to a Service</label>
+    <length>2600</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

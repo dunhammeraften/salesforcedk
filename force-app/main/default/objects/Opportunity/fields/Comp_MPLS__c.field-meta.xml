@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comp_MPLS__c</fullName>
+    <description>New sales from other channels are loaded in product categories in order to add product gearing as defined in compensation model</description>
+    <inlineHelpText>New sales from other channels are loaded in product categories in order to add product gearing as defined in compensation model</inlineHelpText>
+    <label>Comp MPLS</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SIEM__c</fullName>
+    <description>SIEM system that will receive the logs registered by the Logging framework</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>SIEM</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ELK</fullName>
+                <default>true</default>
+                <label>ELK</label>
+            </value>
+            <value>
+                <fullName>DataDog</fullName>
+                <default>false</default>
+                <label>DataDog</label>
+            </value>
+            <value>
+                <fullName>Zabbix</fullName>
+                <default>false</default>
+                <label>Zabbix</label>
+            </value>
+            <value>
+                <fullName>Internal</fullName>
+                <default>false</default>
+                <label>Internal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

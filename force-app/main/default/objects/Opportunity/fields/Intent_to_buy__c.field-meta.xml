@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intent_to_buy__c</fullName>
+    <description>User Story ID: 70
+Used for Opportunity scoring. This question is part of the Needs Analysis stage</description>
+    <inlineHelpText>Have the decision makers indicated that they intend to buy our services?</inlineHelpText>
+    <label>Intent to buy?</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Telia_Opportunity_Scoring_options</valueSetName>
+    </valueSet>
+</CustomField>

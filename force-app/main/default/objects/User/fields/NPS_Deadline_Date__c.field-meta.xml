@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NPS_Deadline_Date__c</fullName>
+    <formula>IF(
+(($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c - 
+  $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) = TODAY()), 
+  ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c - 14),
+ IF(
+  (($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c - 
+    $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) = TODAY()), 
+   ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c - 14),null) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>NPS Deadline Date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

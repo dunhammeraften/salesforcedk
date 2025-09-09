@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Activities__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Creates a relationship to Lead used for Task- Lead and Account Activities flow</description>
+    <label>Lead Activities</label>
+    <referenceTo>Lead</referenceTo>
+    <relationshipLabel>Account Activities</relationshipLabel>
+    <relationshipName>Activities</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

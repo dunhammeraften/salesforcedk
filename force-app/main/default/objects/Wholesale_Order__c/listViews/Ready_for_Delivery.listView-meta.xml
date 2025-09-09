@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ready_for_Delivery</fullName>
+    <columns>Wholesale_Order__c</columns>
+    <columns>Circuit_ID__c</columns>
+    <columns>Vendor_Circuit__c</columns>
+    <columns>RT_Number__c</columns>
+    <columns>eTray_number_s__c</columns>
+    <columns>Planned_Delivery_Date__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Ready for Delivery,Delivery ongoing,Waiting for customer</value>
+    </filters>
+    <label>Ready for Delivery</label>
+</ListView>

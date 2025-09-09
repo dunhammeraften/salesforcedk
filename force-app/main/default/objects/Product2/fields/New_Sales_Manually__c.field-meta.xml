@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Sales_Manually__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>User story 318</description>
+    <inlineHelpText>Temporary field to indicate how product is activated. Tick this box if product should be setup manually in terms of activation product in billing system (Fokus)</inlineHelpText>
+    <label>New Sales Manually</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

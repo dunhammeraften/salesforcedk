@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_Same_Sales_Type_as_Opportunity__c</fullName>
+    <description>Checks if the Sales Types match from Sales Indication and Opportunity.
+Used for checking with opportunity Type. Can be removed at any time.</description>
+    <formula>TEXT(Sales_Type__c) =  TEXT(Opportunity__r.Type)</formula>
+    <inlineHelpText>Checks if the Sales Types match from Sales Indication and Opportunity.</inlineHelpText>
+    <label>is Same Sales Type as Opportunity</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

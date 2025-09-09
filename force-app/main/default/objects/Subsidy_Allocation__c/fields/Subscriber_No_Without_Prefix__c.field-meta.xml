@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscriber_No_Without_Prefix__c</fullName>
+    <description>Used on Layouts to not shoe the &quot;GSM045&quot; prefix from Subscriber Number</description>
+    <externalId>false</externalId>
+    <formula>SUBSTITUTE(Subscriber_No__c, &quot;GSM045&quot;, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Subscriber Number</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

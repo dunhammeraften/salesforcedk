@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Simple_activation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If the only requirement for activating this product is billing, this should be enabled. If it is enabled, an activation record type should still be set.</description>
+    <inlineHelpText>During activation, is an activation line for this product only used for billing?</inlineHelpText>
+    <label>Simple activation</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

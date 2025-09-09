@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_Cancelled__c</fullName>
+    <description>Internal helper field used to set Contract status.</description>
+    <formula>NOT(ISBLANK(Cancellation_Date__c)) &amp;&amp; (Cancellation_Date__c  &lt; TODAY())</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Contract Cancelled</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

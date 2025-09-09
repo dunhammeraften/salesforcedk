@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_Expired__c</fullName>
+    <description>Internal helper field used to set Contract status.</description>
+    <formula>EndDate &lt; TODAY() &amp;&amp; ISNULL(Cancellation_Date__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Contract Expired</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

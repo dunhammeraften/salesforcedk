@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>address_required__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Is the sale of one of this product connected to exactly one address? Used for creating address lines on the quote and enter into the activation lines.</description>
+    <inlineHelpText>Is the sale of one of this product connected to exactly one address?</inlineHelpText>
+    <label>Address required</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

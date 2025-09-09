@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name__c</fullName>
+    <description>TSFDK-230 Legal owner name, usually related Account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The legal owner of the number or number series that will be ported to Telia. It can be a company or a private person.</inlineHelpText>
+    <label>Company / Name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

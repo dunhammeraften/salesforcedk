@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Role__c</fullName>
+    <description>Used in Opportunity Guidance flow to point out the roles needed for an opportunity. Roles is created as public groups, and users in each group are notofied when a specialist is needed.</description>
+    <label>Requested Role</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Account Manager</fullName>
+                <default>false</default>
+                <label>Account Manager</label>
+            </value>
+            <value>
+                <fullName>Bid Manager</fullName>
+                <default>false</default>
+                <label>Bid Manager</label>
+            </value>
+            <value>
+                <fullName>Customer Succes Manager</fullName>
+                <default>false</default>
+                <label>Customer Succes Manager</label>
+            </value>
+            <value>
+                <fullName>International Pricing &amp; Contract Manager</fullName>
+                <default>false</default>
+                <label>International Pricing &amp; Contract Manager</label>
+            </value>
+            <value>
+                <fullName>Legal Advisor</fullName>
+                <default>false</default>
+                <label>Legal Advisor</label>
+            </value>
+            <value>
+                <fullName>Network Solution Manager</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Network Solution Manager</label>
+            </value>
+            <value>
+                <fullName>Network Solution Manager Mobile</fullName>
+                <default>false</default>
+                <label>Network Solution Manager Mobile</label>
+            </value>
+            <value>
+                <fullName>Network Solution Manager WAN</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Network Solution Manager WAN</label>
+            </value>
+            <value>
+                <fullName>Project Manager</fullName>
+                <default>false</default>
+                <label>Project Manager</label>
+            </value>
+            <value>
+                <fullName>Sales Assistant Manager</fullName>
+                <default>false</default>
+                <label>Sales Assistant Manager</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist 1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sales Specialist 1</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist 2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sales Specialist 2</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist MA/LA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sales Specialist MA/LA</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist UC/Fixed – KA</fullName>
+                <default>false</default>
+                <label>Sales Specialist UC/Fixed – KA</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist UC/Fixed MA/LA</fullName>
+                <default>false</default>
+                <label>Sales Specialist UC/Fixed MA/LA</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist WAN</fullName>
+                <default>false</default>
+                <label>Sales Specialist WAN</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist WAN – KA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sales Specialist WAN – KA</label>
+            </value>
+            <value>
+                <fullName>Service AccountManager</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Service AccountManager</label>
+            </value>
+            <value>
+                <fullName>Service Account Manager</fullName>
+                <default>false</default>
+                <label>Service Account Manager</label>
+            </value>
+            <value>
+                <fullName>Solution Manager</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Solution Manager</label>
+            </value>
+            <value>
+                <fullName>Solution Manager UC/CCaS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Solution Manager UC/CCaS</label>
+            </value>
+            <value>
+                <fullName>Solution Specialist UC/CCaS</fullName>
+                <default>false</default>
+                <label>Solution Specialist UC/CCaS</label>
+            </value>
+            <value>
+                <fullName>VIP Advisor</fullName>
+                <default>false</default>
+                <label>VIP Advisor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

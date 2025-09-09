@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loss_Reason__c</fullName>
+    <description>User Story ID: 45</description>
+    <inlineHelpText>The reason we lost the business</inlineHelpText>
+    <label>Loss Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Our relation to the customer</fullName>
+                <default>false</default>
+                <label>Manglende relationer</label>
+            </value>
+            <value>
+                <fullName>Our Products are missing features</fullName>
+                <default>false</default>
+                <label>Manglende produkter (beskriv i Other Loss Reason)</label>
+            </value>
+            <value>
+                <fullName>Onboarding was not strong enough</fullName>
+                <default>false</default>
+                <label>Mangelfuld implementering</label>
+            </value>
+            <value>
+                <fullName>Customer Service was not good enough</fullName>
+                <default>false</default>
+                <label>Mangelfuld kundeservice</label>
+            </value>
+            <value>
+                <fullName>Our prices are too high</fullName>
+                <default>false</default>
+                <label>Pris</label>
+            </value>
+            <value>
+                <fullName>Mangelfuld subsidie</fullName>
+                <default>false</default>
+                <label>Mangelfuld subsidie</label>
+            </value>
+            <value>
+                <fullName>Abandoned</fullName>
+                <default>false</default>
+                <label>Opgivet</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Andet/Ved ikke (beskriv i Other Loss Reason)</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Our relation to the customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Our Products are missing features</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Onboarding was not strong enough</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Customer Service was not good enough</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Our prices are too high</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Abandoned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

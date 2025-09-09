@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Other_Closed_Lost_Reason__c</fullName>
+    <description>Included in service clip - requirement from Commercial Mngt</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter the closed lost reason if Other is chosen</inlineHelpText>
+    <label>Other Closed Lost Reason</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

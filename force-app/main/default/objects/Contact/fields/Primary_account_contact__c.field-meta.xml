@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_account_contact__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>User Story ID: 15</description>
+    <inlineHelpText>Check this box if the contact is Telia&apos;s primary contact with this account</inlineHelpText>
+    <label>Primary account contact</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

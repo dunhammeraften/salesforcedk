@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Telia_Indoor_Coverage__c</fullName>
+    <description>Service Revenue from product category &quot;Telia Indoor Coverage&quot;.</description>
+    <inlineHelpText>Service Revenue from product category &quot;Telia Indoor Coverage&quot;.</inlineHelpText>
+    <label>Telia Indoor Coverage</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

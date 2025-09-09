@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReasonForWithdrawal__c</fullName>
+    <label>ReasonForWithdrawal</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer Withdrawn</fullName>
+                <default>false</default>
+                <label>Customer Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Dublicate Entries</fullName>
+                <default>false</default>
+                <label>Dublicate Entries</label>
+            </value>
+            <value>
+                <fullName>False Alarm</fullName>
+                <default>false</default>
+                <label>False Alarm</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

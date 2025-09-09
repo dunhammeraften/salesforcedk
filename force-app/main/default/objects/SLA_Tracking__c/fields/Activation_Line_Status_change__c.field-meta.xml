@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Line_Status_change__c</fullName>
+    <label>Activation Line Status Change</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Waiting for customer</fullName>
+                <default>false</default>
+                <label>Waiting for customer</label>
+            </value>
+            <value>
+                <fullName>DIY or FS</fullName>
+                <default>false</default>
+                <label>DIY or FS</label>
+            </value>
+            <value>
+                <fullName>Order Equipment/Book FS</fullName>
+                <default>false</default>
+                <label>Order Equipment/Book FS</label>
+            </value>
+            <value>
+                <fullName>Circuit &amp; SIM activation</fullName>
+                <default>false</default>
+                <label>Circuit &amp; SIM activation</label>
+            </value>
+            <value>
+                <fullName>Testing</fullName>
+                <default>false</default>
+                <label>Testing</label>
+            </value>
+            <value>
+                <fullName>Pending fulfilment</fullName>
+                <default>false</default>
+                <label>Pending fulfilment</label>
+            </value>
+            <value>
+                <fullName>Fulfilment in progress</fullName>
+                <default>false</default>
+                <label>Fulfilment in progress</label>
+            </value>
+            <value>
+                <fullName>Fulfilment failed</fullName>
+                <default>false</default>
+                <label>Fulfilment failed</label>
+            </value>
+            <value>
+                <fullName>Order in Progress</fullName>
+                <default>false</default>
+                <label>Order in Progress</label>
+            </value>
+            <value>
+                <fullName>Awaiting Vendor</fullName>
+                <default>false</default>
+                <label>Awaiting Vendor</label>
+            </value>
+            <value>
+                <fullName>Awaiting Documentation</fullName>
+                <default>false</default>
+                <label>Awaiting Documentation</label>
+            </value>
+            <value>
+                <fullName>Awaiting B2B Design</fullName>
+                <default>false</default>
+                <label>Awaiting B2B Design</label>
+            </value>
+            <value>
+                <fullName>Awaiting NRI</fullName>
+                <default>false</default>
+                <label>Awaiting NRI</label>
+            </value>
+            <value>
+                <fullName>Technician Booked</fullName>
+                <default>false</default>
+                <label>Technician Booked</label>
+            </value>
+            <value>
+                <fullName>Awaiting Final Installation</fullName>
+                <default>false</default>
+                <label>Awaiting Final Installation</label>
+            </value>
+            <value>
+                <fullName>Billing</fullName>
+                <default>false</default>
+                <label>Billing</label>
+            </value>
+            <value>
+                <fullName>Fulfilled</fullName>
+                <default>false</default>
+                <label>Fulfilled</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

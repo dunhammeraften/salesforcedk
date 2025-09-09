@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_edit_checklist_fields</fullName>
+    <active>true</active>
+    <description>Fields included in the Home Office checklist cannot be edited after Stage = Negotiation (i.e. in stages Close Agreement, Closed Won/Lost and Target).</description>
+    <errorConditionFormula>AND(
+  CONTAINS(Products_In_Scope_Text__c, &apos;Home Office&apos;),
+  OR(
+    TEXT(StageName) = &apos;Close Agreement&apos;,
+    TEXT(StageName) = &apos;Closed Won&apos;,
+    TEXT(StageName) = &apos;Closed Lost&apos;,
+    TEXT(StageName) = &apos;Target&apos;),
+  OR(
+    ISCHANGED(Number_of_Connections__c),
+    ISCHANGED(Need_Help_With_Data_Collection__c),
+    ISCHANGED(Home_Office_Product_Preference__c),
+    ISCHANGED(Need_Customer_Project_Manager__c),
+    ISCHANGED(Agreement_Type__c),
+    ISCHANGED(Implementation_Period_weeks__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>Fields included in the Home Office checklist cannot be edited after Stage = Negotiation (i.e. in stages Close Agreement, Closed Won/Lost and Target).</errorMessage>
+</ValidationRule>

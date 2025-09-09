@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_CHXT06__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If product requires installation of Fiber in area C incl. digging, this field is checked.</description>
+    <label>Installation Fiber Area C incl Digging</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

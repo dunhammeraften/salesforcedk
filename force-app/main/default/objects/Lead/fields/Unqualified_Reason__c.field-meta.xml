@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unqualified_Reason__c</fullName>
+    <description>Field used for entering an Unqualified Reason, Used in Validation Rule</description>
+    <inlineHelpText>If a Lead is Unqualified you are required to enter a reason</inlineHelpText>
+    <label>Unqualified Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Time – Timing</fullName>
+                <default>false</default>
+                <label>No Time – Timing</label>
+            </value>
+            <value>
+                <fullName>No need</fullName>
+                <default>false</default>
+                <label>No need</label>
+            </value>
+            <value>
+                <fullName>Missing product</fullName>
+                <default>false</default>
+                <label>Missing product</label>
+            </value>
+            <value>
+                <fullName>In binding with another provider</fullName>
+                <default>false</default>
+                <label>In binding with another provider</label>
+            </value>
+            <value>
+                <fullName>Bad experience with Telia</fullName>
+                <default>false</default>
+                <label>Bad experience with Telia</label>
+            </value>
+            <value>
+                <fullName>No interest - other</fullName>
+                <default>false</default>
+                <label>No interest - other</label>
+            </value>
+            <value>
+                <fullName>Poor lead quality</fullName>
+                <default>false</default>
+                <label>Poor lead quality</label>
+            </value>
+            <value>
+                <fullName>Deactivated</fullName>
+                <default>false</default>
+                <label>Deactivated</label>
+            </value>
+            <value>
+                <fullName>Bad experience with Norlys</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bad experience with Norlys</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

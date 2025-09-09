@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notification_Date__c</fullName>
+    <description>The date when the Account Manager should be notified about an upcoming expiration date of a competitor contract.</description>
+    <formula>ADDMONTHS( Expiration_Date__c , -7)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The date when the Account Manager should be notified about an upcoming expiration date of a competitor contract.</inlineHelpText>
+    <label>Notification Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

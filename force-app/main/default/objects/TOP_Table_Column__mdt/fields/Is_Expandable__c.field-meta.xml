@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Expandable__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Option to expand row and display extra lwc component with custom logic</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Option to expand row and display extra lwc component with custom logic</inlineHelpText>
+    <label>Is Expandable</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_Modified_After_Enddate__c</fullName>
+    <description>Check if the Contract has been modified after the EndDate</description>
+    <formula>EndDate &lt; DateValue(LastModifiedDate)</formula>
+    <inlineHelpText>Check if the Contract has been modified after the EndDate</inlineHelpText>
+    <label>is Modified After Enddate</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Numbers_must_be_8_digits</fullName>
+    <active>true</active>
+    <description>From and To numbers must consist of 8 digits.
+From number can not be greater than To number.</description>
+    <errorConditionFormula>(LEN(From__c) &lt;&gt; 8  || 
+LEN(To__c) &lt;&gt; 8  || 
+VALUE(From__c)  &gt;  VALUE(To__c)  || 
+NOT(ISNUMBER(From__c))  || 
+NOT (ISNUMBER(To__c)))</errorConditionFormula>
+    <errorMessage>From and To numbers must consist of 8 digits.
+From number can not be greater than To number.</errorMessage>
+</ValidationRule>

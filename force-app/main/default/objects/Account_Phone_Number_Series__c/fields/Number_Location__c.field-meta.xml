@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_Location__c</fullName>
+    <label>Number Location</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>BRZ</fullName>
+                <default>false</default>
+                <label>BRZ</label>
+            </value>
+            <value>
+                <fullName>BUS</fullName>
+                <default>false</default>
+                <label>BUS</label>
+            </value>
+            <value>
+                <fullName>EKC</fullName>
+                <default>false</default>
+                <label>EKC</label>
+            </value>
+            <value>
+                <fullName>GOL</fullName>
+                <default>false</default>
+                <label>GOL</label>
+            </value>
+            <value>
+                <fullName>SAL</fullName>
+                <default>false</default>
+                <label>SAL</label>
+            </value>
+            <value>
+                <fullName>SIL</fullName>
+                <default>false</default>
+                <label>SIL</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

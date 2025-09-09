@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>POA_Completed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>TSFDK-230 Technical field to indicate if Scrive document can be generated.</description>
+    <inlineHelpText>Scrive document can be generated and this record is visible in the Onboarding Portal.</inlineHelpText>
+    <label>POA Completed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

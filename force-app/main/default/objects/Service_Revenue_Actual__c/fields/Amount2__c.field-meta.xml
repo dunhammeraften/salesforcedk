@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount2__c</fullName>
+    <description>The total Service Revenue amount across Enterprise product categories which the account is invoiced in the given month.</description>
+    <formula>ACE_Call_Guide__c + Fixed__c + Internet_and_MPLS__c + MBB_DUAL_SIM_M2M__c + Mobile__c + Other__c + Unified_Communication__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The total Service Revenue amount across Enterprise product categories which the account is invoiced in the given month.</inlineHelpText>
+    <label>Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Competitor_Other_missing</fullName>
+    <active>false</active>
+    <description>If Other is chosen as a Competitor - the name of the Competitor must be entered</description>
+    <errorConditionFormula>ISPICKVAL(Lost_to_Competitor__c, &apos;Other&apos;) &amp;&amp;  ISBLANK( Other_Competitor__c)</errorConditionFormula>
+    <errorMessage>Please enter a Competitor in the Other Competitor field</errorMessage>
+</ValidationRule>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Home_Office_Fibia_5G_100mbit</fullName>
+    <columns>PRODUCT2.NAME</columns>
+    <columns>PRODUCT2.CUSTOMER_PRODUCT_ID</columns>
+    <columns>PRODUCT2.ACTIVE</columns>
+    <columns>ProductAPI_Telia_Product_Id__c</columns>
+    <columns>SBQQ__Component__c</columns>
+    <columns>SBQQ__NonDiscountable__c</columns>
+    <columns>L1_Discount__c</columns>
+    <columns>l2_discount__c</columns>
+    <columns>SBQQ__SubscriptionType__c</columns>
+    <columns>SBQQ__BillingFrequency__c</columns>
+    <columns>SBQQ__SubscriptionPricing__c</columns>
+    <columns>SBQQ__SubscriptionTerm__c</columns>
+    <columns>PRODUCT2.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PRODUCT2.ACTIVE</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>PRODUCT2.CUSTOMER_PRODUCT_ID</field>
+        <operation>startsWith</operation>
+        <value>33</value>
+    </filters>
+    <filters>
+        <field>PRODUCT2.CREATED_DATE</field>
+        <operation>greaterOrEqual</operation>
+        <value>7/27/2023 12:00 AM</value>
+    </filters>
+    <label>Home Office Fibia/5G/100mbit</label>
+</ListView>

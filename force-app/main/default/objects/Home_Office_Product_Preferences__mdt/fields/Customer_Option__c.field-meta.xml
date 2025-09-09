@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Option__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Checked if this is a product option customer can select</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>Customer Option</label>
+    <type>Checkbox</type>
+</CustomField>

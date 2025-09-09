@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_OR_phone_required</fullName>
+    <active>true</active>
+    <description>User Story ID: 15 Create Contact
+Either Email or phone number must be entered. Phone number can be either phone or mobile</description>
+    <errorConditionFormula>ISBLANK( Email )  &amp;&amp;  (ISBLANK( Phone )  &amp;&amp; ISBLANK( MobilePhone ))</errorConditionFormula>
+    <errorMessage>Email or phone/mobile is required</errorMessage>
+</ValidationRule>

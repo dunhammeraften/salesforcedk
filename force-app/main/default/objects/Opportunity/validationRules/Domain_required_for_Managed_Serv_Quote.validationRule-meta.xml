@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Domain_required_for_Managed_Serv_Quote</fullName>
+    <active>true</active>
+    <description>At least one Company Domain is required before setting Opportunity to Closed Won if there is a Managed Services product on the Quote.</description>
+    <errorConditionFormula>Account.Number_of_Company_Domains__c = 0 &amp;&amp;    SBQQ__PrimaryQuote__r.Add_Telia_Managed_Service__c = true &amp;&amp;  ISCHANGED(StageName) &amp;&amp;  ISPICKVAL(StageName, &apos;Closed Won&apos;)</errorConditionFormula>
+    <errorMessage>Please add at least one Company Domain to your Account. This is mandatory if you have a Managed Services product on your Quote.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Metadata to define flow  step for product activation in Telia Onboarding Portal</description>
+    <label>TOP Flow Step</label>
+    <pluralLabel>TOP Flow Steps</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

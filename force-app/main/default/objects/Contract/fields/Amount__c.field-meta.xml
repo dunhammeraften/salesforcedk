@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount__c</fullName>
+    <description>Amount = Total Contracted Value if no Quote is related to Contract
+Amount=Net Amount from quote</description>
+    <formula>If (ISBLANK(SBQQ__Quote__c),  Total_Contract_value__c,  SBQQ__Quote__r.SBQQ__NetAmount__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Net Amount from Activation Quote</inlineHelpText>
+    <label>Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

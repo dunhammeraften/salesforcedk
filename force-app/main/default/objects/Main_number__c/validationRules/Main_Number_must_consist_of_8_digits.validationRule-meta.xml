@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Main_Number_must_consist_of_8_digits</fullName>
+    <active>true</active>
+    <description>The main number must consist of 8 digits</description>
+    <errorConditionFormula>LEN(Main_Number__c) &lt;&gt; 8  || 
+NOT(ISNUMBER( Main_Number__c ))</errorConditionFormula>
+    <errorDisplayField>Main_Number__c</errorDisplayField>
+    <errorMessage>The main number must consist of 8 digits.</errorMessage>
+</ValidationRule>

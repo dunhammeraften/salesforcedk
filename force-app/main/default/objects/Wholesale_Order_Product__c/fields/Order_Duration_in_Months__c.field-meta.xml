@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_Duration_in_Months__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Installation_Address__r.Order__r.Order_Duration_in_Months__c,
+  &quot;12&quot;, 12,
+  &quot;24&quot;, 24,
+  &quot;36&quot;, 36,
+  &quot;48&quot;, 48,
+  &quot;60&quot;, 60,
+  &quot;72&quot;, 72,
+  &quot;84&quot;, 84,
+  &quot;96&quot;, 96,
+1)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Order Duration</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

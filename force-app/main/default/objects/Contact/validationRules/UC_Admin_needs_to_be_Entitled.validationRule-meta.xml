@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UC_Admin_needs_to_be_Entitled</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(
+    Entitlement_Contact__c  = FALSE,
+    UC_Admin__c  = TRUE
+)</errorConditionFormula>
+    <errorMessage>You can not set a Contact as UC Admin unless you mark them as Entitled first</errorMessage>
+</ValidationRule>

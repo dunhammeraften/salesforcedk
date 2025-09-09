@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Campaign_Composite_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Should contain the composition of product id and campaign id separated with a dot (&quot;.&quot;). E.g. &quot;GPMBBS.GPMBBS12&quot; if the priceplan = GPMBBS and discount = GPMBBS12.</description>
+    <externalId>true</externalId>
+    <label>Product.Campaign Composite Key</label>
+    <length>99</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_data</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>NamespacePrefix</columns>
+    <columns>NPS_Auto_Update_Days_Before_NPS_Send_Dat__c</columns>
+    <columns>NPS_Reminder_days_before_NPS_Send_Date__c</columns>
+    <columns>NPS_Send_Date_1__c</columns>
+    <columns>NPS_Send_Date_2__c</columns>
+    <columns>Revenue_Forecast_Active__c</columns>
+    <columns>Product_FactBook_Activation_Date__c</columns>
+    <columns>Send_out_Auto_Portal_Invite_for_Renewal__c</columns>
+    <columns>TPX_Active_for_portal__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All data</label>
+    <language>en_US</language>
+</ListView>

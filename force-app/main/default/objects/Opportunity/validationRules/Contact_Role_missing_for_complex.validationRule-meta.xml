@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Role_missing_for_complex</fullName>
+    <active>true</active>
+    <description>When an opportunity is complex a contact role of a certain type must be related to the opportunity.</description>
+    <errorConditionFormula>Case_Handover_Active__c = true  &amp;&amp; 
+RecordType.DeveloperName = &apos;Sales&apos; &amp;&amp;
+ISCHANGED( StageName ) &amp;&amp;
+(ISPICKVAL( StageName, &apos;Proposal&apos;) ||
+ ISPICKVAL( StageName, &apos;Negotiation&apos;) ||
+ ISPICKVAL( StageName, &apos;Close Agreement&apos;) ||
+ ISPICKVAL( StageName, &apos;Closed Won&apos;)) &amp;&amp;
+Complex_Configuration_Network_Setup__c = true  &amp;&amp; 
+(Contact_Role_DecisionMaker_Count__c  &lt; 1 ||
+ ISBLANK(Contact_Role_DecisionMaker_Count__c)) &amp;&amp; 
+DecisionMakerNotFound__c = false</errorConditionFormula>
+    <errorMessage>This is a Complex opportunity and a Decision Maker is needed. Please add a Decision Maker to the Contact Role or select Technical Decision Maker NOT found.</errorMessage>
+</ValidationRule>

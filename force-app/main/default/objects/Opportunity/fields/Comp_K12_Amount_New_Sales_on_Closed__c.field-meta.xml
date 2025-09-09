@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comp_K12_Amount_New_Sales_on_Closed__c</fullName>
+    <description>Used for compensation purposes to calculate k12 amount of new sales on renewal quotes and from other channels and captured on closed won to use for calculation of changes made by Activation after close won as these needs to captured if they are made when quarter shift to capture differences in a &apos;bank&apos; function</description>
+    <inlineHelpText>Same as above field Comp K12 Amount New Sales - however this amount reflects amount when Opportunity was set to Closed Won - this can change when Customer is activated as quantity may differ - the diff between this amount and field above reflects this</inlineHelpText>
+    <label>Comp K12 Amount New Sales on Closed</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

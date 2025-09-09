@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>K12_Amount__c</fullName>
+    <description>Quote amount is defaulted back in salesforce standard amount field - hence the reason why this field is used to the k12 value</description>
+    <formula>IF(
+    ISBLANK(SBQQ__PrimaryQuote__c),
+      SBQQ__RenewedContract__r.Monthly_Contract_Value__c   * 12,
+    IF(
+        NOT(ISBLANK(SBQQ__PrimaryQuote__c)),
+        ((Amount / SBQQ__PrimaryQuote__r.SBQQ__SubscriptionTerm__c) * 12 + SBQQ__PrimaryQuote__r.One_time_fee__c),
+        0
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>K12 Amount = Total discounted subscription fees for the first 12 months + one-time fees. Without subsidy and sign-on fee.</inlineHelpText>
+    <label>K12 Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

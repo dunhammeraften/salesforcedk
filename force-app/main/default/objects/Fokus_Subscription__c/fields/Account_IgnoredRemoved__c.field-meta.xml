@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_IgnoredRemoved__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This is used to create a related list just to show ignored/removed Fokus subscriptions on account</description>
+    <label>Account (Ignored/Removed)</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Fokus Subscriptions (Account (Ignored/Removed))</relationshipLabel>
+    <relationshipName>Fokus_Subscriptions1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

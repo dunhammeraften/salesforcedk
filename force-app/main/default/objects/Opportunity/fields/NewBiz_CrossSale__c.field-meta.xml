@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NewBiz_CrossSale__c</fullName>
+    <formula>IF(TEXT( Type ) = &quot;New Business&quot;  ||  TEXT( Type )=&quot;Cross sell&quot;,TRUE,FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>NewBiz_CrossSale</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

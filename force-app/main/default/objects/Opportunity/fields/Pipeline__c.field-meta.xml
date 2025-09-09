@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pipeline__c</fullName>
+    <description>User Story ID: 69,71,73 used for pipeline reporting
+Displays the weighted K12 amount if the opportunity is not closed. If it in not closed, the amount should count towards the pipeline.</description>
+    <formula>IF( IsClosed = FALSE,  K12_Amount__c * Probability   ,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Pipeline</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

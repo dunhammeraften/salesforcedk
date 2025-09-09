@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_s_in_scope__c</fullName>
+    <description>User story ID: 94</description>
+    <inlineHelpText>Specify here which products are included in this opportunity</inlineHelpText>
+    <label>Product(s) in scope</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Telia_Product_Category</valueSetName>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

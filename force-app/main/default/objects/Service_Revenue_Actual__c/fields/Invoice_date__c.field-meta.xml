@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_date__c</fullName>
+    <description>User Story ID: 80
+The date the service revenue is invoiced by the finance dept.</description>
+    <inlineHelpText>This is the date the service revenue is invoiced by the finance dept.</inlineHelpText>
+    <label>Invoice date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

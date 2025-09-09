@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR__c</fullName>
+    <description>Internal field used to load new sales from other cahnnels through dataloader (done once a week)</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Internal field used to load new sales from other cahnnels through dataloader (done once a week)</inlineHelpText>
+    <label>CVR</label>
+    <length>8</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

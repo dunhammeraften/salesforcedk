@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Additional_Information__c</fullName>
+    <description>These field has been created to hold 255 signs of additional information that might be useful in problem solving of this error.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Additional helpful information like name of class/flow ect.</inlineHelpText>
+    <label>Additional Information</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

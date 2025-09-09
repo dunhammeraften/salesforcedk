@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Awaiting_CXO_approval__c</fullName>
+    <description>User Story ID: 70
+Used for Opportunity scoring. This question is part of the Negotiation stage</description>
+    <inlineHelpText>Has it been confirmed that the proposal has been given CXO acceptance?</inlineHelpText>
+    <label>Received CXO acceptance?</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Telia_Opportunity_Scoring_options</valueSetName>
+    </valueSet>
+</CustomField>

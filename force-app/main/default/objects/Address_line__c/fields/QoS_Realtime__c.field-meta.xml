@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QoS_Realtime__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <inlineHelpText>Search for QoS and all QoS products can be found</inlineHelpText>
+    <label>QoS Realtime or Premium</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product2.Name</field>
+            <operation>contains</operation>
+            <value>QoS</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Address lines (QoS Realtime)</relationshipLabel>
+    <relationshipName>Address_lines4</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

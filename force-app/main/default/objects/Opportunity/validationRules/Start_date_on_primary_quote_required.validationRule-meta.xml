@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_date_on_primary_quote_required</fullName>
+    <active>true</active>
+    <description>Before setting an opportunity to Closed Won, the Start Date field on related Primary Quote needs to be filled in.</description>
+    <errorConditionFormula>AND(
+ISCHANGED(StageName),
+ISPICKVAL(StageName, &quot;Closed Won&quot;) ,
+ISBLANK(SBQQ__PrimaryQuote__r.SBQQ__StartDate__c)
+)</errorConditionFormula>
+    <errorMessage>Start Date on related Primary Quote should be filled in before setting opportunity to Closed Won.</errorMessage>
+</ValidationRule>

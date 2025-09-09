@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>attachmentCanBeGenerated__c</fullName>
+    <description>TSFDK-230 Field controls if an attachment can be created for the POA. All Activations related to the POA&apos;s cases must have at least Ready for QA Progress.</description>
+    <formula>Case__r.AllActivationsReadyForQA__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>attachmentCanBeGenerated</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

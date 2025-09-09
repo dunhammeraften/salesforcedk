@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>POQ_Stage__c</fullName>
+    <label>POQ Stage</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Called</fullName>
+                <default>true</default>
+                <label>Not Called</label>
+            </value>
+            <value>
+                <fullName>Timeout</fullName>
+                <default>false</default>
+                <label>Timeout</label>
+            </value>
+            <value>
+                <fullName>First Call</fullName>
+                <default>false</default>
+                <label>First Call</label>
+            </value>
+            <value>
+                <fullName>Second Call</fullName>
+                <default>false</default>
+                <label>Second Call</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

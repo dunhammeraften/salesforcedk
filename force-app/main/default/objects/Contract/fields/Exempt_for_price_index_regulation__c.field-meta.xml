@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exempt_for_price_index_regulation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This gets checked by the Contract: Created - Set Owner Flow. It could have easily fetched from SBQQ__Quote__r.ADD_Undtaget_fra_prisindeksering__c, but it requires to be editable by some users. Hence, the flow solution</description>
+    <label>Exempt for price index regulation</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

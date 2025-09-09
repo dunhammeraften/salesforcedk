@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used for company settings i.e. org wide email addresses. To be used as key:value pairs, where DeveloperName will be key, and Configuration_Value__c will be the value. Introduced with Reskin feature to avoid hardcoded company name (DKT-43348).</description>
+    <label>Company Settings</label>
+    <pluralLabel>Company Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

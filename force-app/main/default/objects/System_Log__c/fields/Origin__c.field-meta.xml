@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origin__c</fullName>
+    <description>This values should allow user to distinguish origin of the error. So if the error occurred in Apex or in Flow. It should also allow easier way of finding specific error record.</description>
+    <inlineHelpText>This is the origin of error like Apex code execution, flow fail ect.</inlineHelpText>
+    <label>Origin</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Apex</fullName>
+                <default>false</default>
+                <label>Apex</label>
+            </value>
+            <value>
+                <fullName>Flow</fullName>
+                <default>false</default>
+                <label>Flow</label>
+            </value>
+            <value>
+                <fullName>Process</fullName>
+                <default>false</default>
+                <label>Process</label>
+            </value>
+            <value>
+                <fullName>Not defined</fullName>
+                <default>true</default>
+                <label>Not defined</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

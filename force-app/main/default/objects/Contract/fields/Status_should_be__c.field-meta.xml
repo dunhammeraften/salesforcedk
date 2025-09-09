@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_should_be__c</fullName>
+    <description>BugFixing field: used for the stabilization analysis of the Fokus Integration.</description>
+    <externalId>false</externalId>
+    <formula>IF( Contract_Active__c , &quot;Activated&quot;,
+  IF( Contract_Expired__c , &quot;Expired&quot;,  
+    IF( Contract_Cancelled__c , &quot;Cancelled&quot;, &quot;Draft or In Approval&quot;)
+  ) 
+)</formula>
+    <inlineHelpText>BugFixing field: used for the stabilization analysis of the Fokus Integration.</inlineHelpText>
+    <label>Status should be</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

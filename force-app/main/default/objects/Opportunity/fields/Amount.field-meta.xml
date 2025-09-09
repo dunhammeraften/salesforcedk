@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount</fullName>
+    <inlineHelpText>K12 - the estimated value of the first 12 months of the contract. When a Quote is added to the Opportunity the Amount will reflect total Contract value from the Quote and will be locked for changes. All changes to Amount is to be done through the Quote</inlineHelpText>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>true</trackTrending>
+</CustomField>

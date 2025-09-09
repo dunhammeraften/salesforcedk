@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>From__c</fullName>
+    <description>TSFDK-230 Number series starting number</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number series starting number</inlineHelpText>
+    <label>From</label>
+    <length>8</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

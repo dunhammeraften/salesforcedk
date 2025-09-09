@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_7_days__c</fullName>
+    <description>Checks if the activity happened within the last 7 days - used for reporting</description>
+    <formula>IF( ActivityDate &lt; TODAY() &amp;&amp; ActivityDate  &gt;=  TODAY() -7, True, false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Last 7 days</label>
+    <type>Checkbox</type>
+</CustomField>

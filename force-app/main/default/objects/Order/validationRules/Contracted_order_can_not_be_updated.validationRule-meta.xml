@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contracted_order_can_not_be_updated</fullName>
+    <active>true</active>
+    <description>A contracted order can not be updated.</description>
+    <errorConditionFormula>AND(SBQQ__Contracted__c  = TRUE,  $Profile.Name &lt;&gt; &quot;System Administrator&quot;, NOT(ISNEW()))</errorConditionFormula>
+    <errorMessage>You are not allowed to make changes to a contracted order.</errorMessage>
+</ValidationRule>

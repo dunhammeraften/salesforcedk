@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overdue__c</fullName>
+    <description>Shows open opportunities with a close date in the past</description>
+    <formula>IF(CloseDate &lt;  TODAY() &amp;&amp;  IsClosed = FALSE,TRUE,FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Shows open opportunities with a close date in the past</inlineHelpText>
+    <label>Overdue</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

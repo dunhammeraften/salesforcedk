@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_data_missing__c</fullName>
+    <description>If some specific Account data is missing we need to show a message on the Opportunity overview</description>
+    <formula>OR(ISBLANK(Account.CVR__c),
+   ISBLANK(Account.BillingStreet),
+   ISBLANK(Account.BillingCity),
+   ISBLANK(Account.BillingCountry),
+   ISBLANK(Account.BillingPostalCode))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Account data missing</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

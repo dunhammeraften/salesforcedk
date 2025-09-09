@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Detail_Identificator__c</fullName>
+    <description>This field has been created to be a single identificator of Quote Line Detail.</description>
+    <externalId>false</externalId>
+    <formula>Mobile_no__c + Fixed_no__c</formula>
+    <inlineHelpText>This is number related to this service</inlineHelpText>
+    <label>Detail Identificator</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

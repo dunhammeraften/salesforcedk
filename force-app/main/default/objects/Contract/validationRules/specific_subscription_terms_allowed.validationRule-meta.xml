@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>specific_subscription_terms_allowed</fullName>
+    <active>true</active>
+    <description>User Story ID 46: Only the subscription terms 12, 24, 36, 48 or 60 can be chosen</description>
+    <errorConditionFormula>AND(
+$Profile.Name  &lt;&gt; &apos;System Administrator&apos;,
+ContractTerm  &lt;&gt; 12,
+ContractTerm  &lt;&gt; 24, 
+ContractTerm  &lt;&gt; 36, 
+ContractTerm  &lt;&gt; 48,
+ContractTerm  &lt;&gt; 60  
+)</errorConditionFormula>
+    <errorDisplayField>ContractTerm</errorDisplayField>
+    <errorMessage>Only the Contract terms 12, 24, 36, 48 or 60 can be chosen</errorMessage>
+</ValidationRule>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnHoldReason__c</fullName>
+    <label>OnHoldReason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Waiting for Customer info</fullName>
+                <default>false</default>
+                <label>Waiting for Customer info</label>
+            </value>
+            <value>
+                <fullName>3rd Party</fullName>
+                <default>false</default>
+                <label>3rd Party</label>
+            </value>
+            <value>
+                <fullName>BMC</fullName>
+                <default>false</default>
+                <label>BMC</label>
+            </value>
+            <value>
+                <fullName>Change Implementation</fullName>
+                <default>false</default>
+                <label>Change Implementation</label>
+            </value>
+            <value>
+                <fullName>DEPLOY</fullName>
+                <default>false</default>
+                <label>DEPLOY</label>
+            </value>
+            <value>
+                <fullName>Incident ongoing</fullName>
+                <default>false</default>
+                <label>Incident ongoing</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Pending customer contact</fullName>
+                <default>false</default>
+                <label>Pending customer contact</label>
+            </value>
+            <value>
+                <fullName>TELIA_INFRA</fullName>
+                <default>false</default>
+                <label>TELIA_INFRA</label>
+            </value>
+            <value>
+                <fullName>UAT_DEPLOY</fullName>
+                <default>false</default>
+                <label>UAT_DEPLOY</label>
+            </value>
+            <value>
+                <fullName>UAT_TEST</fullName>
+                <default>false</default>
+                <label>UAT_TEST</label>
+            </value>
+            <value>
+                <fullName>USER_INFO</fullName>
+                <default>false</default>
+                <label>USER_INFO</label>
+            </value>
+            <value>
+                <fullName>Waiting for Info from Supplier</fullName>
+                <default>false</default>
+                <label>Waiting for Info from Supplier</label>
+            </value>
+            <value>
+                <fullName>Waiting for Info from Third Party</fullName>
+                <default>false</default>
+                <label>Waiting for Info from Third Party</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue_Forecast_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If this setting is checked, Create New Opportunity flow will create Revenue Forecast data dependent upon user input.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>If this setting is checked, Create New Opportunity flow will create Revenue Forecast data dependent upon user input.</inlineHelpText>
+    <label>Revenue Forecast Active</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Skip_Mandatory_Logic__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is skipped in the validation mandatory logic, but still has the star icon before the column label. Extra validation logic in managed in the utility component.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This field is skipped in the validation mandatory logic, but still has the star icon before the column label. Extra validation logic in managed in the utility component.</inlineHelpText>
+    <label>Skip Mandatory Logic</label>
+    <type>Checkbox</type>
+</CustomField>

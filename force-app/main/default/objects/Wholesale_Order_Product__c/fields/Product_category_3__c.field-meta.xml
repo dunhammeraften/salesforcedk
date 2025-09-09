@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_category_3__c</fullName>
+    <label>Product category 3</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Product_category_2__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Access EPL</fullName>
+                <default>false</default>
+                <label>A-EPL</label>
+            </value>
+            <value>
+                <fullName>EPL</fullName>
+                <default>false</default>
+                <label>E-Line EPL</label>
+            </value>
+            <value>
+                <fullName>Transit E-Line</fullName>
+                <default>false</default>
+                <label>Transit E-Line</label>
+            </value>
+            <value>
+                <fullName>Dark Fiber</fullName>
+                <default>false</default>
+                <label>Dark Fiber</label>
+            </value>
+            <value>
+                <fullName>CPE 10GE - 1 CPE</fullName>
+                <default>false</default>
+                <label>1 CPE - 10G</label>
+            </value>
+            <value>
+                <fullName>CPE 1GE - 1 CPE</fullName>
+                <default>false</default>
+                <label>1 CPE 1G</label>
+            </value>
+            <value>
+                <fullName>CPE 1GE - 2 CPE</fullName>
+                <default>false</default>
+                <label>2 CPE 1G</label>
+            </value>
+            <value>
+                <fullName>Fiber 2Mb</fullName>
+                <default>false</default>
+                <label>2Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 10Mb</fullName>
+                <default>false</default>
+                <label>10Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 20Mb</fullName>
+                <default>false</default>
+                <label>20Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 30Mb</fullName>
+                <default>false</default>
+                <label>30Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 50Mb</fullName>
+                <default>false</default>
+                <label>50Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 100Mb</fullName>
+                <default>false</default>
+                <label>100Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 200Mb</fullName>
+                <default>false</default>
+                <label>200Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 300Mb</fullName>
+                <default>false</default>
+                <label>300Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 500Mb</fullName>
+                <default>false</default>
+                <label>500Mb</label>
+            </value>
+            <value>
+                <fullName>Fiber 1Gb</fullName>
+                <default>false</default>
+                <label>1Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 2Gb</fullName>
+                <default>false</default>
+                <label>2Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 2,5Gb</fullName>
+                <default>false</default>
+                <label>2,5Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 4Gb</fullName>
+                <default>false</default>
+                <label>4Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 6Gb</fullName>
+                <default>false</default>
+                <label>6Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 7Gb</fullName>
+                <default>false</default>
+                <label>7Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 8Gb</fullName>
+                <default>false</default>
+                <label>8Gb</label>
+            </value>
+            <value>
+                <fullName>Fiber 10Gb</fullName>
+                <default>false</default>
+                <label>10Gb</label>
+            </value>
+            <value>
+                <fullName>QOS - ALL BC+</fullName>
+                <default>false</default>
+                <label>ALL BC+</label>
+            </value>
+            <value>
+                <fullName>COS BC+</fullName>
+                <default>false</default>
+                <label>COS BC+</label>
+            </value>
+            <value>
+                <fullName>QOS - BC+</fullName>
+                <default>false</default>
+                <label>QOS - BC+</label>
+            </value>
+            <value>
+                <fullName>QOS - BE+</fullName>
+                <default>false</default>
+                <label>BE+</label>
+            </value>
+            <value>
+                <fullName>Access EPL, DH ENNI</fullName>
+                <default>false</default>
+                <label>EPL, DH ENNI</label>
+            </value>
+            <value>
+                <fullName>EVP-LAN</fullName>
+                <default>false</default>
+                <label>EVP-LAN</label>
+            </value>
+            <value>
+                <fullName>Interface 1Gb</fullName>
+                <default>false</default>
+                <label>Interface 1Gb</label>
+            </value>
+            <value>
+                <fullName>Interface 10Gb</fullName>
+                <default>false</default>
+                <label>Interface 10Gb</label>
+            </value>
+            <value>
+                <fullName>Loop Back Request</fullName>
+                <default>false</default>
+                <label>Loop Back Request</label>
+            </value>
+            <value>
+                <fullName>LoopBack Delivery</fullName>
+                <default>false</default>
+                <label>LoopBack Delivery</label>
+            </value>
+            <value>
+                <fullName>Mix</fullName>
+                <default>false</default>
+                <label>Mix</label>
+            </value>
+            <value>
+                <fullName>Mix Video</fullName>
+                <default>false</default>
+                <label>Mix Video</label>
+            </value>
+            <value>
+                <fullName>E-NNI/Hub</fullName>
+                <default>false</default>
+                <label>NNI/Hub</label>
+            </value>
+            <value>
+                <fullName>Nordic on-net fee</fullName>
+                <default>false</default>
+                <label>on-net fee</label>
+            </value>
+            <value>
+                <fullName>Pop-to-pop</fullName>
+                <default>false</default>
+                <label>Pop-2-Pop</label>
+            </value>
+            <value>
+                <fullName>QOS - RT</fullName>
+                <default>false</default>
+                <label>RT</label>
+            </value>
+            <value>
+                <fullName>Red. Sec- E-NNI/HUB</fullName>
+                <default>false</default>
+                <label>Sec- E-NNI/HUB</label>
+            </value>
+            <value>
+                <fullName>Red. Sec. Access EPL</fullName>
+                <default>false</default>
+                <label>Sec. Access EPL</label>
+            </value>
+            <value>
+                <fullName>Red. Sec. E-Line EPL</fullName>
+                <default>false</default>
+                <label>Sec. E-Line EPL</label>
+            </value>
+            <value>
+                <fullName>SLA Basic</fullName>
+                <default>false</default>
+                <label>SLA Basic</label>
+            </value>
+            <value>
+                <fullName>SLA Diamond</fullName>
+                <default>false</default>
+                <label>SLA Diamond</label>
+            </value>
+            <value>
+                <fullName>SLA Gold</fullName>
+                <default>false</default>
+                <label>SLA Gold</label>
+            </value>
+            <value>
+                <fullName>SLA Platinum</fullName>
+                <default>false</default>
+                <label>SLA Platinum</label>
+            </value>
+            <value>
+                <fullName>SLA Silver</fullName>
+                <default>false</default>
+                <label>SLA Silver</label>
+            </value>
+            <value>
+                <fullName>SLA Standard</fullName>
+                <default>false</default>
+                <label>SLA Standard</label>
+            </value>
+            <value>
+                <fullName>COS Standard</fullName>
+                <default>false</default>
+                <label>COS Standard</label>
+            </value>
+            <value>
+                <fullName>QOS Standard</fullName>
+                <default>false</default>
+                <label>QOS Standard</label>
+            </value>
+            <value>
+                <fullName>COS Voice</fullName>
+                <default>false</default>
+                <label>Voice</label>
+            </value>
+            <value>
+                <fullName>COS Voip</fullName>
+                <default>false</default>
+                <label>Voip</label>
+            </value>
+            <value>
+                <fullName>Internet</fullName>
+                <default>false</default>
+                <label>Internet</label>
+            </value>
+            <value>
+                <fullName>Sea Cable</fullName>
+                <default>false</default>
+                <label>Sea Cable</label>
+            </value>
+            <value>
+                <fullName>Backbone</fullName>
+                <default>false</default>
+                <label>Backbone</label>
+            </value>
+            <value>
+                <fullName>Network Bridge</fullName>
+                <default>false</default>
+                <label>Bridge</label>
+            </value>
+            <value>
+                <fullName>Fiber, Tracé</fullName>
+                <default>false</default>
+                <label>Fiber Tracé</label>
+            </value>
+            <value>
+                <fullName>Redundancy</fullName>
+                <default>false</default>
+                <label>Redundancy</label>
+            </value>
+            <value>
+                <fullName>Upgrade</fullName>
+                <default>false</default>
+                <label>Upgrade</label>
+            </value>
+            <value>
+                <fullName>Aalborg</fullName>
+                <default>false</default>
+                <label>Aalborg</label>
+            </value>
+            <value>
+                <fullName>Ejby</fullName>
+                <default>false</default>
+                <label>Ejby</label>
+            </value>
+            <value>
+                <fullName>Esbjerg</fullName>
+                <default>false</default>
+                <label>Esbjerg</label>
+            </value>
+            <value>
+                <fullName>Hasselager</fullName>
+                <default>false</default>
+                <label>Hasselager</label>
+            </value>
+            <value>
+                <fullName>Herning</fullName>
+                <default>false</default>
+                <label>Herning</label>
+            </value>
+            <value>
+                <fullName>Kalundborg</fullName>
+                <default>false</default>
+                <label>Kalundborg</label>
+            </value>
+            <value>
+                <fullName>Køge</fullName>
+                <default>false</default>
+                <label>Køge</label>
+            </value>
+            <value>
+                <fullName>Kolding</fullName>
+                <default>false</default>
+                <label>Kolding</label>
+            </value>
+            <value>
+                <fullName>lo Padborg</fullName>
+                <default>false</default>
+                <label>lo Padborg</label>
+            </value>
+            <value>
+                <fullName>Næstved</fullName>
+                <default>false</default>
+                <label>Næstved</label>
+            </value>
+            <value>
+                <fullName>Nørrebro</fullName>
+                <default>false</default>
+                <label>Nørrebro</label>
+            </value>
+            <value>
+                <fullName>Ørestaden</fullName>
+                <default>false</default>
+                <label>Ørestaden</label>
+            </value>
+            <value>
+                <fullName>Randers</fullName>
+                <default>false</default>
+                <label>Randers</label>
+            </value>
+            <value>
+                <fullName>Roskilde</fullName>
+                <default>false</default>
+                <label>Roskilde</label>
+            </value>
+            <value>
+                <fullName>Sorø</fullName>
+                <default>false</default>
+                <label>Sorø</label>
+            </value>
+            <value>
+                <fullName>Sydvestvej</fullName>
+                <default>false</default>
+                <label>Sydvestvej</label>
+            </value>
+            <value>
+                <fullName>Telehøjen</fullName>
+                <default>false</default>
+                <label>Telehøjen</label>
+            </value>
+            <value>
+                <fullName>Vejle</fullName>
+                <default>false</default>
+                <label>Vejle</label>
+            </value>
+            <value>
+                <fullName>Viby</fullName>
+                <default>false</default>
+                <label>Viby</label>
+            </value>
+            <value>
+                <fullName>A- and B-feed</fullName>
+                <default>false</default>
+                <label>A- and B-feed</label>
+            </value>
+            <value>
+                <fullName>AC 10A</fullName>
+                <default>false</default>
+                <label>AC 10A</label>
+            </value>
+            <value>
+                <fullName>AC 10A 3-phase</fullName>
+                <default>false</default>
+                <label>AC 10A 3-phase</label>
+            </value>
+            <value>
+                <fullName>AC 10A, A-and B</fullName>
+                <default>false</default>
+                <label>AC 10A, A-and B</label>
+            </value>
+            <value>
+                <fullName>AC 16A</fullName>
+                <default>false</default>
+                <label>AC 16A</label>
+            </value>
+            <value>
+                <fullName>AC 16A 3-phase</fullName>
+                <default>false</default>
+                <label>AC 16A 3-phase</label>
+            </value>
+            <value>
+                <fullName>AC 20A</fullName>
+                <default>false</default>
+                <label>AC 20A</label>
+            </value>
+            <value>
+                <fullName>AC 32A</fullName>
+                <default>false</default>
+                <label>AC 32A</label>
+            </value>
+            <value>
+                <fullName>AC 32A 3-phase</fullName>
+                <default>false</default>
+                <label>AC 32A 3-phase</label>
+            </value>
+            <value>
+                <fullName>DC 10A</fullName>
+                <default>false</default>
+                <label>DC 10A</label>
+            </value>
+            <value>
+                <fullName>DC 16A</fullName>
+                <default>false</default>
+                <label>DC 16A</label>
+            </value>
+            <value>
+                <fullName>DC 25A</fullName>
+                <default>false</default>
+                <label>DC 25A</label>
+            </value>
+            <value>
+                <fullName>DC 32A</fullName>
+                <default>false</default>
+                <label>DC 32A</label>
+            </value>
+            <value>
+                <fullName>DC 40A</fullName>
+                <default>false</default>
+                <label>DC 40A</label>
+            </value>
+            <value>
+                <fullName>DC 50A</fullName>
+                <default>false</default>
+                <label>DC 50A</label>
+            </value>
+            <value>
+                <fullName>DC 63A</fullName>
+                <default>false</default>
+                <label>DC 63A</label>
+            </value>
+            <value>
+                <fullName>DC 80A</fullName>
+                <default>false</default>
+                <label>DC 80A</label>
+            </value>
+            <value>
+                <fullName>Power</fullName>
+                <default>false</default>
+                <label>Power</label>
+            </value>
+            <value>
+                <fullName>Access card</fullName>
+                <default>false</default>
+                <label>Access card</label>
+            </value>
+            <value>
+                <fullName>Rack Cabinet</fullName>
+                <default>false</default>
+                <label>Cabinet</label>
+            </value>
+            <value>
+                <fullName>Cage</fullName>
+                <default>false</default>
+                <label>Cage</label>
+            </value>
+            <value>
+                <fullName>Cooling</fullName>
+                <default>false</default>
+                <label>Cooling</label>
+            </value>
+            <value>
+                <fullName>Fire</fullName>
+                <default>false</default>
+                <label>Fire</label>
+            </value>
+            <value>
+                <fullName>Foot print</fullName>
+                <default>false</default>
+                <label>Foot print</label>
+            </value>
+            <value>
+                <fullName>Fuse</fullName>
+                <default>false</default>
+                <label>Fuse</label>
+            </value>
+            <value>
+                <fullName>Inspan</fullName>
+                <default>false</default>
+                <label>Inspan</label>
+            </value>
+            <value>
+                <fullName>Man hole</fullName>
+                <default>false</default>
+                <label>Man hole</label>
+            </value>
+            <value>
+                <fullName>Meet-me-room</fullName>
+                <default>false</default>
+                <label>Meet-me-room</label>
+            </value>
+            <value>
+                <fullName>O &amp; M</fullName>
+                <default>false</default>
+                <label>O &amp; M</label>
+            </value>
+            <value>
+                <fullName>Patch</fullName>
+                <default>false</default>
+                <label>Patch</label>
+            </value>
+            <value>
+                <fullName>Room</fullName>
+                <default>false</default>
+                <label>Room</label>
+            </value>
+            <value>
+                <fullName>Trunk</fullName>
+                <default>false</default>
+                <label>Trunk</label>
+            </value>
+            <value>
+                <fullName>Express Delivery</fullName>
+                <default>false</default>
+                <label>Express Delivery</label>
+            </value>
+            <value>
+                <fullName>Fiber pair</fullName>
+                <default>false</default>
+                <label>Fiber pair</label>
+            </value>
+            <value>
+                <fullName>Internal cabling</fullName>
+                <default>false</default>
+                <label>Internal cabling</label>
+            </value>
+            <value>
+                <fullName>Site Survey</fullName>
+                <default>false</default>
+                <label>Site Survey</label>
+            </value>
+            <value>
+                <fullName>Dirigering</fullName>
+                <default>false</default>
+                <label>Dirigering</label>
+            </value>
+            <value>
+                <fullName>Dirigering Dage</fullName>
+                <default>false</default>
+                <label>Dirigering Dage</label>
+            </value>
+            <value>
+                <fullName>Dirigering Endetal</fullName>
+                <default>false</default>
+                <label>Dirigering Endetal</label>
+            </value>
+            <value>
+                <fullName>Dirigering Tid</fullName>
+                <default>false</default>
+                <label>Dirigering Tid</label>
+            </value>
+            <value>
+                <fullName>Interconnect</fullName>
+                <default>false</default>
+                <label>Interconnect</label>
+            </value>
+            <value>
+                <fullName>IP Transit</fullName>
+                <default>false</default>
+                <label>IP Transit</label>
+            </value>
+            <value>
+                <fullName>Menustyring</fullName>
+                <default>false</default>
+                <label>Menustyring</label>
+            </value>
+            <value>
+                <fullName>Number Series</fullName>
+                <default>false</default>
+                <label>Number Series</label>
+            </value>
+            <value>
+                <fullName>Number series 10</fullName>
+                <default>false</default>
+                <label>Number series 10</label>
+            </value>
+            <value>
+                <fullName>Number series 100</fullName>
+                <default>false</default>
+                <label>Number series 100</label>
+            </value>
+            <value>
+                <fullName>Samtrafik</fullName>
+                <default>false</default>
+                <label>Samtrafik</label>
+            </value>
+            <value>
+                <fullName>Sip Trunk</fullName>
+                <default>false</default>
+                <label>Sip Trunk</label>
+            </value>
+            <value>
+                <fullName>Statistik</fullName>
+                <default>false</default>
+                <label>Statistik</label>
+            </value>
+            <value>
+                <fullName>Svarsted</fullName>
+                <default>false</default>
+                <label>Svarsted</label>
+            </value>
+            <value>
+                <fullName>Viderestilling mgl svar</fullName>
+                <default>false</default>
+                <label>Viderestilling mgl svar</label>
+            </value>
+            <value>
+                <fullName>Viderestilling opt.</fullName>
+                <default>false</default>
+                <label>Viderestilling opt.</label>
+            </value>
+            <value>
+                <fullName>70 Numbers</fullName>
+                <default>false</default>
+                <label>70 Numbers</label>
+            </value>
+            <value>
+                <fullName>70-80-90 Numbers</fullName>
+                <default>false</default>
+                <label>70-80-90 Numbers</label>
+            </value>
+            <value>
+                <fullName>80 Numbers</fullName>
+                <default>false</default>
+                <label>80 Numbers</label>
+            </value>
+            <value>
+                <fullName>90 Numbers</fullName>
+                <default>false</default>
+                <label>90 Numbers</label>
+            </value>
+            <value>
+                <fullName>Jaynet</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Jaynet</label>
+            </value>
+            <value>
+                <fullName>Level 3</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Level 3</label>
+            </value>
+            <value>
+                <fullName>Nianet</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Nianet</label>
+            </value>
+            <value>
+                <fullName>Stofa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Stofa</label>
+            </value>
+            <value>
+                <fullName>TS Net</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TS Net</label>
+            </value>
+            <value>
+                <fullName>Telia Carrier</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Telia Carrier</label>
+            </value>
+            <value>
+                <fullName>Udland</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Udland</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Dark Fiber</controllingFieldValue>
+            <valueName>Dark Fiber</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Access EPL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>EPL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Transit E-Line</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>CPE 10GE - 1 CPE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>CPE 1GE - 1 CPE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>CPE 1GE - 2 CPE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>QOS - ALL BC+</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>COS BC+</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>QOS - BC+</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>QOS - BE+</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Access EPL, DH ENNI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>EVP-LAN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Interface 1Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Interface 10Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Loop Back Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>LoopBack Delivery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Mix</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Mix Video</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>E-NNI/Hub</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Nordic on-net fee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Pop-to-pop</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>QOS - RT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Red. Sec- E-NNI/HUB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Red. Sec. Access EPL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>Red. Sec. E-Line EPL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Basic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Diamond</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Gold</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Platinum</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Silver</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>SLA Standard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>COS Standard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>QOS Standard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>COS Voice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <valueName>COS Voip</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic</controllingFieldValue>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Redundancy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet</controllingFieldValue>
+            <valueName>Internet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sea Cable</controllingFieldValue>
+            <valueName>Sea Cable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Aalborg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Ejby</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Esbjerg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Hasselager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Herning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Kalundborg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Køge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Kolding</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>lo Padborg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Næstved</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Nørrebro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Ørestaden</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Randers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Roskilde</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Sorø</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Sydvestvej</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Telehøjen</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Vejle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Location</controllingFieldValue>
+            <valueName>Viby</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>A- and B-feed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 10A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 10A 3-phase</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 10A, A-and B</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 16A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 16A 3-phase</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 20A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 32A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>AC 32A 3-phase</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 10A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 16A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 25A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 32A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 40A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 50A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 63A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>DC 80A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Power</controllingFieldValue>
+            <valueName>Power</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Special numbers</controllingFieldValue>
+            <valueName>70 Numbers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Special numbers</controllingFieldValue>
+            <valueName>70-80-90 Numbers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Special numbers</controllingFieldValue>
+            <valueName>80 Numbers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Special numbers</controllingFieldValue>
+            <valueName>90 Numbers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Access card</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Rack Cabinet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Cage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Cooling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Fire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Foot print</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Fuse</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Inspan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Man hole</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Meet-me-room</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>O &amp; M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Patch</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Room</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <valueName>Trunk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Express Delivery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Fiber pair</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Internal cabling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Colocation</controllingFieldValue>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Site Survey</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Backbone</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Network Bridge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Fiber, Tracé</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Capacity</controllingFieldValue>
+            <valueName>Upgrade</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 2Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 10Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 20Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 30Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 50Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 100Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 200Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 300Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 500Mb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 1Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 2Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 2,5Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 4Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 6Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 7Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 8Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ethernet Nordic Capacity</controllingFieldValue>
+            <valueName>Fiber 10Gb</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Dirigering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Dirigering Dage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Dirigering Endetal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Dirigering Tid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Interconnect</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>IP Transit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Menustyring</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Number Series</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Number series 10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Number series 100</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Samtrafik</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Sip Trunk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Statistik</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Svarsted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Viderestilling mgl svar</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service - Fixed</controllingFieldValue>
+            <valueName>Viderestilling opt.</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

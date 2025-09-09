@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>revenue_group_based__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used in discount price rules to rule out products that are included in group based revenue logic (eg. M2M products)</description>
+    <inlineHelpText>Click this tick box if the discount revenue logic is based on a group of products</inlineHelpText>
+    <label>Revenue Group Based</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

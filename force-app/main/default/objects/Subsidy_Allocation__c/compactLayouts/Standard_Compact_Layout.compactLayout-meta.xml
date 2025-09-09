@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Standard_Compact_Layout</fullName>
+    <fields>Web_Module_User_Name__c</fields>
+    <fields>CVR_No__c</fields>
+    <fields>Subscriber_No_Without_Prefix__c</fields>
+    <fields>Product_SoC_Description__c</fields>
+    <fields>Action__c</fields>
+    <fields>Effective_Date__c</fields>
+    <fields>Expiration_Date__c</fields>
+    <label>Standard Compact Layout</label>
+</CompactLayout>

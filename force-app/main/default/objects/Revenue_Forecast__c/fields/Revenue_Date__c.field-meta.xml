@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue_Date__c</fullName>
+    <formula>IF(
+    (Forecast_Category__c = &quot;Run rate&quot; || Forecast_Category__c = &quot;Forecast&quot; || Opportunity_Type__c = &quot;Renewal&quot;),
+    Forecast_Date__c,
+    ADDMONTHS( Forecast_Date__c,6))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Revenue Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

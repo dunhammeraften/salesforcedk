@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Agent_Code__c</fullName>
+    <description>Used when posting an order via Order API to ensure the right sales rep is compensated when the order is created in the billing systems</description>
+    <externalId>false</externalId>
+    <label>Sales Agent Code</label>
+    <length>10</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

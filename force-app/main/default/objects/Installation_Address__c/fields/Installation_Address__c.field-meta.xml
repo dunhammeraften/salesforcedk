@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Installation_Address__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/lightning/r/Installation_Address__c/&quot;&amp;Id&amp;&quot;/view&quot;,
+IF(ISBLANK(Secondary_Street__c), 
+    IF(ISBLANK(Primary_Street__c), Name ,Primary_Street__c &amp; &quot; &quot; &amp;  Primary_Street_Number__c ),
+     Primary_Street__c &amp;&quot; to &quot;&amp; Secondary_Street__c),&quot;_self&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Installation Address</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

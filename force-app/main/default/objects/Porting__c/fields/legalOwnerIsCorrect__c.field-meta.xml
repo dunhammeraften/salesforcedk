@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>legalOwnerIsCorrect__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>TSFDK-230 The customer confirms if the legal owner on the POA Scrive document is correct.</description>
+    <label>legalOwnerIsCorrect</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

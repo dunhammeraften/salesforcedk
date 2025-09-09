@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>scrive__SendDocumentViaScrive</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>Send document via Scrive</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <url>/apex/scrive__SendDocumentViaScrive?opportunityId={!Opportunity.Id}</url>
+</WebLink>

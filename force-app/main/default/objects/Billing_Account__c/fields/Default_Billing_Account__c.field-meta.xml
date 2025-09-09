@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Billing_Account__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if this Billing Account is the default Billing Account for the Account. Used in new Home Office flow where it is assigned as default on Activation Lines.</description>
+    <label>Default Billing Account</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

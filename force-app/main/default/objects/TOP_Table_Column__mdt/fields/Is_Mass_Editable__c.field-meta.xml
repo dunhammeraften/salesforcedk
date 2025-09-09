@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Mass_Editable__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Able to pop up the box to mass update the selected rows when in selected rows</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Able to pop up the box to mass update the selected rows when in selected rows</inlineHelpText>
+    <label>Is Mass Editable</label>
+    <type>Checkbox</type>
+</CustomField>

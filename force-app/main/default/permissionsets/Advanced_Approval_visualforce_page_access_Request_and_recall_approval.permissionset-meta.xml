@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>needed for users who is using advanced approvals</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Advanced Approval visualforce page access Request and recall approval</label>
+    <pageAccesses>
+        <apexPage>RecallQuote</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>SubmitQuote</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+</PermissionSet>

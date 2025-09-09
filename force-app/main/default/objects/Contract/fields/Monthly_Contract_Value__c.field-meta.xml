@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Contract_Value__c</fullName>
+    <description>Field used in DLRS to summarize the monthly value of all subscriptions on the contract.</description>
+    <inlineHelpText>Monthly Contract Value with discounts based on Subscriptions in Contract</inlineHelpText>
+    <label>Monthly Contract Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

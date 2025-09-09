@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SpecialTerms</fullName>
+    <description>Field used to indicate if this is a migrated contract from before salesforce CPQ generates contracts</description>
+    <inlineHelpText>Only used when contract is migrated into salesforce and thus not related to a salesforce quote</inlineHelpText>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+</CustomField>

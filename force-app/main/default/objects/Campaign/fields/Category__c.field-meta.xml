@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <label>Category</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Sales</fullName>
+                <default>false</default>
+                <label>New Sales</label>
+            </value>
+            <value>
+                <fullName>Upsales</fullName>
+                <default>false</default>
+                <label>Upsales</label>
+            </value>
+            <value>
+                <fullName>I love you calls</fullName>
+                <default>false</default>
+                <label>I love you calls</label>
+            </value>
+            <value>
+                <fullName>Win back</fullName>
+                <default>false</default>
+                <label>Win back</label>
+            </value>
+            <value>
+                <fullName>Cross sales</fullName>
+                <default>false</default>
+                <label>Cross Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

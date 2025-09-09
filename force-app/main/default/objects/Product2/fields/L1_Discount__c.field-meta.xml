@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>L1_Discount__c</fullName>
+    <description>User story 115/257.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Maximum discount that can be given on product before it is sent for approval</inlineHelpText>
+    <label>L1 Discount</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

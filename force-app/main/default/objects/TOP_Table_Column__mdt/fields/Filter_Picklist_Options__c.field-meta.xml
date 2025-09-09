@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Filter_Picklist_Options__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Filter picklist Options by quote to hide options which customer did not buy.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Filter picklist Options by quote to hide options which customer did not buy.</inlineHelpText>
+    <label>Filter Picklist Options</label>
+    <type>Checkbox</type>
+</CustomField>

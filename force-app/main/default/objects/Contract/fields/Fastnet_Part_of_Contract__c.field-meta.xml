@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fastnet_Part_of_Contract__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>US412 - Contract Migration.</description>
+    <inlineHelpText>During the contract migration, some contracts had several end dates and needed to be split into several subcontracts (mobile, data, fastnet). If this field is checked, it indicates that this contract is the mobile part of the contract.</inlineHelpText>
+    <label>Fastnet Part of Contract</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

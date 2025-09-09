@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreed_Callback__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Will be checked if a Call back has been agreed</description>
+    <label>Agreed Callback</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

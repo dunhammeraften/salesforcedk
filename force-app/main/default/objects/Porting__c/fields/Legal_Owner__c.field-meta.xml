@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Owner__c</fullName>
+    <description>TSFDK-230 Legal Owner of the numbers to be transferred.</description>
+    <inlineHelpText>Legal Owner of the numbers to be transferred. For Company (Account) data will be copied from the related Account.</inlineHelpText>
+    <label>Legal Owner</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Company (Account)</fullName>
+                <default>false</default>
+                <label>Company (Account)</label>
+            </value>
+            <value>
+                <fullName>Company (Other)</fullName>
+                <default>false</default>
+                <label>Company (Other)</label>
+            </value>
+            <value>
+                <fullName>Private</fullName>
+                <default>false</default>
+                <label>Private</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

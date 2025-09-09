@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Win_Reason__c</fullName>
+    <description>User story ID: 45</description>
+    <inlineHelpText>The reason we won the business</inlineHelpText>
+    <label>Win Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Our relation to the customer</fullName>
+                <default>false</default>
+                <label>Our relation to the customer</label>
+            </value>
+            <value>
+                <fullName>Our understanding of the customers situation</fullName>
+                <default>false</default>
+                <label>Our understanding of the customers situation</label>
+            </value>
+            <value>
+                <fullName>Our understanding of the process</fullName>
+                <default>false</default>
+                <label>Our understanding of the process</label>
+            </value>
+            <value>
+                <fullName>Our solution</fullName>
+                <default>false</default>
+                <label>Our solution</label>
+            </value>
+            <value>
+                <fullName>Our ability to deliver value</fullName>
+                <default>false</default>
+                <label>Our ability to deliver value</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Our relation to the customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Our understanding of the customers situation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Our understanding of the process</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Our solution</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Our ability to deliver value</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

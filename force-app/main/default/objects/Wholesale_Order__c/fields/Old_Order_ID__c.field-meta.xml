@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Old_Order_ID__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Old order ID, used for data migration matching.</description>
+    <externalId>true</externalId>
+    <label>Old Order ID</label>
+    <length>18</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

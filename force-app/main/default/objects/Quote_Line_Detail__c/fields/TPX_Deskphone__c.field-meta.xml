@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TPX_Deskphone__c</fullName>
+    <label>TPX Deskphone</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mitel 6865i</fullName>
+                <default>false</default>
+                <label>Mitel 6865i</label>
+            </value>
+            <value>
+                <fullName>Mitel 6867i</fullName>
+                <default>false</default>
+                <label>Mitel 6867i</label>
+            </value>
+            <value>
+                <fullName>Mitel 6869i</fullName>
+                <default>false</default>
+                <label>Mitel 6869i</label>
+            </value>
+            <value>
+                <fullName>Mitel 6873i</fullName>
+                <default>false</default>
+                <label>Mitel 6873i</label>
+            </value>
+            <value>
+                <fullName>Mitel M685i</fullName>
+                <default>false</default>
+                <label>Mitel M685i</label>
+            </value>
+            <value>
+                <fullName>Mitel 6920</fullName>
+                <default>false</default>
+                <label>Mitel 6920</label>
+            </value>
+            <value>
+                <fullName>Mitel 6930</fullName>
+                <default>false</default>
+                <label>Mitel 6930</label>
+            </value>
+            <value>
+                <fullName>Mitel 6940</fullName>
+                <default>false</default>
+                <label>Mitel 6940</label>
+            </value>
+            <value>
+                <fullName>Mitel 6970</fullName>
+                <default>false</default>
+                <label>Mitel 6970</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

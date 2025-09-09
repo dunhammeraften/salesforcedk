@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Force_an_update__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Technical field used by admins to temporarily force certain automations to run.</description>
+    <label>Force an update</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

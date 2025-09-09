@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>INSTANCE_KEY__c</columns>
+    <columns>LOAD_TYPE__c</columns>
+    <columns>LOAD_DATE__c</columns>
+    <columns>SF_ACCOUNT_KEY__c</columns>
+    <columns>ROOT_CVR_NO__c</columns>
+    <columns>CVR_NO__c</columns>
+    <columns>SUBSCRIBER_ID__c</columns>
+    <columns>SUBSCRIBER_NO__c</columns>
+    <columns>SUBSCRIBER_CURRENT_KEY__c</columns>
+    <columns>CUSTOMER_CURRENT_KEY__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_missing_on_Quote_closed_won</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISBLANK(SBQQ__PrimaryQuote__r.Mobil_Data_Collection_Contact__c) &amp;&amp; 
+ISCHANGED(StageName) &amp;&amp; 
+ISPICKVAL(StageName, &apos;Closed Won&apos;) &amp;&amp; 
+INCLUDES(Product_s_in_scope__c, &apos;Voice&apos;) &amp;&amp;
+($User.Role__c = &apos;Business_Accounts&apos;  || 
+ $User.Role__c = &apos;Managed_Accounts&apos;)</errorConditionFormula>
+    <errorMessage>Mobil Data Collection Contact missing on Quote</errorMessage>
+</ValidationRule>

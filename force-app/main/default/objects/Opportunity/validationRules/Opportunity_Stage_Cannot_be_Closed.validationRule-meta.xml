@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_Stage_Cannot_be_Closed</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL(StageName,&quot;Closed&quot;)</errorConditionFormula>
+    <errorMessage>Stage cannot be Closed (Select Close Won or Closed Lost instead).</errorMessage>
+</ValidationRule>

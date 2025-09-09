@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Quote_Creation_date__c</fullName>
+    <description>Date when a renewal quote should be created automatically. Set by a Flow on Contract creation.</description>
+    <label>Renewal Quote Creation date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <inlineHelpText>Decisionmaker: Contract responsible
+Technical Buyer: IT- and/or logistics
+Business User: Receptionist or user
+Executive Sponsor: C-level person
+Influencer: Anybody with an opinion
+Other: If the person doesn&apos;t fit anywhere else</inlineHelpText>
+    <label>Role</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Decisionmaker</fullName>
+                <default>false</default>
+                <label>Decisionmaker</label>
+            </value>
+            <value>
+                <fullName>Technical Buyer</fullName>
+                <default>false</default>
+                <label>Technical Buyer</label>
+            </value>
+            <value>
+                <fullName>Business User</fullName>
+                <default>false</default>
+                <label>Business User</label>
+            </value>
+            <value>
+                <fullName>Executive Sponsor</fullName>
+                <default>false</default>
+                <label>Executive Sponsor</label>
+            </value>
+            <value>
+                <fullName>Influencer</fullName>
+                <default>false</default>
+                <label>Influencer</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

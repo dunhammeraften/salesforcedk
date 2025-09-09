@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_not_reopen_Closed_Won_opportunity</fullName>
+    <active>true</active>
+    <description>An opportunity in stage Closed Won is not allowed to be reopened.</description>
+    <errorConditionFormula>AND(
+ISCHANGED(StageName),
+ISPICKVAL(PRIORVALUE(StageName), &quot;Closed Won&quot;),
+ISPICKVAL(PRIORVALUE( ValidationCheck__c), &quot;Success&quot;)
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to change the stage of a closed won opportunity.</errorMessage>
+</ValidationRule>

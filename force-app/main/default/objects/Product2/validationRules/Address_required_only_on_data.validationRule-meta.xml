@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Address_required_only_on_data</fullName>
+    <active>true</active>
+    <errorConditionFormula>!(ISPICKVAL(Activation_Record_Type__c, &quot;Fiber&quot;) || 
+ISPICKVAL(Activation_Record_Type__c, &quot;4G&quot;) || 
+ISPICKVAL(Activation_Record_Type__c, &quot;Home office&quot;) || 
+ISPICKVAL(Activation_Record_Type__c, &quot;DSL/Coax&quot;)) &amp;&amp;  address_required__c</errorConditionFormula>
+    <errorDisplayField>address_required__c</errorDisplayField>
+    <errorMessage>Address can only be required for data products</errorMessage>
+</ValidationRule>

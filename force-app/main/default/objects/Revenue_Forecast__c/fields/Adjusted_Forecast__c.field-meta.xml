@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adjusted_Forecast__c</fullName>
+    <formula>/* If the Revenue Forecast type is Run Rate or Forecast, use the Forecasted Amount field */ 
+
+IF(ISPICKVAL( Type__c , &quot;Run rate&quot;) || ISPICKVAL( Type__c ,&quot;Forecast&quot;), Forecasted_Amount__c ,
+
+/* If the Opportunity is not won and type is Renewal, calculate the estimated win rate amount for each Account Segment */ 
+
+IF(( ISPICKVAL(Opportunity__r.Type,&quot;Renewal&quot;) /* &amp;&amp;  Opportunity__r.IsWon = false */ ),
+0 - ( Forecasted_Amount__c * 
+CASE( TEXT(Opportunity__r.Account.Segment__c),
+&quot;Business Account&quot;, $CustomMetadata.Telia_Settings__mdt.Settings.Renewal_Win_Rate_BA__c ,
+&quot;Managed Account&quot;, $CustomMetadata.Telia_Settings__mdt.Settings.Renewal_Win_Rate_MA__c,
+&quot;Large Account&quot;, $CustomMetadata.Telia_Settings__mdt.Settings.Renewal_Win_Rate_LA__c,
+&quot;Key Account&quot;, $CustomMetadata.Telia_Settings__mdt.Settings.Renewal_Win_Rate_KA__c,
+
+/* If it&apos;s not any of those segments, use fixed 15% multiplier */ 
+
+0.15)),
+
+/* If the renewal opportunity is closed won, use 0 
+
+IF(( ISPICKVAL(Opportunity__r.Type,&quot;Renewal&quot;) &amp;&amp;  Opportunity__r.IsWon = true ),
+0 , 
+*/
+
+/* Otherwise (in new business) multiply the Forecasted Amount with Opportunity&apos;s probability */ 
+Forecasted_Amount__c * Opportunity__r.Probability))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Pipeline</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

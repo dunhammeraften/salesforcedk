@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NPS_contact__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>User Story ID: 15</description>
+    <inlineHelpText>Check this if the contact should be included when we do NPS (Net Promoter Score) surveys.</inlineHelpText>
+    <label>NPS contact</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

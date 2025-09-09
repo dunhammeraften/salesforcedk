@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Delivery_Express__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If product option Express Delivery har been selected this checkbox will be true</description>
+    <label>Is Delivery Express</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

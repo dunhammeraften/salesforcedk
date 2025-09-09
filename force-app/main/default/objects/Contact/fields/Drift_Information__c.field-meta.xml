@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Drift_Information__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used to show which contact person is the operations and maintenance contact in the company</description>
+    <inlineHelpText>Check this if the contact should be a drift information contact</inlineHelpText>
+    <label>Drift Information</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

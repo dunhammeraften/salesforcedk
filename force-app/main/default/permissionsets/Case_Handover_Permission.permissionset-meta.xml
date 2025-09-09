@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Opportunity_Guidance_Text__mdt</name>
+    </customMetadataTypeAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Case_Handover</name>
+    </customPermissions>
+    <description>In order to use the new case handover functionality, this permission must be assigned to the user</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Case Handover Permission</label>
+</PermissionSet>

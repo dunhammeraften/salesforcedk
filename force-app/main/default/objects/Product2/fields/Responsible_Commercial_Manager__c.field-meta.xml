@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Responsible_Commercial_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The responsible Commercial Manager for this specific product.</description>
+    <inlineHelpText>The responsible Commercial Manager for this specific product.</inlineHelpText>
+    <label>Responsible Commercial Manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Products</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

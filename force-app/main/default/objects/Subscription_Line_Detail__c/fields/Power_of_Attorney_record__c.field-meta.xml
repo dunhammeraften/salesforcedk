@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Power_of_Attorney_record__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Power of Attorney record</label>
+    <referenceTo>Porting__c</referenceTo>
+    <relationshipLabel>Subscription Line Details</relationshipLabel>
+    <relationshipName>Subscription_Line_Details</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

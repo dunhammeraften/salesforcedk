@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_Fixed_or_Circuit</fullName>
+    <active>false</active>
+    <description>Exactly one of the fields Mobile No., Fixed No. or Circuit ID must be filled out.</description>
+    <errorConditionFormula>OR(
+   AND(ISBLANK(Fixed_no__c),ISBLANK(Mobile_no__c),ISBLANK( 
+   Circuit_ID__c)), 
+   AND(NOT(ISBLANK(Fixed_no__c)),OR(NOT(ISBLANK(Mobile_no__c)),
+   NOT(ISBLANK(Circuit_ID__c)))),
+   AND(NOT(ISBLANK(Mobile_no__c)),OR(NOT(ISBLANK(Fixed_no__c)),
+   NOT(ISBLANK(Circuit_ID__c)))),
+   AND(NOT(ISBLANK(Circuit_ID__c)),OR(NOT(ISBLANK(Fixed_no__c)),
+   NOT(ISBLANK(Mobile_no__c)))))</errorConditionFormula>
+    <errorMessage>Exactly one of the fields Mobile No., Fixed No. or Circuit ID must be filled out.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>activate_with_other_products__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that this product should not have an activation line itself, but is connected to a specific activation line during activation.</description>
+    <inlineHelpText>Does this product require activation, but is it linked to another activation line during activation rather than having a line by itself? Often for products such as VAS&apos; or SLA&apos;s. Requires &quot;Activation record type&quot; to be set.</inlineHelpText>
+    <label>Activate with other products</label>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

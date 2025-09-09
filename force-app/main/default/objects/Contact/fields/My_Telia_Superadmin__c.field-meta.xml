@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Telia_Superadmin__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used to show which contact person who shall receive links to &quot;Mit Telia Erhverv&quot;.</description>
+    <inlineHelpText>Check this if the contact should be Superadmin and receive link to &quot;Mit Telia Erhverv&quot;.</inlineHelpText>
+    <label>&quot;Mit Telia&quot; Superadmin</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

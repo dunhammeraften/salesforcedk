@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_Modified_after_StartDate__c</fullName>
+    <description>Check if the Contract has been modified after the StartDate</description>
+    <formula>StartDate &lt; DateValue(LastModifiedDate)</formula>
+    <inlineHelpText>Check if the Contract has been modified after the StartDate</inlineHelpText>
+    <label>is Modified after StartDate</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

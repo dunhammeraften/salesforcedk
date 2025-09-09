@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Other_Supplier_must_have_value</fullName>
+    <active>true</active>
+    <description>If the Supplier is Other, then the value must be entered in the Other Supplier field.</description>
+    <errorConditionFormula>TEXT(Supplier__c) = &quot;Other&quot; &amp;&amp; ISBLANK(Other_Supplier__c)</errorConditionFormula>
+    <errorDisplayField>Other_Supplier__c</errorDisplayField>
+    <errorMessage>Enter a value for Other Supplier</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Months__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(NOT ISNULL(COMMIT_END_DATE__c)&amp;&amp;COMMIT_END_DATE__c&gt;SUBSCRIBER_START_DATE__c, ((YEAR( COMMIT_END_DATE__c+1 ) - YEAR( SUBSCRIBER_START_DATE__c   ))*12) + (MONTH(COMMIT_END_DATE__c+1) - MONTH(SUBSCRIBER_START_DATE__c )),0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Number of Months</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loss_Reason_Other_missing_description</fullName>
+    <active>true</active>
+    <description>If Other is chosen as a closed loss reason a reason must be entered</description>
+    <errorConditionFormula>ISPICKVAL(Loss_Reason__c, &apos;Other&apos;) &amp;&amp;  ISBLANK( Other_Closed_Lost_Reason__c )&amp;&amp; NOT(ISCHANGED(StageName))</errorConditionFormula>
+    <errorMessage>Please enter a closed lost reason in the Other Closed Lost Reason field</errorMessage>
+</ValidationRule>

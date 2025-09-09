@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mass_Edit_Allowed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Option to display first column as selectable and mass edit selected rows</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Option to display first column as selectable and mass edit selected rows</inlineHelpText>
+    <label>Mass Edit Allowed</label>
+    <type>Checkbox</type>
+</CustomField>

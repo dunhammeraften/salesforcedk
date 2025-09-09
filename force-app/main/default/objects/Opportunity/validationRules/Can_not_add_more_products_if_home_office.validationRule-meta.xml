@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_not_add_more_products_if_home_office</fullName>
+    <active>true</active>
+    <errorConditionFormula>INCLUDES( Product_s_in_scope__c , &quot;Home Office&quot;) &amp;&amp; 
+(LEN(Products_In_Scope_Text__c) - LEN(SUBSTITUTE(Products_In_Scope_Text__c, &quot;;&quot;, &quot;&quot;)) &gt; 1)</errorConditionFormula>
+    <errorMessage>Opportunity can not contain more products if Home Office is selected</errorMessage>
+</ValidationRule>

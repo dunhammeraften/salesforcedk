@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fokus_Subscription__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Fokus Subscription</label>
+    <referenceTo>Fokus_Subscription__c</referenceTo>
+    <relationshipLabel>Fokus Subscription Service</relationshipLabel>
+    <relationshipName>Fokus_Subscription_Service</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

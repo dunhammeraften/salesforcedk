@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NPS_Show_On_Report__c</fullName>
+    <formula>(((TODAY() &gt;= ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) ) &amp;&amp;
+(TODAY() &lt; ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c) )) ||
+((TODAY() &gt;= ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) ) &amp;&amp;
+(TODAY() &lt; ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c) )) ) &amp;&amp; 
+(((DATEVALUE(CreatedDate) &gt;= ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) ) &amp;&amp;
+(DATEVALUE(CreatedDate) &lt; ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_1__c) )) ||
+((DATEVALUE(CreatedDate) &gt;= ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c - $CustomMetadata.Telia_Settings__mdt.Settings.NPS_Reminder_days_before_NPS_Send_Date__c ) ) &amp;&amp;
+(DATEVALUE(CreatedDate) &lt; ($CustomMetadata.Telia_Settings__mdt.Settings.NPS_Send_Date_2__c) )))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>NPS Show On Report</label>
+    <type>Checkbox</type>
+</CustomField>

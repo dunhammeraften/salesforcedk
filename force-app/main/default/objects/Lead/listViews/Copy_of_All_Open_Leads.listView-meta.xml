@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_All_Open_Leads</fullName>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Sales_Play_Campaign_Name__c</columns>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>Callback_Comments__c</columns>
+    <columns>Callback_date__c</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>Sales_Note_1__c</columns>
+    <columns>Sales_Note_2__c</columns>
+    <columns>Sales_Note_3__c</columns>
+    <columns>Campaign__c</columns>
+    <columns>Unqualified_Reason__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Unqualified,Qualified</value>
+    </filters>
+    <label>My Leads (Sales Play)</label>
+</ListView>

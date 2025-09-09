@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pipeline_Target__c</fullName>
+    <description>User Story ID: 69,71,73 used for pipeline reporting
+The pipeline target is defined as the sales target divided by the conversion rate. If a rep has a sales target of 1 million and converts 1 out of 3 opportunities to a sale, the pipeline target should be 3,33 million.</description>
+    <formula>IF(Conversion_Rate__c&gt;0,Target__c / Conversion_Rate__c,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Pipeline Target</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

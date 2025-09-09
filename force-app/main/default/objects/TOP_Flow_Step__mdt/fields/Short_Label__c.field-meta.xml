@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Short_Label__c</fullName>
+    <description>Reference to Custom Label, value is used to display the Step name in the flow</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Reference to Custom Label, value is used to display the Step name in the flow</inlineHelpText>
+    <label>Short Label (Custom Label Ref)</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

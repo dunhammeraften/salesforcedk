@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>user can click the &quot;Create PDF&quot; quick action button in Power_of_Attorny (porting__c) record page to generate POA PDF file.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Create POA PDF</label>
+</PermissionSet>

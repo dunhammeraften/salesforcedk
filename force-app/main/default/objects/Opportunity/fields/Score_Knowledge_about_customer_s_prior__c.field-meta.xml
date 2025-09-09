@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Score_Knowledge_about_customer_s_prior__c</fullName>
+    <description>User Story ID: 70
+Used to calculate the score of the opportunity and set probability %</description>
+    <externalId>false</externalId>
+    <formula>CASE( Knowledge_about_customer_s_priorities__c , &quot;Yes&quot;, 3, &quot;Working on it&quot;, 1,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Score - Knowledge about customer&apos;s prior</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

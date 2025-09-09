@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunites_Lost_to_Competitor</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Lost_to_Competitor__c</columns>
+    <columns>Loss_Reason__c</columns>
+    <columns>OPPORTUNITY.AMOUNT</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Closed Lost</value>
+    </filters>
+    <filters>
+        <field>Competitors_identified__c</field>
+        <operation>equals</operation>
+        <value>Yes,Working on it</value>
+    </filters>
+    <filters>
+        <field>Lost_to_Competitor__c</field>
+        <operation>equals</operation>
+        <value>TDC,Telenor,3,Other</value>
+    </filters>
+    <filters>
+        <field>Loss_Reason__c</field>
+        <operation>equals</operation>
+        <value>Our relation to the customer,Our Products are missing features,Onboarding was not strong enough,Customer Service was not good enough,Our prices are too high,Mangelfuld subsidie,Abandoned,Other,Andet/Ved ikke (beskriv i Other Loss Reason)</value>
+    </filters>
+    <label>Opportunites Lost to Competitor</label>
+</ListView>

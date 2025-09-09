@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TPX_Active_for_portal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If checked Quotes with TPX products can be accessed in Potal</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>If checked Quotes with TPX products can be accessed in Potal</inlineHelpText>
+    <label>TPX Active for portal</label>
+    <type>Checkbox</type>
+</CustomField>

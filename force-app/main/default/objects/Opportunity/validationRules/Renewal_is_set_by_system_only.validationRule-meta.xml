@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_is_set_by_system_only</fullName>
+    <active>false</active>
+    <description>User Story ID: 50
+Renewal opportunities cannot be created manually.
+THIS RULE IS DEACTIVATED FOR THE INITITIAL RELESE AS CONTRACTS ARE NOT YET READY</description>
+    <errorConditionFormula>ISPICKVAL(Type, &quot;Renewal&quot;) &amp;&amp;  RecordType.DeveloperName = &quot;Sales&quot;</errorConditionFormula>
+    <errorDisplayField>Type</errorDisplayField>
+    <errorMessage>Renewal opportunities are created automatically so you don&apos;t have to do it - smart right?</errorMessage>
+</ValidationRule>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2025_05_23_Opgradering_firmware_til_snom</fullName>
+    <booleanFilter>(1 AND 5) OR (2 AND 5) OR (3 AND 5) OR (4 AND 5) OR 6 OR (5 AND 7)</booleanFilter>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.TITLE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>UC_Admin__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>Advokaterne Sankt Knuds Torv,Advokatfirmaet Jesper Rasmussen,AO Johansen,Bendix Transport Danmark,Boligkontoret Århus,BonBon-Land,vue danmark,CMC 2014,Dækpartner,Dahl,Dansk Røde Kors Hovedstaden,Delaval,Fællesorg,Getama Danmark</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>GF Forsikring,H.W.Larsen,HK Danmark,IAT A/S,J.V. Steffensens-Bygningsartikler,JC PENGESKABE,Jetpak Danmark,Karstensens Skibsværft,Krøyer Pedersen statsautoriserede revisorer,Krüger,Kurt Beier Transport,Larsen &amp; Birkeholm</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>Lerøy Seafood Hirtshals,Løvbjerggård,LVK Dyrlægerne,Malerfirmaet Eskildsen,Niko-Servodan,Nomus,Ole Larsen Transport,Østermark Entreprenørforretning,Pagunette,Panda Connect,Plantas,POLYTEKNISK KOLLEGIESELSKAB</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>Rema 1000 Danmark,ScanCom International,Sejlstrup Entreprenørforretning,SV. Michelsen Chokolade,Svend Møller Hansen Holding,Tarpgaard,TEVA Denmark,Tommy,Trasbo,Valhalla,AO Johansen,Grønagergård Savværk</value>
+    </filters>
+    <filters>
+        <field>UC_Admin__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>CONTACT.EMAIL</field>
+        <operation>contains</operation>
+        <value>lars.dall,Soren.Vendler@coop.dk</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>BRØDRENE A. &amp; O. JOHANSEN,CMC Maskinstation A/S,JUAN A/S,J.V. STEFFENSENS BYGNINGSARTIKLER,Wygwam Danmark A/S,NOMUS A/S,PANDACONNECT,TOMMY A/S</value>
+    </filters>
+    <label>2025-05-23 Opgradering firmware til snom</label>
+</ListView>

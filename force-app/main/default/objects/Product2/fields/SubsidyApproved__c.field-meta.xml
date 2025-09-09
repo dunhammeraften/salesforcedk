@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubsidyApproved__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field used to identify if this product is approved to give a subsidy upon. Is used in price rule to restrict amount on only products which is subsidy approved= TRUE</description>
+    <inlineHelpText>Field used to identify if this product is approved to give a subsidy upon</inlineHelpText>
+    <label>SubsidyApproved</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

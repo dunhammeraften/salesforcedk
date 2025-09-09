@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_out_Auto_Portal_Invite_for_Renewal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If this is true Automatic portal invite for Renewals is activated.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Automatic portal invite for Renewals for BA/MA users is activated if this field is selected.</inlineHelpText>
+    <label>Send out Auto Portal Invite for Renewal</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MultipleVPN__c</fullName>
+    <inlineHelpText>Used on Datanet for both Fiber and DSL</inlineHelpText>
+    <label>MultipleVPN</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>MultipleVPN</valueSetName>
+    </valueSet>
+</CustomField>

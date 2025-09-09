@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Rules__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>US412 - Old contracts migration. Migration of the field &quot;Genforhandlingsregel data&quot;.</description>
+    <inlineHelpText>Indicates if there is any data related to renewal rules on the original contract (only for migrated contracts).</inlineHelpText>
+    <label>Renewal Rules?</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

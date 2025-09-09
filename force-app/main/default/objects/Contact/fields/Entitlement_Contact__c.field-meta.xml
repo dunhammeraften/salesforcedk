@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Entitlement_Contact__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Is set manually when enttilement contact is defined through contract</description>
+    <inlineHelpText>Contact which are entitled to customer service (telefoni ansvarlig)</inlineHelpText>
+    <label>Entitlement Contact</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

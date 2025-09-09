@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_area__c</fullName>
+    <description>The product area for the competitor contract</description>
+    <inlineHelpText>Choose a product area.</inlineHelpText>
+    <label>Product area</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mobil Voice</fullName>
+                <default>false</default>
+                <label>Mobil Voice</label>
+            </value>
+            <value>
+                <fullName>Unified Communication</fullName>
+                <default>false</default>
+                <label>Unified Communication</label>
+            </value>
+            <value>
+                <fullName>Contact Center</fullName>
+                <default>false</default>
+                <label>Contact Center</label>
+            </value>
+            <value>
+                <fullName>Fiber</fullName>
+                <default>false</default>
+                <label>Fiber</label>
+            </value>
+            <value>
+                <fullName>DataNet &amp; MPLS</fullName>
+                <default>false</default>
+                <label>DataNet &amp; MPLS</label>
+            </value>
+            <value>
+                <fullName>HomeOffice</fullName>
+                <default>false</default>
+                <label>HomeOffice</label>
+            </value>
+            <value>
+                <fullName>Fleet Management</fullName>
+                <default>false</default>
+                <label>Fleet Management</label>
+            </value>
+            <value>
+                <fullName>IoT Connectivity</fullName>
+                <default>false</default>
+                <label>IoT Connectivity</label>
+            </value>
+            <value>
+                <fullName>SD Wan</fullName>
+                <default>false</default>
+                <label>SD Wan</label>
+            </value>
+            <value>
+                <fullName>DDOS</fullName>
+                <default>false</default>
+                <label>DDOS</label>
+            </value>
+            <value>
+                <fullName>Device as a Service</fullName>
+                <default>false</default>
+                <label>Device as a Service</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

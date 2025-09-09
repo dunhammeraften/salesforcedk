@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status</fullName>
+    <inlineHelpText>IS SET BY SYSTEM.
+Contract is Draft when contract start date is not passed yet.
+Contract is Activated once contract start date has passed.
+Contract is Expired once contract end date has passed.
+Contract is Cancelled once a cancellation date is entered</inlineHelpText>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+</CustomField>

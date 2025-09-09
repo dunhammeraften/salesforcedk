@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Team_member_missing_for_complex</fullName>
+    <active>true</active>
+    <description>When an opportunity is complex a team member of a certain type must be related to the opportunity.</description>
+    <errorConditionFormula>Case_Handover_Active__c = true  &amp;&amp; 
+RecordType.DeveloperName = &apos;Sales&apos; &amp;&amp;
+ISCHANGED( StageName ) &amp;&amp;
+(ISPICKVAL( StageName, &apos;Proposal&apos;) ||
+ ISPICKVAL( StageName, &apos;Negotiation&apos;) ||
+ ISPICKVAL( StageName, &apos;Close Agreement&apos;) ||
+ ISPICKVAL( StageName, &apos;Closed Won&apos;)) &amp;&amp;
+Complex_Configuration_Network_Setup__c = true  &amp;&amp; 
+(Team_Member_SalesSpecialist_Count__c &lt; 1 ||
+  ISBLANK(Team_Member_SalesSpecialist_Count__c ))  &amp;&amp; 
+ SalesSpecialistNOTneeded__c = false</errorConditionFormula>
+    <errorMessage>This is a Complex opportunity and a Sales Specialist is needed. Please add a Sales Specialist to the Opportunity Team or select Sales Specialist NOT needed.</errorMessage>
+</ValidationRule>

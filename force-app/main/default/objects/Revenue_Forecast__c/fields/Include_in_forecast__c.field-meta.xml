@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Include_in_forecast__c</fullName>
+    <formula>/* Run Rate and Forecast should always be included. */
+
+IF( 
+(Forecast_Category__c = &quot;Run rate&quot; || Forecast_Category__c = &quot;Forecast&quot; ) ||
+
+/* Won Opportunities in New Sales should not be visible in the pipeline during contract start/close date + 6 months 
+(it takes that long for a new business opportunity to be activated, invoiced, and visible in revenue).
+During this time we should see them starting to affect the pipeline after contract start/close date + 6 months. 
+After the six months after Close Date, we should not see them in the pipeline (as they are included in run rate) */
+
+(Opportunity_Type__c  &lt;&gt; &quot;Renewal&quot; &amp;&amp;
+Forecast_Category__c = &quot;Closed Won&quot; &amp;&amp;  
+TODAY() &lt; ADDMONTHS( Opportunity__r.Revenue_Forecast_Date__c ,6)) ||
+
+/* If the Opportunity is not a renewal and is still open, include it in the pipeline */
+
+(Opportunity_Type__c  &lt;&gt; &quot;Renewal&quot; &amp;&amp;
+Forecast_Category__c &lt;&gt; &quot;Closed Won&quot;),
+true,
+
+/* Renewals should be included for two months after close date/start of contract whether won or lost */
+
+IF( Opportunity_Type__c = &quot;Renewal&quot; &amp;&amp;
+TODAY() &lt; ADDMONTHS(Opportunity__r.Revenue_Forecast_Date__c ,2),
+true,
+
+/* Everything else should be excluded */
+false
+))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Include in forecast</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

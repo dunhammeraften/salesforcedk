@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>AVG_MONTHLY_DATA_CONSUMPTION_MB__c</columns>
+    <columns>BAN__c</columns>
+    <columns>BILLING_CITY__c</columns>
+    <columns>BILLING_NAME__c</columns>
+    <columns>BILLING_POSTAL_CODE__c</columns>
+    <columns>BILLING_STREET_NO__c</columns>
+    <columns>BROADBAND_NO__c</columns>
+    <columns>Process__c</columns>
+    <columns>Process_Type__c</columns>
+    <columns>Process_Message__c</columns>
+    <columns>Product__c</columns>
+    <columns>SERVICE_CODE__c</columns>
+    <columns>ORDER_PRODUCT__c</columns>
+    <columns>Subscription__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>

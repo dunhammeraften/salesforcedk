@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Frequency__c</fullName>
+    <description>User Story ID: 46</description>
+    <inlineHelpText>Will default to monthly billing frequency, however can be changed to quarterly billing</inlineHelpText>
+    <label>Billing Frequency</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>månedsvis.</fullName>
+                <default>false</default>
+                <label>Månedsvis</label>
+            </value>
+            <value>
+                <fullName>kvartalsvis.</fullName>
+                <default>false</default>
+                <label>Kvartalsvis</label>
+            </value>
+            <value>
+                <fullName>M</fullName>
+                <default>false</default>
+                <label>M</label>
+            </value>
+            <value>
+                <fullName>K</fullName>
+                <default>false</default>
+                <label>K</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

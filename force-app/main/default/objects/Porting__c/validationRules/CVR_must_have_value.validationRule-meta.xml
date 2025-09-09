@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR_must_have_value</fullName>
+    <active>true</active>
+    <description>If the legal owner is a company, then a CRV number must be entered</description>
+    <errorConditionFormula>TEXT(Legal_Owner__c) &lt;&gt; &quot;Private&quot; &amp;&amp; ISNULL(CVR__c)</errorConditionFormula>
+    <errorDisplayField>CVR__c</errorDisplayField>
+    <errorMessage>Enter a value for CVR</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Address__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Street_Name__c ), &apos;&apos;, (Street_Name__c + &apos; &apos; + Number__c)) +
+IF(ISBLANK( Floor__c ), &apos;&apos;, (&apos;, &apos; + Floor__c)) +
+IF(ISBLANK( Door__c ), &apos;&apos;, IF((FIND(&apos;.&apos;, Floor__c)) &gt; 0, (&apos; &apos; + Door__c), (&apos;. &apos; + Door__c))) +
+IF(ISBLANK( ZIP_Code__c ), &apos;&apos;, (&apos;, &apos; + ZIP_Code__c)) +
+IF(ISBLANK( City__c ), &apos;&apos;, (&apos; &apos; + City__c))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Address</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

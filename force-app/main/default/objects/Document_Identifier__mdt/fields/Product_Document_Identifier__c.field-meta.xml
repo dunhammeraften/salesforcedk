@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Document_Identifier__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Product Document Identifier</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Corporate APN</fullName>
+                <default>true</default>
+                <label>Corporate APN</label>
+            </value>
+            <value>
+                <fullName>DDOS</fullName>
+                <default>false</default>
+                <label>DDOS</label>
+            </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Operator Connect Fixed</fullName>
+                <default>false</default>
+                <label>Operator Connect Fixed</label>
+            </value>
+            <value>
+                <fullName>Operator Connect Mobile</fullName>
+                <default>false</default>
+                <label>Operator Connect Mobile</label>
+            </value>
+            <value>
+                <fullName>Data Type Products</fullName>
+                <default>false</default>
+                <label>Data Type Products</label>
+            </value>
+            <value>
+                <fullName>Mobile Type Products</fullName>
+                <default>false</default>
+                <label>Mobile Type Products</label>
+            </value>
+            <value>
+                <fullName>Fastnet Type Products</fullName>
+                <default>false</default>
+                <label>Fastnet Type Products</label>
+            </value>
+            <value>
+                <fullName>IOT Type Products</fullName>
+                <default>false</default>
+                <label>IOT Type Products</label>
+            </value>
+            <value>
+                <fullName>ACE Type Products</fullName>
+                <default>false</default>
+                <label>ACE Type Products</label>
+            </value>
+            <value>
+                <fullName>ACE Cloud</fullName>
+                <default>false</default>
+                <label>ACE Cloud</label>
+            </value>
+            <value>
+                <fullName>Mobile Pricesheet</fullName>
+                <default>false</default>
+                <label>Mobile Pricesheet</label>
+            </value>
+            <value>
+                <fullName>Internet Fiber</fullName>
+                <default>false</default>
+                <label>Internet Fiber</label>
+            </value>
+            <value>
+                <fullName>Internet DSL</fullName>
+                <default>false</default>
+                <label>Internet DSL</label>
+            </value>
+            <value>
+                <fullName>Datanet Fiber</fullName>
+                <default>false</default>
+                <label>Datanet Fiber</label>
+            </value>
+            <value>
+                <fullName>Datanet DSL</fullName>
+                <default>false</default>
+                <label>Datanet DSL</label>
+            </value>
+            <value>
+                <fullName>Datanet 4G</fullName>
+                <default>false</default>
+                <label>Datanet 4G</label>
+            </value>
+            <value>
+                <fullName>Cloud Connect</fullName>
+                <default>false</default>
+                <label>Cloud Connect</label>
+            </value>
+            <value>
+                <fullName>Fleet Complete</fullName>
+                <default>false</default>
+                <label>Fleet Complete</label>
+            </value>
+            <value>
+                <fullName>Home Office New</fullName>
+                <default>false</default>
+                <label>Home Office New</label>
+            </value>
+            <value>
+                <fullName>Home Office Old</fullName>
+                <default>false</default>
+                <label>Home Office Old</label>
+            </value>
+            <value>
+                <fullName>Telia Insight</fullName>
+                <default>false</default>
+                <label>Telia Insight</label>
+            </value>
+            <value>
+                <fullName>Roaming</fullName>
+                <default>false</default>
+                <label>Roaming</label>
+            </value>
+            <value>
+                <fullName>Trafik</fullName>
+                <default>false</default>
+                <label>Trafik</label>
+            </value>
+            <value>
+                <fullName>TPX</fullName>
+                <default>false</default>
+                <label>TPX</label>
+            </value>
+            <value>
+                <fullName>M2M</fullName>
+                <default>false</default>
+                <label>M2M</label>
+            </value>
+            <value>
+                <fullName>Touchpoint</fullName>
+                <default>false</default>
+                <label>Touchpoint</label>
+            </value>
+            <value>
+                <fullName>Telia Nummerdeling</fullName>
+                <default>false</default>
+                <label>Telia Nummerdeling</label>
+            </value>
+            <value>
+                <fullName>SIP Trunk</fullName>
+                <default>false</default>
+                <label>SIP Trunk</label>
+            </value>
+            <value>
+                <fullName>PSTN</fullName>
+                <default>false</default>
+                <label>PSTN</label>
+            </value>
+            <value>
+                <fullName>Fastnet</fullName>
+                <default>false</default>
+                <label>Fastnet</label>
+            </value>
+            <value>
+                <fullName>Telia Managed Service</fullName>
+                <default>false</default>
+                <label>Telia Managed Service</label>
+            </value>
+            <value>
+                <fullName>SMS Service</fullName>
+                <default>false</default>
+                <label>SMS Service</label>
+            </value>
+            <value>
+                <fullName>Firewall</fullName>
+                <default>false</default>
+                <label>Firewall</label>
+            </value>
+            <value>
+                <fullName>Secured Managed Gateway</fullName>
+                <default>false</default>
+                <label>Secured Managed Gateway</label>
+            </value>
+            <value>
+                <fullName>Non Standard Product</fullName>
+                <default>false</default>
+                <label>Non Standard Product</label>
+            </value>
+            <value>
+                <fullName>Competella</fullName>
+                <default>false</default>
+                <label>Competella</label>
+            </value>
+            <value>
+                <fullName>Business Internet</fullName>
+                <default>false</default>
+                <label>Business Internet</label>
+            </value>
+            <value>
+                <fullName>Insight Premium</fullName>
+                <default>false</default>
+                <label>Insight Premium</label>
+            </value>
+            <value>
+                <fullName>VIP Service</fullName>
+                <default>false</default>
+                <label>VIP Service</label>
+            </value>
+            <value>
+                <fullName>Dækningsløsning</fullName>
+                <default>false</default>
+                <label>Dækningsløsning</label>
+            </value>
+            <value>
+                <fullName>Operator Connect</fullName>
+                <default>false</default>
+                <label>Operator Connect</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

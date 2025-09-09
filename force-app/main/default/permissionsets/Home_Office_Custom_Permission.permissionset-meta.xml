@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Home_Office</name>
+    </customPermissions>
+    <description>Contains the Custom Permission: Home Office. This is used to toggle on/off Home Office functionality.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Home Office Custom Permission</label>
+</PermissionSet>

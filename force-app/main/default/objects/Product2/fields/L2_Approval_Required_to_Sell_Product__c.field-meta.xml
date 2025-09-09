@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>L2_Approval_Required_to_Sell_Product__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>US424. Indicates that a level 2 approval is required to sell this product (manager + bid team + commercial management).</description>
+    <inlineHelpText>Indicates that a level 2 approval is required to sell this product (manager + bid team + commercial management).</inlineHelpText>
+    <label>L2 Approval Required to Sell Product</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

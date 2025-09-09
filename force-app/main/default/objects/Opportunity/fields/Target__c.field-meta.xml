@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target__c</fullName>
+    <description>User Story ID: 47,48,49
+The sales target is the amount a rep is to close for a given period. The field is only set on Target opportunities.</description>
+    <inlineHelpText>The Sales Target the rep is to achieve</inlineHelpText>
+    <label>Sales Target</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

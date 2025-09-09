@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IoT_and_Fleet_in_separate_opportunities</fullName>
+    <active>true</active>
+    <description>IoT and Fleet products must always be in opportunities with no other products.</description>
+    <errorConditionFormula>!ISNEW() &amp;&amp;
+ISCHANGED(Product_s_in_scope__c) &amp;&amp; 
+INCLUDES(Product_s_in_scope__c, &apos;IoT&apos;)</errorConditionFormula>
+    <errorMessage>IoT Connectivity / Fleet Management can NOT be selected with other products.</errorMessage>
+</ValidationRule>

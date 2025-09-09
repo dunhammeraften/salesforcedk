@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_M2M_SMS_TBD__c</fullName>
+    <label>M2M SMS Pakke TBD</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>M2M100SMS</fullName>
+                <default>false</default>
+                <label>100</label>
+            </value>
+            <value>
+                <fullName>M2M200SMS</fullName>
+                <default>false</default>
+                <label>200</label>
+            </value>
+            <value>
+                <fullName>M2M400SMS</fullName>
+                <default>false</default>
+                <label>400</label>
+            </value>
+            <value>
+                <fullName>M2M800SMS</fullName>
+                <default>false</default>
+                <label>800</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

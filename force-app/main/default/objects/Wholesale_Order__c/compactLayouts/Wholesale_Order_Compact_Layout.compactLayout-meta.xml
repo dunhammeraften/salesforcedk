@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Wholesale_Order_Compact_Layout</fullName>
+    <fields>Wholesale_Account__c</fields>
+    <fields>Circuit_ID__c</fields>
+    <fields>Desired_Delivery_Date__c</fields>
+    <fields>Planned_Delivery_Date__c</fields>
+    <fields>Actual_Delivery_Date__c</fields>
+    <fields>Delivery_Team__c</fields>
+    <fields>Delivery_Status__c</fields>
+    <fields>Order_Type__c</fields>
+    <label>Wholesale Order Compact Layout</label>
+</CompactLayout>

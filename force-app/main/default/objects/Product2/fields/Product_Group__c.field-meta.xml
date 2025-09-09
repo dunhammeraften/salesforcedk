@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Group__c</fullName>
+    <description>Used in Quote templates to evaluate if specific addendums should be added to Quote/Contract or not. Used by Onboarding portal to filter certain things. 
+
+NOTE: It&apos;s best to be careful when changing any of the existing values here. Values Assigned automatically by Process Builder.</description>
+    <externalId>false</externalId>
+    <label>Product Group</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager_required</fullName>
+    <active>false</active>
+    <description>DEPRECATE - Roles do not exist anymore - When creating users in Activation teams, the manager must be specified as this is used for escalating when SLA&apos;s are in jeopardy of being breached</description>
+    <errorConditionFormula>(Role__c = &quot;Delivery&quot;  || Role__c = &quot;Onboarding&quot;) &amp;&amp;   ISBLANK( ManagerId )</errorConditionFormula>
+    <errorDisplayField>ManagerId</errorDisplayField>
+    <errorMessage>DEPRECATE - Roles do not exist anymore -  Please specify the manager of this user</errorMessage>
+</ValidationRule>

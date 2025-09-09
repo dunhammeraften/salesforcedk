@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Product_Name__c ),
+IF(ISPICKVAL( Product_category_2__c , &quot;Location&quot;), 
+&quot;Service, Co-lo &quot;&amp; TEXT(Product_category_3__c),
+&quot;Service, &quot;&amp; TEXT(Product_category_3__c)),
+Product_Name__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Product</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

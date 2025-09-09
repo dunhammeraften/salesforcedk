@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Status_Change__c</fullName>
+    <description>Documents the change to Case Status for each SLA</description>
+    <label>Case Status Change</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sales Enrichment</fullName>
+                <default>false</default>
+                <label>Sales Enrichment</label>
+            </value>
+            <value>
+                <fullName>Front Office</fullName>
+                <default>false</default>
+                <label>Front Office</label>
+            </value>
+            <value>
+                <fullName>Gather Information</fullName>
+                <default>false</default>
+                <label>Gather Information</label>
+            </value>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>Contract Compliance</fullName>
+                <default>false</default>
+                <label>Contract Compliance</label>
+            </value>
+            <value>
+                <fullName>Close Case</fullName>
+                <default>false</default>
+                <label>Close Case</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

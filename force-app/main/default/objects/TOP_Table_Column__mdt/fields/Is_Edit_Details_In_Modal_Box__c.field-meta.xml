@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Edit_Details_In_Modal_Box__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Special type of column to display icon to edit details in custom lwc component</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Special type of column to display icon to edit details in custom lwc component</inlineHelpText>
+    <label>Is Edit Details In Modal Box</label>
+    <type>Checkbox</type>
+</CustomField>

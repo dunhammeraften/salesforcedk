@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Touchpoint_Product_Group__c</fullName>
+    <description>To copy the value of the Product Group from Product to use on Activation</description>
+    <label>Touchpoint Product Group</label>
+    <summaryFilterItems>
+        <field>OrderItem.Product_Group__c</field>
+        <operation>equals</operation>
+        <value>Touchpoint</value>
+    </summaryFilterItems>
+    <summaryForeignKey>OrderItem.OrderId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

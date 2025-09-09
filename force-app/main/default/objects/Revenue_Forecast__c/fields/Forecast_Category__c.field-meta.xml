@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Forecast_Category__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL( Type__c , &quot;Run rate&quot;), &quot;Run rate&quot;,
+IF(ISPICKVAL( Type__c , &quot;Forecast&quot;), &quot;Forecast&quot;,
+IF( Opportunity__r.Probability = 1, &quot;Closed Won&quot;, &quot;Pipeline&quot;)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Forecast Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

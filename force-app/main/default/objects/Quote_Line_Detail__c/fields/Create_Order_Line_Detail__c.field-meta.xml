@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Create_Order_Line_Detail__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used to fire a flow that creates an Order Line details record from the updated Quote line detail.</description>
+    <label>Create Order Line Detail</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

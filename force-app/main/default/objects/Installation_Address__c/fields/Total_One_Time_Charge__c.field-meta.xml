@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_One_Time_Charge__c</fullName>
+    <label>Total_One_Time_Charge</label>
+    <summarizedField>Wholesale_Order_Product__c.Total_One_Time_Charge__c</summarizedField>
+    <summaryFilterItems>
+        <field>Wholesale_Order_Product__c.Cancelled__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Wholesale_Order_Product__c.Installation_Address__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

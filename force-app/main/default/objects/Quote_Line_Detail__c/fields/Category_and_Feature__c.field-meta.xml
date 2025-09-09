@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_and_Feature__c</fullName>
+    <description>Formula holding values of category and feature separated by &quot;;&quot;. Values used are Name of Feature and value from Category field on the Feature record.</description>
+    <externalId>false</externalId>
+    <formula>TEXT( Quote_Line__r.SBQQ__ProductOption__r.SBQQ__Feature__r.SBQQ__Category__c ) + &apos;;&apos; + Quote_Line__r.SBQQ__ProductOption__r.SBQQ__Feature__r.Name</formula>
+    <inlineHelpText>This is name of Feature and Category from related product.</inlineHelpText>
+    <label>Category and Feature</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

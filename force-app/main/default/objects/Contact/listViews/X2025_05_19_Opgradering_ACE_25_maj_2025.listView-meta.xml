@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2025_05_19_Opgradering_ACE_25_maj_2025</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.TITLE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.EMAIL</field>
+        <operation>equals</operation>
+        <value>jsk@al2bolig.dk,kaa@abesbjerg.dk,ltr@osterbo.dk,jw@bomidtvest.dk,ama@europcar.dk,mfr@fob.dk,egu@ken.dk,tst@ken.dk,john.lauridsen@scanglas.dk,jesper.haagensen@scanglas.dk,lars.dall@teliacompany.com</value>
+    </filters>
+    <label>2025-05-19 Opgradering ACE 25. maj 2025</label>
+</ListView>

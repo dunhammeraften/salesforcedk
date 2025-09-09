@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Master_Contract__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Field is used to create the resulting Subscriptions under an existing Contract. This is only used in Cross/Upsell and the value is copied to the Master Contract field on Quote</description>
+    <inlineHelpText>Please choose which Contract you want the resulting Subscriptions to end up on.</inlineHelpText>
+    <label>Master Contract</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Contract.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.AccountId</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contract</referenceTo>
+    <relationshipLabel>Opportunities (Master Contract)</relationshipLabel>
+    <relationshipName>Opportunities</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

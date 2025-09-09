@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_Type__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Mobile_Part_of_Contract__c ,&quot;Mobile&quot;, IF( Fastnet_Part_of_Contract__c ,&quot;Fastnet&quot;, IF(Data_Part_of_Contract__c, &quot;Data&quot; ,&quot;&quot;)))</formula>
+    <label>Contract Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_generic_email_domain</fullName>
+    <active>true</active>
+    <description>This rule will prevent users from registering generic email domains.</description>
+    <errorConditionFormula>OR(
+CONTAINS (LOWER(Domain__c), &quot;gmail&quot;),
+CONTAINS (LOWER(Domain__c), &quot;hotmail&quot;),
+CONTAINS (LOWER(Domain__c), &quot;yahoo&quot;),
+CONTAINS (LOWER(Domain__c), &quot;outlook&quot;),
+CONTAINS (LOWER(Domain__c), &quot;aol&quot;),
+CONTAINS (LOWER(Domain__c), &quot;icloud&quot;),
+CONTAINS (LOWER(Domain__c), &quot;gmx.com&quot;),
+CONTAINS (LOWER(Domain__c), &quot;onmail&quot;),
+CONTAINS (LOWER(Domain__c), &quot;mail.com&quot;),
+CONTAINS (LOWER(Domain__c), &quot;fastmail.com&quot;),
+CONTAINS (LOWER(Domain__c), &quot;proton.me&quot;),
+CONTAINS (LOWER(Domain__c), &quot;live.com&quot;),
+CONTAINS (LOWER(Domain__c), &quot;live.dk&quot;),
+(RIGHT (LOWER(Domain__c), 3)) == &quot;.ru&quot;
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to register a generic domain. Please input a valid company domain.</errorMessage>
+</ValidationRule>

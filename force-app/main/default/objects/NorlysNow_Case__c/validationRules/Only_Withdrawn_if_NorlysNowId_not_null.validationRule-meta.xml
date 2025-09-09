@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Only_Withdrawn_if_NorlysNowId_not_null</fullName>
+    <active>true</active>
+    <description>It is only allowed to set Status to withdrawn when NorlysNow Id is not empty</description>
+    <errorConditionFormula>AND(
+    /*Skipping the validation if the running users is norlysnowintegration@norlys*/
+    $User.Username &lt;&gt; &quot;norlysnowintegration@norlys.dk&quot;,
+
+    NOT(ISBLANK(NorlysNow_Id__c)),
+
+    /* Status__c er ændret til noget andet end &apos;Withdrawn&apos; */
+    ISCHANGED(Status__c),
+    NOT(
+         ISPICKVAL(Status__c, &quot;Withdrawn&quot;)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>It is only allowed to set Status to &apos;Withdrawn&apos; when NorlysNow Id is set</errorMessage>
+</ValidationRule>

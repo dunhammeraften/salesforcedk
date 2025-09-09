@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_skip_stage_Proposal</fullName>
+    <active>true</active>
+    <description>It should not be possible to skip stage Proposal, as this will also skip credit evaluation.</description>
+    <errorConditionFormula>RecordType.DeveloperName = &apos;Sales&apos; &amp;&amp;
+ISCHANGED( StageName ) &amp;&amp;
+ISPICKVAL( PRIORVALUE(StageName), &apos;Needs Analysis&apos;) &amp;&amp;
+!ISPICKVAL( StageName, &apos;Proposal&apos;) &amp;&amp;
+!ISPICKVAL( StageName, &apos;Closed Lost&apos;)</errorConditionFormula>
+    <errorMessage>It is not allowed to skip Proposal, as this will prevent credit evaluation.</errorMessage>
+</ValidationRule>

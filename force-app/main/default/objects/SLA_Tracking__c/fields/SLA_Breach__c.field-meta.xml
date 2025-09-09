@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SLA_Breach__c</fullName>
+    <description>Indicates if the SLA has been breached</description>
+    <formula>OR(
+
+AND(
+
+Name != &quot;SLA Fiber Technician Booked&quot;,
+ SLA_Time_Elapsed__c &gt;  SLA_Breach_Threshold__c ,
+ISNULL( SLA_Stop_Time__c ) 
+
+),
+
+ AND( 
+
+ Name = &quot;SLA Fiber Technician Booked&quot;,   
+ISBLANK(Activation_line__r.SAP_PR_no__c),
+(TODAY() + 6) &gt; Activation_line__r.AL_Planned_Delivery_Date__c 
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>SLA Breach</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

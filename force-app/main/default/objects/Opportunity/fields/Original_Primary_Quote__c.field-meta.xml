@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Original_Primary_Quote__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>MK - CPQ-32 - 22092021 - Identifies the Initial Primary Quote before an Activation quote was created and became a Primary Quote.</description>
+    <label>Original Primary Quote</label>
+    <referenceTo>SBQQ__Quote__c</referenceTo>
+    <relationshipLabel>Opportunities (Original Primary Quote)</relationshipLabel>
+    <relationshipName>Opportunities</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

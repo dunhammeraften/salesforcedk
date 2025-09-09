@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Can_see_Quote_Approval_on_Home_page</name>
+    </customPermissions>
+    <description>Allows the &quot;Qoutes - Pending Approval&quot; box to show on the home page.
+Allows Quote Approval on Mobile App.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Advanced Approval for Quotes</label>
+</PermissionSet>

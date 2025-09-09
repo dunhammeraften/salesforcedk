@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Original_Available_Monthly_Data_MB__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Field is populated on Insert of QLD and is holding Available Monthly Data (MB) from original Product. In case of number being moved to new service ( like upgrade from 10Gig to 20 Gig ) we will use it to check if it was downgrade or upgrade.</description>
+    <externalId>false</externalId>
+    <label>Original Available Monthly Data (MB)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

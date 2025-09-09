@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lars_test</fullName>
+    <booleanFilter>(1 AND 2) OR (3 AND 2)</booleanFilter>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.TITLE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>UC_Admin__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>Lægeforeningen Domus Medica,Spar Nord Bank,Ristorante Fellini,FOREX,CRAWFORD,Morten Samuelsen,RTC TRANSPORT,Talentech,Jan Nygaard,Nitor Energy,ACRELEC,Dyrlægerne Nørhald,SPAREKASSEN KRONJYLLAND,European Lifecare Group,Nomeco</value>
+    </filters>
+    <filters>
+        <field>UC_Admin__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Email_ReadOnly__c</field>
+        <operation>contains</operation>
+        <value>lars.dall,Soren.Vendler@coop.dk</value>
+    </filters>
+    <label>2025-05-23 Opgradering af UCA call rec</label>
+</ListView>

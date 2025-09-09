@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BAN_OWNER_CONTROL_NUA__c</fullName>
+    <defaultValue>false</defaultValue>
+    <label>BAN_OWNER_CONTROL_NUA</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

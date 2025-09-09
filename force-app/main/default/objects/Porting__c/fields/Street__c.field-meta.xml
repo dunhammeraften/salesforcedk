@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Street__c</fullName>
+    <description>TSFDK-230 Legal owner street, usually as in related Account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The legal owner´s street with a number.</inlineHelpText>
+    <label>Street</label>
+    <length>100</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

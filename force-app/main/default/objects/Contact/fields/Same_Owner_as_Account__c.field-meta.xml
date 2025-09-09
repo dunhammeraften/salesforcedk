@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Same_Owner_as_Account__c</fullName>
+    <description>Checks if the Contact Owner is the same as the Account Owner.</description>
+    <formula>OwnerId =  Account.Owner.Id</formula>
+    <inlineHelpText>Checks if the Contact Owner is the same as the Account Owner.</inlineHelpText>
+    <label>Same Owner as Account</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

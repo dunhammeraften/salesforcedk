@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Column_API_Name__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Text field holding API name of columns that should be used in matrix solution as filter. Most of fields used in matrix has column API name same as field API Name. Some of columns are custom made and need to have the api name checked in JS code of LWC.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Please provide API name of column that should be used as filter.</inlineHelpText>
+    <label>Column API Name</label>
+    <length>100</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

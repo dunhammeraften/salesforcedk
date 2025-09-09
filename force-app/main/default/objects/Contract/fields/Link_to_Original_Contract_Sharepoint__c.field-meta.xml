@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link_to_Original_Contract_Sharepoint__c</fullName>
+    <description>US412 - contract migration. link to sharepoint.</description>
+    <inlineHelpText>Link to the original contract (only for migrated contracts).</inlineHelpText>
+    <label>Link to Original Contract (Sharepoint)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Url</type>
+</CustomField>

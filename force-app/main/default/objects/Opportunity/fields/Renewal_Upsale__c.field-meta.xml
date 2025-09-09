@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Upsale__c</fullName>
+    <formula>IF(TEXT( Type ) = &quot;Upsale&quot;  ||  TEXT( Type )=&quot;Renewal&quot;,TRUE,FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Renewal_Upsale</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relationship__c</fullName>
+    <description>User story ID: 70. A traffic light depicting Green, Yellow or Red to show how mature the opportunity is on the &quot;Relationship&quot; Checkpoint category</description>
+    <externalId>false</externalId>
+    <formula>IMAGE( 
+CASE((Score_Decision_makers_identified__c + Score_Intent_to_buy__c + Score_Verbally_accepted__c ), 
+16, &quot;/img/samples/light_green.gif&quot;,
+0, &quot;/img/samples/light_red.gif&quot;, 
+&quot;/img/samples/light_yellow.gif&quot;),&quot;Status&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>How well are we doing on developing the Relationship?</inlineHelpText>
+    <label>Relationship</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

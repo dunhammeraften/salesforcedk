@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_accounts_cannot_close_win</fullName>
+    <active>true</active>
+    <description>As long as an account is in Pending status, the opportunity cannot be set to close won</description>
+    <errorConditionFormula>TEXT(Account.Status__c)=&quot;Pending&quot; &amp;&amp;  IsWon</errorConditionFormula>
+    <errorDisplayField>AccountId</errorDisplayField>
+    <errorMessage>You cannot close any business with an account in &quot;Pending&quot; status. Reach out to your Data Steward to sort things out.</errorMessage>
+</ValidationRule>

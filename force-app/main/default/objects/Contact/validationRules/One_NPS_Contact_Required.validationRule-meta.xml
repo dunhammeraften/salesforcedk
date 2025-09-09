@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>One_NPS_Contact_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+PRIORVALUE( NPS_contact__c ) = TRUE,
+Account.Number_of_NPS_Contacts__c = 1,
+ISCHANGED(NPS_contact__c) = TRUE, 
+ISPICKVAL(Account.Status__c, &quot;Active&quot;),
+AND(NOT($Profile.Name = &quot;Integration User&quot;),
+NOT($Profile.Name = &quot;System Administrator&quot;)
+)
+)</errorConditionFormula>
+    <errorDisplayField>NPS_contact__c</errorDisplayField>
+    <errorMessage>You cannot disable the last NPS Contact</errorMessage>
+</ValidationRule>

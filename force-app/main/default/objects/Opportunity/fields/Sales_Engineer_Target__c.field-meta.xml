@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Engineer_Target__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Check this box if the target is for Sales Engineer, so we can exclude it from the total Sales Target. The Sales target for Sales Engineers is a subset for the total sales target for Enterprise and needs to be excluded in Performance reports.</description>
+    <inlineHelpText>Check this box if the target is for Sales Engineer, so we can exclude it from the total Sales Target. The Sales target for Sales Engineers is a subset for the total sales target for Enterprise and needs to be excluded in Performance reports.</inlineHelpText>
+    <label>Sales Engineer Target</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

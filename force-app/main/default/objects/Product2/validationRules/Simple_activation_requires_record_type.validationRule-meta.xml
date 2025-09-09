@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Simple_activation_requires_record_type</fullName>
+    <active>true</active>
+    <description>Ensures that there is an activation record type if the product is marked as a simple activation</description>
+    <errorConditionFormula>Simple_activation__c &amp;&amp; ISPICKVAL(Activation_Record_Type__c, &quot;No activation needed&quot;)</errorConditionFormula>
+    <errorDisplayField>Activation_Record_Type__c</errorDisplayField>
+    <errorMessage>If the product requires simple activation, an activation record type is necessary.</errorMessage>
+</ValidationRule>

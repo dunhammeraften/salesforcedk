@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Score_Value_proposition_shared__c</fullName>
+    <description>User Story ID: 70
+Used to calculate the score of the opportunity and set probability %</description>
+    <externalId>false</externalId>
+    <formula>CASE( Value_proposition_shared__c  , &quot;Yes&quot;, 10, &quot;Working on it&quot;, 5,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Score - Value proposition shared?</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

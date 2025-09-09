@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Products_In_Scope_Text__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(INCLUDES(Product_s_in_scope__c, &quot;Call Guide&quot;), &quot;ACE; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Business Internet&quot;), &quot;Business Internet; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Dual SIM&quot;), &quot;Dual SIM; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;DaaS&quot;), &quot;DaaS; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Fastnettelefoni&quot;), &quot;Fastnettelefoni; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Fleet Management&quot;), &quot;Fleet Management; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Home Office&quot;), &quot;Home Office; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Internet&quot;), &quot;Internet; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;IoT&quot;), &quot;IoT Connectivity; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;M2M&quot;), &quot;M2M; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;MBB&quot;), &quot;MBB; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;MPLS&quot;), &quot;MPLS; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;SD WAN&quot;), &quot;SD WAN; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Security&quot;), &quot;Security; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;SIP Fastnet&quot;), &quot;SIP Fastnet; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Unified Communication&quot;), &quot;Unified Communication; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Voice&quot;), &quot;Voice; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Teams Phone Mobile&quot;), &quot;Teams Phone Mobile; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Indendørsløsning&quot;), &quot;Indendørsløsning; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Erhvervsinternet&quot;), &quot;Erhvervsinternet; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Erhvervsinternet Pro&quot;), &quot;Erhvervsinternet Pro; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Netværksløsninger&quot;), &quot;Netværksløsninger; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Medarbejderbredbånd&quot;), &quot;Medarbejderbredbånd; &quot;,null) &amp;
+IF(INCLUDES(Product_s_in_scope__c, &quot;Other&quot;), &quot;Other; &quot;,null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Products In Scope Text</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
