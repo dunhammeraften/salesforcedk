@@ -9,5 +9,15 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>OPPORTUNITY.CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.NAME</field>
+        <operation>contains</operation>
+        <value>kontakt</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>notEqual</operation>
+        <value>Closed Won,Closed Lost</value>
+    </filters>
     <label>All Opportunities</label>
 </ListView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consider_project_manager__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Signifies whether a project manager has been assigned to this case.</description>
+    <inlineHelpText>In complex order fulfilment cases, a project manager should be assigned to assist with the order, e.g. if the order has a large K12 value or consists of many different products.</inlineHelpText>
+    <label>Consider project manager</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

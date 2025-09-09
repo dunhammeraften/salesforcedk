@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_discrepancy__c</fullName>
+    <inlineHelpText>Indicate the discrepancy from the contract. The salesrep will be notified via email.</inlineHelpText>
+    <label>Contract discrepancy</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Contract_compliant__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Within +/- 10%</fullName>
+                <default>false</default>
+                <label>Within +/- 10%</label>
+            </value>
+            <value>
+                <fullName>More than 10% off</fullName>
+                <default>false</default>
+                <label>More than 10% off</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>No</controllingFieldValue>
+            <valueName>Within +/- 10%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>No</controllingFieldValue>
+            <valueName>More than 10% off</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

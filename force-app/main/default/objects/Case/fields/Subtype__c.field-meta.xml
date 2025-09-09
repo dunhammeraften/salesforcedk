@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subtype__c</fullName>
+    <description>This field is a dependent field of type, showing subtypes for each type</description>
+    <inlineHelpText>Pick a subtype for the type of the case</inlineHelpText>
+    <label>Subtype</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Creditering</fullName>
+                <default>false</default>
+                <label>Creditering</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+            <value>
+                <fullName>Transfer</fullName>
+                <default>false</default>
+                <label>Transfer</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Product change</fullName>
+                <default>false</default>
+                <label>Product change</label>
+            </value>
+            <value>
+                <fullName>Cable Request (no related products)</fullName>
+                <default>false</default>
+                <label>Cable Request (no related products)</label>
+            </value>
+            <value>
+                <fullName>Consulting hours</fullName>
+                <default>false</default>
+                <label>Consulting hours</label>
+            </value>
+            <value>
+                <fullName>New Product</fullName>
+                <default>false</default>
+                <label>New Product</label>
+            </value>
+            <value>
+                <fullName>Incident</fullName>
+                <default>false</default>
+                <label>Incident</label>
+            </value>
+            <value>
+                <fullName>Set-up</fullName>
+                <default>false</default>
+                <label>Set-up</label>
+            </value>
+            <value>
+                <fullName>Returned letter</fullName>
+                <default>false</default>
+                <label>Returned letter</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Additional Sales</controllingFieldValue>
+            <valueName>Cable Request (no related products)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Additional Sales</controllingFieldValue>
+            <valueName>Consulting hours</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Additional Sales</controllingFieldValue>
+            <valueName>New Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Billing</controllingFieldValue>
+            <valueName>Creditering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Billing</controllingFieldValue>
+            <valueName>Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Billing</controllingFieldValue>
+            <valueName>Invoice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Billing</controllingFieldValue>
+            <valueName>Returned letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Transfer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Termination</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change request</controllingFieldValue>
+            <valueName>Product change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Technical Support</controllingFieldValue>
+            <valueName>Incident</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Technical Support</controllingFieldValue>
+            <valueName>Set-up</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
