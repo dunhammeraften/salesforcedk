@@ -79,7 +79,7 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Assert
         // Verify that NorlysNowService.closeParentCases was called.
         MethodSpy closeParentCasesSpy = norlysNowServiceMock.getSpy('closeParentCases');
-        Assert.isTrue(closeParentCasesSpy.hasBeenCalled(), 'closeParentCases should have been called.');
+        Assert.isFalse(closeParentCasesSpy.callLog.isEmpty(), 'closeParentCases should have been called.');
 
         // Verify that databaseService.updateRecords was called with the case to be closed.
         Assert.areEqual(1, dbServiceMock.register.updated.size(), 'One record should be updated via DatabaseService.');
@@ -199,9 +199,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 
         // Assert
         // Verify that EventExecutorService.publish was called.
-        Assert.isTrue(publishSpy.hasBeenCalled(), 'publish should have been called on EventExecutorService.');
-        Assert.areEqual(1, publishSpy.calls.size(), 'publish should have been called once.');
-        List<EventExecutor__e> publishedEvents = (List<EventExecutor__e>) publishSpy.calls[0].args[0];
+        Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called on EventExecutorService.');
+        Assert.areEqual(1, publishSpy.callLog.size(), 'publish should have been called once.');
+        List<EventExecutor__e> publishedEvents = (List<EventExecutor__e>) publishSpy.callLog.get(0)[0];
         Assert.areEqual(1, publishedEvents.size(), 'One event should have been published.');
         Assert.areEqual('NorlysNowExecutorHandler', publishedEvents[0].Executor__c, 'The correct executor should be specified on the event.');
     }
@@ -246,7 +246,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 
         // Assert
         // Verify that EventExecutorService.publish was not called.
-        Assert.isFalse(publishSpy.hasBeenCalled(), 'publish should not have been called on EventExecutorService.');
+        Assert.isTrue(publishSpy.callLog.isEmpty(), 'publish should not have been called on EventExecutorService.');
     }
 
     /**
@@ -304,7 +304,7 @@ private class NorlysNowCaseTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        Assert.isTrue(publishSpy.hasBeenCalled(), 'publish should have been called.');
+        Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called.');
     }
 
     /**
@@ -358,7 +358,7 @@ private class NorlysNowCaseTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        Assert.isTrue(publishSpy.hasBeenCalled(), 'publish should have been called.');
+        Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called.');
     }
 
     /**
