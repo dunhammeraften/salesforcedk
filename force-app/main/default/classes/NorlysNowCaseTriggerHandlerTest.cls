@@ -7,7 +7,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 
     // Helper method to create a test user with the required permission set
     private static User createTestUserWithPermissionSet() {
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Telia Enterprise Customer Service'];
+        Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
         User u = new User(
             Alias = 'standt',
             Email = 'standarduser@testorg.com',
@@ -39,6 +39,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     static void afterUpdate_LastChildCaseClosed_ParentCaseIsClosed() {
         // This test does not depend on specific user permissions, so it can run as the default test user.
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
         insert parentCase;
 
@@ -98,6 +99,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void beforeUpdate_ParentCaseIsClosed_ErrorIsAdded() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         Id parentCaseId = Test.getFakeId(Case.SObjectType);
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
             Id = Test.getFakeId(NorlysNow_Case__c.SObjectType),
@@ -129,6 +131,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void beforeInsert_ParentCaseIsClosed_ErrorIsAdded() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         Id parentCaseId = Test.getFakeId(Case.SObjectType);
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
             Parent_Case__c = parentCaseId
@@ -159,6 +162,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void afterInsert_WithPermission_EventIsPublished() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         User testUser = createTestUserWithPermissionSet();
 
         System.runAs(testUser) {
@@ -205,6 +209,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void afterInsert_WithoutPermission_EventIsNotPublished() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
         insert parentCase;
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Status__c = 'New');
@@ -241,6 +246,7 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void afterUpdate_StatusWithdrawnWithPermission_EventIsPublished() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         User testUser = createTestUserWithPermissionSet();
 
         System.runAs(testUser) {
@@ -291,16 +297,17 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void afterUpdate_SyncStatusPendingWithPermission_EventIsPublished() {
         // Arrange
+        Test.setMock(HttpCalloutMock.class, new HttpResponseMock());
         User testUser = createTestUserWithPermissionSet();
 
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
+
             NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
                 Parent_Case__c = parentCase.Id,
                 Sync_Status__c = 'Success'
             );
-
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 

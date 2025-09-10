@@ -218,31 +218,6 @@
                 <default>false</default>
                 <label>Operator Connect</label>
             </value>
-            <value>
-                <fullName>Erhvervsinternet</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet</label>
-            </value>
-            <value>
-                <fullName>Erhvervsinternet Bagkatalog</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet Bagkatalog</label>
-            </value>
-            <value>
-                <fullName>Erhvervsinternet Sikker</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet Sikker</label>
-            </value>
-            <value>
-                <fullName>Erhvervsinternet Sikker Plus</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet Sikker Plus</label>
-            </value>
-            <value>
-                <fullName>Erhvervsinternet Sikker Ekstra</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet Sikker Ekstra</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>5</visibleLines>

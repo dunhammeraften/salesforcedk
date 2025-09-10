@@ -7,7 +7,6 @@
     <relationshipLabel>NorlysNow Cases</relationshipLabel>
     <relationshipName>NorlysNow_Cases</relationshipName>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

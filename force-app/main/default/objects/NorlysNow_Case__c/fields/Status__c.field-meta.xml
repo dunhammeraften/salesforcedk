@@ -4,7 +4,6 @@
     <description>for NorlysNow updates</description>
     <label>Status</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

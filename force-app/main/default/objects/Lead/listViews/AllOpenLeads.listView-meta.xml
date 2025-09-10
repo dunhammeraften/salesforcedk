@@ -15,14 +15,14 @@
     <columns>Sales_Note_1__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>Sales_Play_Campaign_Name__c</field>
-        <operation>contains</operation>
-        <value>internet</value>
-    </filters>
-    <filters>
         <field>LEAD.STATUS</field>
         <operation>equals</operation>
         <value>New</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.FIRST_NAME</field>
+        <operation>equals</operation>
+        <value>Stefanie</value>
     </filters>
     <label>All Open Leads</label>
 </ListView>

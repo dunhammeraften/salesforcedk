@@ -91,11 +91,6 @@
                 <default>false</default>
                 <label>Business Internet</label>
             </value>
-            <value>
-                <fullName>Erhvervsinternet</fullName>
-                <default>false</default>
-                <label>Erhvervsinternet</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

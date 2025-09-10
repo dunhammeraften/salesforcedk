@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Activation_headers_complete_before_close</fullName>
-    <active>true</active>
-    <description>Ensures that there are no activation headers that are currently not either fulfilled or cancelled before a case is closed.</description>
-    <errorConditionFormula>RecordType.DeveloperName =&quot;Order_Fulfilment_Case&quot; &amp;&amp;
-Outstanding_activations__c &gt; 0 &amp;&amp; ISPICKVAL(Status, &quot;Closed&quot;)</errorConditionFormula>
-    <errorMessage>Some activation headers are not yet completed. In order to close an activation case, you must ensure that the progress on all activation headers is either fulfilled or cancelled.</errorMessage>
-</ValidationRule>

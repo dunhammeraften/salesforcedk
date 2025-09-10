@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Root_BAN_9_Characters</fullName>
-    <active>false</active>
-    <description>Root BAN must be 9 characters long.</description>
-    <errorConditionFormula>LEN( Root_BAN__c) != 9 &amp;&amp; LEN( Root_BAN__c) != 0</errorConditionFormula>
-    <errorDisplayField>Root_BAN__c</errorDisplayField>
-    <errorMessage>Root BAN must be 9 characters long.</errorMessage>
-</ValidationRule>
