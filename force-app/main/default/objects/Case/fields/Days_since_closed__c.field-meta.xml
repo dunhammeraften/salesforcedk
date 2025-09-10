@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_since_closed__c</fullName>
+    <description>Returns the number of days since the case has been closed. For cases that have closed today 0 is returned, for cases not closed -1 is always returned.</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(ClosedDate), -1, Now() - ClosedDate)</formula>
+    <inlineHelpText>Returns the number of days since the case has been closed. For cases that have closed today 0 is returned, for cases not closed -1 is always returned.</inlineHelpText>
+    <label>Days since closed</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

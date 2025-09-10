@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_before_sending_receipt</fullName>
+    <active>false</active>
+    <description>Checks if there&apos;s a contact with an email address related to the case</description>
+    <errorConditionFormula>ISBLANK(Contact.Email) &amp;&amp; ISBLANK(SuppliedEmail) &amp;&amp; ISPICKVAL(Send_email_receipt__c, &quot;Yes&quot;)</errorConditionFormula>
+    <errorDisplayField>ContactId</errorDisplayField>
+    <errorMessage>Please make sure you have related a contact to the case and that the contact has an email address</errorMessage>
+</ValidationRule>

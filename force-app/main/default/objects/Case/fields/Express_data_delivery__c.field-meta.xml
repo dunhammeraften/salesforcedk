@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Express_data_delivery__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Express is a service  for an extra cost that an existing customer can buy if they need to have their data product delivered as express (first in line principle). This field is set by process builder if the express product is added as an activation line</description>
+    <inlineHelpText>Indicates that the customer has bought express delivery on a data product. The checkbox is automatically set if an express product is added as an activation line on this case</inlineHelpText>
+    <label>Express data delivery</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

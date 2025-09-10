@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OW_tickets__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Showing the number of OW tickets created related to the case</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Showing the number of OW tickets created related to the case</inlineHelpText>
+    <label>OW tickets</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

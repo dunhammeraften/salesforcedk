@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validation_Check_Result__c</fullName>
+    <description>Calculates if Delivery address differs in ExtraDatacard activation lines and if VAS selection is not completed yet</description>
+    <inlineHelpText>Calculates if Delivery address differs in ExtraDatacard activation lines and if VAS selection is not completed yet</inlineHelpText>
+    <label>Validation_Check_Result</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

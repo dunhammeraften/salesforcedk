@@ -7,7 +7,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 
     // Helper method to create a test user with the required permission set
     private static User createTestUserWithPermissionSet() {
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+        Profile p = [SELECT Id FROM Profile WHERE Name = 'Telia Enterprise Customer Service'];
         User u = new User(
             Alias = 'standt',
             Email = 'standarduser@testorg.com',
@@ -296,11 +296,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-
             NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
                 Parent_Case__c = parentCase.Id,
                 Sync_Status__c = 'Success'
             );
+
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 

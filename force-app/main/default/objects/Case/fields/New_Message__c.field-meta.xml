@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Message__c</fullName>
+    <description>Set to true whenever a new message related to case have been received. This could be an Email from a Customer or a message from a user whom set status manually on the case.</description>
+    <externalId>false</externalId>
+    <formula>IF( (Awaiting_user__c = true),  
+    IMAGE(&quot;/img/func_icons/util/alert16.gif&quot;, &quot;Yellow&quot;, 16, 16), 
+     &apos; &apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>New Message</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

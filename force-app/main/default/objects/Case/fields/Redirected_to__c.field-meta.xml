@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Redirected_to__c</fullName>
+    <description>CS. Used for tracking who a case is redirected to, if and when the case is with someone not on salesforce</description>
+    <inlineHelpText>Who are you redirecting the case to?</inlineHelpText>
+    <label>Redirected to</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ekstern</fullName>
+                <default>false</default>
+                <label>Ekstern</label>
+            </value>
+            <value>
+                <fullName>Sergel</fullName>
+                <default>false</default>
+                <label>Sergel</label>
+            </value>
+            <value>
+                <fullName>Norlys</fullName>
+                <default>false</default>
+                <label>Norlys</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Placeholder for Internal Support and Order Fulfilment Case</fullName>
+                <default>false</default>
+                <label>Placeholder for Internal Support and Order Fulfilment Case</label>
+            </value>
+            <value>
+                <fullName>1 Billing (AO Fokus)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1 Billing (AO Fokus)</label>
+            </value>
+            <value>
+                <fullName>AO Fokus</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>AO Fokus</label>
+            </value>
+            <value>
+                <fullName>Bosager (Sergel)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bosager (Sergel)</label>
+            </value>
+            <value>
+                <fullName>Bruce&apos;s Team</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bruce&apos;s Team</label>
+            </value>
+            <value>
+                <fullName>Claus Dalsgaard</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Claus Dalsgaard</label>
+            </value>
+            <value>
+                <fullName>Cope</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cope</label>
+            </value>
+            <value>
+                <fullName>Customer finance (Sergel)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer finance (Sergel)</label>
+            </value>
+            <value>
+                <fullName>DOK, NRI, DESIGN (technology)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DOK, NRI, DESIGN (technology)</label>
+            </value>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>Eltel (fiber bestilling)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Eltel (fiber bestilling)</label>
+            </value>
+            <value>
+                <fullName>Fibia (fiber bestilling)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fibia (fiber bestilling)</label>
+            </value>
+            <value>
+                <fullName>Finance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Finance</label>
+            </value>
+            <value>
+                <fullName>Finans</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Finans</label>
+            </value>
+            <value>
+                <fullName>Fixed-Enterprise</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fixed-Enterprise</label>
+            </value>
+            <value>
+                <fullName>Fraud</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fraud</label>
+            </value>
+            <value>
+                <fullName>God</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>God</label>
+            </value>
+            <value>
+                <fullName>Grossistnp</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Grossistnp</label>
+            </value>
+            <value>
+                <fullName>HPSM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>HPSM</label>
+            </value>
+            <value>
+                <fullName>Ingoing payment (Sergel)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ingoing payment (Sergel)</label>
+            </value>
+            <value>
+                <fullName>Invoice (Telia)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Invoice (Telia)</label>
+            </value>
+            <value>
+                <fullName>Invoice Mobil</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Invoice Mobil</label>
+            </value>
+            <value>
+                <fullName>Jira</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Jira</label>
+            </value>
+            <value>
+                <fullName>Kisbi Support</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Kisbi Support</label>
+            </value>
+            <value>
+                <fullName>Michael Laudrup</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Michael Laudrup</label>
+            </value>
+            <value>
+                <fullName>Norlys (eniig+Sydenergi)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Norlys (eniig+Sydenergi)</label>
+            </value>
+            <value>
+                <fullName>One Workflow</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>One Workflow</label>
+            </value>
+            <value>
+                <fullName>Outgoing payment (Sergel)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Outgoing payment (Sergel)</label>
+            </value>
+            <value>
+                <fullName>Proximo (norge bestilling)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Proximo (norge bestilling)</label>
+            </value>
+            <value>
+                <fullName>RT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RT</label>
+            </value>
+            <value>
+                <fullName>Robotics</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Robotics</label>
+            </value>
+            <value>
+                <fullName>SMS Manager API Support</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SMS Manager API Support</label>
+            </value>
+            <value>
+                <fullName>SMS Manager Changes</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SMS Manager Changes</label>
+            </value>
+            <value>
+                <fullName>SMS Manager Error handling</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SMS Manager Error handling</label>
+            </value>
+            <value>
+                <fullName>SMS Manager Termination</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SMS Manager Termination</label>
+            </value>
+            <value>
+                <fullName>Santa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Santa</label>
+            </value>
+            <value>
+                <fullName>TDC (fiber bestilling)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TDC (fiber bestilling)</label>
+            </value>
+            <value>
+                <fullName>TDC Wholesale</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TDC Wholesale</label>
+            </value>
+            <value>
+                <fullName>Technology</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Technology</label>
+            </value>
+            <value>
+                <fullName>Telia</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Telia</label>
+            </value>
+            <value>
+                <fullName>Telia Erhverv</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Telia Erhverv</label>
+            </value>
+            <value>
+                <fullName>Telia Privat</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Telia Privat</label>
+            </value>
+            <value>
+                <fullName>Twat</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Twat</label>
+            </value>
+            <value>
+                <fullName>Underwriting (Sergel)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Underwriting (Sergel)</label>
+            </value>
+            <value>
+                <fullName>VIP Service Desk</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>VIP Service Desk</label>
+            </value>
+            <value>
+                <fullName>Web-Modul</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Web-Modul</label>
+            </value>
+            <value>
+                <fullName>Wholesale Boarding</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Wholesale Boarding</label>
+            </value>
+            <value>
+                <fullName>Wholesale Delivery</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Wholesale Delivery</label>
+            </value>
+            <value>
+                <fullName>Wholesale Kundeservice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Wholesale Kundeservice</label>
+            </value>
+            <value>
+                <fullName>Wholesale Support</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Wholesale Support</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

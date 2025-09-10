@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>File_Attached__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field to use in the Voice Summary Flow to alert the delivery manager that on the case record a file has been uploaded. Should not be visible for the customer, so the field needs visibility OFF on them Customer Portal Profile</description>
+    <label>File Attached</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

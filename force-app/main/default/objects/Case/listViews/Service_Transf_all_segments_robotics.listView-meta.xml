@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Transf_all_segments_robotics</fullName>
+    <columns>Awaiting_user__c</columns>
+    <columns>Milestone_Target_date__c</columns>
+    <columns>NAME</columns>
+    <columns>SLA_Status__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>ProductGroup__c</columns>
+    <columns>Created_time__c</columns>
+    <columns>CASES.TYPE</columns>
+    <columns>Subtype__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Close case,Closed</value>
+    </filters>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>equals</operation>
+        <value>Robotics</value>
+    </filters>
+    <label>Service Transf. all segments robotics</label>
+</ListView>
