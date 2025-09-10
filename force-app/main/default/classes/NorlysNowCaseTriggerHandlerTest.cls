@@ -21,12 +21,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         );
         insert u;
 
-        PermissionSet ps = [
-            SELECT Id
-            FROM PermissionSet
-            WHERE Name = 'Customer_Support_Technical_NorlysNow_Requester'
-        ];
-        insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
+        PermissionSet ps1 = [SELECT Id FROM PermissionSet WHERE Name = 'Customer_Support_Technical_NorlysNow_Requester'];
+        PermissionSet ps2 = [SELECT Id FROM PermissionSet WHERE Name = 'Testing_Case_Status_Change_Permissions'];
+
+        insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps1.Id);
+        insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps2.Id);
 
         return u;
     }
@@ -296,7 +295,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Sync_Status__c = 'Success');
+
+            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+                Parent_Case__c = parentCase.Id,
+                Sync_Status__c = 'Success'
+            );
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
