@@ -7,7 +7,12 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 
     @TestVisible
     private Map<Id, NorlysNow_Case__c> triggerNewMap;
+    @TestVisible
     private List<NorlysNow_Case__c> triggerNew;
+    @TestVisible
+    private Map<Id, NorlysNow_Case__c> triggerOldMap;
+    @TestVisible
+    private List<NorlysNow_Case__c> triggerOld;
     
     public NorlysNowCaseTriggerHandler() {
         this(SingletonFactory.getFactory());
@@ -21,6 +26,8 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
         this.eventExecutorService = (EventExecutorService) singletonFactory.getOrRegisterSingleton(EventExecutorService.class);
         this.triggerNewMap = (Map<Id, NorlysNow_Case__c>) Trigger.newMap;
         this.triggerNew = (List<NorlysNow_Case__c>) Trigger.new;
+        this.triggerOldMap = (Map<Id, NorlysNow_Case__c>) Trigger.oldMap;
+        this.triggerOld = (List<NorlysNow_Case__c>) Trigger.old;
     }
 
     @TestVisible
