@@ -138,8 +138,8 @@ private class NorlysNowCaseTriggerHandlerTest {
             handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase };
             handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
 
-            Test.startTest();
             Test.setMock(HttpCalloutMock.class, new NorlysNowClientMock());
+            Test.startTest();
             handler.afterInsert();
             Test.stopTest();
 
@@ -233,8 +233,8 @@ private class NorlysNowCaseTriggerHandlerTest {
             handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
             handler.triggerOld = new List<NorlysNow_Case__c>{ oldNorlysNowCase };
 
-            Test.startTest();
             Test.setMock(HttpCalloutMock.class, new NorlysNowClientMock());
+            Test.startTest();
             handler.afterUpdate();
             Test.stopTest();
 
@@ -276,8 +276,8 @@ private class NorlysNowCaseTriggerHandlerTest {
             handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
             handler.triggerOld = new List<NorlysNow_Case__c>{ oldNorlysNowCase };
 
-            Test.startTest();
             Test.setMock(HttpCalloutMock.class, new NorlysNowClientMock());
+            Test.startTest();
             handler.afterUpdate();
             Test.stopTest();
 
