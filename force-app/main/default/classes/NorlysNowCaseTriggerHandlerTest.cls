@@ -50,30 +50,30 @@ private class NorlysNowCaseTriggerHandlerTest {
 
         NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
-        // Mock services
-        Mock norlysNowServiceMock = Mock.forType(NorlysNowService.class);
+        // Mock services using the extended NorlysTestMocks framework
         List<Case> casesToClose = new List<Case>{ new Case(Id = parentCase.Id, Status = 'Closed') };
-        norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(casesToClose);
+        NorlysNowService norlysNowServiceStub = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(casesToClose)
+            .build();
 
-        Mock norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
         Map<Id, NorlysNow_Case__c> queriedCases = new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase };
-        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(queriedCases);
+        NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(queriedCases)
+            .build();
 
         DatabaseService dbServiceMock = new DatabaseService().mockDmls();
 
-        // We are not testing the permission-based logic here, so we can mock it to return false.
-        Mock permissionServiceMock = Mock.forType(PermissionService.class);
-        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
-
-        Mock eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
+        PermissionService permissionServiceStub = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(false)
+            .build();
 
         // Instantiate the handler
         NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
-            (NorlysNowService) norlysNowServiceMock.stub,
-            (NorlysNowSelector) norlysNowSelectorMock.stub,
+            norlysNowServiceStub,
+            norlysNowSelectorStub,
             dbServiceMock,
-            (PermissionService) permissionServiceMock.stub,
-            (EventExecutorService) eventExecutorServiceMock.stub
+            permissionServiceStub,
+            NorlysTestMocks.forEventExecutorService().build()
         );
 
         // Set trigger context
@@ -89,31 +89,72 @@ private class NorlysNowCaseTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        MethodSpy closeParentCasesSpy = norlysNowServiceMock.getSpy('closeParentCases');
-        Assert.isFalse(closeParentCasesSpy.callLog.isEmpty(), 'closeParentCases should have been called.');
-
         Assert.areEqual(1, dbServiceMock.register.updated.size(), 'One record should be updated.');
         Case updatedCase = (Case)dbServiceMock.register.updated[0];
         Assert.areEqual(parentCase.Id, updatedCase.Id, 'The correct case should be updated.');
         Assert.areEqual('Closed', updatedCase.Status, 'The case status should be Closed.');
     }
 
-    /*
-    // TODO: Enable these tests once the validation rule on Case can be satisfied.
-    // The tests are blocked by a validation rule that prevents closing a Case if related "activation headers" are not completed.
-    // More information is needed about the Activation__c object and its status fields to satisfy this rule.
     @isTest
     static void beforeUpdate_ParentCaseIsClosed_ErrorIsAdded() {
-        // This test is currently disabled.
-        Assert.isTrue(true, 'Test is disabled due to a blocking validation rule.');
+        // Arrange
+        Id parentCaseId = Test.getFakeId(Case.SObjectType);
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+            Id = Test.getFakeId(NorlysNow_Case__c.SObjectType),
+            Parent_Case__c = parentCaseId
+        );
+
+        NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+            .withClosedParentCase(parentCaseId)
+            .build();
+
+        NorlysNowService norlysNowService = new NorlysNowService(norlysNowSelectorStub);
+
+        NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
+            norlysNowService, null, null, null, null
+        );
+
+        handler.triggerNew = new List<NorlysNow_Case__c>{ norlysNowCase };
+
+        // Act
+        Test.startTest();
+        handler.beforeUpdate();
+        Test.stopTest();
+
+        // Assert
+        Assert.isTrue(norlysNowCase.hasErrors(), 'An error should be added.');
+        Assert.areEqual('You are not allowed to create or update NorlysNow Cases on a closed Case', norlysNowCase.getErrors()[0].getMessage(), 'The error message should be correct.');
     }
 
     @isTest
     static void beforeInsert_ParentCaseIsClosed_ErrorIsAdded() {
-        // This test is currently disabled.
-        Assert.isTrue(true, 'Test is disabled due to a blocking validation rule.');
+        // Arrange
+        Id parentCaseId = Test.getFakeId(Case.SObjectType);
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+            Parent_Case__c = parentCaseId
+        );
+
+        NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+            .withClosedParentCase(parentCaseId)
+            .build();
+
+        NorlysNowService norlysNowService = new NorlysNowService(norlysNowSelectorStub);
+
+        NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
+            norlysNowService, null, null, null, null
+        );
+
+        handler.triggerNew = new List<NorlysNow_Case__c>{ norlysNowCase };
+
+        // Act
+        Test.startTest();
+        handler.beforeInsert();
+        Test.stopTest();
+
+        // Assert
+        Assert.isTrue(norlysNowCase.hasErrors(), 'An error should be added.');
+        Assert.areEqual('You are not allowed to create or update NorlysNow Cases on a closed Case', norlysNowCase.getErrors()[0].getMessage(), 'The error message should be correct.');
     }
-    */
 
     @isTest
     static void afterInsert_WithPermission_EventIsPublished() {
@@ -121,37 +162,31 @@ private class NorlysNowCaseTriggerHandlerTest {
         User testUser = createTestUserWithPermissionSet();
 
         System.runAs(testUser) {
-            // 1. Create test data
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-
-            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-                Parent_Case__c = parentCase.Id,
-                Status__c = 'New'
-            );
+            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Status__c = 'New');
             insert norlysNowCase;
 
-            // 2. Mock services
-            Mock norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
-            norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+            NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+                .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+                .build();
 
-            Mock norlysNowServiceMock = Mock.forType(NorlysNowService.class);
             List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{ new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler') };
-            norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(eventsToPublish);
+            NorlysNowService norlysNowServiceStub = NorlysTestMocks.forNorlysNowService()
+                .withChunkedEvents(eventsToPublish)
+                .build();
 
-            Mock eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
-            MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+            NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
 
-            // 3. Instantiate the handler
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
-                (NorlysNowService) norlysNowServiceMock.stub,
-                (NorlysNowSelector) norlysNowSelectorMock.stub,
+                norlysNowServiceStub,
+                norlysNowSelectorStub,
                 new DatabaseService(),
-                new PermissionService(), // Use real PermissionService
-                (EventExecutorService) eventExecutorServiceMock.stub
+                new PermissionService(),
+                eventExecutorServiceStub
             );
 
-            // 4. Set trigger context
             handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase };
             handler.triggerNew = new List<NorlysNow_Case__c>{ norlysNowCase };
 
@@ -161,6 +196,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             Test.stopTest();
 
             // Assert
+            MethodSpy publishSpy = eventExecutorBuilder.getPublishSpy();
             Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called.');
             Assert.areEqual(1, publishSpy.callLog.size(), 'publish should have been called once.');
         }
@@ -168,34 +204,27 @@ private class NorlysNowCaseTriggerHandlerTest {
 
     @isTest
     static void afterInsert_WithoutPermission_EventIsNotPublished() {
-        // This test runs as the default test user, who does not have the permission.
         // Arrange
         Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
         insert parentCase;
-
-        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-            Parent_Case__c = parentCase.Id,
-            Status__c = 'New'
-        );
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Status__c = 'New');
         insert norlysNowCase;
 
-        // Mock services
-        Mock norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
-        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+        NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+            .build();
 
-        Mock eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
-        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+        NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
 
-        // Instantiate the handler
         NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
             new NorlysNowService(),
-            (NorlysNowSelector) norlysNowSelectorMock.stub,
+            norlysNowSelectorStub,
             new DatabaseService(),
-            new PermissionService(), // Use real PermissionService
-            (EventExecutorService) eventExecutorServiceMock.stub
+            new PermissionService(),
+            eventExecutorServiceStub
         );
 
-        // Set trigger context
         handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase };
         handler.triggerNew = new List<NorlysNow_Case__c>{ norlysNowCase };
 
@@ -205,6 +234,7 @@ private class NorlysNowCaseTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
+        MethodSpy publishSpy = eventExecutorBuilder.getPublishSpy();
         Assert.isTrue(publishSpy.callLog.isEmpty(), 'publish should not have been called.');
     }
 
@@ -216,36 +246,31 @@ private class NorlysNowCaseTriggerHandlerTest {
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-
-            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-                Parent_Case__c = parentCase.Id,
-                Status__c = 'In Progress'
-            );
+            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Status__c = 'In Progress');
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
-            // Mock services
-            Mock norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
-            norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+            NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+                .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+                .build();
 
-            Mock norlysNowServiceMock = Mock.forType(NorlysNowService.class);
-            norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
             List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{ new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler') };
-            norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(eventsToPublish);
+            NorlysNowService norlysNowServiceStub = NorlysTestMocks.forNorlysNowService()
+                .withCloseParentCases(new List<Case>())
+                .withChunkedEvents(eventsToPublish)
+                .build();
 
-            Mock eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
-            MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+            NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
 
-            // Instantiate the handler
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
-                (NorlysNowService) norlysNowServiceMock.stub,
-                (NorlysNowSelector) norlysNowSelectorMock.stub,
+                norlysNowServiceStub,
+                norlysNowSelectorStub,
                 new DatabaseService().mockDmls(),
                 new PermissionService(),
-                (EventExecutorService) eventExecutorServiceMock.stub
+                eventExecutorServiceStub
             );
 
-            // Set trigger context
             norlysNowCase.Status__c = 'Withdrawn';
             handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase };
             handler.triggerOldMap = new Map<Id, NorlysNow_Case__c>{ oldNorlysNowCase.Id => oldNorlysNowCase };
@@ -258,6 +283,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             Test.stopTest();
 
             // Assert
+            MethodSpy publishSpy = eventExecutorBuilder.getPublishSpy();
             Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called.');
         }
     }
@@ -270,36 +296,31 @@ private class NorlysNowCaseTriggerHandlerTest {
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-
-            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-                Parent_Case__c = parentCase.Id,
-                Sync_Status__c = 'Success'
-            );
+            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Sync_Status__c = 'Success');
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
-            // Mock services
-            Mock norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
-            norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+            NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
+                .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+                .build();
 
-            Mock norlysNowServiceMock = Mock.forType(NorlysNowService.class);
-            norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
             List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{ new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler') };
-            norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(eventsToPublish);
+            NorlysNowService norlysNowServiceStub = NorlysTestMocks.forNorlysNowService()
+                .withCloseParentCases(new List<Case>())
+                .withChunkedEvents(eventsToPublish)
+                .build();
 
-            Mock eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
-            MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+            NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
 
-            // Instantiate the handler
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
-                (NorlysNowService) norlysNowServiceMock.stub,
-                (NorlysNowSelector) norlysNowSelectorMock.stub,
+                norlysNowServiceStub,
+                norlysNowSelectorStub,
                 new DatabaseService().mockDmls(),
                 new PermissionService(),
-                (EventExecutorService) eventExecutorServiceMock.stub
+                eventExecutorServiceStub
             );
 
-            // Set trigger context
             norlysNowCase.Sync_Status__c = 'Pending';
             handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase };
             handler.triggerOldMap = new Map<Id, NorlysNow_Case__c>{ oldNorlysNowCase.Id => oldNorlysNowCase };
@@ -312,6 +333,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             Test.stopTest();
 
             // Assert
+            MethodSpy publishSpy = eventExecutorBuilder.getPublishSpy();
             Assert.isFalse(publishSpy.callLog.isEmpty(), 'publish should have been called.');
         }
     }
