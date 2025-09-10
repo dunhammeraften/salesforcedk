@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ExternalClientApplication xmlns="http://soap.sforce.com/2006/04/metadata">
-    <contactEmail>esbhov@norlys.dk</contactEmail>
-    <distributionState>Local</distributionState>
-    <isProtected>false</isProtected>
-    <label>NorlysNow</label>
-    <orgScopedExternalApp>00DS8000009SIcx:NorlysNow</orgScopedExternalApp>
-</ExternalClientApplication>
