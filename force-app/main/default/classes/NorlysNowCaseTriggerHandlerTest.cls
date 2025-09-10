@@ -78,9 +78,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 
     @isTest
     static void beforeUpdate_ParentCaseIsClosed_ErrorIsAdded() {
-        Id parentCaseId = Test.getFakeId(Case.SObjectType);
+        Id parentCaseId = DatabaseService.getFakeId(Case.SObjectType);
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-            Id = Test.getFakeId(NorlysNow_Case__c.SObjectType), Parent_Case__c = parentCaseId
+            Id = DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType), Parent_Case__c = parentCaseId
         );
 
         NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector().withClosedParentCase(parentCaseId).build();
@@ -101,7 +101,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 
     @isTest
     static void beforeInsert_ParentCaseIsClosed_ErrorIsAdded() {
-        Id parentCaseId = Test.getFakeId(Case.SObjectType);
+        Id parentCaseId = DatabaseService.getFakeId(Case.SObjectType);
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCaseId);
 
         NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector().withClosedParentCase(parentCaseId).build();
@@ -130,10 +130,11 @@ private class NorlysNowCaseTriggerHandlerTest {
             List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{ new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler') };
             NorlysNowService norlysNowServiceStub = NorlysTestMocks.forNorlysNowService().withChunkedEvents(eventsToPublish).build();
             NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
             PermissionService permissionServiceStub = NorlysTestMocks.forPermissionService().withHasPermissionSet(true).build();
 
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
-                norlysNowServiceStub, norlysNowSelectorStub, new DatabaseService(), permissionServiceStub, eventExecutorBuilder.build()
+                norlysNowServiceStub, norlysNowSelectorStub, new DatabaseService(), permissionServiceStub, eventExecutorServiceStub
             );
             handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase };
             handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
@@ -156,13 +157,14 @@ private class NorlysNowCaseTriggerHandlerTest {
             .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase })
             .build();
         NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
 
         NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
             NorlysTestMocks.forNorlysNowService().build(),
             norlysNowSelectorStub,
             new DatabaseService(),
             new PermissionService(),
-            eventExecutorBuilder.build()
+            eventExecutorServiceStub
         );
         handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase };
         handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
@@ -183,6 +185,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase })
             .build();
         NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
         PermissionService permissionServiceStub = NorlysTestMocks.forPermissionService().withHasPermissionSet(false).build();
 
         NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
@@ -190,7 +193,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             norlysNowSelectorStub,
             new DatabaseService(),
             permissionServiceStub,
-            eventExecutorBuilder.build()
+            eventExecutorServiceStub
         );
         handler.triggerNewMap = new Map<Id, NorlysNow_Case__c>{ testSetup.norlysNowCase.Id => testSetup.norlysNowCase };
         handler.triggerNew = new List<NorlysNow_Case__c>{ testSetup.norlysNowCase };
@@ -217,6 +220,7 @@ private class NorlysNowCaseTriggerHandlerTest {
                 .withChunkedEvents(eventsToPublish)
                 .build();
             NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
             PermissionService permissionServiceStub = NorlysTestMocks.forPermissionService().withHasPermissionSet(true).build();
 
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
@@ -224,7 +228,7 @@ private class NorlysNowCaseTriggerHandlerTest {
                 norlysNowSelectorStub,
                 new DatabaseService().mockDmls(),
                 permissionServiceStub,
-                eventExecutorBuilder.build()
+                eventExecutorServiceStub
             );
 
             testSetup.norlysNowCase.Status__c = 'Withdrawn';
@@ -260,6 +264,7 @@ private class NorlysNowCaseTriggerHandlerTest {
                 .withChunkedEvents(eventsToPublish)
                 .build();
             NorlysTestMocks.EventExecutorServiceMockBuilder eventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+            EventExecutorService eventExecutorServiceStub = eventExecutorBuilder.build();
             PermissionService permissionServiceStub = NorlysTestMocks.forPermissionService().withHasPermissionSet(true).build();
 
             NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler(
@@ -267,7 +272,7 @@ private class NorlysNowCaseTriggerHandlerTest {
                 norlysNowSelectorStub,
                 new DatabaseService().mockDmls(),
                 permissionServiceStub,
-                eventExecutorBuilder.build()
+                eventExecutorServiceStub
             );
 
             testSetup.norlysNowCase.Sync_Status__c = 'Pending';
