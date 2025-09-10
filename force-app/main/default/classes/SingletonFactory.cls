@@ -50,7 +50,15 @@ public with sharing class SingletonFactory {
      * @param instance The mock instance to register.
      */
     @TestVisible
-    private void registerSingleton(Type instanceType, Object instance) {
+    public void registerSingleton(Type instanceType, Object instance) {
         this.singletonTypeToInstance.put(instanceType, instance);
+    }
+
+    /**
+     * @description Resets the factory by clearing all registered singletons. This is useful for ensuring test isolation.
+     */
+    @TestVisible
+    public void reset() {
+        this.singletonTypeToInstance.clear();
     }
 }

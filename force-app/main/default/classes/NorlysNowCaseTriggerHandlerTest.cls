@@ -46,17 +46,18 @@ private class NorlysNowCaseTriggerHandlerTest {
 
         Case parentCaseToClose = new Case(Id = norlysNowCase.Parent_Case__c, Status = 'Closed');
 
-        NorlysNowService mockService = NorlysTestMocks.forNorlysNowService()
-            .withCloseParentCases(new List<Case>{ parentCaseToClose })
-            .build();
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>{ parentCaseToClose });
+        NorlysNowService mockService = mockServiceBuilder.build();
 
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
-            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
-            .build();
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
 
         DatabaseService dbMock = new DatabaseService().mockDmls();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(NorlysNowService.class, mockService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
         singletonFactory.registerSingleton(DatabaseService.class, dbMock);
@@ -82,27 +83,28 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
 
-        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
-            .withHasPermissionSet(true)
-            .build();
+        NorlysTestMocks.PermissionServiceMockBuilder mockPermissionServiceBuilder = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true);
+        PermissionService mockPermissionService = mockPermissionServiceBuilder.build();
 
         List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
             new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
         };
-        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockNorlysNowServiceBuilder = NorlysTestMocks.forNorlysNowService()
             .withCloseParentCases(new List<Case>())
-            .withChunkedEvents(eventsToPublish)
-            .build();
+            .withChunkedEvents(eventsToPublish);
+        NorlysNowService mockNorlysNowService = mockNorlysNowServiceBuilder.build();
 
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
-            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
-            .build();
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
 
-        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        NorlysTestMocks.EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
         singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
@@ -127,27 +129,28 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
 
-        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
-            .withHasPermissionSet(true)
-            .build();
+        NorlysTestMocks.PermissionServiceMockBuilder mockPermissionServiceBuilder = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true);
+        PermissionService mockPermissionService = mockPermissionServiceBuilder.build();
 
         List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
             new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
         };
-        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockNorlysNowServiceBuilder = NorlysTestMocks.forNorlysNowService()
             .withCloseParentCases(new List<Case>())
-            .withChunkedEvents(eventsToPublish)
-            .build();
+            .withChunkedEvents(eventsToPublish);
+        NorlysNowService mockNorlysNowService = mockNorlysNowServiceBuilder.build();
 
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
-            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
-            .build();
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
 
-        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        NorlysTestMocks.EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
         singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
@@ -172,23 +175,24 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
 
-        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
-            .withHasPermissionSet(false)
-            .build();
+        NorlysTestMocks.PermissionServiceMockBuilder mockPermissionServiceBuilder = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(false);
+        PermissionService mockPermissionService = mockPermissionServiceBuilder.build();
 
-        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
-            .withCloseParentCases(new List<Case>())
-            .build();
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockNorlysNowServiceBuilder = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>());
+        NorlysNowService mockNorlysNowService = mockNorlysNowServiceBuilder.build();
 
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
-            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
-            .build();
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase });
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
 
-        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        NorlysTestMocks.EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
         singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
@@ -213,12 +217,14 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
 
-        NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
             .withCheckParentCaseIsClosed();
         NorlysNowService mockService = mockServiceBuilder.build();
         MethodSpy checkParentCaseSpy = mockServiceBuilder.getCheckParentCaseIsClosedSpy();
 
-        SingletonFactory.getFactory().registerSingleton(NorlysNowService.class, mockService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
+        singletonFactory.registerSingleton(NorlysNowService.class, mockService);
 
         // Act
         Test.startTest();
@@ -239,12 +245,14 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         Case parentCase = [SELECT Id FROM Case LIMIT 1];
 
-        NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
             .withCheckParentCaseIsClosed();
         NorlysNowService mockService = mockServiceBuilder.build();
         MethodSpy checkParentCaseSpy = mockServiceBuilder.getCheckParentCaseIsClosedSpy();
 
-        SingletonFactory.getFactory().registerSingleton(NorlysNowService.class, mockService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
+        singletonFactory.registerSingleton(NorlysNowService.class, mockService);
 
         // Act
         Test.startTest();
@@ -268,27 +276,28 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         Case parentCase = [SELECT Id FROM Case LIMIT 1];
 
-        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
-            .withHasPermissionSet(true)
-            .build();
+        NorlysTestMocks.PermissionServiceMockBuilder mockPermissionServiceBuilder = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true);
+        PermissionService mockPermissionService = mockPermissionServiceBuilder.build();
 
         List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
             new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
         };
-        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
-            .withChunkedEvents(eventsToPublish)
-            .build();
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockNorlysNowServiceBuilder = NorlysTestMocks.forNorlysNowService()
+            .withChunkedEvents(eventsToPublish);
+        NorlysNowService mockNorlysNowService = mockNorlysNowServiceBuilder.build();
 
         NorlysNow_Case__c norlysNowCaseToInsert = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id);
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
-            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCaseToInsert.Id => norlysNowCaseToInsert })
-            .build();
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCaseToInsert.Id => norlysNowCaseToInsert });
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
 
-        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        NorlysTestMocks.EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
         singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
@@ -312,17 +321,22 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Arrange
         Case parentCase = [SELECT Id FROM Case LIMIT 1];
 
-        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
-            .withHasPermissionSet(false)
-            .build();
+        NorlysTestMocks.PermissionServiceMockBuilder mockPermissionServiceBuilder = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(false);
+        PermissionService mockPermissionService = mockPermissionServiceBuilder.build();
 
-        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService().build();
-        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector().build();
-        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        NorlysTestMocks.NorlysNowServiceMockBuilder mockNorlysNowServiceBuilder = NorlysTestMocks.forNorlysNowService();
+        NorlysNowService mockNorlysNowService = mockNorlysNowServiceBuilder.build();
+
+        NorlysTestMocks.NorlysNowSelectorMockBuilder mockSelectorBuilder = NorlysTestMocks.forNorlysNowSelector();
+        NorlysNowSelector mockSelector = mockSelectorBuilder.build();
+
+        NorlysTestMocks.EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
         SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.reset();
         singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
         singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
         singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);

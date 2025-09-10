@@ -2,7 +2,6 @@
  * @description Provides reusable, configurable mocks for test data setup.
  * @group SUnit
  */
-@isTest
 public class NorlysTestMocks {
 
     /**
