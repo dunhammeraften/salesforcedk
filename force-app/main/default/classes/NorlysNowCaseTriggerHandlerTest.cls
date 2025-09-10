@@ -248,7 +248,6 @@ private class NorlysNowCaseTriggerHandlerTest {
             insert parentCase;
             NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Status__c = 'In Progress');
             insert norlysNowCase;
-
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
             NorlysNowSelector norlysNowSelectorStub = NorlysTestMocks.forNorlysNowSelector()
@@ -297,7 +296,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         System.runAs(testUser) {
             Case parentCase = new Case(Subject = 'Test Parent Case', Status = 'New');
             insert parentCase;
-            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id, Sync_Status__c = 'Success');
+            NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+                Parent_Case__c = parentCase.Id,
+                Sync_Status__c = 'Success'
+            );
+
             insert norlysNowCase;
             NorlysNow_Case__c oldNorlysNowCase = norlysNowCase.clone();
 
