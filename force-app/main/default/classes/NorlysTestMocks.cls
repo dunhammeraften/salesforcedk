@@ -64,8 +64,17 @@ public class NorlysTestMocks {
             return this;
         }
 
+        public NorlysNowServiceMockBuilder withCheckParentCaseIsClosed() {
+            this.mockProvider.spyOn('CheckParentCaseIsClosed');
+            return this;
+        }
+
         public NorlysNowService build() {
             return (NorlysNowService) this.mockProvider.stub;
+        }
+
+        public MethodSpy getCheckParentCaseIsClosedSpy() {
+            return this.mockProvider.getSpy('CheckParentCaseIsClosed');
         }
     }
 

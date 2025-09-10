@@ -1,0 +1,343 @@
+/**
+ * @description Test class for NorlysNowCaseTriggerHandler.
+ *              This class tests the logic of the trigger handler for NorlysNow_Case__c objects,
+ *              ensuring that parent cases are correctly handled, events are published as expected,
+ *              and permission checks are enforced.
+ *              It utilizes the NorlysTestScenarios and NorlysTestMocks frameworks for robust and
+ *              maintainable test data setup and dependency mocking.
+ *
+ * -----------------------------------------------------------------------------
+ * Developer            Date            Description
+ * -----------------------------------------------------------------------------
+ * Kenneth Houkjær      09/10/2025      Initial version
+ *
+ * @see NorlysNowCaseTriggerHandler
+ * @see NorlysTestScenarios
+ * @see NorlysTestMocks
+ */
+@isTest
+private class NorlysNowCaseTriggerHandlerTest {
+
+    private static final String PERMISSION_SET_NAME = 'Customer_Support_Technical_NorlysNow_Requester';
+
+    /**
+     * @description Sets up the test data and mock services required for the tests.
+     */
+    @testSetup
+    static void makeData(){
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNumberCaseHandling()
+            .build();
+
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+            Case__c = scenario.caseRecord.Id,
+            Status__c = 'New'
+        );
+        insert norlysNowCase;
+    }
+
+    /**
+     * @description Verifies that the parent case is closed when a NorlysNow_Case__c is updated.
+     */
+    @isTest
+    static void afterUpdate_closeParentCase_parentCaseClosed() {
+        // Arrange
+        NorlysNow_Case__c norlysNowCase = [SELECT Id, Case__c FROM NorlysNow_Case__c LIMIT 1];
+
+        Case parentCaseToClose = new Case(Id = norlysNowCase.Case__c, Status = 'Closed');
+        NorlysNowService mockService = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>{ parentCaseToClose })
+            .build();
+
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+            .build();
+
+        DatabaseService dbMock = new DatabaseService().mockDMLs();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(NorlysNowService.class, mockService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(DatabaseService.class, dbMock);
+
+        // Act
+        Test.startTest();
+        norlysNowCase.Status__c = 'In Progress';
+        update norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        List<SObject> updatedRecords = dbMock.getUpdatedRecords();
+        System.assertEquals(1, updatedRecords.size(), 'One record should have been updated.');
+        System.assertEquals(parentCaseToClose.Id, updatedRecords[0].Id, 'The updated record should be the parent case.');
+        System.assertEquals('Closed', ((Case)updatedRecords[0]).Status, 'The parent case status should be "Closed".');
+    }
+
+    /**
+     * @description Verifies that an event is published when a NorlysNow_Case__c is updated
+     *              to 'Withdrawn' status and the user has the required permission set.
+     */
+    @isTest
+    static void afterUpdate_userHasPermissionAndStatusWithdrawn_eventIsPublished() {
+        // Arrange
+        NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
+
+        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true)
+            .build();
+
+        List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
+            new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
+        };
+        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>())
+            .withChunkedEvents(eventsToPublish)
+            .build();
+
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+            .build();
+
+        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
+        MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(PermissionService.class, mockPermissionService)
+            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+
+        // Act
+        Test.startTest();
+        norlysNowCase.Status__c = 'Withdrawn';
+        update norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, publishSpy.calls.size(), 'The publish method should have been called once.');
+    }
+
+    /**
+     * @description Verifies that an event is published when a NorlysNow_Case__c is updated
+     *              with 'Pending' sync status and the user has the required permission set.
+     */
+    @isTest
+    static void afterUpdate_userHasPermissionAndSyncStatusPending_eventIsPublished() {
+        // Arrange
+        NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
+
+        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true)
+            .build();
+
+        List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
+            new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
+        };
+        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>())
+            .withChunkedEvents(eventsToPublish)
+            .build();
+
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+            .build();
+
+        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
+        MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(PermissionService.class, mockPermissionService)
+            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+
+        // Act
+        Test.startTest();
+        norlysNowCase.Sync_Status__c = 'Pending';
+        update norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, publishSpy.calls.size(), 'The publish method should have been called once.');
+    }
+
+    /**
+     * @description Verifies that no event is published when the user does not have the
+     *              required permission set, even if the status is 'Withdrawn'.
+     */
+    @isTest
+    static void afterUpdate_userDoesNotHavePermission_eventIsNotPublished() {
+        // Arrange
+        NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
+
+        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(false)
+            .build();
+
+        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+            .withCloseParentCases(new List<Case>())
+            .build();
+
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
+            .build();
+
+        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
+        MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(PermissionService.class, mockPermissionService)
+            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+
+        // Act
+        Test.startTest();
+        norlysNowCase.Status__c = 'Withdrawn';
+        update norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(0, publishSpy.calls.size(), 'The publish method should not have been called.');
+    }
+
+    /**
+     * @description Verifies that the CheckParentCaseIsClosed method is called before a
+     *              NorlysNow_Case__c record is updated.
+     */
+    @isTest
+    static void beforeUpdate_checkParentCaseIsClosed_validationIsCalled() {
+        // Arrange
+        NorlysNow_Case__c norlysNowCase = [SELECT Id FROM NorlysNow_Case__c LIMIT 1];
+
+        NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
+            .withCheckParentCaseIsClosed();
+        NorlysNowService mockService = mockServiceBuilder.build();
+        MethodSpy checkParentCaseSpy = mockServiceBuilder.getCheckParentCaseIsClosedSpy();
+
+        SingletonFactory.getFactory().registerSingleton(NorlysNowService.class, mockService);
+
+        // Act
+        Test.startTest();
+        norlysNowCase.Status__c = 'In Progress';
+        update norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, checkParentCaseSpy.calls.size(), 'The CheckParentCaseIsClosed method should have been called once.');
+    }
+
+    /**
+     * @description Verifies that the CheckParentCaseIsClosed method is called before a
+     *              new NorlysNow_Case__c record is inserted.
+     */
+    @isTest
+    static void beforeInsert_checkParentCaseIsClosed_validationIsCalled() {
+        // Arrange
+        Case parentCase = [SELECT Id FROM Case LIMIT 1];
+
+        NorlysNowServiceMockBuilder mockServiceBuilder = NorlysTestMocks.forNorlysNowService()
+            .withCheckParentCaseIsClosed();
+        NorlysNowService mockService = mockServiceBuilder.build();
+        MethodSpy checkParentCaseSpy = mockServiceBuilder.getCheckParentCaseIsClosedSpy();
+
+        SingletonFactory.getFactory().registerSingleton(NorlysNowService.class, mockService);
+
+        // Act
+        Test.startTest();
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+            Case__c = parentCase.Id,
+            Status__c = 'New'
+        );
+        insert norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, checkParentCaseSpy.calls.size(), 'The CheckParentCaseIsClosed method should have been called once.');
+    }
+
+    /**
+     * @description Verifies that an event is published after a new NorlysNow_Case__c is inserted,
+     *              provided the user has the required permission set.
+     */
+    @isTest
+    static void afterInsert_userHasPermission_eventIsPublished() {
+        // Arrange
+        Case parentCase = [SELECT Id FROM Case LIMIT 1];
+
+        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(true)
+            .build();
+
+        List<EventExecutor__e> eventsToPublish = new List<EventExecutor__e>{
+            new EventExecutor__e(Executor__c = 'NorlysNowExecutorHandler')
+        };
+        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService()
+            .withChunkedEvents(eventsToPublish)
+            .build();
+
+        NorlysNow_Case__c norlysNowCaseToInsert = new NorlysNow_Case__c(Case__c = parentCase.Id);
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
+            .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCaseToInsert.Id => norlysNowCaseToInsert })
+            .build();
+
+        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
+        MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(PermissionService.class, mockPermissionService)
+            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+
+        // Act
+        Test.startTest();
+        insert norlysNowCaseToInsert;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, publishSpy.calls.size(), 'The publish method should have been called once.');
+    }
+
+    /**
+     * @description Verifies that no event is published after a new NorlysNow_Case__c is inserted
+     *              if the user does not have the required permission set.
+     */
+    @isTest
+    static void afterInsert_userDoesNotHavePermission_eventIsNotPublished() {
+        // Arrange
+        Case parentCase = [SELECT Id FROM Case LIMIT 1];
+
+        PermissionService mockPermissionService = NorlysTestMocks.forPermissionService()
+            .withHasPermissionSet(false)
+            .build();
+
+        NorlysNowService mockNorlysNowService = NorlysTestMocks.forNorlysNowService().build();
+        NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector().build();
+        EventExecutorServiceMockBuilder mockEventExecutorBuilder = NorlysTestMocks.forEventExecutorService().withPublish();
+        EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
+        MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
+
+        SingletonFactory.getFactory()
+            .registerSingleton(PermissionService.class, mockPermissionService)
+            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
+            .registerSingleton(NorlysNowSelector.class, mockSelector)
+            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+
+        // Act
+        Test.startTest();
+        NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
+            Case__c = parentCase.Id,
+            Status__c = 'New'
+        );
+        insert norlysNowCase;
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(0, publishSpy.calls.size(), 'The publish method should not have been called.');
+    }
+}
