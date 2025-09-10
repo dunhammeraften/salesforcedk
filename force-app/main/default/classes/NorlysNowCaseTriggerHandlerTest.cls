@@ -30,7 +30,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             .build();
 
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-            Case__c = scenario.caseRecord.Id,
+            Parent_Case__c = scenario.caseRecord.Id,
             Status__c = 'New'
         );
         insert norlysNowCase;
@@ -42,9 +42,10 @@ private class NorlysNowCaseTriggerHandlerTest {
     @isTest
     static void afterUpdate_closeParentCase_parentCaseClosed() {
         // Arrange
-        NorlysNow_Case__c norlysNowCase = [SELECT Id, Case__c FROM NorlysNow_Case__c LIMIT 1];
+        NorlysNow_Case__c norlysNowCase = [SELECT Id, Parent_Case__c FROM NorlysNow_Case__c LIMIT 1];
 
-        Case parentCaseToClose = new Case(Id = norlysNowCase.Case__c, Status = 'Closed');
+        Case parentCaseToClose = new Case(Id = norlysNowCase.Parent_Case__c, Status = 'Closed');
+
         NorlysNowService mockService = NorlysTestMocks.forNorlysNowService()
             .withCloseParentCases(new List<Case>{ parentCaseToClose })
             .build();
@@ -53,12 +54,12 @@ private class NorlysNowCaseTriggerHandlerTest {
             .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCase.Id => norlysNowCase })
             .build();
 
-        DatabaseService dbMock = new DatabaseService().mockDMLs();
+        DatabaseService dbMock = new DatabaseService().mockDmls();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(NorlysNowService.class, mockService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(DatabaseService.class, dbMock);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(NorlysNowService.class, mockService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(DatabaseService.class, dbMock);
 
         // Act
         Test.startTest();
@@ -67,10 +68,9 @@ private class NorlysNowCaseTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        List<SObject> updatedRecords = dbMock.getUpdatedRecords();
-        System.assertEquals(1, updatedRecords.size(), 'One record should have been updated.');
-        System.assertEquals(parentCaseToClose.Id, updatedRecords[0].Id, 'The updated record should be the parent case.');
-        System.assertEquals('Closed', ((Case)updatedRecords[0]).Status, 'The parent case status should be "Closed".');
+        System.assertEquals(1, dbMock.register.updated.size(), 'One record should have been updated.');
+        System.assertEquals(parentCaseToClose.Id, dbMock.register.updated[0].Id, 'The updated record should be the parent case.');
+        System.assertEquals('Closed', ((Case)dbMock.register.updated[0]).Status, 'The parent case status should be "Closed".');
     }
 
     /**
@@ -102,11 +102,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(PermissionService.class, mockPermissionService)
-            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
+        singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(EventExecutorService.class, mockEventExecutorService);
 
         // Act
         Test.startTest();
@@ -147,11 +147,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(PermissionService.class, mockPermissionService)
-            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
+        singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(EventExecutorService.class, mockEventExecutorService);
 
         // Act
         Test.startTest();
@@ -188,11 +188,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(PermissionService.class, mockPermissionService)
-            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
+        singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(EventExecutorService.class, mockEventExecutorService);
 
         // Act
         Test.startTest();
@@ -249,7 +249,7 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Act
         Test.startTest();
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-            Case__c = parentCase.Id,
+            Parent_Case__c = parentCase.Id,
             Status__c = 'New'
         );
         insert norlysNowCase;
@@ -279,7 +279,7 @@ private class NorlysNowCaseTriggerHandlerTest {
             .withChunkedEvents(eventsToPublish)
             .build();
 
-        NorlysNow_Case__c norlysNowCaseToInsert = new NorlysNow_Case__c(Case__c = parentCase.Id);
+        NorlysNow_Case__c norlysNowCaseToInsert = new NorlysNow_Case__c(Parent_Case__c = parentCase.Id);
         NorlysNowSelector mockSelector = NorlysTestMocks.forNorlysNowSelector()
             .withNorlysNowCases(new Map<Id, NorlysNow_Case__c>{ norlysNowCaseToInsert.Id => norlysNowCaseToInsert })
             .build();
@@ -288,11 +288,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(PermissionService.class, mockPermissionService)
-            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
+        singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(EventExecutorService.class, mockEventExecutorService);
 
         // Act
         Test.startTest();
@@ -322,16 +322,16 @@ private class NorlysNowCaseTriggerHandlerTest {
         EventExecutorService mockEventExecutorService = mockEventExecutorBuilder.build();
         MethodSpy publishSpy = mockEventExecutorBuilder.getPublishSpy();
 
-        SingletonFactory.getFactory()
-            .registerSingleton(PermissionService.class, mockPermissionService)
-            .registerSingleton(NorlysNowService.class, mockNorlysNowService)
-            .registerSingleton(NorlysNowSelector.class, mockSelector)
-            .registerSingleton(EventExecutorService.class, mockEventExecutorService);
+        SingletonFactory singletonFactory = SingletonFactory.getFactory();
+        singletonFactory.registerSingleton(PermissionService.class, mockPermissionService);
+        singletonFactory.registerSingleton(NorlysNowService.class, mockNorlysNowService);
+        singletonFactory.registerSingleton(NorlysNowSelector.class, mockSelector);
+        singletonFactory.registerSingleton(EventExecutorService.class, mockEventExecutorService);
 
         // Act
         Test.startTest();
         NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(
-            Case__c = parentCase.Id,
+            Parent_Case__c = parentCase.Id,
             Status__c = 'New'
         );
         insert norlysNowCase;
