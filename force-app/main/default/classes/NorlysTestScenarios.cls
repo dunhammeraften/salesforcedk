@@ -63,6 +63,8 @@ public class NorlysTestScenarios {
         public Contract contract;
         /** @description A list of all SBQQ__Subscription__c records created. */
         public List<SBQQ__Subscription__c> subscriptions;
+        /** @description A list of all NorlysNow_Case__c records created. */
+        public List<NorlysNow_Case__c> norlysNowCases;
     }
 
     /**
@@ -113,6 +115,30 @@ public class NorlysTestScenarios {
         private Boolean createStandardVoiceAndHomeOffice = false;
         private List<Product2> customProducts = new List<Product2>();
         private List<Integer> customProductQuantities = new List<Integer>();
+        private Boolean buildForNorlysNowCaseHandling = false;
+        private Integer numNorlysNowCases = 0;
+
+        /**
+         * @description Configures the builder to create a lightweight scenario for NorlysNow Case handling.
+         *              This creates a parent Case and a specified number of child NorlysNow_Case__c records.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder forNorlysNowCaseHandling() {
+            this.buildForNorlysNowCaseHandling = true;
+            this.createCaseAndActivations = false; // Ensure we don't build the other heavy scenarios
+            return this;
+        }
+
+        /**
+         * @description Sets the number of NorlysNow_Case__c records to create.
+         *              This method is intended to be used with `forNorlysNowCaseHandling`.
+         * @param count The number of NorlysNow_Case__c records to create.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder withNorlysNowCases(Integer count) {
+            this.numNorlysNowCases = count;
+            return this;
+        }
 
         /**
          * @description Provides a custom Product2 record to be used in the scenario.
@@ -446,6 +472,9 @@ public class NorlysTestScenarios {
         public ScenarioResult build() {
             if (this.buildForNumberHandlingOnly) {
                 return buildForNumberHandling();
+            }
+            if (this.buildForNorlysNowCaseHandling) {
+                return buildForNorlysNowCaseHandling();
             }
 
             ScenarioResult result = new ScenarioResult();
@@ -1031,6 +1060,79 @@ public class NorlysTestScenarios {
                         );
                     }
                     insert result.activationAssignmentJunctions;
+                }
+            }
+            return result;
+        }
+
+        /**
+         * @description Private method to handle the lightweight NorlysNow Case build path.
+         *              Creates a parent Case and child NorlysNow_Case__c records.
+         */
+        private ScenarioResult buildForNorlysNowCaseHandling() {
+            ScenarioResult result = new ScenarioResult();
+            
+            // Step 1: Create a running User and a parent Account.
+            Profile prof = ProfileSelector.getProfileByProfileName(ProfileConstants.SYSTEM_ADMINISTRATOR);
+            result.owner = (User) NorlysSUnit.newFactory().create('User')
+                .set('Alias', 'standt')
+                .set('Email', 'standarduser@testorg.com')
+                .set('EmailEncodingKey', 'UTF-8')
+                .set('LastName', 'Testing')
+                .set('LanguageLocaleKey', 'en_US')
+                .set('LocaleSidKey', 'en_US')
+                .set('ProfileId', prof.Id)
+                .set('TimeZoneSidKey', 'America/Los_Angeles')
+                .set('UserName', StringUtils.makeRandomStringNoNumerics(10) + '@testorg.com')
+                .insertRecord();
+
+            System.runAs(result.owner) {
+                result.account = (Account) NorlysSUnit.newFactory().create('Account')
+                    .set('Name', 'Test Scenario Account ' + this.cvr)
+                    .set('CVR__c', this.cvr)
+                    .set('Status__c', 'Active')
+                    .set('OwnerId', result.owner.Id)
+                    .insertRecord();
+
+                // Step 2: Create a parent Case record.
+                result.caseRecord = (Case) NorlysSUnit.newFactory().create('Case')
+                    .set('AccountId', result.account.Id)
+                    .set('Subject', 'Order_Fulfilment_Case')
+                    .set('RecordTypeId', Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Order_Fulfilment_Case').getRecordTypeId())
+                    .insertRecord();
+                
+                // Step 3: Create NorlysNow_Case__c records
+                result.norlysNowCases = new List<NorlysNow_Case__c>();
+                if (this.numNorlysNowCases > 0) {
+                    List<NorlysNow_Case__c> casesToInsert = new List<NorlysNow_Case__c>();
+                    for (Integer i = 0; i < this.numNorlysNowCases; i++) {
+                        casesToInsert.add(
+                            (NorlysNow_Case__c) NorlysSUnit.newFactory().create('NorlysNow_Case__c')
+                                .set('Parent_Case__c', result.caseRecord.Id)
+                                .set('Account__c', result.account.Id)
+                                .set('Status__c', 'New')
+                                .getRecord()
+                        );
+                    }
+                    insert casesToInsert;
+                    result.norlysNowCases = casesToInsert;
+                }
+
+                // Step 4: Create FeedItem records
+                result.feedItems = new List<FeedItem>();
+                if (this.numFeedItems > 0 && !result.norlysNowCases.isEmpty()) {
+                    List<FeedItem> itemsToInsert = new List<FeedItem>();
+                    // Create feed items on the first NorlysNow_Case__c
+                    Id parentId = result.norlysNowCases[0].Id; 
+                    for (Integer i = 0; i < this.numFeedItems; i++) {
+                        itemsToInsert.add(new FeedItem(
+                            ParentId = parentId,
+                            Body = 'Test Feed Item ' + i,
+                            IsRichText = false
+                        ));
+                    }
+                    insert itemsToInsert;
+                    result.feedItems = itemsToInsert;
                 }
             }
             return result;

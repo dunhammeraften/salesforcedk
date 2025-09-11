@@ -7,6 +7,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 
     @TestVisible
     private Map<Id, NorlysNow_Case__c> triggerNewMap;
+    @TestVisible
     private List<NorlysNow_Case__c> triggerNew;
     
     public NorlysNowCaseTriggerHandler() {
@@ -46,7 +47,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
             }
 
             // Skipping the rest of the code if you don't have the permission set Customer_Support_Technical_NorlysNow_Requester
-            if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
+            if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' }) ) {
                 return;
             }
 
