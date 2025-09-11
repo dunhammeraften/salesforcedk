@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Quote__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>MK - 09092021 - CPQ-14 - the related activation quote created automatically.</description>
+    <label>Activation Quote</label>
+    <referenceTo>SBQQ__Quote__c</referenceTo>
+    <relationshipLabel>Cases (Activation Quote)</relationshipLabel>
+    <relationshipName>Cases1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

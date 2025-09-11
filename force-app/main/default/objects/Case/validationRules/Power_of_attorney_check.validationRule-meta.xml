@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Power_of_attorney_check</fullName>
+    <active>true</active>
+    <description>Checks that the user has selected an status for power of attorney</description>
+    <errorConditionFormula>RecordType.DeveloperName =&quot;Order_Fulfilment_Case&quot; &amp;&amp;
+(ISPICKVAL(Type, &quot;Voice&quot;)  || ISPICKVAL(Type, &quot;Combination of products&quot;)) &amp;&amp; ISBLANK( TEXT( Power_of_attorney__c )) &amp;&amp;  TEXT(Status) &lt;&gt; &quot;Front Office&quot; &amp;&amp; TEXT(Status) &lt;&gt; &quot;Gather Information&quot; &amp;&amp; TEXT(Status) &lt;&gt; &quot;Sales Enrichment&quot;</errorConditionFormula>
+    <errorDisplayField>Power_of_attorney__c</errorDisplayField>
+    <errorMessage>Please specify the status of POA</errorMessage>
+</ValidationRule>

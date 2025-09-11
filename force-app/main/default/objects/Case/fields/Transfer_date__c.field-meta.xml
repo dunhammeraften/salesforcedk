@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transfer_date__c</fullName>
+    <description>If the Case is about number transfer from Telia Enterprise to Telia Private then this is the date for when the number shall be  transferred. Read by the robot.</description>
+    <inlineHelpText>The date when a number shall transfer from Telia Enterprise to Telia Private. Only relevant for Telia internal number transfer.</inlineHelpText>
+    <label>Transfer date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

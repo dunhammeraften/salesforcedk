@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Message_from_Portal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Technical field used to indicate whenever a customer writes a message to the customer service via the Onboarding Portal. Used to assign case to a new queue.</description>
+    <label>New Message from Portal</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
