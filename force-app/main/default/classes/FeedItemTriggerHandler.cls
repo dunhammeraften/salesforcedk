@@ -6,6 +6,7 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 
     @TestVisible
     private Map<Id, FeedItem> triggerNewMap;
+    @TestVisible
     private List<FeedItem> triggerNew;
 
     public FeedItemTriggerHandler() {

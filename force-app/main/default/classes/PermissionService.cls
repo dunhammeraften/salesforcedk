@@ -1,4 +1,6 @@
 public with sharing class PermissionService {
+
+    public PermissionService(){}
     
     public Boolean hasPermissionSet(List<String> permissionSetName) {
         Set<String> psNames = new Set<String>();
