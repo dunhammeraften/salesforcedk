@@ -65,6 +65,8 @@ public class NorlysTestScenarios {
         public List<SBQQ__Subscription__c> subscriptions;
         /** @description A list of all NorlysNow_Case__c records created. */
         public List<NorlysNow_Case__c> norlysNowCases;
+        /** @description A list of all FeedItem records created. */
+        public List<FeedItem> feedItems;
     }
 
     /**
@@ -117,6 +119,18 @@ public class NorlysTestScenarios {
         private List<Integer> customProductQuantities = new List<Integer>();
         private Boolean buildForNorlysNowCaseHandling = false;
         private Integer numNorlysNowCases = 0;
+        private Integer numFeedItems = 0;
+
+        /**
+         * @description Sets the number of FeedItem records to create.
+         *              This method is intended to be used with `forNorlysNowCaseHandling`.
+         * @param count The number of FeedItem records to create.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder withFeedItems(Integer count) {
+            this.numFeedItems = count;
+            return this;
+        }
 
         /**
          * @description Configures the builder to create a lightweight scenario for NorlysNow Case handling.
@@ -1119,7 +1133,6 @@ public class NorlysTestScenarios {
                 }
 
                 // Step 4: Create FeedItem records
-                result.feedItems = new List<FeedItem>();
                 if (this.numFeedItems > 0 && !result.norlysNowCases.isEmpty()) {
                     List<FeedItem> itemsToInsert = new List<FeedItem>();
                     // Create feed items on the first NorlysNow_Case__c
