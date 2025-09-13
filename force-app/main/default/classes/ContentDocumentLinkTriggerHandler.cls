@@ -1,5 +1,6 @@
 public class ContentDocumentLinkTriggerHandler extends TriggerHandler {
-	private List<ContentDocumentLink> triggerNew;
+	@TestVisible
+    private List<ContentDocumentLink> triggerNew;
 	private final CaseService caseService;
 	private final ContentDocumentLinkService contentDocumentLinkService;
     private final PermissionService permissionService;

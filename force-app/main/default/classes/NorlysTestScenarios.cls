@@ -67,6 +67,8 @@ public class NorlysTestScenarios {
         public List<NorlysNow_Case__c> norlysNowCases;
         /** @description A list of all FeedItem records created. */
         public List<FeedItem> feedItems;
+        /** @description A list of all ContentDocumentLink records created. */
+        public List<ContentDocumentLink> contentDocumentLinks;
     }
 
     /**
@@ -120,6 +122,19 @@ public class NorlysTestScenarios {
         private Boolean buildForNorlysNowCaseHandling = false;
         private Integer numNorlysNowCases = 0;
         private Integer numFeedItems = 0;
+        private Integer numFilesToAttach = 0;
+
+        /**
+         * @description Sets the number of files to attach to the generated NorlysNow_Case__c.
+         *              This method is intended to be used with `forNorlysNowCaseHandling`.
+         *              The files will be attached to the first NorlysNow_Case__c created.
+         * @param count The number of files to create and attach.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder withAttachedFiles(Integer count) {
+            this.numFilesToAttach = count;
+            return this;
+        }
 
         /**
          * @description Sets the number of FeedItem records to create.
@@ -1108,9 +1123,19 @@ public class NorlysTestScenarios {
                     .set('OwnerId', result.owner.Id)
                     .insertRecord();
 
-                // Step 2: Create a parent Case record.
+                // Step 2: Create a parent Opportunity and Case record.
+                result.opportunity = (Opportunity) NorlysSUnit.newFactory().create('Opportunity')
+                    .set('Name', 'Test Opp for ' + result.account.Name)
+                    .set('AccountId', result.account.Id)
+                    .set('Type', 'New Business')
+                    .set('CloseDate', Date.Today() + 5)
+                    .set('StageName', 'Proposal')
+                    .set('Pricebook2Id', Test.getStandardPricebookId())
+                    .insertRecord();
+
                 result.caseRecord = (Case) NorlysSUnit.newFactory().create('Case')
                     .set('AccountId', result.account.Id)
+                    .set('Opportunity__c', result.opportunity.Id)
                     .set('Subject', 'Order_Fulfilment_Case')
                     .set('RecordTypeId', Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Order_Fulfilment_Case').getRecordTypeId())
                     .insertRecord();
@@ -1146,6 +1171,23 @@ public class NorlysTestScenarios {
                     }
                     insert itemsToInsert;
                     result.feedItems = itemsToInsert;
+                }
+
+                // Step 5: Create ContentDocumentLink records
+                if (this.numFilesToAttach > 0 && !result.norlysNowCases.isEmpty()) {
+                    List<ContentDocumentLink> linksToInsert = new List<ContentDocumentLink>();
+                    Id parentId = result.norlysNowCases[0].Id;
+                    for (Integer i = 0; i < this.numFilesToAttach; i++) {
+                        ContentVersion cv = TDF_ContentVersionUtils.createContentVersion('Test Doc ' + i, 'txt', 'Test Data');
+                        ContentDocument cd = [SELECT Id FROM ContentDocument WHERE LatestPublishedVersionId = :cv.Id];
+                        linksToInsert.add(new ContentDocumentLink(
+                            LinkedEntityId = parentId,
+                            ContentDocumentId = cd.Id,
+                            ShareType = 'V'
+                        ));
+                    }
+                    insert linksToInsert;
+                    result.contentDocumentLinks = linksToInsert;
                 }
             }
             return result;

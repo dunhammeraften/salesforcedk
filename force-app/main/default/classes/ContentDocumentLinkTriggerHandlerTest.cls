@@ -1,24 +1,162 @@
 @IsTest
 private with sharing class ContentDocumentLinkTriggerHandlerTest {
+
+    // Mocked service dependencies, to be initialized in each test
+    private static Mock contentDocumentLinkServiceMock;
+    private static Mock caseServiceMock;
+    private static Mock permissionServiceMock;
+    private static Mock norlysNowServiceMock;
+    private static Mock eventExecutorServiceMock;
+
+    /**
+     * @description Sets up the test environment by mocking all the necessary service dependencies.
+     */
+    private static void setupMocks() {
+        // Create mocks for all service dependencies
+        contentDocumentLinkServiceMock = Mock.forType(ContentDocumentLinkService.class);
+        caseServiceMock = Mock.forType(CaseService.class);
+        permissionServiceMock = Mock.forType(PermissionService.class);
+        norlysNowServiceMock = Mock.forType(NorlysNowService.class);
+        eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
+
+        // Get the stub instances from the mocks
+        ContentDocumentLinkService cds = (ContentDocumentLinkService) contentDocumentLinkServiceMock.stub;
+        CaseService cs = (CaseService) caseServiceMock.stub;
+        PermissionService ps = (PermissionService) permissionServiceMock.stub;
+        NorlysNowService nns = (NorlysNowService) norlysNowServiceMock.stub;
+        EventExecutorService ees = (EventExecutorService) eventExecutorServiceMock.stub;
+
+        // Register all the singleton services with our stubs so the handler will use them
+        SingletonFactory factory = SingletonFactory.getFactory();
+        factory.registerSingleton(ContentDocumentLinkService.class, cds);
+        factory.registerSingleton(CaseService.class, cs);
+        factory.registerSingleton(PermissionService.class, ps);
+        factory.registerSingleton(NorlysNowService.class, nns);
+        factory.registerSingleton(EventExecutorService.class, ees);
+    }
+
+    /**
+     * @description Tests that when a file is attached to a standard Case, the case's status is correctly updated.
+     */
 	@isTest
-    static void afterInsertTest() {
-
+    static void afterInsert_OnCase_ShouldUpdateCase() {
+        // Arrange
+        TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
+        TriggerHandler.bypass('CaseTriggerHandler');
+        setupMocks();
+        
         Account acc = TDF_AccountUtils.createAccountWithCVR('12345678');
-
 		Case testCase = TDF_CaseUtils.createCustomerServiceCasesForAccounts(new List<Account>{acc})[0];
 
-        Mock ContentDocumentLinkServiceMock = Mock.forType(ContentDocumentLinkService.class);
-        MethodSpy getRelatedCasesByLinkedEntityIdsSpy = ContentDocumentLinkServiceMock.spyOn('getRelatedCasesByLinkedEntityIds');
+        ContentVersion cv = TDF_ContentVersionUtils.createContentVersion('Test Doc', 'txt', 'Test Data');
+        ContentDocument cd = [SELECT Id FROM ContentDocument WHERE LatestPublishedVersionId = :cv.Id];
         
-		Mock caseServiceMock = Mock.forType(CaseService.class);
-      	MethodSpy updateCustomerServiceCasesToAwaitingUserSpy = caseServiceMock.spyOn('updateCustomerServiceCasesToAwaitingUser');
+        ContentDocumentLink testLink = new ContentDocumentLink(
+            LinkedEntityId = testCase.Id,
+            ContentDocumentId = cd.Id,
+            ShareType = 'V'
+        );
+        insert testLink;
 
-        ContentDocumentLinkTriggerHandler contentDocumentLinkTriggerHandler = new ContentDocumentLinkTriggerHandler((ContentDocumentLinkService) ContentDocumentLinkServiceMock.stub, (CaseService) caseServiceMock.stub);
+        // --- Mock Service Calls ---
+        MethodSpy getRelatedCasesSpy = contentDocumentLinkServiceMock.spyOn('getRelatedCasesByLinkedEntityIds');
+        getRelatedCasesSpy.whenCalledWith(Argument.any()).thenReturn(new List<Id>{ testCase.Id });
+        
+        MethodSpy updateCasesSpy = caseServiceMock.spyOn('updateCustomerServiceCasesToAwaitingUser');
+        updateCasesSpy.whenCalledWith(Argument.any()).thenReturn(null);
 
-        contentDocumentLinkTriggerHandler.afterInsert();
+        MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
+        hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(false);
 
-		Expect.that(getRelatedCasesByLinkedEntityIdsSpy).hasBeenCalled();
-		Expect.that(updateCustomerServiceCasesToAwaitingUserSpy).hasBeenCalled();
+        ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
+        handler.triggerNew = new List<ContentDocumentLink>{ testLink };
+        
+        // Act
+        Test.startTest();
+        handler.afterInsert();
+        Test.stopTest();
 
+        // Assert
+        System.assertEquals(1, getRelatedCasesSpy.callLog.size(), 'getRelatedCasesByLinkedEntityIds should have been called once.');
+        System.assertEquals(1, updateCasesSpy.callLog.size(), 'updateCustomerServiceCasesToAwaitingUser should have been called once.');
+        TriggerHandler.clearAllBypasses();
+    }
+
+    /**
+     * @description Tests that an event is published when a file is attached to a NorlysNow_Case__c
+     *              and the user has the required permission.
+     */
+    @isTest
+    static void afterInsert_WithPermissionAndNorlysNowCase_ShouldPublishEvent() {
+        // Arrange
+        TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
+        TriggerHandler.bypass('CaseTriggerHandler');
+        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+        setupMocks();
+
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(1)
+            .withAttachedFiles(1)
+            .build();
+
+        // --- Mock Service Calls ---
+        MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
+        hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(true);
+
+        MethodSpy chunkEventsSpy = norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished');
+        chunkEventsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
+
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+        publishSpy.whenCalledWith(Argument.any()).thenReturn(null);
+
+        ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
+        handler.triggerNew = scenario.contentDocumentLinks;
+
+        // Act
+        Test.startTest();
+        handler.afterInsert();
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
+        TriggerHandler.clearAllBypasses();
+    }
+
+    /**
+     * @description Tests that no event is published when a file is attached to a NorlysNow_Case__c
+     *              but the user does NOT have the required permission.
+     */
+    @isTest
+    static void afterInsert_WithoutPermission_ShouldNotPublishEvent() {
+        // Arrange
+        TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
+        TriggerHandler.bypass('CaseTriggerHandler');
+        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+        setupMocks();
+
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(1)
+            .withAttachedFiles(1)
+            .build();
+
+        // --- Mock Service Calls ---
+        MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
+        hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(false);
+
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+
+        ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
+        handler.triggerNew = scenario.contentDocumentLinks;
+
+        // Act
+        Test.startTest();
+        handler.afterInsert();
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
+        TriggerHandler.clearAllBypasses();
     }
 }
