@@ -1,5 +1,6 @@
 public with sharing class NorlysNowExecutorHandler implements IEventExecutableHandler {
     private final NorlysNowService norlysNowService;
+    private final EventExecutorService eventExecutorService;
     private final Map<String, INorlysNowIntegrationStrategy> strategies;
     
     public NorlysNowExecutorHandler() {
@@ -8,6 +9,7 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
 
     private NorlysNowExecutorHandler(SingletonFactory singletonFactory) {
         this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
+        this.eventExecutorService = (EventExecutorService) singletonFactory.getOrRegisterSingleton(EventExecutorService.class);
         this.strategies = new Map<String, INorlysNowIntegrationStrategy>{
             'NorlysNow_Case__c' => (NorlysNowCaseStrategy) singletonFactory.getOrRegisterSingleton(NorlysNowCaseStrategy.class),
             'FeedItem' => (NorlysNowFeedItemStrategy) singletonFactory.getOrRegisterSingleton(NorlysNowFeedItemStrategy.class),
@@ -34,7 +36,7 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
                 retryEventExecutor.LastEventExecutorUuid__c = event.EventUuid;
                 retryEventExecutor.LastEventExecutorReplayId__c = event.ReplayId;
                 
-                EventBus.publish(retryEventExecutor);
+                eventExecutorService.publish(retryEventExecutor);
             }else{
                 Logger.logInfo('No recordIds found: ' + recordIds);
             }
