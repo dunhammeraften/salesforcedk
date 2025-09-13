@@ -5,7 +5,7 @@
     <description>It is only allowed to set Status to withdrawn when NorlysNow Id is not empty</description>
     <errorConditionFormula>AND(
     /*Skipping the validation if the running users is norlysnowintegration@norlys*/
-    $User.Username &lt;&gt; &quot;norlysnowintegration@norlys.dk&quot;,
+    $User.Username &lt;&gt; &quot;norlysnowintegration@norlys.dk.deveh252&quot;,
 
     NOT(ISBLANK(NorlysNow_Id__c)),
 
