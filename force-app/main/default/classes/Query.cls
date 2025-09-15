@@ -1581,17 +1581,22 @@ public class Query {
 
     public List<SObject> toSObjectList() {
         String queryString = formQueryString();
+        Logger.logInfo('Executing toSObjectList: ' + queryString);
         return Database.query(queryString);
     }
 
     public List<AggregateResult> aggregate() {
         String queryString = formQueryString();
+        Logger.logInfo('Executing aggregate: ' + queryString);
+
         return Database.query(queryString);
     }
 
     public Integer countQuery() {
         count('');
         String queryString = formQueryString();
+        Logger.logInfo('Executing countQuery: ' + queryString);
+
         return Database.countQuery(queryString);
     }
 
@@ -1607,6 +1612,8 @@ public class Query {
 
     public Database.QueryLocator getQueryLocator() {
         String queryString = formQueryString();
+        Logger.logInfo('Executing getQueryLocator: ' + queryString);
+
         return Database.getQueryLocator(queryString);
     }
 

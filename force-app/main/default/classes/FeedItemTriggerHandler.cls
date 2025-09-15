@@ -22,14 +22,6 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
         this.triggerNew = (List<FeedItem>) Trigger.new;
     }
 
-    @TestVisible
-    private FeedItemTriggerHandler(NorlysNowSelector norlysNowSelector, PermissionService permissionService, EventExecutorService eventExecutorService, NorlysNowService norlysNowService) {
-        this.norlysNowSelector = norlysNowSelector;
-        this.permissionService = permissionService;
-        this.eventExecutorService = eventExecutorService;
-        this.norlysNowService = norlysNowService;
-    }
-
     public override void afterInsert() {
 
         // Skipping the rest of the code if you don't have the permission set Customer_Support_Technical_NorlysNow_Requester

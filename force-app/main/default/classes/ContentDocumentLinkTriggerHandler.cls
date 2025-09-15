@@ -20,15 +20,6 @@ public class ContentDocumentLinkTriggerHandler extends TriggerHandler {
 		this.triggerNew = (List<ContentDocumentLink>) Trigger.new;
     }
 
-    @TestVisible
-    private ContentDocumentLinkTriggerHandler(ContentDocumentLinkService contentDocumentLinkService, CaseService caseService, PermissionService permissionService, NorlysNowService norlysNowService, EventExecutorService eventExecutorService) {
-        this.contentDocumentLinkService = contentDocumentLinkService;
-		this.caseService = caseService;
-        this.permissionService = permissionService;
-        this.eventExecutorService = eventExecutorService;
-        this.norlysNowService = norlysNowService;
-    }
-
 	public override void afterInsert() {
 		List<Id> caseIds = contentDocumentLinkService.getRelatedCasesByLinkedEntityIds(triggerNew);
 

@@ -24,15 +24,6 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
         this.triggerNew = (List<NorlysNow_Case__c>) Trigger.new;
     }
 
-    @TestVisible
-    private NorlysNowCaseTriggerHandler(NorlysNowService norlysNowService, NorlysNowSelector norlysNowSelector, DatabaseService databaseService, PermissionService permissionService, EventExecutorService eventExecutorService) {
-        this.norlysNowService = norlysNowService;
-        this.norlysNowSelector = norlysNowSelector;
-        this.databaseService = databaseService;
-        this.permissionService = permissionService;
-        this.eventExecutorService = eventExecutorService;
-    }
-
     public override void afterUpdate() {
 
         Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(triggerNewMap.keySet());
