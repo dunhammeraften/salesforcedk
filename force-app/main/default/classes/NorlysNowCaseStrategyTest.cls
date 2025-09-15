@@ -116,7 +116,8 @@ private class NorlysNowCaseStrategyTest {
         Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ testCase.Id => testCase };
         norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(recordIds).thenReturn(caseMap);
 
-        HTTPException testException = new HTTPException('Error');
+        // Use the project's custom HTTPException to simulate a non-500 error
+        HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
         norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
         
         norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase').whenCalledWith(testCase, testException.getMessage()).thenReturn(testCase);
@@ -181,5 +182,54 @@ private class NorlysNowCaseStrategyTest {
         System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a callout exception.');
         System.assertEquals(1, databaseServiceStub.register.updated.size(), 'The databaseService.updateRecords method should have been called once.');
         System.assertEquals(1, createTasksSpy.callLog.size(), 'The createFollowUpTasks method should have been called once.');
+    }
+
+    @isTest
+    static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
+        // Arrange
+        setupMocks();
+        // Default mock for triggers
+        norlysNowServiceMock.spyOn('createCaseRequestObject').returns(new NorlysNowClientRequestDTO());
+        
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(1)
+            .build();
+        
+        NorlysNow_Case__c testCase = scenario.norlysNowCases[0];
+        Set<Id> recordIds = new Set<Id>{ testCase.Id };
+
+        EventExecutor__e testEvent = new EventExecutor__e(
+            Parameters__c = '{"recordIds":["' + testCase.Id + '"]}'
+        );
+
+        // --- Mock Service Calls for the main execution path ---
+        NorlysNowService.Parameters params = new NorlysNowService.Parameters();
+        params.recordIds = recordIds;
+        norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
+
+        Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ testCase.Id => testCase };
+        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(recordIds).thenReturn(caseMap);
+
+        // Use the project's custom HTTPException to simulate a 500 error
+        HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
+        norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
+        
+        MethodSpy setErrorSpy = norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase');
+        MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+
+        NorlysNowCaseStrategy strategy = new NorlysNowCaseStrategy();
+
+        // Act
+        Test.startTest();
+        Set<Id> remainingIds = strategy.toExecute(testEvent);
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(1, remainingIds.size(), 'The ID should remain in the set for a retryable 500 error.');
+        System.assertEquals(testCase.Id, remainingIds.iterator().next(), 'The correct ID should be in the retry set.');
+        System.assertEquals(0, databaseServiceStub.register.updated.size(), 'DatabaseService should not be called for a 500 error.');
+        System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
+        System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
     }
 }

@@ -1,15 +1,14 @@
 /**
- * @description Test class for NorlysNowFeedItemStrategy.
- *              This class ensures that the strategy correctly processes FeedItem records,
- *              sends them as comments to the NorlysNow API, and handles both
- *              success and error responses gracefully.
+ * @description Test class for the NorlysNowContentDocumentLinkStrategy. This class ensures that the strategy
+ *              correctly processes ContentDocumentLink records, sends file data to the NorlysNow API,
+ *              and handles both success and various error responses.
  * -----------------------------------------------------------------------------
  * Developer            Date            Description
  * -----------------------------------------------------------------------------
  * Jules                2025-09-15      Initial version.
  */
 @isTest
-private class NorlysNowFeedItemStrategyTest {
+private class NorlysNowContentDocumentLinkStrategyTest {
     private static Mock norlysNowServiceMock;
     private static Mock norlysNowSelectorMock;
     private static Mock norlysNowClientMock;
@@ -43,20 +42,19 @@ private class NorlysNowFeedItemStrategyTest {
     static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
         // Arrange
         setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
+        norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
-            .withFeedItems(1)
+            .withAttachedFiles(1)
             .build();
         
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+        ContentDocumentLink testCdl = scenario.contentDocumentLinks[0];
+        Set<Id> recordIds = new Set<Id>{ testCdl.ContentDocumentId };
 
         EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+            Parameters__c = '{"recordIds":["' + testCdl.ContentDocumentId + '"]}'
         );
 
         // --- Mock Service Calls for the main execution path ---
@@ -64,15 +62,19 @@ private class NorlysNowFeedItemStrategyTest {
         params.recordIds = recordIds;
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+        List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+        norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
+        ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+        Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+        norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
+        
         norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(null);
 
         MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn('setSuccessOnNorlysNowCase');
         setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(new NorlysNow_Case__c());
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+        NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
         // Act
         Test.startTest();
@@ -89,21 +91,20 @@ private class NorlysNowFeedItemStrategyTest {
     static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
         // Arrange
         setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
+        norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
-            .withFeedItems(1)
+            .withAttachedFiles(1)
             .build();
         
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+        ContentDocumentLink testCdl = scenario.contentDocumentLinks[0];
         NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+        Set<Id> recordIds = new Set<Id>{ testCdl.ContentDocumentId };
 
         EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+            Parameters__c = '{"recordIds":["' + testCdl.ContentDocumentId + '"]}'
         );
 
         // --- Mock Service Calls for the main execution path ---
@@ -111,8 +112,12 @@ private class NorlysNowFeedItemStrategyTest {
         params.recordIds = recordIds;
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+        List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+        norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
+
+        ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+        Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+        norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
         // Use the project's custom HTTPException to simulate a non-500 error
         HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
@@ -122,7 +127,7 @@ private class NorlysNowFeedItemStrategyTest {
         MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
         createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+        NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
         // Act
         Test.startTest();
@@ -139,21 +144,20 @@ private class NorlysNowFeedItemStrategyTest {
     static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
         // Arrange
         setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
-        
+        norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
+
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
-            .withFeedItems(1)
+            .withAttachedFiles(1)
             .build();
         
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+        ContentDocumentLink testCdl = scenario.contentDocumentLinks[0];
         NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+        Set<Id> recordIds = new Set<Id>{ testCdl.ContentDocumentId };
 
         EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+            Parameters__c = '{"recordIds":["' + testCdl.ContentDocumentId + '"]}'
         );
 
         // --- Mock Service Calls for the main execution path ---
@@ -161,17 +165,21 @@ private class NorlysNowFeedItemStrategyTest {
         params.recordIds = recordIds;
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+        List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+        norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
+
+        ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+        Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+        norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
         System.CalloutException testException = new System.CalloutException('Error');
         norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
         
-        norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase').whenCalledWith(Argument.any(), Argument.any()).thenReturn(parentCase);
+        norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase').whenCalledWith(Argument.any(), testException.getMessage()).thenReturn(parentCase);
         MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
         createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+        NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
         // Act
         Test.startTest();
@@ -188,21 +196,19 @@ private class NorlysNowFeedItemStrategyTest {
     static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
         // Arrange
         setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
-        
+        norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
+
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
-            .withFeedItems(1)
+            .withAttachedFiles(1)
             .build();
         
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
-        NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+        ContentDocumentLink testCdl = scenario.contentDocumentLinks[0];
+        Set<Id> recordIds = new Set<Id>{ testCdl.ContentDocumentId };
 
         EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+            Parameters__c = '{"recordIds":["' + testCdl.ContentDocumentId + '"]}'
         );
 
         // --- Mock Service Calls for the main execution path ---
@@ -210,8 +216,12 @@ private class NorlysNowFeedItemStrategyTest {
         params.recordIds = recordIds;
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+        List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+        norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
+
+        ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+        Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+        norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
         // Use the project's custom HTTPException to simulate a 500 error
         HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
@@ -220,7 +230,7 @@ private class NorlysNowFeedItemStrategyTest {
         MethodSpy setErrorSpy = norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase');
         MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+        NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
         // Act
         Test.startTest();
@@ -229,7 +239,7 @@ private class NorlysNowFeedItemStrategyTest {
 
         // Assert
         System.assertEquals(1, remainingIds.size(), 'The ID should remain in the set for a retryable 500 error.');
-        System.assertEquals(testFeedItem.Id, remainingIds.iterator().next(), 'The correct ID should be in the retry set.');
+        System.assert(remainingIds.contains(testCdl.ContentDocumentId), 'The correct ContentDocumentId should be in the retry set.');
         System.assertEquals(0, databaseServiceStub.register.updated.size(), 'DatabaseService should not be called for a 500 error.');
         System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
         System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
