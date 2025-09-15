@@ -15,14 +15,6 @@ public class NorlysNowFeedItemStrategy implements INorlysNowIntegrationStrategy{
         this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(DatabaseService.class);
     }
 
-    @TestVisible
-    private NorlysNowFeedItemStrategy(NorlysNowService norlysNowService, NorlysNowSelector norlysNowSelector, NorlysNowClient norlysNowClient, DatabaseService databaseService) {
-        this.norlysNowService = norlysNowService;
-        this.norlysNowSelector = norlysNowSelector;
-        this.norlysNowClient = norlysNowClient;
-        this.databaseService = databaseService;
-    }
-
     public Set<Id> toExecute(EventExecutor__e event) {
         Logger.logInfo(String.format('toExecute( {0} )', new List<Object>{ event }));
 
