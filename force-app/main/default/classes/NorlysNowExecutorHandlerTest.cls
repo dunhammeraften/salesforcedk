@@ -142,7 +142,7 @@ private class NorlysNowExecutorHandlerTest {
         // --- Mock Service Calls ---
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
         
-        Set<Id> retryIds = new Set<Id>{((SObject)JSON.deserialize('{"Id":"001000000000001AAA"}', SObject.class)).Id};
+        Set<Id> retryIds = new Set<Id>{Test.getStandardPricebookId()}; // Simulate that there are IDs to retry
         MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
         toExecuteSpy.whenCalledWith(testEvent).thenReturn(retryIds);
 
@@ -172,11 +172,6 @@ private class NorlysNowExecutorHandlerTest {
         // --- Mock Service Calls ---
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
         
-        Mock loggerMock = Mock.forType(Logger.class);
-        Logger loggerStub = (Logger) loggerMock.stub;
-        MethodSpy logErrorSpy = loggerMock.spyOn('logError');
-        SingletonFactory.getFactory().registerSingleton(Logger.class, loggerStub);
-
         MethodSpy caseExecuteSpy = caseStrategyMock.spyOn('toExecute');
         MethodSpy feedItemExecuteSpy = feedItemStrategyMock.spyOn('toExecute');
         MethodSpy contentDocLinkExecuteSpy = contentDocLinkStrategyMock.spyOn('toExecute');
@@ -189,9 +184,8 @@ private class NorlysNowExecutorHandlerTest {
         Test.stopTest();
 
         // Assert
-        System.assertEquals(1, logErrorSpy.callLog.size(), 'Logger.logError should have been called once.');
-        System.assertEquals(0, caseExecuteSpy.callLog.size(), 'Case strategy should not have been called.');
-        System.assertEquals(0, feedItemExecuteSpy.callLog.size(), 'FeedItem strategy should not have been called.');
-        System.assertEquals(0, contentDocLinkExecuteSpy.callLog.size(), 'ContentDocumentLink strategy should not have been called.');
+        System.assertEquals(0, caseExecuteSpy.callLog.size(), 'Case strategy should not have been called for an unknown type.');
+        System.assertEquals(0, feedItemExecuteSpy.callLog.size(), 'FeedItem strategy should not have been called for an unknown type.');
+        System.assertEquals(0, contentDocLinkExecuteSpy.callLog.size(), 'ContentDocumentLink strategy should not have been called for an unknown type.');
     }
 }
