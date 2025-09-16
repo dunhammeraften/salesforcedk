@@ -44,7 +44,8 @@ public class NorlysNowCaseStrategy implements INorlysNowIntegrationStrategy{
                 norlysNowCase.Request_Source__c,
                 norlysNowCase.Category__c,
                 norlysNowCase.Technology_Type__c,
-                norlysNowCase.Technology__c
+                norlysNowCase.Technology__c,
+                norlysNowCase.OneWorkFlow_Id__c
             );
 
             try {

@@ -25,7 +25,8 @@ public with sharing class NorlysNowSelector {
             'Technology_Type__c',
             'Technology__c',
             'Sync_Status__c',
-            'Sync_Message__c'
+            'Sync_Message__c',
+            'OneWorkFlow_Id__c'
         })
         .byId(recordIds)
         .addConditionNotNull('Parent_Case__c')

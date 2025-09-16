@@ -66,15 +66,16 @@ public with sharing class NorlysNowService {
         String requestSource,
         String category,
         String technologyType,
-        String technology
+        String technology,
+        String oneWorkFlowId
     ) {
         Logger.logInfo(
                 String.format(
-                    'createCaseRequestObject( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15} )',
+                    'createCaseRequestObject( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16} )',
                     new List<Object>{
                         correlationId, externalAction, externalReference, messageType, integrationMode,
                         integrationPartner, salesforceId, commentBody, priority, description, title, type,
-                        status, requestSource, category, technologyType, technology
+                        status, requestSource, category, technologyType, technology, oneWorkFlowId
                     }
                 )
             );
@@ -99,6 +100,7 @@ public with sharing class NorlysNowService {
         requestObject.payload.category = category;
         requestObject.payload.technologyType = technologyType;
         requestObject.payload.technology = technology;
+        requestObject.payload.oneWorkFlowId = oneWorkFlowId;
 
         return requestObject;
     }

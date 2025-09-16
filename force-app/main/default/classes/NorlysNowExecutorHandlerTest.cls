@@ -141,8 +141,8 @@ private class NorlysNowExecutorHandlerTest {
         
         // --- Mock Service Calls ---
         norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
-        
-        Set<Id> retryIds = new Set<Id>{Test.getStandardPricebookId()}; // Simulate that there are IDs to retry
+
+        Set<Id> retryIds = new Set<Id>{DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType)}; // Simulate that there are IDs to retry
         MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
         toExecuteSpy.whenCalledWith(testEvent).thenReturn(retryIds);
 

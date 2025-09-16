@@ -1154,7 +1154,12 @@ public class NorlysTestScenarios {
                         );
                     }
                     insert casesToInsert;
-                    result.norlysNowCases = casesToInsert;
+                    // Re-query to populate relationship fields and formula fields
+                    result.norlysNowCases = [
+                        SELECT Id, Name, Status__c, Parent_Case__c, Account__c, CreatedBy.Id
+                        FROM NorlysNow_Case__c
+                        WHERE Id IN :casesToInsert
+                    ];
                 }
 
                 // Step 4: Create FeedItem records

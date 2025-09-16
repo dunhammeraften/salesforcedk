@@ -26,5 +26,6 @@ public class NorlysNowClientRequestDTO {
         public String comment;
         public String fileData;
         public String fileName;
+        public String oneWorkFlowId;
     }
 }
