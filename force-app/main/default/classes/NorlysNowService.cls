@@ -8,11 +8,6 @@ public with sharing class NorlysNowService {
     private NorlysNowService(SingletonFactory singletonFactory) {
         this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
     }
-
-    @TestVisible
-    private NorlysNowService(NorlysNowSelector norlysNowSelector) {
-        this.norlysNowSelector = norlysNowSelector;
-    }
     
     public NorlysNowClientRequestDTO createCaseCommentRequestObject(
         String correlationId,
