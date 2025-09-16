@@ -53,17 +53,18 @@ private class FeedItemTriggerHandlerTest {
     static void afterInsert_WithPermissionAndNorlysNowCaseParent_ShouldPublishEvent() {
         // Arrange
         TriggerHandler.bypass('FeedItemTriggerHandler');
+        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
 
-        // Create mock SObject data in memory to avoid DML
-        NorlysNow_Case__c testCase = (NorlysNow_Case__c)JSON.deserialize(
-            '{"Id":"a3S000000000001AAA", "Title__c":"Test NorlysNow Case"}',
-            NorlysNow_Case__c.class
-        );
-        FeedItem testFeedItem = (FeedItem)JSON.deserialize(
-            '{"Id":"0D5000000000001AAA", "ParentId":"' + testCase.Id + '", "Body":"Test Body"}',
-            FeedItem.class
-        );
+        // Create a scenario with one NorlysNow case and one feed item
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(1)
+            .withFeedItems(1)
+            .build();
+
+        NorlysNow_Case__c testCase = scenario.norlysNowCases[0];
+        FeedItem testFeedItem = scenario.feedItems[0];
 
         // --- Mock Service Calls ---
         permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.ofType(List<String>.class)).thenReturn(true);
@@ -95,17 +96,17 @@ private class FeedItemTriggerHandlerTest {
     static void afterInsert_WithoutPermission_ShouldNotPublishEvent() {
         // Arrange
         TriggerHandler.bypass('FeedItemTriggerHandler');
+        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
 
-        // Create mock SObject data in memory to avoid DML
-        NorlysNow_Case__c testCase = (NorlysNow_Case__c)JSON.deserialize(
-            '{"Id":"a3S000000000001AAA", "Title__c":"Test NorlysNow Case"}',
-            NorlysNow_Case__c.class
-        );
-        FeedItem testFeedItem = (FeedItem)JSON.deserialize(
-            '{"Id":"0D5000000000001AAA", "ParentId":"' + testCase.Id + '", "Body":"Test Body"}',
-            FeedItem.class
-        );
+        // Create a scenario with one NorlysNow case and one feed item
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(1)
+            .withFeedItems(1)
+            .build();
+
+        FeedItem testFeedItem = scenario.feedItems[0];
         
         permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.ofType(List<String>.class)).thenReturn(false);
         // Initialize the spy for the 'publish' method so we can check its call log later.
@@ -134,13 +135,19 @@ private class FeedItemTriggerHandlerTest {
     static void afterInsert_WithNonNorlysNowCaseParent_ShouldNotPublishEvent() {
         // Arrange
         TriggerHandler.bypass('FeedItemTriggerHandler');
+        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
         
-        // Create mock SObject data in memory to avoid DML
-        Case parentCase = (Case)JSON.deserialize(
-            '{"Id":"500000000000001AAA", "Subject":"Test Case"}',
-            Case.class
-        );
+        // Create a scenario with a standard case, but no NorlysNow case.
+        // This provides a parent record for the FeedItem that is not a NorlysNow_Case__c.
+        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+            .forNorlysNowCaseHandling()
+            .withNorlysNowCases(0) // Ensure no NorlysNow_Case__c is created
+            .build();
+        Case parentCase = scenario.caseRecord;
+
+        // Create a mock FeedItem in memory. JSON.deserialize is used here as a standard
+        // way to create an SObject with a mock ID without performing a DML operation.
         FeedItem testFeedItem = (FeedItem)JSON.deserialize(
             '{"Id":"0D5000000000001AAA", "ParentId":"' + parentCase.Id + '", "Body":"Test Feed Item"}',
             FeedItem.class
