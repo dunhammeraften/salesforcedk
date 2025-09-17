@@ -15,7 +15,7 @@
 private class NorlysNowCaseTriggerHandlerTest {
 
     // Mocked service dependencies, to be initialized in each test
-    private static NorlysNowService norlysNowService;
+    private static Mock norlysNowServiceMock;
     private static Mock norlysNowSelectorMock;
     private static Mock permissionServiceMock;
     private static Mock eventExecutorServiceMock;
@@ -29,9 +29,11 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Create mocks for all service dependencies
         norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
         permissionServiceMock = Mock.forType(PermissionService.class);
+        norlysNowServiceMock = Mock.forType(NorlysNowService.class);
         eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
 
         // Get the stub instances from the mocks
+        NorlysNowService norlysNowServiceStub = (NorlysNowService) norlysNowServiceMock.stub;
         NorlysNowSelector norlysNowSelectorStub = (NorlysNowSelector) norlysNowSelectorMock.stub;
         PermissionService permissionServiceStub = (PermissionService) permissionServiceMock.stub;
         EventExecutorService eventExecutorServiceStub = (EventExecutorService) eventExecutorServiceMock.stub;
@@ -39,16 +41,13 @@ private class NorlysNowCaseTriggerHandlerTest {
         // Instantiate DatabaseService with DML mocking enabled
         dbMock = new DatabaseService().mockDmls();
 
-        // Instantiate the real NorlysNowService with its selector dependency stubbed
-        norlysNowService = new NorlysNowService(norlysNowSelectorStub);
-
         // Register all the singleton services with our stubs so the handler will use them
         SingletonFactory factory = SingletonFactory.getFactory();
         factory.registerSingleton(NorlysNowSelector.class, norlysNowSelectorStub);
         factory.registerSingleton(PermissionService.class, permissionServiceStub);
         factory.registerSingleton(EventExecutorService.class, eventExecutorServiceStub);
         factory.registerSingleton(DatabaseService.class, dbMock);
-        factory.registerSingleton(NorlysNowService.class, norlysNowService);
+        factory.registerSingleton(NorlysNowService.class, norlysNowServiceStub);
     }
 
     /**
