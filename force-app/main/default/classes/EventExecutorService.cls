@@ -113,7 +113,7 @@ public with sharing class EventExecutorService {
 
         try {
             if (eventExecutorToPublish != null) {
-                saveResults = publish(new List<EventExecutor__e>{ eventExecutorToPublish });
+                saveResults = publishEvents(new List<EventExecutor__e>{ eventExecutorToPublish });
             }
         } catch (Exception e) {
             throw e;
@@ -122,8 +122,8 @@ public with sharing class EventExecutorService {
         return saveResults.get(0);
     }
 
-    public List<Database.SaveResult> publish(List<EventExecutor__e> eventsExecutorToPublish) {
-        Logger.logInfo(String.format('publish( {0} )', new List<Object>{ eventsExecutorToPublish }));
+    public List<Database.SaveResult> publishEvents(List<EventExecutor__e> eventsExecutorToPublish) {
+        Logger.logInfo(String.format('publishEvents( {0} )', new List<Object>{ eventsExecutorToPublish }));
 
         List<Database.SaveResult> saveResults;
 
