@@ -43,4 +43,14 @@ public with sharing class SingletonFactory {
 
         return discreteInstance;
     }
+
+        /**
+     * @description Injects a mock instance for a specific type. This method is only available during test execution.
+     * @param instanceType The type of the singleton to register.
+     * @param instance The mock instance to register.
+     */
+    @TestVisible
+    private void registerSingleton(Type instanceType, Object instance) {
+        this.singletonTypeToInstance.put(instanceType, instance);
+    }
 }
