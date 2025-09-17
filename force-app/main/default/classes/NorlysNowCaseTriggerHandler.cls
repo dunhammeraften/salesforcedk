@@ -56,7 +56,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
             }
             
             if(!eventList.isEmpty() ){
-                eventExecutorService.publish(eventList);
+                eventExecutorService.publishEvents(eventList);
             }
         }
     }
@@ -79,7 +79,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
         if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
             return;
         }
-
+        // TODO: might be enough to use triggerNewMap and then move the norlysnowcase filtering to the before insert
         Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(triggerNewMap.keySet());
 
         if(!norlysNowCaseMap.isEmpty()){
@@ -93,7 +93,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
             List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(norlysNowCaseToBeSentIds, 'NorlysNow_Case__c', 'NorlysNowExecutorHandler');
 
             if(!eventList.isEmpty()){
-                eventExecutorService.publish(eventList);
+                eventExecutorService.publishEvents(eventList);
             }
         }
     }

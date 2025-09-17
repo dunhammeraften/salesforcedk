@@ -56,7 +56,7 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
             List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(feedItemIds, 'FeedItem', 'NorlysNowExecutorHandler');
 
             if(!eventList.isEmpty()){
-                eventExecutorService.publish(eventList);
+                eventExecutorService.publishEvents(eventList);
             }
         }
     }

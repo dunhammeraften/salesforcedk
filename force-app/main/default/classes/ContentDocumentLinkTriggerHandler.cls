@@ -1,4 +1,4 @@
-public class ContentDocumentLinkTriggerHandler extends TriggerHandler {
+public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandler {
 	@TestVisible
     private List<ContentDocumentLink> triggerNew;
 	private final CaseService caseService;
@@ -42,7 +42,7 @@ public class ContentDocumentLinkTriggerHandler extends TriggerHandler {
         if (!fileIds.isEmpty()) {
             List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(fileIds, 'ContentDocumentLink', 'NorlysNowExecutorHandler');
             if(!eventList.isEmpty()){
-                eventExecutorService.publish(eventList);
+                eventExecutorService.publishEvents(eventList);
             }
         }
 	}
