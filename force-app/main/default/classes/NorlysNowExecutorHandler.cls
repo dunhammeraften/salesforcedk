@@ -28,6 +28,7 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
         
             // If there are any remaining assignments, retry the process
             if(!recordIds.isEmpty() ){
+                params.recordIds = recordIds;
                 EventExecutor__e retryEventExecutor = new EventExecutor__e();
                 retryEventExecutor.Parameters__c = JSON.serialize(params);
                 retryEventExecutor.Executor__c = event.Executor__c;
