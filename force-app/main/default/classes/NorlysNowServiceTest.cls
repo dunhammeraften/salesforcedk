@@ -9,7 +9,6 @@
 private class NorlysNowServiceTest {
 
     private static Mock norlysNowSelectorMock;
-    private static Mock norlysNowServiceMock;
     private static DatabaseService dbMock;
 
     /**
@@ -19,7 +18,6 @@ private class NorlysNowServiceTest {
      */
     private static void setupMocks() {
         // Create a mock for the selector dependency
-        norlysNowServiceMock = Mock.forType(NorlysNowService.class);
         norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
 
         // Mock the DatabaseService to prevent actual DML operations
@@ -27,7 +25,6 @@ private class NorlysNowServiceTest {
 
         // Register the mocks with the SingletonFactory so they can be used by other services if needed
         SingletonFactory factory = SingletonFactory.getFactory();
-        factory.registerSingleton(NorlysNowService.class, (NorlysNowService)norlysNowServiceMock.stub);
         factory.registerSingleton(NorlysNowSelector.class, (NorlysNowSelector)norlysNowSelectorMock.stub);
         factory.registerSingleton(DatabaseService.class, dbMock);
     }
@@ -36,6 +33,7 @@ private class NorlysNowServiceTest {
     static void createCaseCommentRequestObject_ShouldReturnCorrectDTO() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         String correlationId = 'test-corr-id';
         String externalAction = 'CREATE';
         String externalReference = 'ref-123';
@@ -46,7 +44,7 @@ private class NorlysNowServiceTest {
         String commentBody = 'This is a test comment.';
 
         // Act
-        NorlysNowClientRequestDTO result = norlysNowServiceMock.createCaseCommentRequestObject(
+        NorlysNowClientRequestDTO result = service.createCaseCommentRequestObject(
             correlationId, externalAction, externalReference, messageType, integrationMode,
             integrationPartner, salesforceId, commentBody
         );
@@ -63,9 +61,10 @@ private class NorlysNowServiceTest {
     static void createCaseRequestObject_ShouldReturnCorrectDTO() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
 
         // Act
-        NorlysNowClientRequestDTO result = norlysNowServiceMock.createCaseRequestObject(
+        NorlysNowClientRequestDTO result = service.createCaseRequestObject(
             'corr-id', 'CREATE', 'ext-ref', 'Case', 'Async', 'PartnerB',
             '5003N000002W9p7QAD', 'A comment', 'High', 'A description', 'A title',
             'Problem', 'New', 'Email', 'Tech', 'Fiber', 'Coax', 'WF12345'
@@ -86,9 +85,10 @@ private class NorlysNowServiceTest {
     static void createFileRequestObject_ShouldReturnCorrectDTO() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
 
         // Act
-        NorlysNowClientRequestDTO result = norlysNowServiceMock.createFileRequestObject(
+        NorlysNowClientRequestDTO result = service.createFileRequestObject(
             'corr-id-file', 'ATTACH', 'ext-ref-file', 'File', 'Async', 'PartnerC',
             '5003N000002W9p8QAE', 'base64-encoded-data', 'testfile.txt'
         );
@@ -105,10 +105,11 @@ private class NorlysNowServiceTest {
     static void setSuccessOnNorlysNowCase_ShouldUpdateStatus() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysNow_Case__c testCase = new NorlysNow_Case__c();
 
         // Act
-        NorlysNow_Case__c result = norlysNowServiceMock.setSuccessOnNorlysNowCase(testCase);
+        NorlysNow_Case__c result = service.setSuccessOnNorlysNowCase(testCase);
 
         // Assert
         System.assertEquals('Success', result.Sync_Status__c, 'Sync Status should be "Success".');
@@ -118,11 +119,12 @@ private class NorlysNowServiceTest {
     static void setErrorOnNorlysNowCase_ShouldUpdateStatusAndMessage() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysNow_Case__c testCase = new NorlysNow_Case__c();
         String errorMessage = 'An error occurred.';
 
         // Act
-        NorlysNow_Case__c result = norlysNowServiceMock.setErrorOnNorlysNowCase(testCase, errorMessage);
+        NorlysNow_Case__c result = service.setErrorOnNorlysNowCase(testCase, errorMessage);
 
         // Assert
         System.assertEquals('Error', result.Sync_Status__c, 'Sync Status should be "Error".');
@@ -133,6 +135,7 @@ private class NorlysNowServiceTest {
     static void getParameters_ShouldDeserializeCorrectly() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         Id fakeId1 = DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType);
         Id fakeId2 = DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType);
         Set<Id> recordIds = new Set<Id>{ fakeId1, fakeId2 };
@@ -140,7 +143,7 @@ private class NorlysNowServiceTest {
         String jsonString = '{"type":"Case","recordIds":["' + fakeId1 + '","' + fakeId2 + '"]}';
 
         // Act
-        NorlysNowService.Parameters result = norlysNowServiceMock.getParameters(jsonString);
+        NorlysNowService.Parameters result = service.getParameters(jsonString);
 
         // Assert
         System.assertEquals('Case', result.type, 'Type should be deserialized correctly.');
@@ -152,6 +155,7 @@ private class NorlysNowServiceTest {
         // Arrange
         TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
@@ -169,7 +173,7 @@ private class NorlysNowServiceTest {
         norlysNowSelectorMock.spyOn('getContentVersions').whenCalledWith(docIds).thenReturn(new List<ContentVersion>{ cv });
 
         // Act
-        Map<Id, ContentVersion> result = norlysNowServiceMock.getFileIdToVersion(docIds);
+        Map<Id, ContentVersion> result = service.getFileIdToVersion(docIds);
 
         // Assert
         System.assertEquals(1, result.size(), 'The map should contain one entry.');
@@ -183,6 +187,7 @@ private class NorlysNowServiceTest {
         // Arrange
         TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
@@ -210,7 +215,7 @@ private class NorlysNowServiceTest {
 
         // Act
         Test.startTest();
-        norlysNowServiceMock.createFollowUpTasks(scenario.norlysNowCases, subject, description, dueDate);
+        service.createFollowUpTasks(scenario.norlysNowCases, subject, description, dueDate);
         Test.stopTest();
 
         // Assert
@@ -230,6 +235,7 @@ private class NorlysNowServiceTest {
         // Arrange
         TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(2)
@@ -245,7 +251,7 @@ private class NorlysNowServiceTest {
             .thenReturn(scenario.norlysNowCases);
 
         // Act
-        List<Case> result = norlysNowServiceMock.closeParentCases(scenario.norlysNowCases);
+        List<Case> result = service.closeParentCases(scenario.norlysNowCases);
 
         // Assert
         System.assertEquals(1, result.size(), 'One parent case should be returned to be closed.');
@@ -259,6 +265,7 @@ private class NorlysNowServiceTest {
         // Arrange
         TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(2)
@@ -273,7 +280,7 @@ private class NorlysNowServiceTest {
             .thenReturn(scenario.norlysNowCases);
 
         // Act
-        List<Case> result = norlysNowServiceMock.closeParentCases(new List<NorlysNow_Case__c>{ scenario.norlysNowCases[0] });
+        List<Case> result = service.closeParentCases(new List<NorlysNow_Case__c>{ scenario.norlysNowCases[0] });
 
         // Assert
         System.assert(result.isEmpty(), 'No parent cases should be returned for closure.');
@@ -285,6 +292,7 @@ private class NorlysNowServiceTest {
         // Arrange
         TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
             .forNorlysNowCaseHandling()
             .withNorlysNowCases(1)
@@ -296,7 +304,7 @@ private class NorlysNowServiceTest {
         norlysNowSelectorMock.spyOn('getCasesByIds').whenCalledWith(new Set<Id>{ scenario.caseRecord.Id }).thenReturn(closedParentMap);
 
         // Act
-        norlysNowServiceMock.CheckParentCaseIsClosed(scenario.norlysNowCases);
+        service.CheckParentCaseIsClosed(scenario.norlysNowCases);
 
         // Assert
         System.assert(scenario.norlysNowCases[0].hasErrors(), 'The NorlysNow case should have an error.');
@@ -312,13 +320,14 @@ private class NorlysNowServiceTest {
     static void chunkEventsInListsToBePublished_ShouldReturnCorrectEventList() {
         // Arrange
         setupMocks();
+        NorlysNowService service = new NorlysNowService();
         List<Id> idsToChunk = new List<Id>();
         for (Integer i = 0; i < 150; i++) {
             idsToChunk.add(DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType));
         }
 
         // Act
-        List<EventExecutor__e> result = norlysNowServiceMock.chunkEventsInListsToBePublished(idsToChunk, 'TestType', 'TestExecutor');
+        List<EventExecutor__e> result = service.chunkEventsInListsToBePublished(idsToChunk, 'TestType', 'TestExecutor');
 
         // Assert
         System.assertEquals(2, result.size(), 'The list should be chunked into two events.');
