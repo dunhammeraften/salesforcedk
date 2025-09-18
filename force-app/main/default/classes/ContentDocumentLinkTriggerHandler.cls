@@ -41,7 +41,7 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
 
         if (!fileIds.isEmpty()) {
             List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(fileIds, 'ContentDocumentLink', 'NorlysNowExecutorHandler');
-            if(!eventList.isEmpty()){
+            if(eventList != null && !eventList.isEmpty() ){
                 eventExecutorService.publishEvents(eventList);
             }
         }

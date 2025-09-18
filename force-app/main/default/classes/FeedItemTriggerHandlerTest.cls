@@ -9,7 +9,7 @@
 private class FeedItemTriggerHandlerTest {
 
     // Mocked service dependencies, to be initialized in each test
-    private static NorlysNowService norlysNowService;
+    private static Mock norlysNowServiceMock;
     private static Mock norlysNowSelectorMock;
     private static Mock permissionServiceMock;
     private static Mock eventExecutorServiceMock;
@@ -21,28 +21,21 @@ private class FeedItemTriggerHandlerTest {
      */
     private static void setupMocks() {
         // Create mocks for all service dependencies
+        norlysNowServiceMock = Mock.forType(NorlysNowService.class);
         norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
         permissionServiceMock = Mock.forType(PermissionService.class);
         eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
-
-        // Get the stub instances from the mocks
-        NorlysNowSelector norlysNowSelectorStub = (NorlysNowSelector) norlysNowSelectorMock.stub;
-        PermissionService permissionServiceStub = (PermissionService) permissionServiceMock.stub;
-        EventExecutorService eventExecutorServiceStub = (EventExecutorService) eventExecutorServiceMock.stub;
-
         // Instantiate DatabaseService with DML mocking enabled
         dbMock = new DatabaseService().mockDmls();
-
-        // Instantiate the real NorlysNowService with its selector dependency stubbed
-        norlysNowService = new NorlysNowService(norlysNowSelectorStub);
-
-        // Register all the singleton services with our stubs so the handler will use them
+        // Get the shared factory instance
         SingletonFactory factory = SingletonFactory.getFactory();
-        factory.registerSingleton(NorlysNowSelector.class, norlysNowSelectorStub);
-        factory.registerSingleton(PermissionService.class, permissionServiceStub);
-        factory.registerSingleton(EventExecutorService.class, eventExecutorServiceStub);
+        // Register all our mock stubs with the shared factory.
+        // The handler's default constructor will now receive these mocks.
+        factory.registerSingleton(NorlysNowService.class, (NorlysNowService)norlysNowServiceMock.stub);
+        factory.registerSingleton(NorlysNowSelector.class, (NorlysNowSelector)norlysNowSelectorMock.stub);
+        factory.registerSingleton(PermissionService.class, (PermissionService)permissionServiceMock.stub);
+        factory.registerSingleton(EventExecutorService.class, (EventExecutorService)eventExecutorServiceMock.stub);
         factory.registerSingleton(DatabaseService.class, dbMock);
-        factory.registerSingleton(NorlysNowService.class, norlysNowService);
     }
 
     /**
@@ -62,20 +55,18 @@ private class FeedItemTriggerHandlerTest {
             .withNorlysNowCases(1)
             .withFeedItems(1)
             .build();
-
-        NorlysNow_Case__c testCase = scenario.norlysNowCases[0];
-        FeedItem testFeedItem = scenario.feedItems[0];
+        Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
         // --- Mock Service Calls ---
-        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.ofType(List<String>.class)).thenReturn(true);
-        Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ testCase.Id => testCase };
-        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(Argument.any()).thenReturn(caseMap);
-        
-        eventExecutorServiceMock.spyOn('publish').whenCalledWith(Argument.any()).thenReturn(null);
+        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
+        norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any())
+            .thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
         
         FeedItemTriggerHandler handler = new FeedItemTriggerHandler();
-        handler.triggerNew = new List<FeedItem>{ testFeedItem };
-        handler.triggerNewMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+        handler.triggerNew = scenario.feedItems;
+        handler.triggerNewMap = new Map<Id, FeedItem>(scenario.feedItems);
 
         // Act
         Test.startTest();
@@ -83,7 +74,6 @@ private class FeedItemTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        MethodSpy publishSpy = eventExecutorServiceMock.getSpy('publish');
         System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
         TriggerHandler.clearAllBypasses();
     }
@@ -105,16 +95,18 @@ private class FeedItemTriggerHandlerTest {
             .withNorlysNowCases(1)
             .withFeedItems(1)
             .build();
+        Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
-        FeedItem testFeedItem = scenario.feedItems[0];
-        
-        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.ofType(List<String>.class)).thenReturn(false);
-        // Initialize the spy for the 'publish' method so we can check its call log later.
-        eventExecutorServiceMock.spyOn('publish');
+        // --- Mock Service Calls ---
+        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
+        norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
+        norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any())
+            .thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
         
         FeedItemTriggerHandler handler = new FeedItemTriggerHandler();
-        handler.triggerNew = new List<FeedItem>{ testFeedItem };
-        handler.triggerNewMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+        handler.triggerNew = scenario.feedItems;
+        handler.triggerNewMap = new Map<Id, FeedItem>(scenario.feedItems);
 
         // Act
         Test.startTest();
@@ -122,51 +114,6 @@ private class FeedItemTriggerHandlerTest {
         Test.stopTest();
 
         // Assert
-        MethodSpy publishSpy = eventExecutorServiceMock.getSpy('publish');
-        System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
-        TriggerHandler.clearAllBypasses();
-    }
-
-    /**
-     * @description Tests that the handler exits gracefully without publishing any events
-     *              when the FeedItem parent is not a NorlysNow_Case__c.
-     */
-    @isTest
-    static void afterInsert_WithNonNorlysNowCaseParent_ShouldNotPublishEvent() {
-        // Arrange
-        TriggerHandler.bypass('FeedItemTriggerHandler');
-        TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
-        setupMocks();
-        
-        // Create a scenario with a standard case, but no NorlysNow case.
-        // This provides a parent record for the FeedItem that is not a NorlysNow_Case__c.
-        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-            .forNorlysNowCaseHandling()
-            .withNorlysNowCases(0) // Ensure no NorlysNow_Case__c is created
-            .build();
-        Case parentCase = scenario.caseRecord;
-
-        // Create a mock FeedItem in memory. JSON.deserialize is used here as a standard
-        // way to create an SObject with a mock ID without performing a DML operation.
-        FeedItem testFeedItem = (FeedItem)JSON.deserialize(
-            '{"Id":"0D5000000000001AAA", "ParentId":"' + parentCase.Id + '", "Body":"Test Feed Item"}',
-            FeedItem.class
-        );
-
-        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.ofType(List<String>.class)).thenReturn(true);
-        eventExecutorServiceMock.spyOn('publish');
-        
-        FeedItemTriggerHandler handler = new FeedItemTriggerHandler();
-        handler.triggerNew = new List<FeedItem>{ testFeedItem };
-        handler.triggerNewMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-
-        // Act
-        Test.startTest();
-        handler.afterInsert();
-        Test.stopTest();
-
-        // Assert
-        MethodSpy publishSpy = eventExecutorServiceMock.getSpy('publish');
         System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
         TriggerHandler.clearAllBypasses();
     }

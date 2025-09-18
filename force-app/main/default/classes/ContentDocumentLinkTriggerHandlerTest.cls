@@ -101,14 +101,10 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
             .build();
 
         // --- Mock Service Calls ---
-        MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
-        hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(true);
-
-        MethodSpy chunkEventsSpy = norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished');
-        chunkEventsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
-
-        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
-        publishSpy.whenCalledWith(Argument.any()).thenReturn(null);
+        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+        norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished').whenCalledWith(Argument.any(), Argument.any(), Argument.any())
+        .thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
         ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
         handler.triggerNew = scenario.contentDocumentLinks;
@@ -142,10 +138,9 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
             .build();
 
         // --- Mock Service Calls ---
-        MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
-        hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(false);
-
-        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
+        permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
+        
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
         ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
         handler.triggerNew = scenario.contentDocumentLinks;

@@ -55,7 +55,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
                 eventList = norlysNowService.chunkEventsInListsToBePublished(norlysNowCaseToBeSentIds, 'NorlysNow_Case__c', 'NorlysNowExecutorHandler');
             }
             
-            if(!eventList.isEmpty() ){
+            if(eventList != null && !eventList.isEmpty() ){
                 eventExecutorService.publishEvents(eventList);
             }
         }
@@ -92,7 +92,7 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 
             List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(norlysNowCaseToBeSentIds, 'NorlysNow_Case__c', 'NorlysNowExecutorHandler');
 
-            if(!eventList.isEmpty()){
+            if(eventList != null && !eventList.isEmpty() ){
                 eventExecutorService.publishEvents(eventList);
             }
         }

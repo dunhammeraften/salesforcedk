@@ -1150,13 +1150,17 @@ public class NorlysTestScenarios {
                                 .set('Parent_Case__c', result.caseRecord.Id)
                                 .set('Account__c', result.account.Id)
                                 .set('Status__c', 'New')
+                                .set('Sync_Status__c', 'Pending')
                                 .getRecord()
                         );
                     }
                     insert casesToInsert;
                     // Re-query to populate relationship fields and formula fields
                     result.norlysNowCases = [
-                        SELECT Id, Name, Status__c, Parent_Case__c, Account__c, CreatedBy.Id
+                        SELECT Id, Name, Status__c, Parent_Case__c, Parent_Case__r.Status,
+                         Parent_Case__r.OwnerId, Account__c, Sync_Status__c, Priority__c, CreatedBy.Id,
+                         Description__c, Title__c, Type__c, NorlysNow_Id__c, Request_Source__c, 
+                         Category__c, Technology_Type__c, Technology__c, Sync_Message__c, OneWorkFlow_Id__c
                         FROM NorlysNow_Case__c
                         WHERE Id IN :casesToInsert
                     ];

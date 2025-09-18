@@ -1,4 +1,4 @@
-public class NorlysNowFeedItemStrategy implements INorlysNowIntegrationStrategy{
+public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegrationStrategy{
     private final NorlysNowService norlysNowService;
     private final NorlysNowSelector norlysNowSelector;
     private final DatabaseService databaseService;

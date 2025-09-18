@@ -1,4 +1,4 @@
-public class NorlysNowCaseStrategy implements INorlysNowIntegrationStrategy{
+public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegrationStrategy{
     private final NorlysNowService norlysNowService;
     private final NorlysNowSelector norlysNowSelector;
     private final DatabaseService databaseService;
