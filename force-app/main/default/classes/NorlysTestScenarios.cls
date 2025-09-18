@@ -63,7 +63,9 @@ public class NorlysTestScenarios {
         public Contract contract;
         /** @description A list of all SBQQ__Subscription__c records created. */
         public List<SBQQ__Subscription__c> subscriptions;
-        /** @description A list of all NorlysNow_Case__c records created. */
+        /** @description The primary Billing_Account__c record, created when using `withBillingAccount`. */
+        public Billing_Account__c billingAccount;
+         /** @description A list of all NorlysNow_Case__c records created. */
         public List<NorlysNow_Case__c> norlysNowCases;
         /** @description A list of all FeedItem records created. */
         public List<FeedItem> feedItems;
@@ -119,7 +121,10 @@ public class NorlysTestScenarios {
         private Boolean createStandardVoiceAndHomeOffice = false;
         private List<Product2> customProducts = new List<Product2>();
         private List<Integer> customProductQuantities = new List<Integer>();
-        private Boolean buildForNorlysNowCaseHandling = false;
+        private Boolean createBillingAccount = false;
+        private String billingAccountType;
+        private Boolean isDefaultBillingAccount = false;
+         private Boolean buildForNorlysNowCaseHandling = false;
         private Integer numNorlysNowCases = 0;
         private Integer numFeedItems = 0;
         private Integer numFilesToAttach = 0;
@@ -181,6 +186,29 @@ public class NorlysTestScenarios {
         public ScenarioBuilder withCustomProduct(Product2 customProduct, Integer quantity) {
             this.customProducts.add(customProduct);
             this.customProductQuantities.add(quantity);
+            return this;
+        }
+
+        /**
+         * @description Instructs the builder to create a `Billing_Account__c` record for the scenario's Account.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder withBillingAccount() {
+            this.createBillingAccount = true;
+            this.billingAccountType = 'General'; // Provide a default value
+            return this;
+        }
+
+        /**
+         * @description Instructs the builder to create a `Billing_Account__c` record with specific attributes.
+         * @param type The `Billing_Account_Type__c` for the billing account.
+         * @param isDefault Sets `Default_Billing_Account__c` to true.
+         * @return The ScenarioBuilder instance for chaining.
+         */
+        public ScenarioBuilder withBillingAccount(String type, Boolean isDefault) {
+            this.createBillingAccount = true;
+            this.billingAccountType = type;
+            this.isDefaultBillingAccount = isDefault;
             return this;
         }
 
@@ -502,6 +530,7 @@ public class NorlysTestScenarios {
             if (this.buildForNumberHandlingOnly) {
                 return buildForNumberHandling();
             }
+
             if (this.buildForNorlysNowCaseHandling) {
                 return buildForNorlysNowCaseHandling();
             }
@@ -534,6 +563,15 @@ public class NorlysTestScenarios {
                 }
 
                 result.account = (Account) accountFactory.insertRecord();
+
+                if (this.createBillingAccount) {
+                    result.billingAccount = (Billing_Account__c) NorlysSUnit.newFactory().create('Billing_Account__c')
+                        .set('Account__c', result.account.Id)
+                        .set('Billing_Account_Type__c', this.billingAccountType)
+                        .set('Default_Billing_Account__c', this.isDefaultBillingAccount)
+                        .set('Name', 'Test BAN') // A reasonable default
+                        .insertRecord();
+                }
 
                 // Step 2: Create Phone Number Series and Assignments based on SeriesConfig list.
                 result.phoneNumberAssignments = new List<Account_Phone_Number_Assignment__c>();
@@ -961,6 +999,15 @@ public class NorlysTestScenarios {
                     .set('Status__c', 'Active')
                     .set('OwnerId', result.owner.Id)
                     .insertRecord();
+
+                if (this.createBillingAccount) {
+                    result.billingAccount = (Billing_Account__c) NorlysSUnit.newFactory().create('Billing_Account__c')
+                        .set('Account__c', result.account.Id)
+                        .set('Billing_Account_Type__c', this.billingAccountType)
+                        .set('Default_Billing_Account__c', this.isDefaultBillingAccount)
+                        .set('Name', 'Test BAN') // A reasonable default
+                        .insertRecord();
+                }
 
                 // Step 2: Create Phone Number Series and Assignments
                 result.phoneNumberAssignments = new List<Account_Phone_Number_Assignment__c>();

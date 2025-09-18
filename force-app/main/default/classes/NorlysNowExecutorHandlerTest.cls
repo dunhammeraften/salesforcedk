@@ -59,7 +59,7 @@ private class NorlysNowExecutorHandlerTest {
         MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
         toExecuteSpy.whenCalledWith(testEvent).thenReturn(new Set<Id>());
         
-        eventExecutorServiceMock.spyOn('publish');
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
 
         NorlysNowExecutorHandler handler = new NorlysNowExecutorHandler();
         
@@ -69,7 +69,6 @@ private class NorlysNowExecutorHandlerTest {
         Test.stopTest();
 
         // Assert
-        MethodSpy publishSpy = eventExecutorServiceMock.getSpy('publish');
         System.assertEquals(1, toExecuteSpy.callLog.size(), 'The toExecute method on the case strategy should have been called once.');
         System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
     }
@@ -146,7 +145,7 @@ private class NorlysNowExecutorHandlerTest {
         MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
         toExecuteSpy.whenCalledWith(testEvent).thenReturn(retryIds);
 
-        eventExecutorServiceMock.spyOn('publish');
+        MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publish');
 
         NorlysNowExecutorHandler handler = new NorlysNowExecutorHandler();
         
@@ -156,7 +155,6 @@ private class NorlysNowExecutorHandlerTest {
         Test.stopTest();
 
         // Assert
-        MethodSpy publishSpy = eventExecutorServiceMock.getSpy('publish');
         System.assertEquals(1, publishSpy.callLog.size(), 'EventExecutorService.publish should have been called once to schedule a retry.');
     }
 

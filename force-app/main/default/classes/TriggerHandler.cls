@@ -244,9 +244,14 @@ public virtual class TriggerHandler {
         return !TriggerHandler.bypassedHandlers.contains(getHandlerName());
     }
 
+    private transient String handlerName;
+    
     @TestVisible
     private String getHandlerName() {
-        return this.toString().substringBefore(':');
+        if (this.handlerName == null) {
+            this.handlerName = this.toString().substringBefore(':');
+        }
+        return this.handlerName;
     }
 
     /***************************************
