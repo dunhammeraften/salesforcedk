@@ -4,234 +4,365 @@
  *              sends them as comments to the NorlysNow API, and handles both
  *              success and error responses gracefully.
  * -----------------------------------------------------------------------------
- * Developer            Date            Description
+ * @author Developer           Date            Description
  * -----------------------------------------------------------------------------
- * Jules                2025-09-15      Initial version.
+ * @author Jules               15/09/2025      Initial version.
+ * @author Esben Hovgaard        18/09/2025      Added changeLine to documentation
+ * -----------------------------------------------------------------------------
  */
 @isTest
 private class NorlysNowFeedItemStrategyTest {
-    private static Mock norlysNowServiceMock;
-    private static Mock norlysNowSelectorMock;
-    private static Mock norlysNowClientMock;
-    private static DatabaseService databaseServiceStub;
+	private static Mock norlysNowServiceMock;
+	private static Mock norlysNowSelectorMock;
+	private static Mock norlysNowClientMock;
+	private static DatabaseService databaseServiceStub;
 
-    /**
-     * @description Sets up the test environment by mocking all the necessary service dependencies.
-     *              This is called by each test method to ensure a clean and predictable state.
-     */
-    private static void setupMocks() {
-        // Create mocks for all service dependencies
-        norlysNowServiceMock = Mock.forType(NorlysNowService.class);
-        norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
-        norlysNowClientMock = Mock.forType(NorlysNowClient.class);
-        databaseServiceStub = new DatabaseService().mockDmls();
+	/**
+	 * @description Sets up the test environment by mocking all the necessary service dependencies.
+	 *              This is called by each test method to ensure a clean and predictable state.
+	 */
+	private static void setupMocks() {
+		// Create mocks for all service dependencies
+		norlysNowServiceMock = Mock.forType(NorlysNowService.class);
+		norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
+		norlysNowClientMock = Mock.forType(NorlysNowClient.class);
+		databaseServiceStub = new DatabaseService().mockDmls();
 
-        // Get the stub instances from the mocks
-        NorlysNowService norlysNowServiceStub = (NorlysNowService) norlysNowServiceMock.stub;
-        NorlysNowSelector norlysNowSelectorStub = (NorlysNowSelector) norlysNowSelectorMock.stub;
-        NorlysNowClient norlysNowClientStub = (NorlysNowClient) norlysNowClientMock.stub;
+		// Get the stub instances from the mocks
+		NorlysNowService norlysNowServiceStub = (NorlysNowService) norlysNowServiceMock.stub;
+		NorlysNowSelector norlysNowSelectorStub = (NorlysNowSelector) norlysNowSelectorMock.stub;
+		NorlysNowClient norlysNowClientStub = (NorlysNowClient) norlysNowClientMock.stub;
 
-        // Register all the singleton services with our stubs so the handler will use them
-        SingletonFactory factory = SingletonFactory.getFactory();
-        factory.registerSingleton(NorlysNowService.class, norlysNowServiceStub);
-        factory.registerSingleton(NorlysNowSelector.class, norlysNowSelectorStub);
-        factory.registerSingleton(NorlysNowClient.class, norlysNowClientStub);
-        factory.registerSingleton(DatabaseService.class, databaseServiceStub);
-    }
+		// Register all the singleton services with our stubs so the handler will use them
+		SingletonFactory factory = SingletonFactory.getFactory();
+		factory.registerSingleton(NorlysNowService.class, norlysNowServiceStub);
+		factory.registerSingleton(NorlysNowSelector.class, norlysNowSelectorStub);
+		factory.registerSingleton(NorlysNowClient.class, norlysNowClientStub);
+		factory.registerSingleton(DatabaseService.class, databaseServiceStub);
+	}
 
-    @isTest
-    static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
-        // Arrange
-        setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
+	@isTest
+	static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
+		// Arrange
+		setupMocks();
+		// Default mock for triggers
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
+			.returns(new NorlysNowClientRequestDTO());
 
-        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-            .forNorlysNowCaseHandling()
-            .withNorlysNowCases(1)
-            .withFeedItems(1)
-            .build();
-        
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.withFeedItems(1)
+			.build();
 
-        EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-        );
+		FeedItem testFeedItem = scenario.feedItems[0];
+		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 
-        // --- Mock Service Calls for the main execution path ---
-        NorlysNowService.Parameters params = new NorlysNowService.Parameters();
-        params.recordIds = recordIds;
-        norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
+		EventExecutor__e testEvent = new EventExecutor__e(
+			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+		);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+		// --- Mock Service Calls for the main execution path ---
+		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
+		params.recordIds = recordIds;
+		norlysNowServiceMock.spyOn('getParameters')
+			.whenCalledWith(testEvent.Parameters__c)
+			.thenReturn(params);
 
-        norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(null);
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
+			testFeedItem.Id => testFeedItem
+		};
+		norlysNowSelectorMock.spyOn('getFeedItemMap')
+			.whenCalledWith(recordIds)
+			.thenReturn(feedItemMap);
 
-        MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn('setSuccessOnNorlysNowCase');
-        setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(new NorlysNow_Case__c());
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
+			.whenCalledWith(Argument.any())
+			.thenReturn(null);
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn(
+			'setSuccessOnNorlysNowCase'
+		);
+		setSuccessSpy.whenCalledWith(Argument.any())
+			.thenReturn(new NorlysNow_Case__c());
 
-        // Act
-        Test.startTest();
-        Set<Id> remainingIds = strategy.toExecute(testEvent);
-        Test.stopTest();
+		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
-        // Assert
-        System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on success.');
-        System.assertEquals(1, databaseServiceStub.register.updated.size(), 'The databaseService.updateRecords method should have been called once.');
-        System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
-    }
+		// Act
+		Test.startTest();
+		Set<Id> remainingIds = strategy.toExecute(testEvent);
+		Test.stopTest();
 
-    @isTest
-    static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
-        // Arrange
-        setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
+		// Assert
+		System.assertEquals(
+			0,
+			remainingIds.size(),
+			'The returned set of IDs should be empty on success.'
+		);
+		System.assertEquals(
+			1,
+			databaseServiceStub.register.updated.size(),
+			'The databaseService.updateRecords method should have been called once.'
+		);
+		System.assertEquals(
+			1,
+			setSuccessSpy.callLog.size(),
+			'setSuccessOnNorlysNowCase should have been called once.'
+		);
+	}
 
-        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-            .forNorlysNowCaseHandling()
-            .withNorlysNowCases(1)
-            .withFeedItems(1)
-            .build();
-        
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
-        NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+	@isTest
+	static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
+		// Arrange
+		setupMocks();
+		// Default mock for triggers
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
+			.returns(new NorlysNowClientRequestDTO());
 
-        EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-        );
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.withFeedItems(1)
+			.build();
 
-        // --- Mock Service Calls for the main execution path ---
-        NorlysNowService.Parameters params = new NorlysNowService.Parameters();
-        params.recordIds = recordIds;
-        norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
+		FeedItem testFeedItem = scenario.feedItems[0];
+		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+		EventExecutor__e testEvent = new EventExecutor__e(
+			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+		);
 
-        // Use the project's custom HTTPException to simulate a non-500 error
-        HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
-        norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
-        
-        norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase').whenCalledWith(Argument.any(), testException.getMessage()).thenReturn(parentCase);
-        MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
-        createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+		// --- Mock Service Calls for the main execution path ---
+		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
+		params.recordIds = recordIds;
+		norlysNowServiceMock.spyOn('getParameters')
+			.whenCalledWith(testEvent.Parameters__c)
+			.thenReturn(params);
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
+			testFeedItem.Id => testFeedItem
+		};
+		norlysNowSelectorMock.spyOn('getFeedItemMap')
+			.whenCalledWith(recordIds)
+			.thenReturn(feedItemMap);
 
-        // Act
-        Test.startTest();
-        Set<Id> remainingIds = strategy.toExecute(testEvent);
-        Test.stopTest();
+		// Use the project's custom HTTPException to simulate a non-500 error
+		HTTPException testException = new HTTPException(
+			'Not Found',
+			404,
+			'Not Found'
+		);
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
+			.whenCalledWith(Argument.any())
+			.thenThrow(testException);
 
-        // Assert
-        System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a non-retryable error.');
-        System.assertEquals(1, databaseServiceStub.register.updated.size(), 'The databaseService.updateRecords method should have been called once.');
-        System.assertEquals(1, createTasksSpy.callLog.size(), 'The createFollowUpTasks method should have been called once.');
-    }
+		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
+			.whenCalledWith(Argument.any(), testException.getMessage())
+			.thenReturn(parentCase);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
+			'createFollowUpTasks'
+		);
+		createTasksSpy.whenCalledWith(
+				Argument.any(),
+				Argument.any(),
+				Argument.any(),
+				Argument.any()
+			)
+			.thenReturn(null);
 
-    @isTest
-    static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
-        // Arrange
-        setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
-        
-        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-            .forNorlysNowCaseHandling()
-            .withNorlysNowCases(1)
-            .withFeedItems(1)
-            .build();
-        
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
-        NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
-        EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-        );
+		// Act
+		Test.startTest();
+		Set<Id> remainingIds = strategy.toExecute(testEvent);
+		Test.stopTest();
 
-        // --- Mock Service Calls for the main execution path ---
-        NorlysNowService.Parameters params = new NorlysNowService.Parameters();
-        params.recordIds = recordIds;
-        norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
+		// Assert
+		System.assertEquals(
+			0,
+			remainingIds.size(),
+			'The returned set of IDs should be empty on a non-retryable error.'
+		);
+		System.assertEquals(
+			1,
+			databaseServiceStub.register.updated.size(),
+			'The databaseService.updateRecords method should have been called once.'
+		);
+		System.assertEquals(
+			1,
+			createTasksSpy.callLog.size(),
+			'The createFollowUpTasks method should have been called once.'
+		);
+	}
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+	@isTest
+	static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
+		// Arrange
+		setupMocks();
+		// Default mock for triggers
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
+			.returns(new NorlysNowClientRequestDTO());
 
-        System.CalloutException testException = new System.CalloutException('Error');
-        norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
-        
-        norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase').whenCalledWith(Argument.any(), Argument.any()).thenReturn(parentCase);
-        MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
-        createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.withFeedItems(1)
+			.build();
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+		FeedItem testFeedItem = scenario.feedItems[0];
+		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
 
-        // Act
-        Test.startTest();
-        Set<Id> remainingIds = strategy.toExecute(testEvent);
-        Test.stopTest();
+		EventExecutor__e testEvent = new EventExecutor__e(
+			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+		);
 
-        // Assert
-        System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a callout exception.');
-        System.assertEquals(1, databaseServiceStub.register.updated.size(), 'The databaseService.updateRecords method should have been called once.');
-        System.assertEquals(1, createTasksSpy.callLog.size(), 'The createFollowUpTasks method should have been called once.');
-    }
+		// --- Mock Service Calls for the main execution path ---
+		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
+		params.recordIds = recordIds;
+		norlysNowServiceMock.spyOn('getParameters')
+			.whenCalledWith(testEvent.Parameters__c)
+			.thenReturn(params);
 
-    @isTest
-    static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
-        // Arrange
-        setupMocks();
-        // Default mock for triggers
-        norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
-        
-        NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-            .forNorlysNowCaseHandling()
-            .withNorlysNowCases(1)
-            .withFeedItems(1)
-            .build();
-        
-        FeedItem testFeedItem = scenario.feedItems[0];
-        Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
-        NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
+			testFeedItem.Id => testFeedItem
+		};
+		norlysNowSelectorMock.spyOn('getFeedItemMap')
+			.whenCalledWith(recordIds)
+			.thenReturn(feedItemMap);
 
-        EventExecutor__e testEvent = new EventExecutor__e(
-            Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-        );
+		System.CalloutException testException = new System.CalloutException(
+			'Error'
+		);
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
+			.whenCalledWith(Argument.any())
+			.thenThrow(testException);
 
-        // --- Mock Service Calls for the main execution path ---
-        NorlysNowService.Parameters params = new NorlysNowService.Parameters();
-        params.recordIds = recordIds;
-        norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
+		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
+			.whenCalledWith(Argument.any(), Argument.any())
+			.thenReturn(parentCase);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
+			'createFollowUpTasks'
+		);
+		createTasksSpy.whenCalledWith(
+				Argument.any(),
+				Argument.any(),
+				Argument.any(),
+				Argument.any()
+			)
+			.thenReturn(null);
 
-        Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
-        norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
-        // Use the project's custom HTTPException to simulate a 500 error
-        HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
-        norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
-        
-        MethodSpy setErrorSpy = norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase');
-        MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+		// Act
+		Test.startTest();
+		Set<Id> remainingIds = strategy.toExecute(testEvent);
+		Test.stopTest();
 
-        NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+		// Assert
+		System.assertEquals(
+			0,
+			remainingIds.size(),
+			'The returned set of IDs should be empty on a callout exception.'
+		);
+		System.assertEquals(
+			1,
+			databaseServiceStub.register.updated.size(),
+			'The databaseService.updateRecords method should have been called once.'
+		);
+		System.assertEquals(
+			1,
+			createTasksSpy.callLog.size(),
+			'The createFollowUpTasks method should have been called once.'
+		);
+	}
 
-        // Act
-        Test.startTest();
-        Set<Id> remainingIds = strategy.toExecute(testEvent);
-        Test.stopTest();
+	@isTest
+	static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
+		// Arrange
+		setupMocks();
+		// Default mock for triggers
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
+			.returns(new NorlysNowClientRequestDTO());
 
-        // Assert
-        System.assertEquals(1, remainingIds.size(), 'The ID should remain in the set for a retryable 500 error.');
-        System.assertEquals(testFeedItem.Id, remainingIds.iterator().next(), 'The correct ID should be in the retry set.');
-        System.assertEquals(0, databaseServiceStub.register.updated.size(), 'DatabaseService should not be called for a 500 error.');
-        System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
-        System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
-    }
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.withFeedItems(1)
+			.build();
+
+		FeedItem testFeedItem = scenario.feedItems[0];
+		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+
+		EventExecutor__e testEvent = new EventExecutor__e(
+			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
+		);
+
+		// --- Mock Service Calls for the main execution path ---
+		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
+		params.recordIds = recordIds;
+		norlysNowServiceMock.spyOn('getParameters')
+			.whenCalledWith(testEvent.Parameters__c)
+			.thenReturn(params);
+
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
+			testFeedItem.Id => testFeedItem
+		};
+		norlysNowSelectorMock.spyOn('getFeedItemMap')
+			.whenCalledWith(recordIds)
+			.thenReturn(feedItemMap);
+
+		// Use the project's custom HTTPException to simulate a 500 error
+		HTTPException testException = new HTTPException(
+			'Internal Server Error',
+			500,
+			'Server Error'
+		);
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
+			.whenCalledWith(Argument.any())
+			.thenThrow(testException);
+
+		MethodSpy setErrorSpy = norlysNowServiceMock.spyOn(
+			'setErrorOnNorlysNowCase'
+		);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
+			'createFollowUpTasks'
+		);
+
+		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
+
+		// Act
+		Test.startTest();
+		Set<Id> remainingIds = strategy.toExecute(testEvent);
+		Test.stopTest();
+
+		// Assert
+		System.assertEquals(
+			1,
+			remainingIds.size(),
+			'The ID should remain in the set for a retryable 500 error.'
+		);
+		System.assertEquals(
+			testFeedItem.Id,
+			remainingIds.iterator().next(),
+			'The correct ID should be in the retry set.'
+		);
+		System.assertEquals(
+			0,
+			databaseServiceStub.register.updated.size(),
+			'DatabaseService should not be called for a 500 error.'
+		);
+		System.assertEquals(
+			0,
+			setErrorSpy.callLog.size(),
+			'setErrorOnNorlysNowCase should not be called for a 500 error.'
+		);
+		System.assertEquals(
+			0,
+			createTasksSpy.callLog.size(),
+			'createFollowUpTasks should not be called for a 500 error.'
+		);
+	}
 }
