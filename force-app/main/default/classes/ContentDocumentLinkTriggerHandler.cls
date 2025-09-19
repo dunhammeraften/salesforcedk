@@ -47,10 +47,8 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
 	 *              file to Norlys Now if it's linked to a NorlysNow_Case__c.
 	 */
 	public override void afterInsert() {
-		// When a file is attached, get the Ids of any related Case records.
 		List<Id> caseIds = contentDocumentLinkService.getRelatedCasesByLinkedEntityIds(triggerNew);
 
-		// If the file was attached to a Case, update the case status.
 		caseService.updateCustomerServiceCasesToAwaitingUser(caseIds);
 
 		// The following logic should only be executed by users with the correct permission set.

@@ -484,19 +484,13 @@ public with sharing class NorlysNowService {
 	public List<Case> closeParentCases(List<NorlysNow_Case__c> ncList) {
 		Logger.logInfo(String.format('closeParentCase( {0} )', new List<Object>{ ncList }));
 
-		// Find parent case Id'er for de NorlysNow_Case__c vi har fået ind
+		// Find parent case Ids for NorlysNow_Case__c
 		Set<Id> parentCaseIds = new Set<Id>();
 		for (NorlysNow_Case__c nc : ncList) {
-			if (nc.Status__c == 'Closed') {
-				parentCaseIds.add(nc.Parent_Case__c);
-			}
+			parentCaseIds.add(nc.Parent_Case__c);
 		}
 
-		if (parentCaseIds.isEmpty()) {
-			return new List<Case>();
-		}
-
-		// Hent ALLE child NorlysNow_Case__c for disse parent cases
+		// Get all child NorlysNow_Case__c for these parent cases
 		Map<Id, List<NorlysNow_Case__c>> parentIdToChildren = new Map<Id, List<NorlysNow_Case__c>>();
 		List<NorlysNow_Case__c> norlysNowCases = norlysNowSelector.getAllNorlysNowCasesUnderParentCases(parentCaseIds);
 		for (NorlysNow_Case__c nc : norlysNowCases) {
@@ -506,7 +500,7 @@ public with sharing class NorlysNowService {
 			parentIdToChildren.get(nc.Parent_Case__c).add(nc);
 		}
 
-		// Tjek om alle child records er færdige
+		// Check all child records is Closed
 		List<Case> parentCasesToClose = new List<Case>();
 		for (Id parentCaseId : parentIdToChildren.keySet()) {
 			Boolean allDone = true;

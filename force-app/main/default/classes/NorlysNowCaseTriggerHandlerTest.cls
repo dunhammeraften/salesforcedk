@@ -93,7 +93,16 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+
+		// Create old and new versions of the case for the trigger context
+		NorlysNow_Case__c newCase = scenario.norlysNowCases[0];
+		newCase.Status__c = 'Closed';
+
+		NorlysNow_Case__c oldCase = newCase.clone(true, false, false, false);
+		oldCase.Status__c = 'New';
+
+		Map<Id, NorlysNow_Case__c> newCaseMap = new Map<Id, NorlysNow_Case__c>{ newCase.Id => newCase };
+		Map<Id, NorlysNow_Case__c> oldCaseMap = new Map<Id, NorlysNow_Case__c>{ oldCase.Id => oldCase };
 
 		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 
@@ -104,8 +113,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
-		handler.triggerNew = scenario.norlysNowCases;
-		handler.triggerNewMap = caseMap;
+		handler.triggerNew = new List<NorlysNow_Case__c>(newCaseMap.values());
+		handler.triggerNewMap = newCaseMap;
+		handler.triggerOldMap = oldCaseMap;
 		Test.startTest();
 		handler.afterUpdate();
 		Test.stopTest();
