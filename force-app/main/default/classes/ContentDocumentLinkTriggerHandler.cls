@@ -32,18 +32,12 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
 		this.contentDocumentLinkService = (ContentDocumentLinkService) singletonFactory.getOrRegisterSingleton(
 			ContentDocumentLinkService.class
 		);
-		this.caseService = (caseService) singletonFactory.getOrRegisterSingleton(
-			CaseService.class
-		);
-		this.permissionService = (PermissionService) singletonFactory.getOrRegisterSingleton(
-			PermissionService.class
-		);
+		this.caseService = (caseService) singletonFactory.getOrRegisterSingleton(CaseService.class);
+		this.permissionService = (PermissionService) singletonFactory.getOrRegisterSingleton(PermissionService.class);
 		this.eventExecutorService = (EventExecutorService) singletonFactory.getOrRegisterSingleton(
 			EventExecutorService.class
 		);
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
 		this.triggerNew = (List<ContentDocumentLink>) Trigger.new;
 	}
 
@@ -54,19 +48,14 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
 	 */
 	public override void afterInsert() {
 		// When a file is attached, get the Ids of any related Case records.
-		List<Id> caseIds = contentDocumentLinkService.getRelatedCasesByLinkedEntityIds(
-			triggerNew
-		);
+		List<Id> caseIds = contentDocumentLinkService.getRelatedCasesByLinkedEntityIds(triggerNew);
 
 		// If the file was attached to a Case, update the case status.
 		caseService.updateCustomerServiceCasesToAwaitingUser(caseIds);
 
 		// The following logic should only be executed by users with the correct permission set.
-		if (
-			!permissionService.hasPermissionSet(
-				new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' }
-			)
-		) {
+		if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
+			Logger.logWarning('User does not have the required permission set. Exiting.');
 			return;
 		}
 
@@ -74,22 +63,21 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
 		List<Id> fileIds = new List<Id>();
 		Set<Id> norlysNowCaseIds = new Set<Id>();
 		for (ContentDocumentLink cdl : triggerNew) {
-			if (
-				cdl.LinkedEntityId.getSObjectType() == NorlysNow_Case__c.SObjectType
-			) {
+			if (cdl.LinkedEntityId.getSObjectType() == NorlysNow_Case__c.SObjectType) {
 				fileIds.add(cdl.ContentDocumentId);
 				norlysNowCaseIds.add(cdl.LinkedEntityId);
 			}
 		}
-
 		// If any files were attached to a NorlysNow_Case__c, publish an event to send them to Norlys Now.
 		if (!fileIds.isEmpty()) {
+			Logger.logDebug('fileIds: ' + fileIds);
 			List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(
 				fileIds,
 				'ContentDocumentLink',
 				'NorlysNowExecutorHandler'
 			);
 			if (eventList != null && !eventList.isEmpty()) {
+				Logger.logDebug('eventList: ' + eventList);
 				eventExecutorService.publishEvents(eventList);
 			}
 		}

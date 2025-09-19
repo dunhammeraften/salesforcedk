@@ -30,10 +30,7 @@ private class NorlysNowServiceTest {
 
 		// Register the mocks with the SingletonFactory so they can be used by other services if needed
 		SingletonFactory factory = SingletonFactory.getFactory();
-		factory.registerSingleton(
-			NorlysNowSelector.class,
-			(NorlysNowSelector) norlysNowSelectorMock.stub
-		);
+		factory.registerSingleton(NorlysNowSelector.class, (NorlysNowSelector) norlysNowSelectorMock.stub);
 		factory.registerSingleton(DatabaseService.class, dbMock);
 	}
 
@@ -64,31 +61,11 @@ private class NorlysNowServiceTest {
 		);
 
 		// Assert
-		System.assertEquals(
-			correlationId,
-			result.correlation_id,
-			'Correlation ID should be set correctly.'
-		);
-		System.assertEquals(
-			externalAction,
-			result.external_action,
-			'External Action should be set correctly.'
-		);
-		System.assertEquals(
-			messageType,
-			result.message_type,
-			'Message Type should be set correctly.'
-		);
-		System.assertEquals(
-			salesforceId,
-			result.payload.salesforceId,
-			'Salesforce ID should be set in the payload.'
-		);
-		System.assertEquals(
-			commentBody,
-			result.payload.comment,
-			'Comment body should be set in the payload.'
-		);
+		System.assertEquals(correlationId, result.correlation_id, 'Correlation ID should be set correctly.');
+		System.assertEquals(externalAction, result.external_action, 'External Action should be set correctly.');
+		System.assertEquals(messageType, result.message_type, 'Message Type should be set correctly.');
+		System.assertEquals(salesforceId, result.payload.salesforceId, 'Salesforce ID should be set in the payload.');
+		System.assertEquals(commentBody, result.payload.comment, 'Comment body should be set in the payload.');
 	}
 
 	@isTest
@@ -120,31 +97,11 @@ private class NorlysNowServiceTest {
 		);
 
 		// Assert
-		System.assertEquals(
-			'corr-id',
-			result.correlation_id,
-			'Correlation ID should match.'
-		);
-		System.assertEquals(
-			'CREATE',
-			result.external_action,
-			'External Action should match.'
-		);
-		System.assertEquals(
-			'Case',
-			result.message_type,
-			'Message Type should match.'
-		);
-		System.assertEquals(
-			'5003N000002W9p7QAD',
-			result.payload.salesforceId,
-			'Salesforce ID should match.'
-		);
-		System.assertEquals(
-			'A description',
-			result.payload.description,
-			'Description should match.'
-		);
+		System.assertEquals('corr-id', result.correlation_id, 'Correlation ID should match.');
+		System.assertEquals('CREATE', result.external_action, 'External Action should match.');
+		System.assertEquals('Case', result.message_type, 'Message Type should match.');
+		System.assertEquals('5003N000002W9p7QAD', result.payload.salesforceId, 'Salesforce ID should match.');
+		System.assertEquals('A description', result.payload.description, 'Description should match.');
 		System.assertEquals('A title', result.payload.title, 'Title should match.');
 		System.assertEquals('Problem', result.payload.type, 'Type should match.');
 		System.assertEquals('New', result.payload.status, 'Status should match.');
@@ -170,31 +127,11 @@ private class NorlysNowServiceTest {
 		);
 
 		// Assert
-		System.assertEquals(
-			'corr-id-file',
-			result.correlation_id,
-			'Correlation ID should match.'
-		);
-		System.assertEquals(
-			'ATTACH',
-			result.external_action,
-			'External Action should match.'
-		);
-		System.assertEquals(
-			'File',
-			result.message_type,
-			'Message Type should match.'
-		);
-		System.assertEquals(
-			'base64-encoded-data',
-			result.payload.fileData,
-			'File data should match.'
-		);
-		System.assertEquals(
-			'testfile.txt',
-			result.payload.fileName,
-			'File name should match.'
-		);
+		System.assertEquals('corr-id-file', result.correlation_id, 'Correlation ID should match.');
+		System.assertEquals('ATTACH', result.external_action, 'External Action should match.');
+		System.assertEquals('File', result.message_type, 'Message Type should match.');
+		System.assertEquals('base64-encoded-data', result.payload.fileData, 'File data should match.');
+		System.assertEquals('testfile.txt', result.payload.fileName, 'File name should match.');
 	}
 
 	@isTest
@@ -208,11 +145,7 @@ private class NorlysNowServiceTest {
 		NorlysNow_Case__c result = service.setSuccessOnNorlysNowCase(testCase);
 
 		// Assert
-		System.assertEquals(
-			'Success',
-			result.Sync_Status__c,
-			'Sync Status should be "Success".'
-		);
+		System.assertEquals('Success', result.Sync_Status__c, 'Sync Status should be "Success".');
 	}
 
 	@isTest
@@ -224,22 +157,11 @@ private class NorlysNowServiceTest {
 		String errorMessage = 'An error occurred.';
 
 		// Act
-		NorlysNow_Case__c result = service.setErrorOnNorlysNowCase(
-			testCase,
-			errorMessage
-		);
+		NorlysNow_Case__c result = service.setErrorOnNorlysNowCase(testCase, errorMessage);
 
 		// Assert
-		System.assertEquals(
-			'Error',
-			result.Sync_Status__c,
-			'Sync Status should be "Error".'
-		);
-		System.assertEquals(
-			errorMessage,
-			result.Sync_Message__c,
-			'Sync Message should be set.'
-		);
+		System.assertEquals('Error', result.Sync_Status__c, 'Sync Status should be "Error".');
+		System.assertEquals(errorMessage, result.Sync_Message__c, 'Sync Message should be set.');
 	}
 
 	@isTest
@@ -251,27 +173,14 @@ private class NorlysNowServiceTest {
 		Id fakeId2 = DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType);
 		Set<Id> recordIds = new Set<Id>{ fakeId1, fakeId2 };
 
-		String jsonString =
-			'{"type":"Case","recordIds":["' +
-			fakeId1 +
-			'","' +
-			fakeId2 +
-			'"]}';
+		String jsonString = '{"type":"Case","recordIds":["' + fakeId1 + '","' + fakeId2 + '"]}';
 
 		// Act
 		NorlysNowService.Parameters result = service.getParameters(jsonString);
 
 		// Assert
-		System.assertEquals(
-			'Case',
-			result.type,
-			'Type should be deserialized correctly.'
-		);
-		System.assertEquals(
-			recordIds,
-			result.recordIds,
-			'Record IDs should be deserialized correctly.'
-		);
+		System.assertEquals('Case', result.type, 'Type should be deserialized correctly.');
+		System.assertEquals(recordIds, result.recordIds, 'Record IDs should be deserialized correctly.');
 	}
 
 	@isTest
@@ -294,24 +203,15 @@ private class NorlysNowServiceTest {
 			ContentDocumentId = cdl.ContentDocumentId,
 			VersionData = Blob.valueOf('test data')
 		);
-		norlysNowSelectorMock.spyOn('getContentVersions')
-			.whenCalledWith(docIds)
-			.thenReturn(new List<ContentVersion>{ cv });
+		norlysNowSelectorMock.spyOn('getContentVersions').whenCalledWith(docIds).thenReturn(new List<ContentVersion>{ cv });
 
 		// Act
 		Map<Id, ContentVersion> result = service.getFileIdToVersion(docIds);
 
 		// Assert
 		System.assertEquals(1, result.size(), 'The map should contain one entry.');
-		System.assert(
-			result.containsKey(cdl.ContentDocumentId),
-			'Map should contain the content document Id.'
-		);
-		System.assertEquals(
-			cv.Id,
-			result.get(cdl.ContentDocumentId).Id,
-			'The content version should match.'
-		);
+		System.assert(result.containsKey(cdl.ContentDocumentId), 'Map should contain the content document Id.');
+		System.assertEquals(cv.Id, result.get(cdl.ContentDocumentId).Id, 'The content version should match.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -332,9 +232,7 @@ private class NorlysNowServiceTest {
 
 		// Mock selector calls
 		Set<Id> ownerIds = new Set<Id>{ scenario.owner.Id };
-		norlysNowSelectorMock.spyOn('getUsers')
-			.whenCalledWith(ownerIds)
-			.thenReturn(new List<User>{ scenario.owner });
+		norlysNowSelectorMock.spyOn('getUsers').whenCalledWith(ownerIds).thenReturn(new List<User>{ scenario.owner });
 
 		CustomNotificationType notifType = new CustomNotificationType(
 			Id = DatabaseService.getFakeId(CustomNotificationType.SObjectType),
@@ -348,18 +246,11 @@ private class NorlysNowServiceTest {
 			Id = DatabaseService.getFakeId(OrgWideEmailAddress.SObjectType),
 			Address = 'noreply.mobil@norlys.dk'
 		);
-		norlysNowSelectorMock.spyOn('getOrgWideEmailAddress')
-			.whenCalledWith('noreply.mobil@norlys.dk')
-			.thenReturn(owe);
+		norlysNowSelectorMock.spyOn('getOrgWideEmailAddress').whenCalledWith('noreply.mobil@norlys.dk').thenReturn(owe);
 
 		// Act
 		Test.startTest();
-		service.createFollowUpTasks(
-			scenario.norlysNowCases,
-			subject,
-			description,
-			dueDate
-		);
+		service.createFollowUpTasks(scenario.norlysNowCases, subject, description, dueDate);
 		Test.stopTest();
 
 		// Assert
@@ -367,33 +258,17 @@ private class NorlysNowServiceTest {
 			SELECT Id, Subject, Description, WhatId, OwnerId
 			FROM Task
 		];
-		System.assertEquals(
-			1,
-			insertedTasks.size(),
-			'One task should have been inserted.'
-		);
+		System.assertEquals(1, insertedTasks.size(), 'One task should have been inserted.');
 
 		Task insertedTask = insertedTasks[0];
-		System.assertEquals(
-			subject,
-			insertedTask.Subject,
-			'Task subject should match.'
-		);
-		System.assertEquals(
-			description,
-			insertedTask.Description,
-			'Task description should match.'
-		);
+		System.assertEquals(subject, insertedTask.Subject, 'Task subject should match.');
+		System.assertEquals(description, insertedTask.Description, 'Task description should match.');
 		System.assertEquals(
 			scenario.norlysNowCases[0].Id,
 			insertedTask.WhatId,
 			'Task should be related to the NorlysNow Case.'
 		);
-		System.assertEquals(
-			scenario.owner.Id,
-			insertedTask.OwnerId,
-			'Task owner should be the case creator.'
-		);
+		System.assertEquals(scenario.owner.Id, insertedTask.OwnerId, 'Task owner should be the case creator.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -421,21 +296,9 @@ private class NorlysNowServiceTest {
 		List<Case> result = service.closeParentCases(scenario.norlysNowCases);
 
 		// Assert
-		System.assertEquals(
-			1,
-			result.size(),
-			'One parent case should be returned to be closed.'
-		);
-		System.assertEquals(
-			scenario.caseRecord.Id,
-			result[0].Id,
-			'The correct parent case should be returned.'
-		);
-		System.assertEquals(
-			'Closed',
-			result[0].Status,
-			'The parent case status should be "Closed".'
-		);
+		System.assertEquals(1, result.size(), 'One parent case should be returned to be closed.');
+		System.assertEquals(scenario.caseRecord.Id, result[0].Id, 'The correct parent case should be returned.');
+		System.assertEquals('Closed', result[0].Status, 'The parent case status should be "Closed".');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -459,15 +322,10 @@ private class NorlysNowServiceTest {
 			.thenReturn(scenario.norlysNowCases);
 
 		// Act
-		List<Case> result = service.closeParentCases(
-			new List<NorlysNow_Case__c>{ scenario.norlysNowCases[0] }
-		);
+		List<Case> result = service.closeParentCases(new List<NorlysNow_Case__c>{ scenario.norlysNowCases[0] });
 
 		// Assert
-		System.assert(
-			result.isEmpty(),
-			'No parent cases should be returned for closure.'
-		);
+		System.assert(result.isEmpty(), 'No parent cases should be returned for closure.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -483,9 +341,7 @@ private class NorlysNowServiceTest {
 			.build();
 
 		scenario.caseRecord.Status = 'Closed';
-		Map<Id, Case> closedParentMap = new Map<Id, Case>{
-			scenario.caseRecord.Id => scenario.caseRecord
-		};
+		Map<Id, Case> closedParentMap = new Map<Id, Case>{ scenario.caseRecord.Id => scenario.caseRecord };
 
 		norlysNowSelectorMock.spyOn('getCasesByIds')
 			.whenCalledWith(new Set<Id>{ scenario.caseRecord.Id })
@@ -495,10 +351,7 @@ private class NorlysNowServiceTest {
 		service.CheckParentCaseIsClosed(scenario.norlysNowCases);
 
 		// Assert
-		System.assert(
-			scenario.norlysNowCases[0].hasErrors(),
-			'The NorlysNow case should have an error.'
-		);
+		System.assert(scenario.norlysNowCases[0].hasErrors(), 'The NorlysNow case should have an error.');
 		System.assertEquals(
 			'You are not allowed to create or update NorlysNow Cases on a closed Case',
 			scenario.norlysNowCases[0].getErrors()[0].getMessage(),
@@ -518,49 +371,25 @@ private class NorlysNowServiceTest {
 		}
 
 		// Act
-		List<EventExecutor__e> result = service.chunkEventsInListsToBePublished(
-			idsToChunk,
-			'TestType',
-			'TestExecutor'
-		);
+		List<EventExecutor__e> result = service.chunkEventsInListsToBePublished(idsToChunk, 'TestType', 'TestExecutor');
 
 		// Assert
-		System.assertEquals(
-			2,
-			result.size(),
-			'The list should be chunked into two events.'
-		);
+		System.assertEquals(2, result.size(), 'The list should be chunked into two events.');
 
 		// Check the first event
 		NorlysNowService.Parameters params1 = (NorlysNowService.Parameters) JSON.deserialize(
 			result[0].Parameters__c,
 			NorlysNowService.Parameters.class
 		);
-		System.assertEquals(
-			100,
-			params1.recordIds.size(),
-			'First chunk should have 100 records.'
-		);
-		System.assertEquals(
-			'TestType',
-			params1.type,
-			'Type should be set correctly.'
-		);
-		System.assertEquals(
-			'TestExecutor',
-			result[0].Executor__c,
-			'Executor should be set correctly.'
-		);
+		System.assertEquals(100, params1.recordIds.size(), 'First chunk should have 100 records.');
+		System.assertEquals('TestType', params1.type, 'Type should be set correctly.');
+		System.assertEquals('TestExecutor', result[0].Executor__c, 'Executor should be set correctly.');
 
 		// Check the second event
 		NorlysNowService.Parameters params2 = (NorlysNowService.Parameters) JSON.deserialize(
 			result[1].Parameters__c,
 			NorlysNowService.Parameters.class
 		);
-		System.assertEquals(
-			50,
-			params2.recordIds.size(),
-			'Second chunk should have 50 records.'
-		);
+		System.assertEquals(50, params2.recordIds.size(), 'Second chunk should have 50 records.');
 	}
 }

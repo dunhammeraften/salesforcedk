@@ -44,8 +44,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 	static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
 		// Arrange
 		setupMocks();
-		norlysNowServiceMock.spyOn('createFileRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -63,37 +62,19 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{
-			testCdl
-		};
-		norlysNowSelectorMock.spyOn('getContentDocumentLinks')
-			.whenCalledWith(recordIds)
-			.thenReturn(cdlList);
+		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
-		ContentVersion mockCv = new ContentVersion(
-			VersionData = Blob.valueOf('test data'),
-			PathOnClient = 'test.txt'
-		);
-		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{
-			testCdl.ContentDocumentId => mockCv
-		};
-		norlysNowServiceMock.spyOn('getFileIdToVersion')
-			.whenCalledWith(recordIds)
-			.thenReturn(cvMap);
+		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenReturn(null);
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(null);
 
-		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn(
-			'setSuccessOnNorlysNowCase'
-		);
-		setSuccessSpy.whenCalledWith(Argument.any())
-			.thenReturn(new NorlysNow_Case__c());
+		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn('setSuccessOnNorlysNowCase');
+		setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(new NorlysNow_Case__c());
 
 		NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
@@ -103,29 +84,20 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on success.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on success.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
 			'The databaseService.updateRecords method should have been called once.'
 		);
-		System.assertEquals(
-			1,
-			setSuccessSpy.callLog.size(),
-			'setSuccessOnNorlysNowCase should have been called once.'
-		);
+		System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
 	}
 
 	@isTest
 	static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
 		setupMocks();
-		norlysNowServiceMock.spyOn('createFileRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -144,51 +116,24 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{
-			testCdl
-		};
-		norlysNowSelectorMock.spyOn('getContentDocumentLinks')
-			.whenCalledWith(recordIds)
-			.thenReturn(cdlList);
+		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
-		ContentVersion mockCv = new ContentVersion(
-			VersionData = Blob.valueOf('test data'),
-			PathOnClient = 'test.txt'
-		);
-		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{
-			testCdl.ContentDocumentId => mockCv
-		};
-		norlysNowServiceMock.spyOn('getFileIdToVersion')
-			.whenCalledWith(recordIds)
-			.thenReturn(cvMap);
+		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
 		// Use the project's custom HTTPException to simulate a non-500 error
-		HTTPException testException = new HTTPException(
-			'Not Found',
-			404,
-			'Not Found'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
 		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
 			.whenCalledWith(Argument.any(), testException.getMessage())
 			.thenReturn(parentCase);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
-		createTasksSpy.whenCalledWith(
-				Argument.any(),
-				Argument.any(),
-				Argument.any(),
-				Argument.any()
-			)
-			.thenReturn(null);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
 		NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
@@ -198,11 +143,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on a non-retryable error.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a non-retryable error.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
@@ -219,8 +160,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 	static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
 		setupMocks();
-		norlysNowServiceMock.spyOn('createFileRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -239,48 +179,23 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{
-			testCdl
-		};
-		norlysNowSelectorMock.spyOn('getContentDocumentLinks')
-			.whenCalledWith(recordIds)
-			.thenReturn(cdlList);
+		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
-		ContentVersion mockCv = new ContentVersion(
-			VersionData = Blob.valueOf('test data'),
-			PathOnClient = 'test.txt'
-		);
-		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{
-			testCdl.ContentDocumentId => mockCv
-		};
-		norlysNowServiceMock.spyOn('getFileIdToVersion')
-			.whenCalledWith(recordIds)
-			.thenReturn(cvMap);
+		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
-		System.CalloutException testException = new System.CalloutException(
-			'Error'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		System.CalloutException testException = new System.CalloutException('Error');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
 		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
 			.whenCalledWith(Argument.any(), testException.getMessage())
 			.thenReturn(parentCase);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
-		createTasksSpy.whenCalledWith(
-				Argument.any(),
-				Argument.any(),
-				Argument.any(),
-				Argument.any()
-			)
-			.thenReturn(null);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
 		NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
@@ -290,11 +205,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on a callout exception.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a callout exception.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
@@ -311,8 +222,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 	static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
 		// Arrange
 		setupMocks();
-		norlysNowServiceMock.spyOn('createFileRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -330,44 +240,21 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{
-			testCdl
-		};
-		norlysNowSelectorMock.spyOn('getContentDocumentLinks')
-			.whenCalledWith(recordIds)
-			.thenReturn(cdlList);
+		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
+		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
-		ContentVersion mockCv = new ContentVersion(
-			VersionData = Blob.valueOf('test data'),
-			PathOnClient = 'test.txt'
-		);
-		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{
-			testCdl.ContentDocumentId => mockCv
-		};
-		norlysNowServiceMock.spyOn('getFileIdToVersion')
-			.whenCalledWith(recordIds)
-			.thenReturn(cvMap);
+		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
+		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
+		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
 
 		// Use the project's custom HTTPException to simulate a 500 error
-		HTTPException testException = new HTTPException(
-			'Internal Server Error',
-			500,
-			'Server Error'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
-		MethodSpy setErrorSpy = norlysNowServiceMock.spyOn(
-			'setErrorOnNorlysNowCase'
-		);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
+		MethodSpy setErrorSpy = norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase');
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
 
 		NorlysNowContentDocumentLinkStrategy strategy = new NorlysNowContentDocumentLinkStrategy();
 
@@ -377,11 +264,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			remainingIds.size(),
-			'The ID should remain in the set for a retryable 500 error.'
-		);
+		System.assertEquals(1, remainingIds.size(), 'The ID should remain in the set for a retryable 500 error.');
 		System.assert(
 			remainingIds.contains(testCdl.ContentDocumentId),
 			'The correct ContentDocumentId should be in the retry set.'
@@ -391,15 +274,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 			databaseServiceStub.register.updated.size(),
 			'DatabaseService should not be called for a 500 error.'
 		);
-		System.assertEquals(
-			0,
-			setErrorSpy.callLog.size(),
-			'setErrorOnNorlysNowCase should not be called for a 500 error.'
-		);
-		System.assertEquals(
-			0,
-			createTasksSpy.callLog.size(),
-			'createFollowUpTasks should not be called for a 500 error.'
-		);
+		System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
+		System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
 	}
 }

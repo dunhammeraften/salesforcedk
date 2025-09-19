@@ -24,10 +24,7 @@ private class FeedCommentTriggerHandlerTest {
 
 		FeedItem post = scenario.feedItems[0];
 
-		FeedComment comment = new FeedComment(
-			FeedItemId = post.Id,
-			CommentBody = 'This is a test comment'
-		);
+		FeedComment comment = new FeedComment(FeedItemId = post.Id, CommentBody = 'This is a test comment');
 
 		// Act
 		Test.startTest();
@@ -37,10 +34,7 @@ private class FeedCommentTriggerHandlerTest {
 		} catch (DmlException e) {
 			// Assert
 			System.assert(
-				e.getMessage()
-					.contains(
-						'It is only possible to create posts and not comments on NorlysNow_Case__c records.'
-					),
+				e.getMessage().contains('It is only possible to create posts and not comments on NorlysNow_Case__c records.'),
 				'The error message is not the one expected.'
 			);
 		}

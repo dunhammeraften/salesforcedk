@@ -9,10 +9,21 @@
  * -----------------------------------------------------------------------------
  */
 public with sharing class PermissionService {
+	private final PermissionSelector permissionSelector;
+
 	/**
 	 * @description Default constructor.
 	 */
 	public PermissionService() {
+		this(SingletonFactory.getFactory());
+	}
+
+	/**
+	 * @description Private constructor for dependency injection.
+	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
+	 */
+	private PermissionService(SingletonFactory singletonFactory) {
+		this.permissionSelector = (PermissionSelector) singletonFactory.getOrRegisterSingleton(PermissionSelector.class);
 	}
 
 	/**
@@ -21,18 +32,12 @@ public with sharing class PermissionService {
 	 * @return True if the user has at least one of the permission sets, false otherwise.
 	 */
 	public Boolean hasPermissionSet(List<String> permissionSetName) {
-		Set<String> psNames = new Set<String>();
-		for (PermissionSetAssignment psa : [
-			SELECT PermissionSet.Name
-			FROM PermissionSetAssignment
-			WHERE
-				AssigneeId = :UserInfo.getUserId()
-				AND PermissionSet.Name IN :permissionSetName
-		]) {
-			psNames.add(psa.PermissionSet.Name);
-		}
+		Logger.logInfo(String.format('hasPermissionSet( {0} )', new List<Object>{ permissionSetName }));
+		List<PermissionSetAssignment> psAssignments = this.permissionSelector.selectPermissionSetAssignments(
+			permissionSetName
+		);
 
-		return !psNames.isEmpty();
+		return !psAssignments.isEmpty();
 	}
 
 	/**
@@ -41,15 +46,9 @@ public with sharing class PermissionService {
 	 * @return True if the user's profile is in the list, false otherwise.
 	 */
 	public Boolean hasProfiles(List<String> hasProfileNames) {
-		Set<String> profileNames = new Set<String>();
-		for (Profile p : [
-			SELECT Name
-			FROM Profile
-			WHERE Id = :UserInfo.getProfileId() AND Name IN :hasProfileNames
-		]) {
-			profileNames.add(p.Name);
-		}
+		Logger.logInfo(String.format('hasProfiles( {0} )', new List<Object>{ hasProfileNames }));
+		List<Profile> profiles = this.permissionSelector.selectProfiles(hasProfileNames);
 
-		return !profileNames.isEmpty();
+		return !profiles.isEmpty();
 	}
 }

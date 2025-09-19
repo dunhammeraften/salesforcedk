@@ -24,9 +24,7 @@ public with sharing class NorlysNowService {
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
 	private NorlysNowService(SingletonFactory singletonFactory) {
-		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(
-			NorlysNowSelector.class
-		);
+		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
 	}
 
 	/**
@@ -237,15 +235,8 @@ public with sharing class NorlysNowService {
 	 * @param norlysNowCase The NorlysNow_Case__c record to update.
 	 * @return The updated NorlysNow_Case__c record.
 	 */
-	public NorlysNow_Case__c setSuccessOnNorlysNowCase(
-		NorlysNow_Case__c norlysNowCase
-	) {
-		Logger.logInfo(
-			String.format(
-				'setSuccessOnNorlysNowCase( {0} )',
-				new List<Object>{ norlysNowCase }
-			)
-		);
+	public NorlysNow_Case__c setSuccessOnNorlysNowCase(NorlysNow_Case__c norlysNowCase) {
+		Logger.logInfo(String.format('setSuccessOnNorlysNowCase( {0} )', new List<Object>{ norlysNowCase }));
 		if (norlysNowCase == null) {
 			Logger.logError('norlysNowCase is null.');
 			return null;
@@ -262,20 +253,12 @@ public with sharing class NorlysNowService {
 	 * @param errorMessage The error message to record.
 	 * @return The updated NorlysNow_Case__c record.
 	 */
-	public NorlysNow_Case__c setErrorOnNorlysNowCase(
-		NorlysNow_Case__c norlysNowCase,
-		String errorMessage
-	) {
+	public NorlysNow_Case__c setErrorOnNorlysNowCase(NorlysNow_Case__c norlysNowCase, String errorMessage) {
 		Logger.logInfo(
-			String.format(
-				'setErrorOnNorlysNowCase( {0}, {1} )',
-				new List<Object>{ norlysNowCase, errorMessage }
-			)
+			String.format('setErrorOnNorlysNowCase( {0}, {1} )', new List<Object>{ norlysNowCase, errorMessage })
 		);
 		if (norlysNowCase == null) {
-			Logger.logError(
-				'norlysNowCase is null. Cannot set error: ' + errorMessage
-			);
+			Logger.logError('norlysNowCase is null. Cannot set error: ' + errorMessage);
 			return null;
 		}
 
@@ -291,13 +274,8 @@ public with sharing class NorlysNowService {
 	 * @return A Parameters object.
 	 */
 	public Parameters getParameters(String parametersJson) {
-		Logger.logInfo(
-			String.format('getParameters( {0} )', new List<Object>{ parametersJson })
-		);
-		Parameters params = (Parameters) System.JSON.deserialize(
-			parametersJson,
-			NorlysNowService.Parameters.class
-		);
+		Logger.logInfo(String.format('getParameters( {0} )', new List<Object>{ parametersJson }));
+		Parameters params = (Parameters) System.JSON.deserialize(parametersJson, NorlysNowService.Parameters.class);
 		return params;
 	}
 
@@ -318,9 +296,7 @@ public with sharing class NorlysNowService {
 	 * @return A map where the key is the ContentDocument Id and the value is the ContentVersion record.
 	 */
 	public Map<Id, ContentVersion> getFileIdToVersion(Set<Id> fileIds) {
-		Logger.logInfo(
-			String.format('getFileIdToVersion( {0} )', new List<Object>{ fileIds })
-		);
+		Logger.logInfo(String.format('getFileIdToVersion( {0} )', new List<Object>{ fileIds }));
 
 		Map<Id, ContentVersion> fileIdToVersion = new Map<Id, ContentVersion>();
 		List<ContentVersion> cvList = norlysNowSelector.getContentVersions(fileIds);
@@ -352,9 +328,7 @@ public with sharing class NorlysNowService {
 			)
 		);
 
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			norlysNowcases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(norlysNowcases);
 
 		Set<Id> ownerIds = new Set<Id>();
 		for (NorlysNow_Case__c nc : norlysNowcases) {
@@ -363,7 +337,8 @@ public with sharing class NorlysNowService {
 
 		Map<Id, User> ownerUserMap = new Map<Id, User>();
 		if (!ownerIds.isEmpty()) {
-			for (User u : norlysNowSelector.getUsers(ownerIds)) {
+			List<User> users = norlysNowSelector.getUsers(ownerIds);
+			for (User u : users) {
 				ownerUserMap.put(u.Id, u);
 			}
 		}
@@ -379,15 +354,13 @@ public with sharing class NorlysNowService {
 
 		insert tasks;
 
-		CustomNotificationType notifType = norlysNowSelector.getCustomNotificationType(
-			'New_Task_on_NorlysNow_Case'
-		);
+		CustomNotificationType notifType = norlysNowSelector.getCustomNotificationType('New_Task_on_NorlysNow_Case');
 
 		List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
 
-		OrgWideEmailAddress owe = norlysNowSelector.getOrgWideEmailAddress(
-			'noreply.mobil@norlys.dk'
-		);
+		Company_Settings__mdt config = Company_Settings__mdt.getInstance('No_Reply_Mobil_Email');
+
+		OrgWideEmailAddress owe = norlysNowSelector.getOrgWideEmailAddress(config.Configuration_Value__c);
 
 		for (Task t : tasks) {
 			NorlysNow_Case__c nc = caseMap.get(t.WhatId);
@@ -398,12 +371,7 @@ public with sharing class NorlysNowService {
 
 			User ownerUser = ownerUserMap.get(nc.CreatedBy.Id);
 
-			Messaging.SingleEmailMessage mail = buildOwnerEmail(
-				t,
-				ownerUser,
-				nc,
-				owe
-			);
+			Messaging.SingleEmailMessage mail = buildOwnerEmail(t, ownerUser, nc, owe);
 			emailsToSend.add(mail);
 		}
 
@@ -424,17 +392,9 @@ public with sharing class NorlysNowService {
 	 * @param dueDate The due date of the task.
 	 * @return A new Task record (not yet inserted).
 	 */
-	public Task createTask(
-		NorlysNow_Case__c nc,
-		String subject,
-		String description,
-		Date dueDate
-	) {
+	public Task createTask(NorlysNow_Case__c nc, String subject, String description, Date dueDate) {
 		Logger.logInfo(
-			String.format(
-				'createTask( {0}, {1}, {2}, {3})',
-				new List<Object>{ nc, subject, description, dueDate }
-			)
+			String.format('createTask( {0}, {1}, {2}, {3})', new List<Object>{ nc, subject, description, dueDate })
 		);
 
 		Task t = new Task();
@@ -454,16 +414,9 @@ public with sharing class NorlysNowService {
 	 * @param notifType The type of custom notification to send.
 	 * @param userId The ID of the user to send the notification to.
 	 */
-	public void sendCustomNotification(
-		Task task,
-		CustomNotificationType notifType,
-		Id userId
-	) {
+	public void sendCustomNotification(Task task, CustomNotificationType notifType, Id userId) {
 		Logger.logInfo(
-			String.format(
-				'sendCustomNotification( {0}, {1}, {2} )',
-				new List<Object>{ task, notifType, userId }
-			)
+			String.format('sendCustomNotification( {0}, {1}, {2} )', new List<Object>{ task, notifType, userId })
 		);
 
 		if (task == null || notifType == null || userId == null)
@@ -471,9 +424,7 @@ public with sharing class NorlysNowService {
 
 		Messaging.CustomNotification cn = new Messaging.CustomNotification();
 		cn.setTitle('New task created: ' + task.Subject);
-		cn.setBody(
-			'A new Task has been created on case: ' + String.valueOf(task.WhatId)
-		);
+		cn.setBody('A new Task has been created on case: ' + String.valueOf(task.WhatId));
 		cn.setNotificationTypeId(notifType.Id);
 		cn.setTargetId(task.Id);
 
@@ -494,22 +445,14 @@ public with sharing class NorlysNowService {
 		NorlysNow_Case__c nc,
 		OrgWideEmailAddress owe
 	) {
-		Logger.logInfo(
-			String.format(
-				'buildOwnerEmail( {0}, {1}, {2} )',
-				new List<Object>{ task, u, nc }
-			)
-		);
+		Logger.logInfo(String.format('buildOwnerEmail( {0}, {1}, {2} )', new List<Object>{ task, u, nc }));
 
 		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 		if (u == null || String.isBlank(u.Email))
 			return mail;
 
 		mail.setToAddresses(new List<String>{ u.Email });
-		String caseName = (nc != null &&
-			nc.Name != null)
-			? nc.Name
-			: String.valueOf(task.WhatId);
+		String caseName = (nc != null && nc.Name != null) ? nc.Name : String.valueOf(task.WhatId);
 		mail.setSubject('New task created on case: ' + caseName);
 		mail.setOrgWideEmailAddressId(owe.Id);
 
@@ -539,9 +482,7 @@ public with sharing class NorlysNowService {
 	 * @return A list of parent Case records to be closed.
 	 */
 	public List<Case> closeParentCases(List<NorlysNow_Case__c> ncList) {
-		Logger.logInfo(
-			String.format('closeParentCase( {0} )', new List<Object>{ ncList })
-		);
+		Logger.logInfo(String.format('closeParentCase( {0} )', new List<Object>{ ncList }));
 
 		// Find parent case Id'er for de NorlysNow_Case__c vi har fået ind
 		Set<Id> parentCaseIds = new Set<Id>();
@@ -557,16 +498,10 @@ public with sharing class NorlysNowService {
 
 		// Hent ALLE child NorlysNow_Case__c for disse parent cases
 		Map<Id, List<NorlysNow_Case__c>> parentIdToChildren = new Map<Id, List<NorlysNow_Case__c>>();
-		for (
-			NorlysNow_Case__c nc : norlysNowSelector.getAllNorlysNowCasesUnderParentCases(
-				parentCaseIds
-			)
-		) {
+		List<NorlysNow_Case__c> norlysNowCases = norlysNowSelector.getAllNorlysNowCasesUnderParentCases(parentCaseIds);
+		for (NorlysNow_Case__c nc : norlysNowCases) {
 			if (!parentIdToChildren.containsKey(nc.Parent_Case__c)) {
-				parentIdToChildren.put(
-					nc.Parent_Case__c,
-					new List<NorlysNow_Case__c>()
-				);
+				parentIdToChildren.put(nc.Parent_Case__c, new List<NorlysNow_Case__c>());
 			}
 			parentIdToChildren.get(nc.Parent_Case__c).add(nc);
 		}
@@ -604,16 +539,12 @@ public with sharing class NorlysNowService {
 			}
 		}
 		// Get parent cases which are closed
-		Map<Id, Case> closedParentCases = norlysNowSelector.getCasesByIds(
-			parentCaseIds
-		);
+		Map<Id, Case> closedParentCases = norlysNowSelector.getCasesByIds(parentCaseIds);
 
 		// For each NorlysNow Case Checkparent case is closed
 		for (NorlysNow_Case__c nnc : ncList) {
 			if (closedParentCases.containsKey(nnc.Parent_Case__c)) {
-				nnc.addError(
-					'You are not allowed to create or update NorlysNow Cases on a closed Case'
-				);
+				nnc.addError('You are not allowed to create or update NorlysNow Cases on a closed Case');
 			}
 		}
 	}
@@ -632,11 +563,7 @@ public with sharing class NorlysNowService {
 		String executorType
 	) {
 		// Create three lists of string
-		List<List<Id>> chunked = (List<List<Id>>) orgUtils.chunkListOfStrings(
-			100,
-			toBeSentIds,
-			List<List<Id>>.class
-		);
+		List<List<Id>> chunked = (List<List<Id>>) orgUtils.chunkListOfStrings(100, toBeSentIds, List<List<Id>>.class);
 		List<EventExecutor__e> eventList = new List<EventExecutor__e>();
 		for (List<Id> iterationList : chunked) {
 			NorlysNowService.Parameters params = new NorlysNowService.Parameters();
@@ -644,12 +571,7 @@ public with sharing class NorlysNowService {
 			params.recordIds = new Set<Id>(iterationList);
 			String paramsJson = JSON.serialize(params);
 
-			eventList.add(
-				new EventExecutor__e(
-					Executor__c = executorType,
-					Parameters__c = paramsJson
-				)
-			);
+			eventList.add(new EventExecutor__e(Executor__c = executorType, Parameters__c = paramsJson));
 		}
 
 		return eventList;

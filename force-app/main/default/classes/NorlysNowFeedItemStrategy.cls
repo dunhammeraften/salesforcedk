@@ -28,18 +28,10 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
 	private NorlysNowFeedItemStrategy(SingletonFactory singletonFactory) {
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
-		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(
-			NorlysNowSelector.class
-		);
-		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(
-			NorlysNowClient.class
-		);
-		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(
-			DatabaseService.class
-		);
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
+		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
+		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(NorlysNowClient.class);
+		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(DatabaseService.class);
 	}
 
 	/**
@@ -50,13 +42,9 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 	 * @return A set of record Ids that failed and need to be retried.
 	 */
 	public Set<Id> toExecute(EventExecutor__e event) {
-		Logger.logInfo(
-			String.format('toExecute( {0} )', new List<Object>{ event })
-		);
+		Logger.logInfo(String.format('toExecute( {0} )', new List<Object>{ event }));
 
-		NorlysNowService.Parameters params = norlysNowService.getParameters(
-			event.Parameters__c
-		);
+		NorlysNowService.Parameters params = norlysNowService.getParameters(event.Parameters__c);
 		Set<Id> recordIds = params.recordIds;
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>();
 
@@ -65,12 +53,8 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 			feedItemMap = norlysNowSelector.getFeedItemMap(params.recordIds);
 		} catch (QueryException ex) {
 			// Log and throw an exception if there's an error querying the FeedItem
-			Logger.logError(
-				'SOQL Error querying FeedItem records: ' + ex.getMessage()
-			);
-			throw new NorlysNowFeedItemStrategyException(
-				'SQOL Error finding FeedItem: ' + ex.getMessage()
-			);
+			Logger.logError('SOQL Error querying FeedItem records: ' + ex.getMessage());
+			throw new NorlysNowFeedItemStrategyException('SQOL Error finding FeedItem: ' + ex.getMessage());
 		}
 
 		List<NorlysNow_Case__c> norlysNowCasesToUpdate = new List<NorlysNow_Case__c>();
@@ -97,9 +81,7 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 
 			try {
 				norlysNowClient.sentRequestNorlysNowCase(requestObject);
-				norlysNowCasesToUpdate.add(
-					norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase)
-				);
+				norlysNowCasesToUpdate.add(norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
 				// Success → remove id from retry set
 				recordIds.remove(feedItemId);
 			} catch (HTTPException ex) {
@@ -108,45 +90,22 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 					when 500 {
 						// A 500 error indicates a server-side issue, so we should retry the event later.
 						Logger.logError(
-							'HTTP 500 error for FeedItem Id: ' +
-								feedItemId +
-								'. The event will be retried. Error: ' +
-								ex.getMessage()
+							'HTTP 500 error for FeedItem Id: ' + feedItemId + '. The event will be retried. Error: ' + ex.getMessage()
 						);
 					}
 					when else {
 						// For other HTTP errors, we log the error, mark the case as failed, and do not retry.
-						Logger.logError(
-							'HTTPException for FeedItem Id: ' +
-								feedItemId +
-								'. Error: ' +
-								ex.getMessage()
-						);
+						Logger.logError('HTTPException for FeedItem Id: ' + feedItemId + '. Error: ' + ex.getMessage());
 						recordIds.remove(feedItemId);
-						norlysNowCasesToUpdate.add(
-							norlysNowService.setErrorOnNorlysNowCase(
-								norlysNowCase,
-								ex.getMessage()
-							)
-						);
+						norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
 						norlysNowCasesToNotify.add(norlysNowCase);
 					}
 				}
 			} catch (System.CalloutException ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
-				Logger.logError(
-					'CalloutException for FeedItem Id: ' +
-						feedItemId +
-						'. Error: ' +
-						ex.getMessage()
-				);
+				Logger.logError('CalloutException for FeedItem Id: ' + feedItemId + '. Error: ' + ex.getMessage());
 				recordIds.remove(feedItemId);
-				norlysNowCasesToUpdate.add(
-					norlysNowService.setErrorOnNorlysNowCase(
-						norlysNowCase,
-						ex.getMessage()
-					)
-				);
+				norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
 				norlysNowCasesToNotify.add(norlysNowCase);
 			}
 		}
@@ -157,13 +116,9 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 				databaseService.updateRecords(norlysNowCasesToUpdate);
 			}
 		} catch (DmlException ex) {
-			Logger.logError(
-				'DML error updating NorlysNow_Case__c records from FeedItemStrategy: ' +
-				ex.getMessage()
-			);
+			Logger.logError('DML error updating NorlysNow_Case__c records from FeedItemStrategy: ' + ex.getMessage());
 			throw new NorlysNowFeedItemStrategyException(
-				'Error when updating NorlysNow_Case__c from FeedItemStrategy: ' +
-				ex.getMessage()
+				'Error when updating NorlysNow_Case__c from FeedItemStrategy: ' + ex.getMessage()
 			);
 		}
 

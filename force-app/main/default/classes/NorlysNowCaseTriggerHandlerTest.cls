@@ -34,22 +34,10 @@ private class NorlysNowCaseTriggerHandlerTest {
 
 		// Register all our mock stubs with the shared factory.
 		// The handler's default constructor will now receive these mocks.
-		factory.registerSingleton(
-			NorlysNowService.class,
-			(NorlysNowService) norlysNowServiceMock.stub
-		);
-		factory.registerSingleton(
-			NorlysNowSelector.class,
-			(NorlysNowSelector) norlysNowSelectorMock.stub
-		);
-		factory.registerSingleton(
-			PermissionService.class,
-			(PermissionService) permissionServiceMock.stub
-		);
-		factory.registerSingleton(
-			EventExecutorService.class,
-			(EventExecutorService) eventExecutorServiceMock.stub
-		);
+		factory.registerSingleton(NorlysNowService.class, (NorlysNowService) norlysNowServiceMock.stub);
+		factory.registerSingleton(NorlysNowSelector.class, (NorlysNowSelector) norlysNowSelectorMock.stub);
+		factory.registerSingleton(PermissionService.class, (PermissionService) permissionServiceMock.stub);
+		factory.registerSingleton(EventExecutorService.class, (EventExecutorService) eventExecutorServiceMock.stub);
 		factory.registerSingleton(DatabaseService.class, dbMock);
 	}
 
@@ -68,23 +56,14 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
 		// Configure mock behavior
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
-		norlysNowServiceMock.spyOn('closeParentCases')
-			.whenCalledWith(Argument.any())
-			.thenReturn(new List<Case>());
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
 		// Act
@@ -96,11 +75,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			publishSpy.callLog.size(),
-			'The publish method should have been called once.'
-		);
+		System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -118,25 +93,14 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
-		// Configure mock behavior
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+
 		// Use a generic argument matcher to make the mock less brittle
 		norlysNowServiceMock.spyOn('closeParentCases')
 			.whenCalledWith(Argument.any())
-			.thenReturn(
-				new List<Case>{
-					new Case(Id = scenario.caseRecord.Id, Status = 'Closed')
-				}
-			);
+			.thenReturn(new List<Case>{ new Case(Id = scenario.caseRecord.Id, Status = 'Closed') });
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
@@ -147,22 +111,10 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			dbMock.register.updated.size(),
-			'A single record should have been updated.'
-		);
+		System.assertEquals(1, dbMock.register.updated.size(), 'A single record should have been updated.');
 		Case updatedParentCase = (Case) dbMock.register.updated[0];
-		System.assertEquals(
-			scenario.caseRecord.Id,
-			updatedParentCase.Id,
-			'The updated record should be the parent case.'
-		);
-		System.assertEquals(
-			'Closed',
-			updatedParentCase.Status,
-			'The parent case status should be updated to "Closed".'
-		);
+		System.assertEquals(scenario.caseRecord.Id, updatedParentCase.Id, 'The updated record should be the parent case.');
+		System.assertEquals('Closed', updatedParentCase.Status, 'The parent case status should be updated to "Closed".');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -181,9 +133,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.withNorlysNowCases(1)
 			.build();
 
-		MethodSpy checkParentCaseSpy = norlysNowServiceMock.spyOn(
-			'CheckParentCaseIsClosed'
-		);
+		MethodSpy checkParentCaseSpy = norlysNowServiceMock.spyOn('CheckParentCaseIsClosed');
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
@@ -193,11 +143,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			checkParentCaseSpy.callLog.size(),
-			'CheckParentCaseIsClosed should have been called once.'
-		);
+		System.assertEquals(1, checkParentCaseSpy.callLog.size(), 'CheckParentCaseIsClosed should have been called once.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -216,13 +162,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(false);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
 		// Act
@@ -234,11 +176,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			publishSpy.callLog.size(),
-			'The publish method should not have been called.'
-		);
+		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -256,18 +194,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(2)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
-		norlysNowServiceMock.spyOn('closeParentCases')
-			.whenCalledWith(scenario.norlysNowCases)
-			.thenReturn(new List<Case>());
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(scenario.norlysNowCases).thenReturn(new List<Case>());
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
@@ -278,11 +207,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			dbMock.register.updated.size(),
-			'No records should have been updated.'
-		);
+		System.assertEquals(0, dbMock.register.updated.size(), 'No records should have been updated.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -302,22 +227,13 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.build();
 
 		scenario.norlysNowCases[0].Status__c = 'Withdrawn';
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
-		norlysNowServiceMock.spyOn('closeParentCases')
-			.whenCalledWith(scenario.norlysNowCases)
-			.thenReturn(new List<Case>());
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(scenario.norlysNowCases).thenReturn(new List<Case>());
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
 		// Act
@@ -329,11 +245,7 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			publishSpy.callLog.size(),
-			'The publish method should have been called once.'
-		);
+		System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
 		TriggerHandler.clearAllBypasses();
 	}
 }

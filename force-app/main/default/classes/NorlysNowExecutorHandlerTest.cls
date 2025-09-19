@@ -25,9 +25,7 @@ private class NorlysNowExecutorHandlerTest {
 		eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
 		caseStrategyMock = Mock.forType(NorlysNowCaseStrategy.class);
 		feedItemStrategyMock = Mock.forType(NorlysNowFeedItemStrategy.class);
-		contentDocLinkStrategyMock = Mock.forType(
-			NorlysNowContentDocumentLinkStrategy.class
-		);
+		contentDocLinkStrategyMock = Mock.forType(NorlysNowContentDocumentLinkStrategy.class);
 
 		// Get the stub instances from the mocks
 		NorlysNowService norlysNowServiceStub = (NorlysNowService) norlysNowServiceMock.stub;
@@ -39,19 +37,10 @@ private class NorlysNowExecutorHandlerTest {
 		// Register all the singleton services with our stubs so the handler will use them
 		SingletonFactory factory = SingletonFactory.getFactory();
 		factory.registerSingleton(NorlysNowService.class, norlysNowServiceStub);
-		factory.registerSingleton(
-			EventExecutorService.class,
-			eventExecutorServiceStub
-		);
+		factory.registerSingleton(EventExecutorService.class, eventExecutorServiceStub);
 		factory.registerSingleton(NorlysNowCaseStrategy.class, caseStrategyStub);
-		factory.registerSingleton(
-			NorlysNowFeedItemStrategy.class,
-			feedItemStrategyStub
-		);
-		factory.registerSingleton(
-			NorlysNowContentDocumentLinkStrategy.class,
-			contentDocLinkStrategyStub
-		);
+		factory.registerSingleton(NorlysNowFeedItemStrategy.class, feedItemStrategyStub);
+		factory.registerSingleton(NorlysNowContentDocumentLinkStrategy.class, contentDocLinkStrategyStub);
 	}
 
 	@isTest
@@ -59,16 +48,12 @@ private class NorlysNowExecutorHandlerTest {
 		// Arrange
 		setupMocks();
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"type":"NorlysNow_Case__c"}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"type":"NorlysNow_Case__c"}');
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.type = 'NorlysNow_Case__c';
 
 		// --- Mock Service Calls ---
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
 		MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
 		toExecuteSpy.whenCalledWith(testEvent).thenReturn(new Set<Id>());
@@ -88,11 +73,7 @@ private class NorlysNowExecutorHandlerTest {
 			toExecuteSpy.callLog.size(),
 			'The toExecute method on the case strategy should have been called once.'
 		);
-		System.assertEquals(
-			0,
-			publishSpy.callLog.size(),
-			'The publish method should not have been called.'
-		);
+		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
 	}
 
 	@isTest
@@ -100,16 +81,12 @@ private class NorlysNowExecutorHandlerTest {
 		// Arrange
 		setupMocks();
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"type":"FeedItem"}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"type":"FeedItem"}');
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.type = 'FeedItem';
 
 		// --- Mock Service Calls ---
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
 		MethodSpy toExecuteSpy = feedItemStrategyMock.spyOn('toExecute');
 		toExecuteSpy.whenCalledWith(testEvent).thenReturn(new Set<Id>());
@@ -134,16 +111,12 @@ private class NorlysNowExecutorHandlerTest {
 		// Arrange
 		setupMocks();
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"type":"ContentDocumentLink"}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"type":"ContentDocumentLink"}');
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.type = 'ContentDocumentLink';
 
 		// --- Mock Service Calls ---
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
 		MethodSpy toExecuteSpy = contentDocLinkStrategyMock.spyOn('toExecute');
 		toExecuteSpy.whenCalledWith(testEvent).thenReturn(new Set<Id>());
@@ -177,13 +150,9 @@ private class NorlysNowExecutorHandlerTest {
 		params.type = 'NorlysNow_Case__c';
 
 		// --- Mock Service Calls ---
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		Set<Id> retryIds = new Set<Id>{
-			DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType)
-		}; // Simulate that there are IDs to retry
+		Set<Id> retryIds = new Set<Id>{ DatabaseService.getFakeId(NorlysNow_Case__c.SObjectType) }; // Simulate that there are IDs to retry
 		MethodSpy toExecuteSpy = caseStrategyMock.spyOn('toExecute');
 		toExecuteSpy.whenCalledWith(testEvent).thenReturn(retryIds);
 
@@ -209,22 +178,16 @@ private class NorlysNowExecutorHandlerTest {
 		// Arrange
 		setupMocks();
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"type":"Unknown_Type"}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"type":"Unknown_Type"}');
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.type = 'Unknown_Type';
 
 		// --- Mock Service Calls ---
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
 		MethodSpy caseExecuteSpy = caseStrategyMock.spyOn('toExecute');
 		MethodSpy feedItemExecuteSpy = feedItemStrategyMock.spyOn('toExecute');
-		MethodSpy contentDocLinkExecuteSpy = contentDocLinkStrategyMock.spyOn(
-			'toExecute'
-		);
+		MethodSpy contentDocLinkExecuteSpy = contentDocLinkStrategyMock.spyOn('toExecute');
 
 		NorlysNowExecutorHandler handler = new NorlysNowExecutorHandler();
 

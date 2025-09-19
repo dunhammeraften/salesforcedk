@@ -27,21 +27,11 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 	 * @description Private constructor for dependency injection.
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
-	private NorlysNowContentDocumentLinkStrategy(
-		SingletonFactory singletonFactory
-	) {
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
-		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(
-			NorlysNowSelector.class
-		);
-		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(
-			NorlysNowClient.class
-		);
-		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(
-			DatabaseService.class
-		);
+	private NorlysNowContentDocumentLinkStrategy(SingletonFactory singletonFactory) {
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
+		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
+		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(NorlysNowClient.class);
+		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(DatabaseService.class);
 	}
 
 	/**
@@ -68,35 +58,23 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 	 * @return A set of ContentDocument Ids that failed and need to be retried.
 	 */
 	public Set<Id> toExecute(EventExecutor__e event) {
-		Logger.logInfo(
-			String.format('toExecute( {0} )', new List<Object>{ event })
-		);
+		Logger.logInfo(String.format('toExecute( {0} )', new List<Object>{ event }));
 
-		norlysNowService.Parameters params = norlysNowService.getParameters(
-			event.Parameters__c
-		);
+		norlysNowService.Parameters params = norlysNowService.getParameters(event.Parameters__c);
 		Set<Id> recordIds = params.recordIds;
 
 		// Create a map of ContentDocumentId to the LinkedEntityId (the NorlysNow_Case__c Id).
 		Map<Id, Id> fileToCaseMap = new Map<Id, Id>();
-		for (
-			ContentDocumentLink cdl : norlysNowSelector.getContentDocumentLinks(
-				recordIds
-			)
-		) {
+		for (ContentDocumentLink cdl : norlysNowSelector.getContentDocumentLinks(recordIds)) {
 			fileToCaseMap.put(cdl.ContentDocumentId, cdl.LinkedEntityId);
 		}
 
 		// Get the latest version of the content files.
-		Map<Id, ContentVersion> fileIdToVersion = norlysNowService.getFileIdToVersion(
-			recordIds
-		);
+		Map<Id, ContentVersion> fileIdToVersion = norlysNowService.getFileIdToVersion(recordIds);
 
 		// This check is a safeguard. A ContentDocumentLink should always have a corresponding ContentVersion.
 		if (fileIdToVersion.isEmpty()) {
-			Logger.logError(
-				'No ContentVersions found for ContentDocumentIds: ' + recordIds
-			);
+			Logger.logError('No ContentVersions found for ContentDocumentIds: ' + recordIds);
 			return new Set<Id>();
 		}
 
@@ -129,9 +107,7 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 			try {
 				norlysNowClient.sentRequestNorlysNowCase(requestObject);
 
-				norlysNowCasesToUpdate.add(
-					norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase)
-				);
+				norlysNowCasesToUpdate.add(norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
 
 				// Success → remove id from retry set
 				recordIds.remove(fileId);
@@ -149,37 +125,17 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 					}
 					when else {
 						// For other HTTP errors, we log the error, mark the case as failed, and do not retry.
-						Logger.logError(
-							'HTTPException for ContentDocumentId ' +
-								fileId +
-								': ' +
-								ex.getMessage()
-						);
+						Logger.logError('HTTPException for ContentDocumentId ' + fileId + ': ' + ex.getMessage());
 						recordIds.remove(fileId);
-						norlysNowCasesToUpdate.add(
-							norlysNowService.setErrorOnNorlysNowCase(
-								norlysNowCase,
-								ex.getMessage()
-							)
-						);
+						norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
 						norlysNowCasesToNotify.add(norlysNowCase);
 					}
 				}
 			} catch (System.CalloutException ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
-				Logger.logError(
-					'CalloutException for ContentDocumentId ' +
-						fileId +
-						': ' +
-						ex.getMessage()
-				);
+				Logger.logError('CalloutException for ContentDocumentId ' + fileId + ': ' + ex.getMessage());
 				recordIds.remove(fileId);
-				norlysNowCasesToUpdate.add(
-					norlysNowService.setErrorOnNorlysNowCase(
-						norlysNowCase,
-						ex.getMessage()
-					)
-				);
+				norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
 				norlysNowCasesToNotify.add(norlysNowCase);
 			}
 		}
@@ -191,12 +147,10 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 			}
 		} catch (DmlException ex) {
 			Logger.logError(
-				'DML error updating NorlysNow_Case__c records from ContentDocumentLinkStrategy: ' +
-				ex.getMessage()
+				'DML error updating NorlysNow_Case__c records from ContentDocumentLinkStrategy: ' + ex.getMessage()
 			);
 			throw new NorlysNowContentDocumentLinkStrategyException(
-				'Error when updating NorlysNow_Case__c from ContentDocumentLinkStrategy: ' +
-				ex.getMessage()
+				'Error when updating NorlysNow_Case__c from ContentDocumentLinkStrategy: ' + ex.getMessage()
 			);
 		}
 

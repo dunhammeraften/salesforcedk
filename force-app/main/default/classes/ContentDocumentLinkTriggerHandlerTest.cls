@@ -21,9 +21,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 	 */
 	private static void setupMocks() {
 		// Create mocks for all service dependencies
-		contentDocumentLinkServiceMock = Mock.forType(
-			ContentDocumentLinkService.class
-		);
+		contentDocumentLinkServiceMock = Mock.forType(ContentDocumentLinkService.class);
 		caseServiceMock = Mock.forType(CaseService.class);
 		permissionServiceMock = Mock.forType(PermissionService.class);
 		norlysNowServiceMock = Mock.forType(NorlysNowService.class);
@@ -56,15 +54,9 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		setupMocks();
 
 		Account acc = TDF_AccountUtils.createAccountWithCVR('12345678');
-		Case testCase = TDF_CaseUtils.createCustomerServiceCasesForAccounts(
-			new List<Account>{ acc }
-		)[0];
+		Case testCase = TDF_CaseUtils.createCustomerServiceCasesForAccounts(new List<Account>{ acc })[0];
 
-		ContentVersion cv = TDF_ContentVersionUtils.createContentVersion(
-			'Test Doc',
-			'txt',
-			'Test Data'
-		);
+		ContentVersion cv = TDF_ContentVersionUtils.createContentVersion('Test Doc', 'txt', 'Test Data');
 		ContentDocument cd = [
 			SELECT Id
 			FROM ContentDocument
@@ -79,20 +71,13 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		insert testLink;
 
 		// --- Mock Service Calls ---
-		MethodSpy getRelatedCasesSpy = contentDocumentLinkServiceMock.spyOn(
-			'getRelatedCasesByLinkedEntityIds'
-		);
-		getRelatedCasesSpy.whenCalledWith(Argument.any())
-			.thenReturn(new List<Id>{ testCase.Id });
+		MethodSpy getRelatedCasesSpy = contentDocumentLinkServiceMock.spyOn('getRelatedCasesByLinkedEntityIds');
+		getRelatedCasesSpy.whenCalledWith(Argument.any()).thenReturn(new List<Id>{ testCase.Id });
 
-		MethodSpy updateCasesSpy = caseServiceMock.spyOn(
-			'updateCustomerServiceCasesToAwaitingUser'
-		);
+		MethodSpy updateCasesSpy = caseServiceMock.spyOn('updateCustomerServiceCasesToAwaitingUser');
 		updateCasesSpy.whenCalledWith(Argument.any()).thenReturn(null);
 
-		MethodSpy hasPermissionSpy = permissionServiceMock.spyOn(
-			'hasPermissionSet'
-		);
+		MethodSpy hasPermissionSpy = permissionServiceMock.spyOn('hasPermissionSet');
 		hasPermissionSpy.whenCalledWith(Argument.any()).thenReturn(false);
 
 		ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
@@ -136,9 +121,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 			.build();
 
 		// --- Mock Service Calls ---
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
@@ -153,11 +136,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			publishSpy.callLog.size(),
-			'The publish method should have been called once.'
-		);
+		System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -180,9 +159,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 			.build();
 
 		// --- Mock Service Calls ---
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(false);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
 
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
@@ -195,11 +172,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			publishSpy.callLog.size(),
-			'The publish method should not have been called.'
-		);
+		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
 		TriggerHandler.clearAllBypasses();
 	}
 }

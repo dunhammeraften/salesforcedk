@@ -35,22 +35,10 @@ private class FeedItemTriggerHandlerTest {
 		SingletonFactory factory = SingletonFactory.getFactory();
 		// Register all our mock stubs with the shared factory.
 		// The handler's default constructor will now receive these mocks.
-		factory.registerSingleton(
-			NorlysNowService.class,
-			(NorlysNowService) norlysNowServiceMock.stub
-		);
-		factory.registerSingleton(
-			NorlysNowSelector.class,
-			(NorlysNowSelector) norlysNowSelectorMock.stub
-		);
-		factory.registerSingleton(
-			PermissionService.class,
-			(PermissionService) permissionServiceMock.stub
-		);
-		factory.registerSingleton(
-			EventExecutorService.class,
-			(EventExecutorService) eventExecutorServiceMock.stub
-		);
+		factory.registerSingleton(NorlysNowService.class, (NorlysNowService) norlysNowServiceMock.stub);
+		factory.registerSingleton(NorlysNowSelector.class, (NorlysNowSelector) norlysNowSelectorMock.stub);
+		factory.registerSingleton(PermissionService.class, (PermissionService) permissionServiceMock.stub);
+		factory.registerSingleton(EventExecutorService.class, (EventExecutorService) eventExecutorServiceMock.stub);
 		factory.registerSingleton(DatabaseService.class, dbMock);
 	}
 
@@ -71,17 +59,11 @@ private class FeedItemTriggerHandlerTest {
 			.withNorlysNowCases(1)
 			.withFeedItems(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
 		// --- Mock Service Calls ---
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(true);
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
@@ -97,11 +79,7 @@ private class FeedItemTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			publishSpy.callLog.size(),
-			'The publish method should have been called once.'
-		);
+		System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -122,17 +100,11 @@ private class FeedItemTriggerHandlerTest {
 			.withNorlysNowCases(1)
 			.withFeedItems(1)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(
-			scenario.norlysNowCases
-		);
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
 
 		// --- Mock Service Calls ---
-		permissionServiceMock.spyOn('hasPermissionSet')
-			.whenCalledWith(Argument.any())
-			.thenReturn(false);
-		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap')
-			.whenCalledWith(caseMap.keySet())
-			.thenReturn(caseMap);
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
@@ -148,11 +120,7 @@ private class FeedItemTriggerHandlerTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			publishSpy.callLog.size(),
-			'The publish method should not have been called.'
-		);
+		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
 		TriggerHandler.clearAllBypasses();
 	}
 }

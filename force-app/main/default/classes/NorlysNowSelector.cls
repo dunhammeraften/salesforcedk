@@ -15,12 +15,7 @@ public with sharing class NorlysNowSelector {
 	 * @return A map of NorlysNow_Case__c records keyed by their Id.
 	 */
 	public Map<Id, NorlysNow_Case__c> getNorlysNowCasesMap(Set<Id> recordIds) {
-		Logger.logInfo(
-			String.format(
-				'getNorlysNowCasesMap( {0} )',
-				new List<Object>{ recordIds }
-			)
-		);
+		Logger.logInfo(String.format('getNorlysNowCasesMap( {0} )', new List<Object>{ recordIds }));
 
 		Map<Id, NorlysNow_Case__c> norlysNowCasesMap = new Map<Id, NorlysNow_Case__c>(
 			(List<NorlysNow_Case__c>) new Query('NorlysNow_Case__c')
@@ -50,8 +45,6 @@ public with sharing class NorlysNowSelector {
 					}
 				)
 				.byId(recordIds)
-				.addConditionNotNull('Parent_Case__c')
-				.addConditionNotEq('Parent_Case__r.Status', 'Closed')
 				.run()
 		);
 
@@ -63,26 +56,12 @@ public with sharing class NorlysNowSelector {
 	 * @param parentCaseIds A set of parent Case record Ids.
 	 * @return A list of child NorlysNow_Case__c records.
 	 */
-	public List<NorlysNow_Case__c> getAllNorlysNowCasesUnderParentCases(
-		Set<Id> parentCaseIds
-	) {
-		Logger.logInfo(
-			String.format(
-				'getAllNorlysNowCasesUnderParentCases( {0} )',
-				new List<Object>{ parentCaseIds }
-			)
-		);
+	public List<NorlysNow_Case__c> getAllNorlysNowCasesUnderParentCases(Set<Id> parentCaseIds) {
+		Logger.logInfo(String.format('getAllNorlysNowCasesUnderParentCases( {0} )', new List<Object>{ parentCaseIds }));
 
 		List<NorlysNow_Case__c> norlysNowCases = new List<NorlysNow_Case__c>(
 			(List<NorlysNow_Case__c>) new Query('NorlysNow_Case__c')
-				.selectFields(
-					new List<String>{
-						'Id',
-						'Parent_Case__c',
-						'Status__c',
-						'Sync_Status__c'
-					}
-				)
+				.selectFields(new List<String>{ 'Id', 'Parent_Case__c', 'Status__c', 'Sync_Status__c' })
 				.addConditionIn('Parent_Case__c', parentCaseIds)
 				.run()
 		);
@@ -96,12 +75,7 @@ public with sharing class NorlysNowSelector {
 	 * @return A map of FeedItem records keyed by their Id.
 	 */
 	public Map<Id, FeedItem> getFeedItemMap(Set<Id> recordIds) {
-		Logger.logInfo(
-			String.format(
-				'getNorlysNowFeedItemMap( {0} )',
-				new List<Object>{ recordIds }
-			)
-		);
+		Logger.logInfo(String.format('getNorlysNowFeedItemMap( {0} )', new List<Object>{ recordIds }));
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>(
 			(List<FeedItem>) new Query('FeedItem')
 				.selectFields(new List<String>{ 'Id', 'Body', 'ParentId' })
@@ -118,20 +92,9 @@ public with sharing class NorlysNowSelector {
 	 * @return A list of the latest ContentVersion records.
 	 */
 	public List<ContentVersion> getContentVersions(Set<Id> fileIds) {
-		Logger.logInfo(
-			String.format('getContentVersions( {0} )', new List<Object>{ fileIds })
-		);
-		List<ContentVersion> cvList = (List<ContentVersion>) new Query(
-				'ContentVersion'
-			)
-			.selectFields(
-				new List<String>{
-					'Id',
-					'ContentDocumentId',
-					'PathOnClient',
-					'VersionData'
-				}
-			)
+		Logger.logInfo(String.format('getContentVersions( {0} )', new List<Object>{ fileIds }));
+		List<ContentVersion> cvList = (List<ContentVersion>) new Query('ContentVersion')
+			.selectFields(new List<String>{ 'Id', 'ContentDocumentId', 'PathOnClient', 'VersionData' })
 			.addConditionEq('IsLatest', true)
 			.addConditionIn('ContentDocumentId', fileIds)
 			.run();
@@ -145,15 +108,8 @@ public with sharing class NorlysNowSelector {
 	 * @return A list of ContentDocumentLink records.
 	 */
 	public List<ContentDocumentLink> getContentDocumentLinks(Set<Id> recordIds) {
-		Logger.logInfo(
-			String.format(
-				'getContentDocumentLinks( {0} )',
-				new List<Object>{ recordIds }
-			)
-		);
-		List<ContentDocumentLink> cdList = (List<ContentDocumentLink>) new Query(
-				'ContentDocumentLink'
-			)
+		Logger.logInfo(String.format('getContentDocumentLinks( {0} )', new List<Object>{ recordIds }));
+		List<ContentDocumentLink> cdList = (List<ContentDocumentLink>) new Query('ContentDocumentLink')
 			.selectFields(new List<String>{ 'ContentDocumentId', 'LinkedEntityId' })
 			.addConditionIn('ContentDocumentId', recordIds)
 			.run();
@@ -166,18 +122,9 @@ public with sharing class NorlysNowSelector {
 	 * @param customNotifyTypeName The developer name of the CustomNotificationType.
 	 * @return The CustomNotificationType record, or null if not found.
 	 */
-	public CustomNotificationType getCustomNotificationType(
-		String customNotifyTypeName
-	) {
-		Logger.logInfo(
-			String.format(
-				'getCustomNotificationType( {0} )',
-				new List<Object>{ customNotifyTypeName }
-			)
-		);
-		CustomNotificationType notifyType = (CustomNotificationType) new Query(
-				'CustomNotificationType'
-			)
+	public CustomNotificationType getCustomNotificationType(String customNotifyTypeName) {
+		Logger.logInfo(String.format('getCustomNotificationType( {0} )', new List<Object>{ customNotifyTypeName }));
+		CustomNotificationType notifyType = (CustomNotificationType) new Query('CustomNotificationType')
 			.selectField('Id')
 			.addConditionEq('DeveloperName', customNotifyTypeName)
 			.setLimit(1)
@@ -192,9 +139,7 @@ public with sharing class NorlysNowSelector {
 	 * @return A list of User records.
 	 */
 	public List<User> getUsers(Set<Id> ownerIds) {
-		Logger.logInfo(
-			String.format('getUsers( {0} )', new List<Object>{ ownerIds })
-		);
+		Logger.logInfo(String.format('getUsers( {0} )', new List<Object>{ ownerIds }));
 		List<User> users = (List<User>) new Query('User')
 			.selectFields(new List<String>{ 'Id', 'Name', 'Email' })
 			.addConditionIn('Id', ownerIds)
@@ -209,6 +154,7 @@ public with sharing class NorlysNowSelector {
 	 * @return A map of closed Case records keyed by their Id.
 	 */
 	public Map<Id, Case> getCasesByIds(Set<Id> parentCaseIds) {
+		Logger.logInfo(String.format('getCasesByIds( {0} )', new List<Object>{ parentCaseIds }));
 		Map<Id, Case> closedParentCases = new Map<Id, Case>(
 			(List<Case>) new Query('Case')
 				.selectFields(new List<String>{ 'Id', 'Status' })
@@ -226,15 +172,8 @@ public with sharing class NorlysNowSelector {
 	 * @return The OrgWideEmailAddress record, or null if not found.
 	 */
 	public OrgWideEmailAddress getOrgWideEmailAddress(String address) {
-		Logger.logInfo(
-			String.format(
-				'getOrgWideEmailAddress( {0} )',
-				new List<Object>{ address }
-			)
-		);
-		OrgWideEmailAddress orgWideEmailAddress = (OrgWideEmailAddress) new Query(
-				'OrgWideEmailAddress'
-			)
+		Logger.logInfo(String.format('getOrgWideEmailAddress( {0} )', new List<Object>{ address }));
+		OrgWideEmailAddress orgWideEmailAddress = (OrgWideEmailAddress) new Query('OrgWideEmailAddress')
 			.selectFields(new List<String>{ 'Id', 'Address' })
 			.addConditionEq('Address', address)
 			.setLimit(1)

@@ -65,11 +65,7 @@ private class NorlysNowSelectorTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			result.size(),
-			'Should not return cases whose parent case is closed.'
-		);
+		System.assertEquals(0, result.size(), 'Should not return cases whose parent case is closed.');
 	}
 
 	/**
@@ -93,11 +89,7 @@ private class NorlysNowSelectorTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			3,
-			result.size(),
-			'Should return all three cases under the parent.'
-		);
+		System.assertEquals(3, result.size(), 'Should return all three cases under the parent.');
 	}
 
 	/**
@@ -189,10 +181,7 @@ private class NorlysNowSelectorTest {
 		// Assert
 		// When a file is created, it's linked to the owner and the specified record.
 		// So we expect at least one link to the case.
-		System.assert(
-			result.size() > 0,
-			'Should return at least one content document link.'
-		);
+		System.assert(result.size() > 0, 'Should return at least one content document link.');
 
 		Boolean isLinkedToCase = false;
 		for (ContentDocumentLink cdl : result) {
@@ -201,10 +190,7 @@ private class NorlysNowSelectorTest {
 				break;
 			}
 		}
-		System.assert(
-			isLinkedToCase,
-			'A content document link should be linked to the NorlysNow Case.'
-		);
+		System.assert(isLinkedToCase, 'A content document link should be linked to the NorlysNow Case.');
 	}
 
 	/**
@@ -223,11 +209,7 @@ private class NorlysNowSelectorTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			null,
-			result,
-			'Should return null for a non-existent notification type.'
-		);
+		System.assertEquals(null, result, 'Should return null for a non-existent notification type.');
 	}
 
 	/**
@@ -237,9 +219,7 @@ private class NorlysNowSelectorTest {
 	static void getUsers_ShouldReturnCorrectUsers() {
 		// Arrange
 		// The scenario builder creates a user we can query for.
-		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-			.forNorlysNowCaseHandling()
-			.build();
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder().forNorlysNowCaseHandling().build();
 
 		Set<Id> userIds = new Set<Id>{ scenario.owner.Id };
 
@@ -252,11 +232,7 @@ private class NorlysNowSelectorTest {
 
 		// Assert
 		System.assertEquals(1, result.size(), 'Should return one user.');
-		System.assertEquals(
-			scenario.owner.Id,
-			result[0].Id,
-			'Should return the correct user.'
-		);
+		System.assertEquals(scenario.owner.Id, result[0].Id, 'Should return the correct user.');
 	}
 
 	/**
@@ -265,9 +241,7 @@ private class NorlysNowSelectorTest {
 	@isTest
 	static void getCasesByIds_ShouldReturnClosedCases() {
 		// Arrange
-		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-			.forNorlysNowCaseHandling()
-			.build();
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder().forNorlysNowCaseHandling().build();
 
 		scenario.caseRecord.Status = 'Closed';
 		scenario.caseRecord.Contract_compliant__c = 'Yes';
@@ -284,15 +258,8 @@ private class NorlysNowSelectorTest {
 
 		// Assert
 		System.assertEquals(1, result.size(), 'Should return one case.');
-		System.assert(
-			result.containsKey(scenario.caseRecord.Id),
-			'The returned map should contain the created case.'
-		);
-		System.assertEquals(
-			'Closed',
-			result.get(scenario.caseRecord.Id).Status,
-			'The case status should be "Closed".'
-		);
+		System.assert(result.containsKey(scenario.caseRecord.Id), 'The returned map should contain the created case.');
+		System.assertEquals('Closed', result.get(scenario.caseRecord.Id).Status, 'The case status should be "Closed".');
 	}
 
 	/**
@@ -308,16 +275,10 @@ private class NorlysNowSelectorTest {
 		NorlysNowSelector selector = new NorlysNowSelector();
 		OrgWideEmailAddress result;
 		Test.startTest();
-		result = selector.getOrgWideEmailAddress(
-			'non.existent.email.for.test@test.com'
-		);
+		result = selector.getOrgWideEmailAddress('non.existent.email.for.test@test.com');
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			null,
-			result,
-			'Should return null for a non-existent email address.'
-		);
+		System.assertEquals(null, result, 'Should return null for a non-existent email address.');
 	}
 }

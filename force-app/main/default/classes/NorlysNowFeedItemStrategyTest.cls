@@ -46,8 +46,7 @@ private class NorlysNowFeedItemStrategyTest {
 		// Arrange
 		setupMocks();
 		// Default mock for triggers
-		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -58,33 +57,20 @@ private class NorlysNowFeedItemStrategyTest {
 		FeedItem testFeedItem = scenario.feedItems[0];
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
-			testFeedItem.Id => testFeedItem
-		};
-		norlysNowSelectorMock.spyOn('getFeedItemMap')
-			.whenCalledWith(recordIds)
-			.thenReturn(feedItemMap);
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
 
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenReturn(null);
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(null);
 
-		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn(
-			'setSuccessOnNorlysNowCase'
-		);
-		setSuccessSpy.whenCalledWith(Argument.any())
-			.thenReturn(new NorlysNow_Case__c());
+		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn('setSuccessOnNorlysNowCase');
+		setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(new NorlysNow_Case__c());
 
 		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
@@ -94,21 +80,13 @@ private class NorlysNowFeedItemStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on success.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on success.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
 			'The databaseService.updateRecords method should have been called once.'
 		);
-		System.assertEquals(
-			1,
-			setSuccessSpy.callLog.size(),
-			'setSuccessOnNorlysNowCase should have been called once.'
-		);
+		System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
 	}
 
 	@isTest
@@ -116,8 +94,7 @@ private class NorlysNowFeedItemStrategyTest {
 		// Arrange
 		setupMocks();
 		// Default mock for triggers
-		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -129,47 +106,25 @@ private class NorlysNowFeedItemStrategyTest {
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
-			testFeedItem.Id => testFeedItem
-		};
-		norlysNowSelectorMock.spyOn('getFeedItemMap')
-			.whenCalledWith(recordIds)
-			.thenReturn(feedItemMap);
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
 
 		// Use the project's custom HTTPException to simulate a non-500 error
-		HTTPException testException = new HTTPException(
-			'Not Found',
-			404,
-			'Not Found'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
 		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
 			.whenCalledWith(Argument.any(), testException.getMessage())
 			.thenReturn(parentCase);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
-		createTasksSpy.whenCalledWith(
-				Argument.any(),
-				Argument.any(),
-				Argument.any(),
-				Argument.any()
-			)
-			.thenReturn(null);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
 		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
@@ -179,11 +134,7 @@ private class NorlysNowFeedItemStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on a non-retryable error.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a non-retryable error.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
@@ -201,8 +152,7 @@ private class NorlysNowFeedItemStrategyTest {
 		// Arrange
 		setupMocks();
 		// Default mock for triggers
-		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -214,44 +164,24 @@ private class NorlysNowFeedItemStrategyTest {
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
-			testFeedItem.Id => testFeedItem
-		};
-		norlysNowSelectorMock.spyOn('getFeedItemMap')
-			.whenCalledWith(recordIds)
-			.thenReturn(feedItemMap);
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
 
-		System.CalloutException testException = new System.CalloutException(
-			'Error'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		System.CalloutException testException = new System.CalloutException('Error');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
 		norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase')
 			.whenCalledWith(Argument.any(), Argument.any())
 			.thenReturn(parentCase);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
-		createTasksSpy.whenCalledWith(
-				Argument.any(),
-				Argument.any(),
-				Argument.any(),
-				Argument.any()
-			)
-			.thenReturn(null);
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
+		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
 		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
@@ -261,11 +191,7 @@ private class NorlysNowFeedItemStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			0,
-			remainingIds.size(),
-			'The returned set of IDs should be empty on a callout exception.'
-		);
+		System.assertEquals(0, remainingIds.size(), 'The returned set of IDs should be empty on a callout exception.');
 		System.assertEquals(
 			1,
 			databaseServiceStub.register.updated.size(),
@@ -283,8 +209,7 @@ private class NorlysNowFeedItemStrategyTest {
 		// Arrange
 		setupMocks();
 		// Default mock for triggers
-		norlysNowServiceMock.spyOn('createCaseCommentRequestObject')
-			.returns(new NorlysNowClientRequestDTO());
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -296,40 +221,22 @@ private class NorlysNowFeedItemStrategyTest {
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
 
-		EventExecutor__e testEvent = new EventExecutor__e(
-			Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}'
-		);
+		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
 		// --- Mock Service Calls for the main execution path ---
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
-		norlysNowServiceMock.spyOn('getParameters')
-			.whenCalledWith(testEvent.Parameters__c)
-			.thenReturn(params);
+		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
-		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{
-			testFeedItem.Id => testFeedItem
-		};
-		norlysNowSelectorMock.spyOn('getFeedItemMap')
-			.whenCalledWith(recordIds)
-			.thenReturn(feedItemMap);
+		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
+		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
 
 		// Use the project's custom HTTPException to simulate a 500 error
-		HTTPException testException = new HTTPException(
-			'Internal Server Error',
-			500,
-			'Server Error'
-		);
-		norlysNowClientMock.spyOn('sentRequestNorlysNowCase')
-			.whenCalledWith(Argument.any())
-			.thenThrow(testException);
+		HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
+		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
 
-		MethodSpy setErrorSpy = norlysNowServiceMock.spyOn(
-			'setErrorOnNorlysNowCase'
-		);
-		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn(
-			'createFollowUpTasks'
-		);
+		MethodSpy setErrorSpy = norlysNowServiceMock.spyOn('setErrorOnNorlysNowCase');
+		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
 
 		NorlysNowFeedItemStrategy strategy = new NorlysNowFeedItemStrategy();
 
@@ -339,30 +246,14 @@ private class NorlysNowFeedItemStrategyTest {
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			1,
-			remainingIds.size(),
-			'The ID should remain in the set for a retryable 500 error.'
-		);
-		System.assertEquals(
-			testFeedItem.Id,
-			remainingIds.iterator().next(),
-			'The correct ID should be in the retry set.'
-		);
+		System.assertEquals(1, remainingIds.size(), 'The ID should remain in the set for a retryable 500 error.');
+		System.assertEquals(testFeedItem.Id, remainingIds.iterator().next(), 'The correct ID should be in the retry set.');
 		System.assertEquals(
 			0,
 			databaseServiceStub.register.updated.size(),
 			'DatabaseService should not be called for a 500 error.'
 		);
-		System.assertEquals(
-			0,
-			setErrorSpy.callLog.size(),
-			'setErrorOnNorlysNowCase should not be called for a 500 error.'
-		);
-		System.assertEquals(
-			0,
-			createTasksSpy.callLog.size(),
-			'createFollowUpTasks should not be called for a 500 error.'
-		);
+		System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
+		System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
 	}
 }

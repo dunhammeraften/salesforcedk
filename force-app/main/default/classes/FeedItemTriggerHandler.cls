@@ -30,18 +30,12 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
 	private FeedItemTriggerHandler(SingletonFactory singletonFactory) {
-		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(
-			NorlysNowSelector.class
-		);
-		this.permissionService = (PermissionService) singletonFactory.getOrRegisterSingleton(
-			PermissionService.class
-		);
+		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
+		this.permissionService = (PermissionService) singletonFactory.getOrRegisterSingleton(PermissionService.class);
 		this.eventExecutorService = (EventExecutorService) singletonFactory.getOrRegisterSingleton(
 			EventExecutorService.class
 		);
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
 		this.triggerNewMap = (Map<Id, FeedItem>) Trigger.newMap;
 		this.triggerNew = (List<FeedItem>) Trigger.new;
 	}
@@ -53,21 +47,15 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 	 */
 	public override void afterInsert() {
 		// The following logic should only be executed by users with the correct permission set.
-		if (
-			!permissionService.hasPermissionSet(
-				new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' }
-			)
-		) {
+		if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
+			Logger.logWarning('User does not have the required permission set. Exiting.');
 			return;
 		}
 
 		// Collect ParentIds that are NorlysNow_Case__c records.
 		Set<Id> norlysNowCaseIds = new Set<Id>();
 		for (FeedItem fi : triggerNewMap.values()) {
-			if (
-				fi.ParentId != null &&
-				fi.ParentId.getSObjectType() == NorlysNow_Case__c.SObjectType
-			) {
+			if (fi.ParentId != null && fi.ParentId.getSObjectType() == NorlysNow_Case__c.SObjectType) {
 				norlysNowCaseIds.add(fi.ParentId);
 			}
 		}
@@ -75,11 +63,10 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 		// If any FeedItems are related to NorlysNow_Case__c, proceed.
 		if (!norlysNowCaseIds.isEmpty()) {
 			// Get the full NorlysNow_Case__c records from the database.
-			Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(
-				norlysNowCaseIds
-			);
+			Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(norlysNowCaseIds);
 
 			if (norlysNowCaseMap.isEmpty()) {
+				Logger.logDebug('norlysNowCaseMap is empty.' + norlysNowCaseMap);
 				return;
 			}
 
@@ -99,6 +86,7 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 			);
 
 			if (eventList != null && !eventList.isEmpty()) {
+				Logger.logDebug('eventList: ' + eventList);
 				eventExecutorService.publishEvents(eventList);
 			}
 		}

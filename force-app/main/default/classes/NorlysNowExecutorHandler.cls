@@ -27,9 +27,7 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
 	private NorlysNowExecutorHandler(SingletonFactory singletonFactory) {
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
 		this.eventExecutorService = (EventExecutorService) singletonFactory.getOrRegisterSingleton(
 			EventExecutorService.class
 		);
@@ -55,16 +53,17 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
 	 */
 	public void execute(EventExecutor__e event) {
 		Logger.logInfo(String.format('execute( {0} )', new List<Object>{ event }));
-		norlysNowService.Parameters params = norlysNowService.getParameters(
-			event.Parameters__c
-		);
+		norlysNowService.Parameters params = norlysNowService.getParameters(event.Parameters__c);
 		String type = params.type;
 		// Select the appropriate strategy based on the event type.
 		INorlysNowIntegrationStrategy strategy = strategies.get(type);
 
 		if (strategy != null) {
+			Logger.logInfo('strategy: ' + strategy);
 			// Execute the strategy and get the set of record Ids that need to be retried.
 			Set<Id> recordIds = strategy.toExecute(event);
+
+			Logger.logInfo('recordIds: ' + recordIds);
 
 			// If there are any remaining record Ids, publish a new event to retry the process.
 			if (!recordIds.isEmpty()) {

@@ -27,18 +27,10 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 	 * @param singletonFactory The SingletonFactory instance to use for creating dependencies.
 	 */
 	private NorlysNowCaseStrategy(SingletonFactory singletonFactory) {
-		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(
-			NorlysNowService.class
-		);
-		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(
-			NorlysNowSelector.class
-		);
-		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(
-			NorlysNowClient.class
-		);
-		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(
-			DatabaseService.class
-		);
+		this.norlysNowService = (NorlysNowService) singletonFactory.getOrRegisterSingleton(NorlysNowService.class);
+		this.norlysNowSelector = (NorlysNowSelector) singletonFactory.getOrRegisterSingleton(NorlysNowSelector.class);
+		this.norlysNowClient = (NorlysNowClient) singletonFactory.getOrRegisterSingleton(NorlysNowClient.class);
+		this.databaseService = (DatabaseService) singletonFactory.getOrRegisterSingleton(DatabaseService.class);
 	}
 
 	/**
@@ -51,13 +43,9 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 	public Set<Id> toExecute(EventExecutor__e event) {
 		Logger.logInfo(String.format('execute( {0} )', new List<Object>{ event }));
 
-		NorlysNowService.Parameters params = norlysNowService.getParameters(
-			event.Parameters__c
-		);
+		NorlysNowService.Parameters params = norlysNowService.getParameters(event.Parameters__c);
 		Set<Id> recordIds = params.recordIds;
-		Map<Id, NorlysNow_Case__c> norlysNowCasesMap = norlysNowSelector.getNorlysNowCasesMap(
-			recordIds
-		);
+		Map<Id, NorlysNow_Case__c> norlysNowCasesMap = norlysNowSelector.getNorlysNowCasesMap(recordIds);
 		Map<Id, NorlysNow_Case__c> toUpdateNorlysNowCasesMap = new Map<Id, NorlysNow_Case__c>();
 		List<NorlysNow_Case__c> norlysNowCasesToNotify = new List<NorlysNow_Case__c>();
 
@@ -88,32 +76,20 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 
 			try {
 				// Call the norlysNowClient to create or update the case in NorlysNow
-				HttpResponse httpResponse = norlysNowClient.sentRequestNorlysNowCase(
-					requestObject
-				);
-				Map<String, Object> raw = (Map<String, Object>) JSON.deserializeUntyped(
-					httpResponse.getBody()
-				);
+				HttpResponse httpResponse = norlysNowClient.sentRequestNorlysNowCase(requestObject);
+				Map<String, Object> raw = (Map<String, Object>) JSON.deserializeUntyped(httpResponse.getBody());
 				Map<String, Object> result = (Map<String, Object>) raw.get('result');
 
 				// If the case is new, capture the NorlysNow ID from the response.
 				if (norlysNowCase.Status__c == 'New') {
 					if (result.get('created record number') != null) {
-						norlysNowCase.NorlysNow_Id__c = (String) result.get(
-							'created record number'
-						);
+						norlysNowCase.NorlysNow_Id__c = (String) result.get('created record number');
 					} else {
-						Logger.logError(
-							'No NorlysNow record number found for NorlysNow_Case__c Id: ' +
-							norlysNowCase.Id
-						);
+						Logger.logError('No NorlysNow record number found for NorlysNow_Case__c Id: ' + norlysNowCase.Id);
 					}
 				}
 
-				toUpdateNorlysNowCasesMap.put(
-					norlysNowCase.Id,
-					norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase)
-				);
+				toUpdateNorlysNowCasesMap.put(norlysNowCase.Id, norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
 				// Remove the successfully processed record from the list of Ids to retry.
 				recordIds.remove(norlysNowCaseId);
 			} catch (HTTPException ex) {
@@ -131,18 +107,12 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 					when else {
 						// For other HTTP errors, we log the error, mark the case as failed, and do not retry.
 						Logger.logError(
-							'HTTPException for NorlysNow_Case__c Id: ' +
-								norlysNowCase.Id +
-								'. Error: ' +
-								ex.getMessage()
+							'HTTPException for NorlysNow_Case__c Id: ' + norlysNowCase.Id + '. Error: ' + ex.getMessage()
 						);
 						recordIds.remove(norlysNowCaseId);
 						toUpdateNorlysNowCasesMap.put(
 							norlysNowCase.Id,
-							norlysNowService.setErrorOnNorlysNowCase(
-								norlysNowCase,
-								ex.getMessage()
-							)
+							norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 						);
 						norlysNowCasesToNotify.add(norlysNowCase);
 					}
@@ -150,18 +120,12 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 			} catch (System.CalloutException ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
 				Logger.logError(
-					'CalloutException for NorlysNow_Case__c Id: ' +
-						norlysNowCase.Id +
-						'. Error: ' +
-						ex.getMessage()
+					'CalloutException for NorlysNow_Case__c Id: ' + norlysNowCase.Id + '. Error: ' + ex.getMessage()
 				);
 				recordIds.remove(norlysNowCaseId);
 				toUpdateNorlysNowCasesMap.put(
 					norlysNowCase.Id,
-					norlysNowService.setErrorOnNorlysNowCase(
-						norlysNowCase,
-						ex.getMessage()
-					)
+					norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 				);
 				norlysNowCasesToNotify.add(norlysNowCase);
 			}
@@ -173,12 +137,8 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 				databaseService.updateRecords(toUpdateNorlysNowCasesMap.values());
 			}
 		} catch (DmlException ex) {
-			Logger.logError(
-				'DML error updating NorlysNow_Case__c records: ' + ex.getMessage()
-			);
-			throw new NorlysNowCaseStrategyException(
-				'Error when updating NorlysNow_Case__c records: ' + ex.getMessage()
-			);
+			Logger.logError('DML error updating NorlysNow_Case__c records: ' + ex.getMessage());
+			throw new NorlysNowCaseStrategyException('Error when updating NorlysNow_Case__c records: ' + ex.getMessage());
 		}
 
 		// If any cases failed permanently, create follow-up tasks for manual intervention.

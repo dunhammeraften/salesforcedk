@@ -11,39 +11,36 @@
  */
 @isTest
 private class PermissionServiceTest {
+	private static Mock permissionSelectorMock;
+
+	private static void setupMocks() {
+		permissionSelectorMock = Mock.forType(PermissionSelector.class);
+
+		SingletonFactory factory = SingletonFactory.getFactory();
+		factory.registerSingleton(PermissionSelector.class, (PermissionSelector) permissionSelectorMock.stub);
+	}
+
 	/**
 	 * @description Verifies that hasPermissionSet returns true when the user has the specified permission set.
 	 */
 	@isTest
 	static void testHasPermissionSet_returnsTrue_whenUserHasPermission() {
 		// Arrange
-		String psName =
-			'TestPermissionSet' + String.valueOf(Math.random()).substring(2, 10);
-		PermissionSet ps = new PermissionSet(
-			Name = psName,
-			Label = 'Test Permission Set'
-		);
-		insert ps;
-
-		PermissionSetAssignment psa = new PermissionSetAssignment(
-			AssigneeId = UserInfo.getUserId(),
-			PermissionSetId = ps.Id
-		);
-		insert psa;
+		setupMocks();
+		permissionSelectorMock.spyOn('selectPermissionSetAssignments')
+			.whenCalledWith(new List<String>{ 'Test_Permission_Set' })
+			.thenReturn(new List<PermissionSetAssignment>{ new PermissionSetAssignment() });
 
 		PermissionService service = new PermissionService();
+		List<String> permissionSetNames = new List<String>{ 'Test_Permission_Set' };
 
 		// Act
 		Test.startTest();
-		Boolean result = service.hasPermissionSet(new List<String>{ psName });
+		Boolean result = service.hasPermissionSet(permissionSetNames);
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			true,
-			result,
-			'Should return true when user has the permission set'
-		);
+		System.assertEquals(true, result, 'Should return true when user has the permission set');
 	}
 
 	/**
@@ -52,21 +49,21 @@ private class PermissionServiceTest {
 	@isTest
 	static void testHasPermissionSet_returnsFalse_whenUserDoesNotHavePermission() {
 		// Arrange
+		setupMocks();
+		permissionSelectorMock.spyOn('selectPermissionSetAssignments')
+			.whenCalledWith(new List<String>{ 'Non_Existent_Permission_Set' })
+			.thenReturn(new List<PermissionSetAssignment>());
+
 		PermissionService service = new PermissionService();
+		List<String> permissionSetNames = new List<String>{ 'Non_Existent_Permission_Set' };
 
 		// Act
 		Test.startTest();
-		Boolean result = service.hasPermissionSet(
-			new List<String>{ 'Non_Existent_Permission_Set' }
-		);
+		Boolean result = service.hasPermissionSet(permissionSetNames);
 		Test.stopTest();
 
 		// Assert
-		System.assertEquals(
-			false,
-			result,
-			'Should return false when user does not have the permission set'
-		);
+		System.assertEquals(false, result, 'Should return false when user does not have the permission set');
 	}
 
 	/**
@@ -75,39 +72,21 @@ private class PermissionServiceTest {
 	@isTest
 	static void testHasProfiles_returnsTrue_whenUserHasProfile() {
 		// Arrange
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
-		String uniqueUserName =
-			'standarduser' +
-			System.currentTimeMillis() +
-			'@testorg.com';
-		User u = new User(
-			Alias = 'standt',
-			Email = 'standarduser@testorg.com',
-			EmailEncodingKey = 'UTF-8',
-			LastName = 'Testing',
-			LanguageLocaleKey = 'en_US',
-			LocaleSidKey = 'en_US',
-			ProfileId = p.Id,
-			TimeZoneSidKey = 'America/Los_Angeles',
-			UserName = uniqueUserName
-		);
-		insert u;
+		setupMocks();
+		permissionSelectorMock.spyOn('selectProfiles')
+			.whenCalledWith(new List<String>{ 'Standard User' })
+			.thenReturn(new List<Profile>{ new Profile() });
 
 		PermissionService service = new PermissionService();
+		List<String> profileNames = new List<String>{ 'Standard User' };
 
-		System.runAs(u) {
-			// Act
-			Test.startTest();
-			Boolean result = service.hasProfiles(new List<String>{ 'Standard User' });
-			Test.stopTest();
+		// Act
+		Test.startTest();
+		Boolean result = service.hasProfiles(profileNames);
+		Test.stopTest();
 
-			// Assert
-			System.assertEquals(
-				true,
-				result,
-				'Should return true when user has the profile'
-			);
-		}
+		// Assert
+		System.assertEquals(true, result, 'Should return true when user has the profile');
 	}
 
 	/**
@@ -116,40 +95,20 @@ private class PermissionServiceTest {
 	@isTest
 	static void testHasProfiles_returnsFalse_whenUserDoesNotHaveProfile() {
 		// Arrange
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
-		String uniqueUserName =
-			'standarduser2' +
-			System.currentTimeMillis() +
-			'@testorg.com';
-		User u = new User(
-			Alias = 'standt2',
-			Email = 'standarduser2@testorg.com',
-			EmailEncodingKey = 'UTF-8',
-			LastName = 'Testing2',
-			LanguageLocaleKey = 'en_US',
-			LocaleSidKey = 'en_US',
-			ProfileId = p.Id,
-			TimeZoneSidKey = 'America/Los_Angeles',
-			UserName = uniqueUserName
-		);
-		insert u;
+		setupMocks();
+		permissionSelectorMock.spyOn('selectProfiles')
+			.whenCalledWith(new List<String>{ 'System Administrator' })
+			.thenReturn(new List<Profile>());
 
 		PermissionService service = new PermissionService();
+		List<String> profileNames = new List<String>{ 'System Administrator' };
 
-		System.runAs(u) {
-			// Act
-			Test.startTest();
-			Boolean result = service.hasProfiles(
-				new List<String>{ 'System Administrator' }
-			);
-			Test.stopTest();
+		// Act
+		Test.startTest();
+		Boolean result = service.hasProfiles(profileNames);
+		Test.stopTest();
 
-			// Assert
-			System.assertEquals(
-				false,
-				result,
-				'Should return false when user does not have the profile'
-			);
-		}
+		// Assert
+		System.assertEquals(false, result, 'Should return false when user does not have the profile');
 	}
 }
