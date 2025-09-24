@@ -64,14 +64,15 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 				null,
 				norlysNowCase.Priority__c,
 				norlysNowCase.Description__c,
-				norlysNowCase.Title__c,
+				norlysNowCase.Title__c + ' - B2B',
 				norlysNowCase.Type__c,
 				norlysNowCase.Status__c,
 				norlysNowCase.Request_Source__c,
 				norlysNowCase.Category__c,
 				norlysNowCase.Technology_Type__c,
 				norlysNowCase.Technology__c,
-				norlysNowCase.OneWorkFlow_Id__c
+				norlysNowCase.OneWorkFlow_Id__c,
+				norlysNowCase.CreatedBy.Name
 			);
 
 			try {

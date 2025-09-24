@@ -63,5 +63,7 @@ public class NorlysNowClientRequestDTO {
 		public String fileName;
 		/** @description The ID from the OneWorkFlow system. */
 		public String oneWorkFlowId;
+		/** @description The name of the NorlysNow Case Creator. */
+		public String createdBy;
 	}
 }

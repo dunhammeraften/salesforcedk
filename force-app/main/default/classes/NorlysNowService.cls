@@ -120,7 +120,8 @@ public with sharing class NorlysNowService {
 		String category,
 		String technologyType,
 		String technology,
-		String oneWorkFlowId
+		String oneWorkFlowId,
+		String createdBy
 	) {
 		Logger.logInfo(
 			String.format(
@@ -143,7 +144,8 @@ public with sharing class NorlysNowService {
 					category,
 					technologyType,
 					technology,
-					oneWorkFlowId
+					oneWorkFlowId,
+					createdBy
 				}
 			)
 		);
@@ -169,6 +171,7 @@ public with sharing class NorlysNowService {
 		requestObject.payload.technologyType = technologyType;
 		requestObject.payload.technology = technology;
 		requestObject.payload.oneWorkFlowId = oneWorkFlowId;
+		requestObject.payload.createdBy = createdBy;
 
 		return requestObject;
 	}

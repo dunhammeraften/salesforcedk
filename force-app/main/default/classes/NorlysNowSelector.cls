@@ -23,11 +23,11 @@ public with sharing class NorlysNowSelector {
 					new List<String>{
 						'Id',
 						'Name',
-						'Account__c',
 						'Parent_Case__c',
 						'Parent_Case__r.Status',
 						'Parent_Case__r.OwnerId',
 						'CreatedBy.Id',
+						'CreatedBy.Name',
 						'Priority__c',
 						'Description__c',
 						'Title__c',
