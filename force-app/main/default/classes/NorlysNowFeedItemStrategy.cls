@@ -57,13 +57,24 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 			throw new NorlysNowFeedItemStrategyException('SQOL Error finding FeedItem: ' + ex.getMessage());
 		}
 
-		List<NorlysNow_Case__c> norlysNowCasesToUpdate = new List<NorlysNow_Case__c>();
+		Set<Id> norlysNowCaseIds = new Set<Id>();
+		for (FeedItem fi : feedItemMap.values()) {
+			norlysNowCaseIds.add(fi.ParentId);
+		}
+		Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(norlysNowCaseIds);
+
+		Map<Id, NorlysNow_Case__c> norlysNowCasesToUpdate = new Map<Id, NorlysNow_Case__c>();
 		List<NorlysNow_Case__c> norlysNowCasesToNotify = new List<NorlysNow_Case__c>();
 
 		for (Id feedItemId : feedItemMap.keySet()) {
 			FeedItem fi = feedItemMap.get(feedItemId);
-			// We don't need the full NorlysNow_Case__c record, just a reference to its Id for the update.
-			NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Id = fi.ParentId);
+			// Get the full NorlysNow_Case__c record to access CreatedById for notifications.
+			NorlysNow_Case__c norlysNowCase = norlysNowCaseMap.get(fi.ParentId);
+
+			if (norlysNowCase == null) {
+				Logger.logWarning('Could not find parent NorlysNow_Case__c for FeedItem Id: ' + feedItemId + '. Skipping.');
+				continue;
+			}
 			// Strip HTML tags from the comment body to get plain text for the API.
 			String plainComment = fi.Body.replaceAll('<[^>]+>', '');
 
@@ -81,7 +92,7 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 
 			try {
 				norlysNowClient.sentRequestNorlysNowCase(requestObject);
-				norlysNowCasesToUpdate.add(norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
+				norlysNowCasesToUpdate.put(norlysNowCase.Id, norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
 				// Success → remove id from retry set
 				recordIds.remove(feedItemId);
 			} catch (HTTPException ex) {
@@ -97,23 +108,32 @@ public with sharing class NorlysNowFeedItemStrategy implements INorlysNowIntegra
 						// For other HTTP errors, we log the error, mark the case as failed, and do not retry.
 						Logger.logError('HTTPException for FeedItem Id: ' + feedItemId + '. Error: ' + ex.getMessage());
 						recordIds.remove(feedItemId);
-						norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
-						norlysNowCasesToNotify.add(norlysNowCase);
+						NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+						norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+						norlysNowCasesToNotify.add(failedCase);
 					}
 				}
 			} catch (System.CalloutException ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
 				Logger.logError('CalloutException for FeedItem Id: ' + feedItemId + '. Error: ' + ex.getMessage());
 				recordIds.remove(feedItemId);
-				norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
-				norlysNowCasesToNotify.add(norlysNowCase);
+				NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+				norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+				norlysNowCasesToNotify.add(failedCase);
+			} catch (Exception ex) {
+				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
+				Logger.logError('Exception for FeedItem Id: ' + feedItemId + '. Error: ' + ex.getMessage());
+				recordIds.remove(feedItemId);
+				NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+				norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+				norlysNowCasesToNotify.add(failedCase);
 			}
 		}
 
 		// Update the related NorlysNow_Case__c records in the database
 		try {
 			if (!norlysNowCasesToUpdate.isEmpty()) {
-				databaseService.updateRecords(norlysNowCasesToUpdate);
+				databaseService.updateRecords(norlysNowCasesToUpdate.values());
 			}
 		} catch (DmlException ex) {
 			Logger.logError('DML error updating NorlysNow_Case__c records from FeedItemStrategy: ' + ex.getMessage());

@@ -54,20 +54,21 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 	 *              and publishes an event to send the case to Norlys Now.
 	 */
 	public override void afterUpdate() {
-		// If the NorlysNow_Case__c status is update to closed, the parent case should be closed
+		// If the NorlysNow_Case__c status is update to closed, then parent case might need to be closed as well if all
+		// child NorlysNow_Case__c are closed also.
 		List<NorlysNow_Case__c> closedCases = new List<NorlysNow_Case__c>();
 		for (NorlysNow_Case__c norlysNowCase : triggerNewMap.values()) {
 			if (norlysNowCase.Status__c == 'Closed' && triggerOldMap.get(norlysNowCase.Id).Status__c != 'Closed') {
 				closedCases.add(norlysNowCase);
 			}
 		}
-
+		// Close parent cases if needed
 		List<Case> parentCasesToClose = new List<Case>();
 		if (!closedCases.isEmpty()) {
 			Logger.logDebug('closedCases: ' + closedCases);
 			parentCasesToClose = norlysNowService.closeParentCases(closedCases);
 		}
-
+		// Update parent cases
 		if (!parentCasesToClose.isEmpty()) {
 			Logger.logDebug('parentCasesToClose: ' + parentCasesToClose);
 			databaseService.updateRecords(parentCasesToClose);
@@ -128,11 +129,26 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 	public override void afterInsert() {
 		// Exit if the user doesn't have the required permission set
 		if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
-			Logger.logWarning('User does not have the required permission set. Exiting.');
+			Logger.logWarning('User does not have the required permission set.');
 			return;
 		}
 
-		// Collect Ids of cases to be sent to Norlys Now
+		//Set Parent case status to 'Redirected'
+		List<Case> parentCasesToUpdate = new List<Case>();
+		for (NorlysNow_Case__c norlysNowCase : triggerNewMap.values()) {
+			if (norlysNowCase.Parent_Case__c != null) {
+				Case parentCase = new Case(Id = norlysNowCase.Parent_Case__c, Status = 'Redirected');
+				parentCasesToUpdate.add(parentCase);
+			}
+		}
+
+		// Update parent cases
+		if (!parentCasesToUpdate.isEmpty()) {
+			Logger.logDebug('parentCasesToUpdate: ' + parentCasesToUpdate);
+			databaseService.updateRecords(parentCasesToUpdate);
+		}
+
+		// Collect Ids of NorlysNowCases to be sent to NorlysNow
 		List<Id> norlysNowCaseToBeSentIds = new List<Id>();
 		for (NorlysNow_Case__c norlysNowCase : triggerNewMap.values()) {
 			norlysNowCaseToBeSentIds.add(norlysNowCase.Id);

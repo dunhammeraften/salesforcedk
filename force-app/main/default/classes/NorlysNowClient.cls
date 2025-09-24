@@ -31,19 +31,22 @@ public with sharing class NorlysNowClient extends HTTPClient {
 		Logger.logInfo(String.format('sentRequestNorlysNowCase( {0} )', new List<Object>{ requestObject }));
 
 		String endpoint = '/api/x_autps_int_app/integration_app/CreateMessage';
-		Logger.logInfo('endpoint: ' + endpoint);
+		Logger.logDebug('endpoint: ' + endpoint);
 
 		String body = JSON.serialize(requestObject);
-		Logger.logInfo('body: ' + body);
 
 		HttpResponse response = post(endpoint, body);
-		Logger.logInfo('response: ' + response);
+		Logger.logDebug('response: ' + response);
 
 		if (response.getStatusCode() < 300) {
 			Logger.logInfo('Create NorlysNow Case: ' + response.getBody());
 			return response;
 		} else {
-			Logger.logError('Failed to create NorlysNow Case: ' + response.getBody());
+			Logger.logError(
+				'NorlysNowClient',
+				'Failed to create NorlysNow Case: ' + response.getBody(),
+				response.getStatusCode().toString()
+			);
 			throw new HTTPException(response);
 		}
 	}

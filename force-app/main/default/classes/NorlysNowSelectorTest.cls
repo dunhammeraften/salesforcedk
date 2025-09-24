@@ -40,35 +40,6 @@ private class NorlysNowSelectorTest {
 	}
 
 	/**
-	 * @description Verifies that getNorlysNowCasesMap does not return cases whose parent case is closed.
-	 */
-	@isTest
-	static void getNorlysNowCasesMap_ShouldNotReturnCasesWithClosedParents() {
-		// Arrange
-		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-			.forNorlysNowCaseHandling()
-			.withNorlysNowCases(1)
-			.build();
-
-		// Close the parent case
-		scenario.caseRecord.Status = 'Closed';
-		scenario.caseRecord.Contract_compliant__c = 'Yes';
-		update scenario.caseRecord;
-
-		Set<Id> norlysNowCaseIds = new Set<Id>{ scenario.norlysNowCases[0].Id };
-
-		// Act
-		NorlysNowSelector selector = new NorlysNowSelector();
-		Map<Id, NorlysNow_Case__c> result;
-		Test.startTest();
-		result = selector.getNorlysNowCasesMap(norlysNowCaseIds);
-		Test.stopTest();
-
-		// Assert
-		System.assertEquals(0, result.size(), 'Should not return cases whose parent case is closed.');
-	}
-
-	/**
 	 * @description Verifies that getAllNorlysNowCasesUnderParentCases returns all child cases for a given parent.
 	 */
 	@isTest

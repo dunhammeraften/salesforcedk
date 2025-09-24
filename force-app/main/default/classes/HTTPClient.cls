@@ -21,385 +21,390 @@
  * @see CalloutRecipes
  */
 public virtual class HTTPClient {
-    /**
-     * These two properties are not public - which means that in
-     * order to manipulate them during a Unit test, we have to
-     * mark them @testVisible
-     *
-     * The namedCredentialName also demonstrates how to auto
-     * create a getter/setter for a property with the
-     * {get;set;} syntax
-     */
+	/**
+	 * These two properties are not public - which means that in
+	 * order to manipulate them during a Unit test, we have to
+	 * mark them @testVisible
+	 *
+	 * The namedCredentialName also demonstrates how to auto
+	 * create a getter/setter for a property with the
+	 * {get;set;} syntax
+	 */
 
-    /**
-     * @description The default headers to use, when none are specified
-     */
-    @testVisible
-    private static Map<String, String> defaultHeaders = new Map<String, String>{
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
-        'X-Application-Id' => 'salesforce',
-        'X-Norlys-TraceId' => Logger.getTraceId()
-    };
+	/**
+	 * @description The default headers to use, when none are specified
+	 */
+	@testVisible
+	private static Map<String, String> defaultHeaders = new Map<String, String>{
+		'Content-Type' => 'application/json',
+		'Accept' => 'application/json',
+		'X-Application-Id' => 'salesforce',
+		'X-Norlys-TraceId' => Logger.getTraceId()
+	};
 
-    /**
-     * @description The name of the Named Credential to use
-     */
-    @testVisible
-    protected String namedCredentialName { get; set; }
+	/**
+	 * @description The name of the Named Credential to use
+	 */
+	@testVisible
+	protected String namedCredentialName { get; set; }
 
-    /**
-     * @description This ENUM lists possible HTTP Verbs. Note: 'Delete' is an Apex Keyword (DML)
-     * and as a result, the ENUM value 'DEL' is used for delete.
-     */
-    public enum HttpVerb {
-        GET,
-        POST,
-        PATCH,
-        PUT,
-        HEAD,
-        DEL
-    }
+	/**
+	 * @description This ENUM lists possible HTTP Verbs. Note: 'Delete' is an Apex Keyword (DML)
+	 * and as a result, the ENUM value 'DEL' is used for delete.
+	 */
+	public enum HttpVerb {
+		GET,
+		POST,
+		PATCH,
+		PUT,
+		HEAD,
+		DEL
+	}
 
-    /**
-     * @description Constructor that sets Named Credential
-     * @param  namedCredential name of the Named Credential to use
-     */
-    public HTTPClient(String namedCredential) {
-        this.namedCredentialName = namedCredential;
-    }
+	/**
+	 * @description Constructor that sets Named Credential
+	 * @param  namedCredential name of the Named Credential to use
+	 */
+	public HTTPClient(String namedCredential) {
+		this.namedCredentialName = namedCredential;
+	}
 
-    /**
-     * @description This constructor isn't intended for use, which is why it's
-     * access modifier is 'Protected'. However, any child class extending
-     * this class will either have to implement constructors matching the one
-     * above, or this constructor must exist. In order to make this abstraction
-     * as useful as possible, we've elected to leave this constructor here,
-     * but unavailable to anything but inner classes and classes that
-     * extend this one.
-     */
-    @SuppressWarnings('PMD.EmptyStatementBlock')
-    protected HTTPClient() {
-    }
+	/**
+	 * @description This constructor isn't intended for use, which is why it's
+	 * access modifier is 'Protected'. However, any child class extending
+	 * this class will either have to implement constructors matching the one
+	 * above, or this constructor must exist. In order to make this abstraction
+	 * as useful as possible, we've elected to leave this constructor here,
+	 * but unavailable to anything but inner classes and classes that
+	 * extend this one.
+	 */
+	@SuppressWarnings('PMD.EmptyStatementBlock')
+	protected HTTPClient() {
+	}
 
-    /**
-     * @description Omnibus callout method. This is the primary method for
-     * making a REST callout. Most of the other methods in this class serve
-     * as convient, syntactic sugar on this method.
-     * @param   method Enum HTTP verb to use. i.e. GET
-     * @param   path patch component of the callout url i.e. `/services/data/v39.0/SObjects`
-     * @param   query Query portion of the URL i.e. `?q=SELECT Id FROM Account`
-     * @param   body JSON string representing the body of the callout in post/patch situations
-     * @param   headers A map<String,String> of headers to use while making this callout
-     */
-    @testVisible
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    protected HttpResponse makeApiCall(
-        HttpVerb method,
-        String path,
-        String query,
-        String body,
-        Map<String, String> headers
-    ) {
-        Logger.logInfo(String.format('makeApiCall( {0}, {1}, {2}, {3}, {4} )', new List<Object>{ method, path, query, body, headers }));
+	/**
+	 * @description Omnibus callout method. This is the primary method for
+	 * making a REST callout. Most of the other methods in this class serve
+	 * as convient, syntactic sugar on this method.
+	 * @param   method Enum HTTP verb to use. i.e. GET
+	 * @param   path patch component of the callout url i.e. `/services/data/v39.0/SObjects`
+	 * @param   query Query portion of the URL i.e. `?q=SELECT Id FROM Account`
+	 * @param   body JSON string representing the body of the callout in post/patch situations
+	 * @param   headers A map<String,String> of headers to use while making this callout
+	 */
+	@testVisible
+	@SuppressWarnings('PMD.ExcessiveParameterList')
+	protected HttpResponse makeApiCall(
+		HttpVerb method,
+		String path,
+		String query,
+		String body,
+		Map<String, String> headers
+	) {
+		Logger.logInfo(
+			String.format('makeApiCall( {0}, {1}, {2}, {3}, {4} )', new List<Object>{ method, path, query, body, headers })
+		);
 
-        if (method == HttpVerb.PATCH) {
-            method = HttpVerb.POST;
-            query += '?_HttpMethod=PATCH';
-        }
-        
-        HttpRequest request = new HttpRequest();
-        if (method == HttpVerb.DEL) {
-            request.setMethod('DELETE');
-        } else {
-            request.setMethod(String.valueOf(method));
-        }
-        Map<String, String> requestHeaders = (headers != null) ? headers : HTTPClient.defaultHeaders;
-        for (String header : requestHeaders.keySet()) {
-            request.setHeader(header, requestHeaders.get(header));
-        }
-        if (
-            String.isNotBlank(body) && (method == HttpVerb.POST || method == HttpVerb.PUT || method == HttpVerb.PATCH)
-        ) {
-            request.setBody(body);
-        }
+		if (method == HttpVerb.PATCH) {
+			method = HttpVerb.POST;
+			query += '?_HttpMethod=PATCH';
+		}
 
-        request.setEndpoint('callout:' + this.namedCredentialName + path + query);
-        Http http = new Http();
+		HttpRequest request = new HttpRequest();
+		if (method == HttpVerb.DEL) {
+			request.setMethod('DELETE');
+		} else {
+			request.setMethod(String.valueOf(method));
+		}
+		Map<String, String> requestHeaders = (headers != null) ? headers : HTTPClient.defaultHeaders;
+		for (String header : requestHeaders.keySet()) {
+			request.setHeader(header, requestHeaders.get(header));
+		}
+		if (String.isNotBlank(body) && (method == HttpVerb.POST || method == HttpVerb.PUT || method == HttpVerb.PATCH)) {
+			request.setBody(body);
+		}
 
-        Long startExecution = System.now().getTime();
-        HttpResponse response = http.send(request);
-        Long responseTime = System.now().getTime() - startExecution;
+		request.setEndpoint('callout:' + this.namedCredentialName + path + query);
+		Http http = new Http();
 
-        String myLog = getHTTPLog(response, request, requestHeaders, responseTime);
-        
-        Integer totalSize = myLog.length();
+		Long startExecution = System.now().getTime();
+		HttpResponse response = http.send(request);
+		Long responseTime = System.now().getTime() - startExecution;
 
-        if(myLog.length() > 100000){
-            myLog = myLog.substring(0, 100000);
-        }
+		String myLog = getHTTPLog(response, request, requestHeaders, responseTime);
 
-        Logger.logInfo(myLog);
+		Integer totalSize = myLog.length();
 
-        return response;
-    }
+		if (myLog.length() > 100000) {
+			myLog = myLog.substring(0, 100000);
+		}
 
-    private String getHTTPLog(HttpResponse response, HttpRequest request, Map<String, String> requestHeaders, Long responseTime){
-        JSONGenerator gen = JSON.createGenerator(false);
-        gen.writeStartObject();
-        gen.writeFieldName('HTTP_Callout');
-        gen.writeStartObject();
-        gen.writeStringField('calloutTimeInMs', responseTime.toString());
-        
-        gen.writeFieldName('request');
-        gen.writeStartObject();
-        gen.writeStringField('method', request.getMethod());
-        gen.writeStringField('endpoint', request.getEndpoint());
-        gen.writeFieldName('headers');
-        gen.writeStartObject();
-        for(String key : requestHeaders.keySet()){
-            gen.writeStringField(key, requestHeaders.get(key));
-        }
-        gen.writeEndObject();
-        gen.writeStringField('body', request.getBody());
-        gen.writeStringField('compressed', ''+request.getCompressed());
-        gen.writeEndObject();
-        
-        gen.writeFieldName('response');
-        gen.writeStartObject();
-        gen.writeStringField('statusCode', response.getStatusCode().toString());
-        gen.writeStringField('status', response.getStatus());
-        
-        gen.writeFieldName('headers');
-        gen.writeStartObject();
-        for(String key : response.getHeaderKeys() ){
-            gen.writeStringField(key, response.getHeader(key));
-        }
-        gen.writeEndObject();
-        gen.writeStringField('bodySize', ''+response.getBody().length());
-        gen.writeStringField('body', response.getBody());
-        gen.writeEndObject();
-        gen.writeEndObject();
-        gen.writeEndObject();
+		Logger.logInfo(myLog);
 
-        return gen.getAsString();
-    }
+		return response;
+	}
 
-    /**
-     * @description  Makes an HTTP Callout to an api resource.
-     * Convienence method that assumes the Default Headers.
-     * @param method HTTPVerb to use. See the enum above.
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     * @param body   Body to send with this call.
-     */
-    @testVisible
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    protected HttpResponse makeApiCall(HttpVerb method, String path, String query, String body) {
-        return this.makeApiCall(method, path, query, body, HTTPClient.defaultHeaders);
-    }
+	private String getHTTPLog(
+		HttpResponse response,
+		HttpRequest request,
+		Map<String, String> requestHeaders,
+		Long responseTime
+	) {
+		JSONGenerator gen = JSON.createGenerator(false);
+		gen.writeStartObject();
+		gen.writeFieldName('HTTP_Callout');
+		gen.writeStartObject();
+		gen.writeStringField('calloutTimeInMs', responseTime.toString());
 
-    /**
-     * @description  convenience version of makeApiCall without body param.
-     * Invokes omnibus version above, with blank body param and default headers.
-     * @param method HTTPVerb to use. See the enum above.
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     */
-    @testVisible
-    protected HttpResponse makeApiCall(HttpVerb method, String path, String query) {
-        return this.makeApiCall(method, path, query, '', HTTPClient.defaultHeaders);
-    }
+		gen.writeFieldName('request');
+		gen.writeStartObject();
+		gen.writeStringField('method', request.getMethod());
+		gen.writeStringField('endpoint', request.getEndpoint());
+		gen.writeFieldName('headers');
+		gen.writeStartObject();
+		for (String key : requestHeaders.keySet()) {
+			gen.writeStringField(key, requestHeaders.get(key));
+		}
+		gen.writeEndObject();
+		gen.writeStringField('body', request.getBody());
+		gen.writeStringField('compressed', '' + request.getCompressed());
+		gen.writeEndObject();
 
-    /**
-     * @description  convenience version of makeApiCall without body or query
-     * params.
-     * Invokes omnibus version above, with blank body and query params
-     * @param method HTTPVerb to use. See the enum above.
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     */
-    @testVisible
-    protected HttpResponse makeApiCall(HttpVerb method, String path) {
-        return this.makeApiCall(method, path, '', '', HTTPClient.defaultHeaders);
-    }
+		gen.writeFieldName('response');
+		gen.writeStartObject();
+		gen.writeStringField('statusCode', response.getStatusCode().toString());
+		gen.writeStringField('status', response.getStatus());
 
-    /**
-     * @description convenience method for a GET Call that only requires a path
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     */
-    @testVisible
-    protected HttpResponse get(String path) {
-        return this.makeApiCall(HttpVerb.GET, path);
-    }
+		gen.writeFieldName('headers');
+		gen.writeStartObject();
+		for (String key : response.getHeaderKeys()) {
+			gen.writeStringField(key, response.getHeader(key));
+		}
+		gen.writeEndObject();
+		gen.writeStringField('bodySize', '' + response.getBody().length());
+		gen.writeStringField('body', response.getBody());
+		gen.writeEndObject();
+		gen.writeEndObject();
+		gen.writeEndObject();
 
-    /**
-     * @description convenience method for a GET Call that only requires a path
-     * and query
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     */
-    @testVisible
-    protected HttpResponse get(String path, String query) {
-        return this.makeApiCall(HttpVerb.GET, path, query);
-    }
+		return gen.getAsString();
+	}
 
-    /**
-     * @description convenience method for deleteing a resource based only on
-     * path
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     */
-    @testVisible
-    protected HttpResponse del(String path) {
-        return this.makeApiCall(HttpVerb.DEL, path);
-    }
+	/**
+	 * @description  Makes an HTTP Callout to an api resource.
+	 * Convienence method that assumes the Default Headers.
+	 * @param method HTTPVerb to use. See the enum above.
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 * @param body   Body to send with this call.
+	 */
+	@testVisible
+	@SuppressWarnings('PMD.ExcessiveParameterList')
+	protected HttpResponse makeApiCall(HttpVerb method, String path, String query, String body) {
+		return this.makeApiCall(method, path, query, body, HTTPClient.defaultHeaders);
+	}
 
-    /**
-     * @description convenience method for a Delete Call that only requires a
-     * path and query
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     */
-    @testVisible
-    protected HttpResponse del(String path, String query) {
-        return this.makeApiCall(HttpVerb.DEL, path, query);
-    }
+	/**
+	 * @description  convenience version of makeApiCall without body param.
+	 * Invokes omnibus version above, with blank body param and default headers.
+	 * @param method HTTPVerb to use. See the enum above.
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 */
+	@testVisible
+	protected HttpResponse makeApiCall(HttpVerb method, String path, String query) {
+		return this.makeApiCall(method, path, query, '', HTTPClient.defaultHeaders);
+	}
 
-    /**
-     * @description convenience method for a POST Call that only requires a path
-     * and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse post(String path, String body) {
-        return this.makeApiCall(HttpVerb.POST, path, '', body);
-    }
+	/**
+	 * @description  convenience version of makeApiCall without body or query
+	 * params.
+	 * Invokes omnibus version above, with blank body and query params
+	 * @param method HTTPVerb to use. See the enum above.
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 */
+	@testVisible
+	protected HttpResponse makeApiCall(HttpVerb method, String path) {
+		return this.makeApiCall(method, path, '', '', HTTPClient.defaultHeaders);
+	}
 
-    /**
-     * @description convenience method for a POST Call that only requires a
-     * path, query and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse post(String path, String query, String body) {
-        return this.makeApiCall(HttpVerb.POST, path, query, body);
-    }
+	/**
+	 * @description convenience method for a GET Call that only requires a path
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 */
+	@testVisible
+	protected HttpResponse get(String path) {
+		return this.makeApiCall(HttpVerb.GET, path);
+	}
 
-    /**
-     * @description convenience method for a PUT Call that only requires a path
-     * and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse put(String path, String body) {
-        return this.makeApiCall(HttpVerb.PUT, path, '', body);
-    }
+	/**
+	 * @description convenience method for a GET Call that only requires a path
+	 * and query
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 */
+	@testVisible
+	protected HttpResponse get(String path, String query) {
+		return this.makeApiCall(HttpVerb.GET, path, query);
+	}
 
-    /**
-     * @description convenience method for a PUT Call that only requires a path,
-     * query and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse put(String path, String query, String body) {
-        return this.makeApiCall(HttpVerb.PUT, path, query, body);
-    }
+	/**
+	 * @description convenience method for deleteing a resource based only on
+	 * path
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 */
+	@testVisible
+	protected HttpResponse del(String path) {
+		return this.makeApiCall(HttpVerb.DEL, path);
+	}
 
-    /**
-     * @description convenience method for a PATCH Call that only requires a
-     * path, query and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse patch(String path, String body) {
-        return this.makeApiCall(HttpVerb.PATCH, path, '', body);
-    }
+	/**
+	 * @description convenience method for a Delete Call that only requires a
+	 * path and query
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 */
+	@testVisible
+	protected HttpResponse del(String path, String query) {
+		return this.makeApiCall(HttpVerb.DEL, path, query);
+	}
 
-    /**
-     * @description convenience method for a PATCH Call that only requires a
-     * path, query and body
-     * @param path   Http path component of the URL. ie: `/path/to/resource`
-     * @param query  Query component of the URL ie: after `?foo=bar`
-     * @param body   JSON string to post
-     */
-    @testVisible
-    protected HttpResponse patch(String path, String query, String body) {
-        return this.makeApiCall(HttpVerb.PATCH, path, query, body);
-    }
+	/**
+	 * @description convenience method for a POST Call that only requires a path
+	 * and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse post(String path, String body) {
+		return this.makeApiCall(HttpVerb.POST, path, '', body);
+	}
 
-    // Private Helper Methods
+	/**
+	 * @description convenience method for a POST Call that only requires a
+	 * path, query and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse post(String path, String query, String body) {
+		return this.makeApiCall(HttpVerb.POST, path, query, body);
+	}
 
-    /**
-     * @description           A static wrapper for the main makeApiCall method
-     * @param namedCredential The named credential to use
-     * @param method          HTTPVerb enum value. See Enum above
-     * @param path           Http path component of the URL. ie: `/path/to/resource`
-     * @param query           Query component of the URL ie: after `?foo=bar`
-     * @param body            JSON string to post
-     * @param headers         Map<String,String> representing outgoing Request
-     * headers
-     * @example
-     * ```
-     * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
-     *                                      HTTPClient.HttpVerb.GET,
-     *                                      'volumes',
-     *                                      'q=salesforce',
-     *                                      '',
-     *                                      new Map<String,String>()));
-     * ```
-     */
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    public static HttpResponse makeApiCall(
-        String namedCredential,
-        HttpVerb method,
-        String path,
-        String query,
-        String body,
-        Map<String, String> headers
-    ) {
-        return new HTTPClient(namedCredential).makeApiCall(method, path, query, body, headers);
-    }
+	/**
+	 * @description convenience method for a PUT Call that only requires a path
+	 * and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse put(String path, String body) {
+		return this.makeApiCall(HttpVerb.PUT, path, '', body);
+	}
 
-    /**
-     * @description           A static wrapper for the main makeApiCall method
-     * that assumes default headers.
-     * @param namedCredential The named credential to use
-     * @param method          HTTPVerb enum value. See Enum above
-     * @param path           Http path component of the URL. ie: `/path/to/resource`
-     * @param query           Query component of the URL ie: after `?foo=bar`
-     * @example
-     * ```
-     * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
-     *                                      HTTPClient.HttpVerb.GET,
-     *                                      'volumes',
-     *                                      'q=salesforce'));
-     * ```
-     */
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    public static HttpResponse makeApiCall(String namedCredential, HttpVerb method, String path, String query) {
-        return new HTTPClient(namedCredential).makeApiCall(method, path, query, '', HTTPClient.defaultHeaders);
-    }
+	/**
+	 * @description convenience method for a PUT Call that only requires a path,
+	 * query and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse put(String path, String query, String body) {
+		return this.makeApiCall(HttpVerb.PUT, path, query, body);
+	}
 
-    /**
-     * @description           A static wrapper for the main makeApiCall method
-     * where you only need the path
-     * @param namedCredential The named credential to use
-     * @param method          HTTPVerb enum value. See Enum above
-     * @param path           Http path component of the URL. ie: `/path/to/resource`
-     * @example
-     * ```
-     * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
-     *                                      HTTPClient.HttpVerb.GET,
-     *                                      'volumes'));
-     * ```
-     */
-    public static HttpResponse makeApiCall(String namedCredential, HttpVerb method, String path) {
-        return new HTTPClient(namedCredential).makeApiCall(method, path, '', '', HTTPClient.defaultHeaders);
-    }
+	/**
+	 * @description convenience method for a PATCH Call that only requires a
+	 * path, query and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse patch(String path, String body) {
+		return this.makeApiCall(HttpVerb.PATCH, path, '', body);
+	}
+
+	/**
+	 * @description convenience method for a PATCH Call that only requires a
+	 * path, query and body
+	 * @param path   Http path component of the URL. ie: `/path/to/resource`
+	 * @param query  Query component of the URL ie: after `?foo=bar`
+	 * @param body   JSON string to post
+	 */
+	@testVisible
+	protected HttpResponse patch(String path, String query, String body) {
+		return this.makeApiCall(HttpVerb.PATCH, path, query, body);
+	}
+
+	// Private Helper Methods
+
+	/**
+	 * @description           A static wrapper for the main makeApiCall method
+	 * @param namedCredential The named credential to use
+	 * @param method          HTTPVerb enum value. See Enum above
+	 * @param path           Http path component of the URL. ie: `/path/to/resource`
+	 * @param query           Query component of the URL ie: after `?foo=bar`
+	 * @param body            JSON string to post
+	 * @param headers         Map<String,String> representing outgoing Request
+	 * headers
+	 * @example
+	 * ```
+	 * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
+	 *                                      HTTPClient.HttpVerb.GET,
+	 *                                      'volumes',
+	 *                                      'q=salesforce',
+	 *                                      '',
+	 *                                      new Map<String,String>()));
+	 * ```
+	 */
+	@SuppressWarnings('PMD.ExcessiveParameterList')
+	public static HttpResponse makeApiCall(
+		String namedCredential,
+		HttpVerb method,
+		String path,
+		String query,
+		String body,
+		Map<String, String> headers
+	) {
+		return new HTTPClient(namedCredential).makeApiCall(method, path, query, body, headers);
+	}
+
+	/**
+	 * @description           A static wrapper for the main makeApiCall method
+	 * that assumes default headers.
+	 * @param namedCredential The named credential to use
+	 * @param method          HTTPVerb enum value. See Enum above
+	 * @param path           Http path component of the URL. ie: `/path/to/resource`
+	 * @param query           Query component of the URL ie: after `?foo=bar`
+	 * @example
+	 * ```
+	 * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
+	 *                                      HTTPClient.HttpVerb.GET,
+	 *                                      'volumes',
+	 *                                      'q=salesforce'));
+	 * ```
+	 */
+	@SuppressWarnings('PMD.ExcessiveParameterList')
+	public static HttpResponse makeApiCall(String namedCredential, HttpVerb method, String path, String query) {
+		return new HTTPClient(namedCredential).makeApiCall(method, path, query, '', HTTPClient.defaultHeaders);
+	}
+
+	/**
+	 * @description           A static wrapper for the main makeApiCall method
+	 * where you only need the path
+	 * @param namedCredential The named credential to use
+	 * @param method          HTTPVerb enum value. See Enum above
+	 * @param path           Http path component of the URL. ie: `/path/to/resource`
+	 * @example
+	 * ```
+	 * System.Debug(HTTPClient.makeApiCall('GoogleBooksAPI',
+	 *                                      HTTPClient.HttpVerb.GET,
+	 *                                      'volumes'));
+	 * ```
+	 */
+	public static HttpResponse makeApiCall(String namedCredential, HttpVerb method, String path) {
+		return new HTTPClient(namedCredential).makeApiCall(method, path, '', '', HTTPClient.defaultHeaders);
+	}
 }

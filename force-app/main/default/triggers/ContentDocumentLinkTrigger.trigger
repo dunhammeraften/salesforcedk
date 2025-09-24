@@ -1,3 +1,3 @@
-trigger ContentDocumentLinkTrigger on ContentDocumentLink (after insert) {
-    new ContentDocumentLinkTriggerHandler().run();
+trigger ContentDocumentLinkTrigger on ContentDocumentLink(after insert) {
+	new ContentDocumentLinkTriggerHandler().run();
 }

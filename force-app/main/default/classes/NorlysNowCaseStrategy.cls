@@ -128,6 +128,15 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 					norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 				);
 				norlysNowCasesToNotify.add(norlysNowCase);
+			} catch (Exception ex) {
+				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
+				Logger.logError('Exception for NorlysNow_Case__c Id: ' + norlysNowCase.Id + '. Error: ' + ex.getMessage());
+				recordIds.remove(norlysNowCaseId);
+				toUpdateNorlysNowCasesMap.put(
+					norlysNowCase.Id,
+					norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
+				);
+				norlysNowCasesToNotify.add(norlysNowCase);
 			}
 		}
 

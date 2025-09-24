@@ -78,15 +78,24 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 			return new Set<Id>();
 		}
 
-		List<NorlysNow_Case__c> norlysNowCasesToUpdate = new List<NorlysNow_Case__c>();
+		Map<Id, NorlysNow_Case__c> parentCaseMap = norlysNowSelector.getNorlysNowCasesMap(
+			new Set<Id>(fileToCaseMap.values())
+		);
+
+		Map<Id, NorlysNow_Case__c> norlysNowCasesToUpdate = new Map<Id, NorlysNow_Case__c>();
 		List<NorlysNow_Case__c> norlysNowCasesToNotify = new List<NorlysNow_Case__c>();
 
 		for (Id fileId : fileIdToVersion.keySet()) {
 			ContentVersion cv = fileIdToVersion.get(fileId);
 			Id caseId = fileToCaseMap.get(fileId);
 
-			// We don't need the full NorlysNow_Case__c record, just a reference to its Id for the update.
-			NorlysNow_Case__c norlysNowCase = new NorlysNow_Case__c(Id = caseId);
+			// Get the full NorlysNow_Case__c record to access CreatedById for notifications.
+			NorlysNow_Case__c norlysNowCase = parentCaseMap.get(caseId);
+
+			if (norlysNowCase == null) {
+				Logger.logWarning('Could not find parent NorlysNow_Case__c for ContentDocumentId: ' + fileId + '. Skipping.');
+				continue;
+			}
 
 			// Convert the file data to a Base64 encoded string for the API payload.
 			String base64Data = EncodingUtil.base64Encode(cv.VersionData);
@@ -107,7 +116,7 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 			try {
 				norlysNowClient.sentRequestNorlysNowCase(requestObject);
 
-				norlysNowCasesToUpdate.add(norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
+				norlysNowCasesToUpdate.put(norlysNowCase.Id, norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
 
 				// Success → remove id from retry set
 				recordIds.remove(fileId);
@@ -127,23 +136,32 @@ public with sharing class NorlysNowContentDocumentLinkStrategy implements INorly
 						// For other HTTP errors, we log the error, mark the case as failed, and do not retry.
 						Logger.logError('HTTPException for ContentDocumentId ' + fileId + ': ' + ex.getMessage());
 						recordIds.remove(fileId);
-						norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
-						norlysNowCasesToNotify.add(norlysNowCase);
+						NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+						norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+						norlysNowCasesToNotify.add(failedCase);
 					}
 				}
 			} catch (System.CalloutException ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
 				Logger.logError('CalloutException for ContentDocumentId ' + fileId + ': ' + ex.getMessage());
 				recordIds.remove(fileId);
-				norlysNowCasesToUpdate.add(norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage()));
-				norlysNowCasesToNotify.add(norlysNowCase);
+				NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+				norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+				norlysNowCasesToNotify.add(failedCase);
+			} catch (Exception ex) {
+				// Handle Exception exceptions (e.g., connection issues). Mark as failed and do not retry.
+				Logger.logError('Exception for ContentDocumentId ' + fileId + ': ' + ex.getMessage());
+				recordIds.remove(fileId);
+				NorlysNow_Case__c failedCase = norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage());
+				norlysNowCasesToUpdate.put(failedCase.Id, failedCase);
+				norlysNowCasesToNotify.add(failedCase);
 			}
 		}
 
 		// Update the related NorlysNow_Case__c records in the database.
 		try {
 			if (!norlysNowCasesToUpdate.isEmpty()) {
-				databaseService.updateRecords(norlysNowCasesToUpdate);
+				databaseService.updateRecords(norlysNowCasesToUpdate.values());
 			}
 		} catch (DmlException ex) {
 			Logger.logError(
