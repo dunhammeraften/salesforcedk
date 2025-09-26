@@ -1293,7 +1293,8 @@ public class NorlysTestScenarios {
 							Technology_Type__c,
 							Technology__c,
 							Sync_Message__c,
-							OneWorkFlow_Id__c
+							OneWorkFlow_Id__c,
+							CreatedBy.Name
 						FROM NorlysNow_Case__c
 						WHERE Id IN :casesToInsert
 					];
@@ -1316,10 +1317,25 @@ public class NorlysTestScenarios {
 					List<ContentDocumentLink> linksToInsert = new List<ContentDocumentLink>();
 					Id parentId = result.norlysNowCases[0].Id;
 					for (Integer i = 0; i < this.numFilesToAttach; i++) {
-						ContentVersion cv = TDF_ContentVersionUtils.createContentVersion('Test Doc ' + i, 'txt', 'Test Data');
-						ContentDocument cd = [SELECT Id FROM ContentDocument WHERE LatestPublishedVersionId = :cv.Id];
+						// Create ContentVersion
+						ContentVersion cv = new ContentVersion(
+							Title = 'Test Doc ' + i,
+							PathOnClient = 'test.txt',
+							VersionData = Blob.valueOf('Test Data'),
+							IsMajorVersion = true
+						);
+						insert cv;
+
+						// Re-query to get the ContentDocumentId, which is generated after insert
+						cv = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id];
+
+						// Create ContentDocumentLink
 						linksToInsert.add(
-							new ContentDocumentLink(LinkedEntityId = parentId, ContentDocumentId = cd.Id, ShareType = 'V')
+							new ContentDocumentLink(
+								LinkedEntityId = parentId,
+								ContentDocumentId = cv.ContentDocumentId,
+								ShareType = 'V'
+							)
 						);
 					}
 					insert linksToInsert;

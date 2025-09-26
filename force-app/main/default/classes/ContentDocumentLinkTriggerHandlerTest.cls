@@ -125,6 +125,8 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 			.build();
 
 		// --- Mock Service Calls ---
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
 		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
@@ -163,6 +165,8 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 			.build();
 
 		// --- Mock Service Calls ---
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
 		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
 
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');

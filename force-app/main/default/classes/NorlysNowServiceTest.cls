@@ -189,6 +189,7 @@ private class NorlysNowServiceTest {
 	static void getFileIdToVersion_ShouldReturnCorrectMap() {
 		// Arrange
 		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
 		setupMocks();
 		NorlysNowService service = new NorlysNowService();
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
