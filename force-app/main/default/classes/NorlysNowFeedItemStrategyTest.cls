@@ -44,9 +44,8 @@ private class NorlysNowFeedItemStrategyTest {
 	@isTest
 	static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
 		// Arrange
+		TriggerHandler.bypass('FeedItemTriggerHandler');
 		setupMocks();
-		// Default mock for triggers
-		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
 			.forNorlysNowCaseHandling()
@@ -56,16 +55,24 @@ private class NorlysNowFeedItemStrategyTest {
 
 		FeedItem testFeedItem = scenario.feedItems[0];
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
 
 		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
 		// --- Mock Service Calls for the main execution path ---
+		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
+
 		NorlysNowService.Parameters params = new NorlysNowService.Parameters();
 		params.recordIds = recordIds;
 		norlysNowServiceMock.spyOn('getParameters').whenCalledWith(testEvent.Parameters__c).thenReturn(params);
 
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
 		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+
+		// This mock is crucial for the strategy to find the parent case.
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(null);
 
@@ -87,13 +94,15 @@ private class NorlysNowFeedItemStrategyTest {
 			'The databaseService.updateRecords method should have been called once.'
 		);
 		System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
+
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
+		TriggerHandler.bypass('FeedItemTriggerHandler');
 		setupMocks();
-		// Default mock for triggers
 		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
@@ -105,6 +114,8 @@ private class NorlysNowFeedItemStrategyTest {
 		FeedItem testFeedItem = scenario.feedItems[0];
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
 
 		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
@@ -115,6 +126,9 @@ private class NorlysNowFeedItemStrategyTest {
 
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
 		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+
+		// This mock is crucial for the strategy to find the parent case.
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		// Use the project's custom HTTPException to simulate a non-500 error
 		HTTPException testException = new HTTPException('Not Found', 404, 'Not Found');
@@ -145,13 +159,15 @@ private class NorlysNowFeedItemStrategyTest {
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
 		);
+
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
+		TriggerHandler.bypass('FeedItemTriggerHandler');
 		setupMocks();
-		// Default mock for triggers
 		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
@@ -163,6 +179,8 @@ private class NorlysNowFeedItemStrategyTest {
 		FeedItem testFeedItem = scenario.feedItems[0];
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
 
 		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
@@ -173,6 +191,9 @@ private class NorlysNowFeedItemStrategyTest {
 
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
 		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+
+		// This mock is crucial for the strategy to find the parent case.
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		System.CalloutException testException = new System.CalloutException('Error');
 		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenThrow(testException);
@@ -202,13 +223,15 @@ private class NorlysNowFeedItemStrategyTest {
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
 		);
+
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
 		// Arrange
+		TriggerHandler.bypass('FeedItemTriggerHandler');
 		setupMocks();
-		// Default mock for triggers
 		norlysNowServiceMock.spyOn('createCaseCommentRequestObject').returns(new NorlysNowClientRequestDTO());
 
 		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
@@ -220,6 +243,8 @@ private class NorlysNowFeedItemStrategyTest {
 		FeedItem testFeedItem = scenario.feedItems[0];
 		Set<Id> recordIds = new Set<Id>{ testFeedItem.Id };
 		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
 
 		EventExecutor__e testEvent = new EventExecutor__e(Parameters__c = '{"recordIds":["' + testFeedItem.Id + '"]}');
 
@@ -230,6 +255,9 @@ private class NorlysNowFeedItemStrategyTest {
 
 		Map<Id, FeedItem> feedItemMap = new Map<Id, FeedItem>{ testFeedItem.Id => testFeedItem };
 		norlysNowSelectorMock.spyOn('getFeedItemMap').whenCalledWith(recordIds).thenReturn(feedItemMap);
+
+		// This mock is crucial for the strategy to find the parent case.
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		// Use the project's custom HTTPException to simulate a 500 error
 		HTTPException testException = new HTTPException('Internal Server Error', 500, 'Server Error');
@@ -255,5 +283,7 @@ private class NorlysNowFeedItemStrategyTest {
 		);
 		System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
 		System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
+
+		TriggerHandler.clearAllBypasses();
 	}
 }
