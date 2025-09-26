@@ -212,14 +212,21 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.forNorlysNowCaseHandling()
 			.withNorlysNowCases(2)
 			.build();
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		Map<Id, NorlysNow_Case__c> newCaseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		Map<Id, NorlysNow_Case__c> oldCaseMap = new Map<Id, NorlysNow_Case__c>();
+		for (NorlysNow_Case__c newCase : newCaseMap.values()) {
+			NorlysNow_Case__c oldCase = newCase.clone(true, false, false, false);
+			oldCaseMap.put(oldCase.Id, oldCase);
+		}
+
 		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(scenario.norlysNowCases).thenReturn(new List<Case>());
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
 		handler.triggerNew = scenario.norlysNowCases;
-		handler.triggerNewMap = caseMap;
+		handler.triggerNewMap = newCaseMap;
+		handler.triggerOldMap = oldCaseMap;
 		Test.startTest();
 		handler.afterUpdate();
 		Test.stopTest();
@@ -244,20 +251,27 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.withNorlysNowCases(1)
 			.build();
 
-		scenario.norlysNowCases[0].Status__c = 'Withdrawn';
-		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+		NorlysNow_Case__c newCase = scenario.norlysNowCases[0];
+		newCase.Status__c = 'Withdrawn';
+
+		NorlysNow_Case__c oldCase = newCase.clone(true, false, false, false);
+		oldCase.Status__c = 'New';
+
+		Map<Id, NorlysNow_Case__c> newCaseMap = new Map<Id, NorlysNow_Case__c>{ newCase.Id => newCase };
+		Map<Id, NorlysNow_Case__c> oldCaseMap = new Map<Id, NorlysNow_Case__c>{ oldCase.Id => oldCase };
 
 		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
 		norlysNowServiceMock.spyOn('chunkEventsInListsToBePublished')
 			.whenCalledWith(Argument.any(), Argument.any(), Argument.any())
 			.thenReturn(new List<EventExecutor__e>{ new EventExecutor__e() });
-		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(scenario.norlysNowCases).thenReturn(new List<Case>());
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
 		MethodSpy publishSpy = eventExecutorServiceMock.spyOn('publishEvents');
 
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
-		handler.triggerNew = scenario.norlysNowCases;
-		handler.triggerNewMap = caseMap;
+		handler.triggerNew = new List<NorlysNow_Case__c>(newCaseMap.values());
+		handler.triggerNewMap = newCaseMap;
+		handler.triggerOldMap = oldCaseMap;
 		Test.startTest();
 		handler.afterUpdate();
 		Test.stopTest();
