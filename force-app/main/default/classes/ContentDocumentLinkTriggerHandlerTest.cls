@@ -15,6 +15,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 	private static Mock permissionServiceMock;
 	private static Mock norlysNowServiceMock;
 	private static Mock eventExecutorServiceMock;
+	private static Mock norlysNowSelectorMock;
 
 	/**
 	 * @description Sets up the test environment by mocking all the necessary service dependencies.
@@ -26,6 +27,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		permissionServiceMock = Mock.forType(PermissionService.class);
 		norlysNowServiceMock = Mock.forType(NorlysNowService.class);
 		eventExecutorServiceMock = Mock.forType(EventExecutorService.class);
+		norlysNowSelectorMock = Mock.forType(NorlysNowSelector.class);
 
 		// Get the stub instances from the mocks
 		ContentDocumentLinkService cds = (ContentDocumentLinkService) contentDocumentLinkServiceMock.stub;
@@ -33,6 +35,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		PermissionService ps = (PermissionService) permissionServiceMock.stub;
 		NorlysNowService nns = (NorlysNowService) norlysNowServiceMock.stub;
 		EventExecutorService ees = (EventExecutorService) eventExecutorServiceMock.stub;
+		NorlysNowSelector nnsm = (NorlysNowSelector) norlysNowSelectorMock.stub;
 
 		// Register all the singleton services with our stubs so the handler will use them
 		SingletonFactory factory = SingletonFactory.getFactory();
@@ -41,6 +44,7 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 		factory.registerSingleton(PermissionService.class, ps);
 		factory.registerSingleton(NorlysNowService.class, nns);
 		factory.registerSingleton(EventExecutorService.class, ees);
+		factory.registerSingleton(NorlysNowSelector.class, nnsm);
 	}
 
 	/**
@@ -173,6 +177,49 @@ private with sharing class ContentDocumentLinkTriggerHandlerTest {
 
 		// Assert
 		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
+		TriggerHandler.clearAllBypasses();
+	}
+
+	@isTest
+	static void afterInsert_byIntegrationUser_shouldSendNotification() {
+		// Arrange
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
+		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		TriggerHandler.bypass('CaseTriggerHandler');
+		setupMocks();
+
+		User integrationUser = [SELECT Id, Email FROM User WHERE Email = 'norlysnowintegration@norlys.dk' LIMIT 1];
+
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.withAttachedFiles(1)
+			.build();
+
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+
+		// --- Mock Service Calls ---
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(false);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
+		ContentDocumentLinkTriggerHandler handler = new ContentDocumentLinkTriggerHandler();
+		handler.triggerNew = scenario.contentDocumentLinks;
+
+		// Act
+		Test.startTest();
+		System.runAs(integrationUser) {
+			handler.afterInsert();
+		}
+		Test.stopTest();
+
+		// Assert
+		System.assertEquals(
+			1,
+			sendNotificationsSpy.callLog.size(),
+			'The sendNotifications method should have been called once.'
+		);
 		TriggerHandler.clearAllBypasses();
 	}
 }
