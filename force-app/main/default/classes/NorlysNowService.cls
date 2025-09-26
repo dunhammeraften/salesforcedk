@@ -365,12 +365,12 @@ public with sharing class NorlysNowService {
 
 		OrgWideEmailAddress owe = norlysNowSelector.getOrgWideEmailAddress(config.Configuration_Value__c);
 
+		sendNotifications(norlysNowCases, subject, description);
+
 		for (Task t : tasks) {
 			NorlysNow_Case__c nc = caseMap.get(t.WhatId);
 			if (nc == null)
 				continue;
-
-			sendCustomNotification(t, notifType, nc.CreatedBy.Id);
 
 			User ownerUser = ownerUserMap.get(nc.CreatedBy.Id);
 
@@ -409,29 +409,6 @@ public with sharing class NorlysNowService {
 		t.Priority = 'Normal';
 		t.ActivityDate = (dueDate != null) ? dueDate : Date.today().addDays(1);
 		return t;
-	}
-
-	/**
-	 * @description Sends a custom notification to a user about a new task.
-	 * @param task The task that the notification is about.
-	 * @param notifType The type of custom notification to send.
-	 * @param userId The ID of the user to send the notification to.
-	 */
-	public void sendCustomNotification(Task task, CustomNotificationType notifType, Id userId) {
-		Logger.logInfo(
-			String.format('sendCustomNotification( {0}, {1}, {2} )', new List<Object>{ task, notifType, userId })
-		);
-
-		if (task == null || notifType == null || userId == null)
-			return;
-
-		Messaging.CustomNotification cn = new Messaging.CustomNotification();
-		cn.setTitle('New task created: ' + task.Subject);
-		cn.setBody('A new Task has been created on case: ' + String.valueOf(task.WhatId));
-		cn.setNotificationTypeId(notifType.Id);
-		cn.setTargetId(task.Id);
-
-		cn.send(new Set<String>{ (String) userId });
 	}
 
 	/**
@@ -572,5 +549,44 @@ public with sharing class NorlysNowService {
 		}
 
 		return eventList;
+	}
+
+	/**
+	 * @description Sends custom notifications for a list of SObjects.
+	 * @param records The list of SObject records to send notifications for.
+	 * @param title The title of the notification.
+	 * @param body The body of the notification.
+	 */
+	public void sendNotifications(List<SObject> records, String title, String body) {
+		Logger.logInfo(String.format('sendNotifications( {0}, {1}, {2} )', new List<Object>{ records, title, body }));
+
+		if (records == null || records.isEmpty()) {
+			return;
+		}
+
+		CustomNotificationType notifType = norlysNowSelector.getCustomNotificationType('New_Task_on_NorlysNow_Case');
+		if (notifType == null) {
+			Logger.logError('Custom Notification Type "New_Task_on_NorlysNow_Case" not found. Cannot send notifications.');
+			return;
+		}
+
+		for (SObject record : records) {
+			if (record.get('CreatedById') == null) {
+				continue;
+			}
+
+			Messaging.CustomNotification cn = new Messaging.CustomNotification();
+			cn.setTitle(title);
+			cn.setBody(body);
+			cn.setNotificationTypeId(notifType.Id);
+			cn.setTargetId(record.Id);
+
+			try {
+				Set<String> recipients = new Set<String>{ (String) record.get('CreatedById') };
+				cn.send(recipients);
+			} catch (Exception e) {
+				Logger.logError('Error sending custom notification for record ' + record.Id + ': ' + e.getMessage());
+			}
+		}
 	}
 }

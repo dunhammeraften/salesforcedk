@@ -111,6 +111,9 @@ private class NorlysNowCaseTriggerHandlerTest {
 			.whenCalledWith(Argument.any())
 			.thenReturn(new List<Case>{ new Case(Id = scenario.caseRecord.Id, Status = 'Closed') });
 
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
 		// Act
 		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
 		handler.triggerNew = new List<NorlysNow_Case__c>(newCaseMap.values());
@@ -125,6 +128,11 @@ private class NorlysNowCaseTriggerHandlerTest {
 		Case updatedParentCase = (Case) dbMock.register.updated[0];
 		System.assertEquals(scenario.caseRecord.Id, updatedParentCase.Id, 'The updated record should be the parent case.');
 		System.assertEquals('Closed', updatedParentCase.Status, 'The parent case status should be updated to "Closed".');
+		System.assertEquals(
+			1,
+			sendNotificationsSpy.callLog.size(),
+			'sendNotifications should have been called once for the status change.'
+		);
 		TriggerHandler.clearAllBypasses();
 	}
 
@@ -256,6 +264,90 @@ private class NorlysNowCaseTriggerHandlerTest {
 
 		// Assert
 		System.assertEquals(1, publishSpy.callLog.size(), 'The publish method should have been called once.');
+		TriggerHandler.clearAllBypasses();
+	}
+
+	@isTest
+	static void afterUpdate_OnStatusChange_ShouldSendNotification() {
+		// Arrange
+		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		TriggerHandler.bypass('CaseTriggerHandler');
+		setupMocks();
+
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.build();
+
+		NorlysNow_Case__c newCase = scenario.norlysNowCases[0];
+		newCase.Status__c = 'In Progress';
+
+		NorlysNow_Case__c oldCase = newCase.clone(true, false, false, false);
+		oldCase.Status__c = 'New';
+
+		Map<Id, NorlysNow_Case__c> newCaseMap = new Map<Id, NorlysNow_Case__c>{ newCase.Id => newCase };
+		Map<Id, NorlysNow_Case__c> oldCaseMap = new Map<Id, NorlysNow_Case__c>{ oldCase.Id => oldCase };
+
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
+		// Act
+		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
+		handler.triggerNew = new List<NorlysNow_Case__c>(newCaseMap.values());
+		handler.triggerNewMap = newCaseMap;
+		handler.triggerOldMap = oldCaseMap;
+		Test.startTest();
+		handler.afterUpdate();
+		Test.stopTest();
+
+		// Assert
+		System.assertEquals(1, sendNotificationsSpy.callLog.size(), 'sendNotifications should have been called once.');
+		TriggerHandler.clearAllBypasses();
+	}
+
+	@isTest
+	static void afterUpdate_OnWithdrawnStatusChange_ShouldNotSendNotification() {
+		// Arrange
+		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		TriggerHandler.bypass('CaseTriggerHandler');
+		setupMocks();
+
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.build();
+
+		NorlysNow_Case__c newCase = scenario.norlysNowCases[0];
+		newCase.Status__c = 'Withdrawn';
+
+		NorlysNow_Case__c oldCase = newCase.clone(true, false, false, false);
+		oldCase.Status__c = 'New';
+
+		Map<Id, NorlysNow_Case__c> newCaseMap = new Map<Id, NorlysNow_Case__c>{ newCase.Id => newCase };
+		Map<Id, NorlysNow_Case__c> oldCaseMap = new Map<Id, NorlysNow_Case__c>{ oldCase.Id => oldCase };
+
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+		norlysNowServiceMock.spyOn('closeParentCases').whenCalledWith(Argument.any()).thenReturn(new List<Case>());
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
+		// Act
+		NorlysNowCaseTriggerHandler handler = new NorlysNowCaseTriggerHandler();
+		handler.triggerNew = new List<NorlysNow_Case__c>(newCaseMap.values());
+		handler.triggerNewMap = newCaseMap;
+		handler.triggerOldMap = oldCaseMap;
+		Test.startTest();
+		handler.afterUpdate();
+		Test.stopTest();
+
+		// Assert
+		System.assertEquals(
+			0,
+			sendNotificationsSpy.callLog.size(),
+			'sendNotifications should not have been called for a status change to Withdrawn.'
+		);
 		TriggerHandler.clearAllBypasses();
 	}
 }

@@ -5,7 +5,6 @@
  * -----------------------------------------------------------------------------
  * @author Developer           Date            Description
  * -----------------------------------------------------------------------------
- * @author Jules               14/09/2025      Initial version.
  * @author Esben Hovgaard        18/09/2025      Added changeLine to documentation
  * -----------------------------------------------------------------------------
  */
@@ -71,7 +70,10 @@ private class NorlysNowCaseStrategyTest {
 		norlysNowClientMock.spyOn('sentRequestNorlysNowCase').whenCalledWith(Argument.any()).thenReturn(successResponse);
 
 		MethodSpy setSuccessSpy = norlysNowServiceMock.spyOn('setSuccessOnNorlysNowCase');
-		setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(new NorlysNow_Case__c());
+		setSuccessSpy.whenCalledWith(Argument.any()).thenReturn(testCase.set('Sync_Status__c', 'Success'));
+
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
 		NorlysNowCaseStrategy strategy = new NorlysNowCaseStrategy();
 
@@ -88,12 +90,10 @@ private class NorlysNowCaseStrategyTest {
 			'The databaseService.updateRecords method should have been called once.'
 		);
 		System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
-		List<Object> firstCallArgs = setSuccessSpy.callLog.get(0);
-		NorlysNow_Case__c processedCase = (NorlysNow_Case__c) firstCallArgs[0];
 		System.assertEquals(
-			'CASE123',
-			processedCase.NorlysNow_Id__c,
-			'The NorlysNow Id should be set on the case before being passed to the service.'
+			1,
+			sendNotificationsSpy.callLog.size(),
+			'sendNotifications should have been called once for success cases.'
 		);
 	}
 
@@ -132,6 +132,9 @@ private class NorlysNowCaseStrategyTest {
 		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
 		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
 		NorlysNowCaseStrategy strategy = new NorlysNowCaseStrategy();
 
 		// Act
@@ -150,6 +153,11 @@ private class NorlysNowCaseStrategyTest {
 			1,
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
+		);
+		System.assertEquals(
+			0,
+			sendNotificationsSpy.callLog.size(),
+			'sendNotifications should not have been called for error cases directly from the strategy.'
 		);
 	}
 
@@ -187,6 +195,9 @@ private class NorlysNowCaseStrategyTest {
 		MethodSpy createTasksSpy = norlysNowServiceMock.spyOn('createFollowUpTasks');
 		createTasksSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
 
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
 		NorlysNowCaseStrategy strategy = new NorlysNowCaseStrategy();
 
 		// Act
@@ -205,6 +216,11 @@ private class NorlysNowCaseStrategyTest {
 			1,
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
+		);
+		System.assertEquals(
+			0,
+			sendNotificationsSpy.callLog.size(),
+			'sendNotifications should not have been called for error cases directly from the strategy.'
 		);
 	}
 

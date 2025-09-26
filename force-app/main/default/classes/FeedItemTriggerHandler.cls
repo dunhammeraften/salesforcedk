@@ -46,48 +46,62 @@ public with sharing class FeedItemTriggerHandler extends TriggerHandler {
 	 *              FeedItem to Norlys Now.
 	 */
 	public override void afterInsert() {
-		// The following logic should only be executed by users with the correct permission set.
-		if (!permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
-			Logger.logWarning('User does not have the required permission set. Exiting.');
-			return;
-		}
-
-		// Collect ParentIds that are NorlysNow_Case__c records.
+		// Step 1: Pre-filter FeedItems related to NorlysNow_Case__c to avoid multiple loops
+		List<FeedItem> norlysNowFeedItems = new List<FeedItem>();
 		Set<Id> norlysNowCaseIds = new Set<Id>();
-		for (FeedItem fi : triggerNewMap.values()) {
+		for (FeedItem fi : triggerNew) {
 			if (fi.ParentId != null && fi.ParentId.getSObjectType() == NorlysNow_Case__c.SObjectType) {
+				norlysNowFeedItems.add(fi);
 				norlysNowCaseIds.add(fi.ParentId);
 			}
 		}
 
-		// If any FeedItems are related to NorlysNow_Case__c, proceed.
-		if (!norlysNowCaseIds.isEmpty()) {
-			// Get the full NorlysNow_Case__c records from the database.
-			Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(norlysNowCaseIds);
+		if (norlysNowFeedItems.isEmpty()) {
+			return;
+		}
 
-			if (norlysNowCaseMap.isEmpty()) {
-				Logger.logDebug('norlysNowCaseMap is empty.' + norlysNowCaseMap);
-				return;
-			}
+		// Step 2: Get all necessary parent case data in a single query
+		Map<Id, NorlysNow_Case__c> norlysNowCaseMap = norlysNowSelector.getNorlysNowCasesMap(norlysNowCaseIds);
+		if (norlysNowCaseMap.isEmpty()) {
+			Logger.logDebug('norlysNowCaseMap is empty for the given Parent Ids.');
+			return;
+		}
 
-			// Collect the Ids of the FeedItems that are related to the fetched NorlysNow_Case__c records.
-			List<Id> feedItemIds = new List<Id>();
-			for (FeedItem fi : triggerNewMap.values()) {
-				if (norlysNowCaseMap.containsKey(fi.ParentId)) {
-					feedItemIds.add(fi.Id);
+		// Step 3: Handle internal notification for the integration user
+		if (UserInfo.getUserEmail() == 'norlysnowintegration@norlys.dk') {
+			List<NorlysNow_Case__c> casesToNotify = new List<NorlysNow_Case__c>();
+			for (FeedItem fi : norlysNowFeedItems) {
+				NorlysNow_Case__c parentCase = norlysNowCaseMap.get(fi.ParentId);
+				// Ensure parent case exists and the creator is not the integration user itself
+				if (parentCase != null && parentCase.CreatedById != UserInfo.getUserId()) {
+					casesToNotify.add(parentCase);
 				}
 			}
+			if (!casesToNotify.isEmpty()) {
+				norlysNowService.sendNotifications(
+					casesToNotify,
+					'New Comment on Your Case',
+					'A new comment has been added to your case by the Norlys Now Integration User.'
+				);
+			}
+		}
 
-			// Chunk the FeedItem Ids into events and publish them to the event bus.
-			List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(
-				feedItemIds,
-				'FeedItem',
-				'NorlysNowExecutorHandler'
-			);
+		// Step 4: Handle external event publishing for users with the correct permission
+		if (permissionService.hasPermissionSet(new List<String>{ 'Customer_Support_Technical_NorlysNow_Requester' })) {
+			List<Id> feedItemIdsToPublish = new List<Id>();
+			for (FeedItem fi : norlysNowFeedItems) {
+				feedItemIdsToPublish.add(fi.Id);
+			}
 
-			if (eventList != null && !eventList.isEmpty()) {
-				Logger.logDebug('eventList: ' + eventList);
-				eventExecutorService.publishEvents(eventList);
+			if (!feedItemIdsToPublish.isEmpty()) {
+				List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(
+					feedItemIdsToPublish,
+					'FeedItem',
+					'NorlysNowExecutorHandler'
+				);
+				if (eventList != null && !eventList.isEmpty()) {
+					eventExecutorService.publishEvents(eventList);
+				}
 			}
 		}
 	}

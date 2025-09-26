@@ -93,7 +93,8 @@ private class NorlysNowServiceTest {
 			'Tech',
 			'Fiber',
 			'Coax',
-			'WF12345'
+			'WF12345',
+			'Firstname Lastname'
 		);
 
 		// Assert
@@ -105,6 +106,7 @@ private class NorlysNowServiceTest {
 		System.assertEquals('A title', result.payload.title, 'Title should match.');
 		System.assertEquals('Problem', result.payload.type, 'Type should match.');
 		System.assertEquals('New', result.payload.status, 'Status should match.');
+		System.assertEquals('Firstname Lastname', result.payload.createdBy, 'createdBy should match.');
 	}
 
 	@isTest
@@ -216,7 +218,7 @@ private class NorlysNowServiceTest {
 	}
 
 	@isTest
-	static void createFollowUpTasks_ShouldCreateTasksAndSendNotifications() {
+	static void createFollowUpTasks_ShouldCreateTasksAndSendEmails() {
 		// Arrange
 		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
 		setupMocks();
@@ -391,5 +393,40 @@ private class NorlysNowServiceTest {
 			NorlysNowService.Parameters.class
 		);
 		System.assertEquals(50, params2.recordIds.size(), 'Second chunk should have 50 records.');
+	}
+
+	@isTest
+	static void sendNotifications_ShouldSendNotificationsToCaseCreators() {
+		// Arrange
+		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		setupMocks();
+		NorlysNowService service = new NorlysNowService();
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(2)
+			.build();
+
+		CustomNotificationType notifType = new CustomNotificationType(
+			Id = DatabaseService.getFakeId(CustomNotificationType.SObjectType),
+			DeveloperName = 'New_Task_on_NorlysNow_Case'
+		);
+		norlysNowSelectorMock.spyOn('getCustomNotificationType')
+			.whenCalledWith('New_Task_on_NorlysNow_Case')
+			.thenReturn(notifType);
+
+		// Act
+		Test.startTest();
+		service.sendNotifications(scenario.norlysNowCases, 'Test Title', 'Test Body');
+		Test.stopTest();
+
+		// Assert
+		// We can't directly verify the CustomNotification was sent,
+		// but we can ensure the selector was called to get the notification type.
+		System.assertEquals(
+			1,
+			norlysNowSelectorMock.spyOn('getCustomNotificationType').callLog.size(),
+			'getCustomNotificationType should have been called once.'
+		);
+		TriggerHandler.clearAllBypasses();
 	}
 }

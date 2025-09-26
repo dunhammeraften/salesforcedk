@@ -54,24 +54,44 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 	 *              and publishes an event to send the case to Norlys Now.
 	 */
 	public override void afterUpdate() {
-		// If the NorlysNow_Case__c status is update to closed, then parent case might need to be closed as well if all
-		// child NorlysNow_Case__c are closed also.
 		List<NorlysNow_Case__c> closedCases = new List<NorlysNow_Case__c>();
+		List<Id> norlysNowCaseToBeSentIds = new List<Id>();
+		List<NorlysNow_Case__c> statusChangedCases = new List<NorlysNow_Case__c>();
+
 		for (NorlysNow_Case__c norlysNowCase : triggerNewMap.values()) {
-			if (norlysNowCase.Status__c == 'Closed' && triggerOldMap.get(norlysNowCase.Id).Status__c != 'Closed') {
+			NorlysNow_Case__c oldCase = triggerOldMap.get(norlysNowCase.Id);
+
+			// Check for status change to 'Closed'
+			if (norlysNowCase.Status__c == 'Closed' && oldCase.Status__c != 'Closed') {
 				closedCases.add(norlysNowCase);
 			}
+
+			// Check for cases to be sent to Norlys Now
+			if (norlysNowCase.Status__c == 'Withdrawn' || norlysNowCase.Sync_Status__c == 'Pending') {
+				norlysNowCaseToBeSentIds.add(norlysNowCase.Id);
+			}
+
+			// Check for status changes that require a notification
+			if (norlysNowCase.Status__c != oldCase.Status__c && norlysNowCase.Status__c != 'Withdrawn') {
+				statusChangedCases.add(norlysNowCase);
+			}
 		}
+
 		// Close parent cases if needed
-		List<Case> parentCasesToClose = new List<Case>();
 		if (!closedCases.isEmpty()) {
-			Logger.logDebug('closedCases: ' + closedCases);
-			parentCasesToClose = norlysNowService.closeParentCases(closedCases);
+			List<Case> parentCasesToClose = norlysNowService.closeParentCases(closedCases);
+			if (!parentCasesToClose.isEmpty()) {
+				databaseService.updateRecords(parentCasesToClose);
+			}
 		}
-		// Update parent cases
-		if (!parentCasesToClose.isEmpty()) {
-			Logger.logDebug('parentCasesToClose: ' + parentCasesToClose);
-			databaseService.updateRecords(parentCasesToClose);
+
+		// Send notifications for status changes
+		if (!statusChangedCases.isEmpty()) {
+			norlysNowService.sendNotifications(
+				statusChangedCases,
+				'Case Status Changed',
+				'The status of your case has been updated.'
+			);
 		}
 
 		// The following logic should only be executed by users with the correct permission set
@@ -80,29 +100,18 @@ public with sharing class NorlysNowCaseTriggerHandler extends TriggerHandler {
 			return;
 		}
 
-		// Collect Ids of cases to be sent to Norlys Now, if they have the correct status
-		List<Id> norlysNowCaseToBeSentIds = new List<Id>();
-		for (NorlysNow_Case__c norlysNowCase : triggerNewMap.values()) {
-			if (norlysNowCase.Status__c == 'Withdrawn' || norlysNowCase.Sync_Status__c == 'Pending') {
-				norlysNowCaseToBeSentIds.add(norlysNowCase.Id);
-			}
-		}
-
-		// Chunk the Ids into events to be published
-		List<EventExecutor__e> eventList = new List<EventExecutor__e>();
+		// Publish events for cases to be sent to Norlys Now
 		if (!norlysNowCaseToBeSentIds.isEmpty()) {
 			Logger.logDebug('norlysNowCaseToBeSentIds: ' + norlysNowCaseToBeSentIds);
-			eventList = norlysNowService.chunkEventsInListsToBePublished(
+			List<EventExecutor__e> eventList = norlysNowService.chunkEventsInListsToBePublished(
 				norlysNowCaseToBeSentIds,
 				'NorlysNow_Case__c',
 				'NorlysNowExecutorHandler'
 			);
-		}
-
-		// Publish the events to the event bus
-		if (eventList != null && !eventList.isEmpty()) {
-			Logger.logDebug('eventList: ' + eventList);
-			eventExecutorService.publishEvents(eventList);
+			if (eventList != null && !eventList.isEmpty()) {
+				Logger.logDebug('eventList: ' + eventList);
+				eventExecutorService.publishEvents(eventList);
+			}
 		}
 	}
 

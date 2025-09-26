@@ -123,4 +123,53 @@ private class FeedItemTriggerHandlerTest {
 		System.assertEquals(0, publishSpy.callLog.size(), 'The publish method should not have been called.');
 		TriggerHandler.clearAllBypasses();
 	}
+
+	@isTest
+	static void afterInsert_ByIntegrationUser_ShouldSendNotification() {
+		// Arrange
+		TriggerHandler.bypass('FeedItemTriggerHandler');
+		TriggerHandler.bypass('NorlysNowCaseTriggerHandler');
+		setupMocks();
+
+		User integrationUser = [SELECT Id, Email FROM User WHERE Email = 'norlysnowintegration@norlys.dk' LIMIT 1];
+
+		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+			.forNorlysNowCaseHandling()
+			.withNorlysNowCases(1)
+			.build();
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>(scenario.norlysNowCases);
+
+		FeedItem fi = new FeedItem(
+			ParentId = scenario.norlysNowCases[0].Id,
+			Body = 'Test Feed Item',
+			CreatedById = integrationUser.Id
+		);
+		insert fi;
+
+		// --- Mock Service Calls ---
+		permissionServiceMock.spyOn('hasPermissionSet').whenCalledWith(Argument.any()).thenReturn(true);
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(caseMap.keySet()).thenReturn(caseMap);
+
+		MethodSpy sendNotificationsSpy = norlysNowServiceMock.spyOn('sendNotifications');
+		sendNotificationsSpy.whenCalledWith(Argument.any(), Argument.any(), Argument.any()).thenReturn(null);
+
+		FeedItemTriggerHandler handler = new FeedItemTriggerHandler();
+		handler.triggerNew = new List<FeedItem>{ fi };
+		handler.triggerNewMap = new Map<Id, FeedItem>{ fi.Id => fi };
+
+		// Act
+		Test.startTest();
+		System.runAs(integrationUser) {
+			handler.afterInsert();
+		}
+		Test.stopTest();
+
+		// Assert
+		System.assertEquals(
+			1,
+			sendNotificationsSpy.callLog.size(),
+			'The sendNotifications method should have been called once.'
+		);
+		TriggerHandler.clearAllBypasses();
+	}
 }

@@ -47,7 +47,7 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 		Set<Id> recordIds = params.recordIds;
 		Map<Id, NorlysNow_Case__c> norlysNowCasesMap = norlysNowSelector.getNorlysNowCasesMap(recordIds);
 		Map<Id, NorlysNow_Case__c> toUpdateNorlysNowCasesMap = new Map<Id, NorlysNow_Case__c>();
-		List<NorlysNow_Case__c> norlysNowCasesToNotify = new List<NorlysNow_Case__c>();
+		List<NorlysNow_Case__c> processedCases = new List<NorlysNow_Case__c>();
 
 		for (Id norlysNowCaseId : norlysNowCasesMap.keySet()) {
 			NorlysNow_Case__c norlysNowCase = norlysNowCasesMap.get(norlysNowCaseId);
@@ -91,6 +91,7 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 				}
 
 				toUpdateNorlysNowCasesMap.put(norlysNowCase.Id, norlysNowService.setSuccessOnNorlysNowCase(norlysNowCase));
+				processedCases.add(norlysNowCase);
 				// Remove the successfully processed record from the list of Ids to retry.
 				recordIds.remove(norlysNowCaseId);
 			} catch (HTTPException ex) {
@@ -115,7 +116,7 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 							norlysNowCase.Id,
 							norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 						);
-						norlysNowCasesToNotify.add(norlysNowCase);
+						processedCases.add(norlysNowCase);
 					}
 				}
 			} catch (System.CalloutException ex) {
@@ -128,7 +129,7 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 					norlysNowCase.Id,
 					norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 				);
-				norlysNowCasesToNotify.add(norlysNowCase);
+				processedCases.add(norlysNowCase);
 			} catch (Exception ex) {
 				// Handle callout exceptions (e.g., connection issues). Mark as failed and do not retry.
 				Logger.logError('Exception for NorlysNow_Case__c Id: ' + norlysNowCase.Id + '. Error: ' + ex.getMessage());
@@ -137,7 +138,7 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 					norlysNowCase.Id,
 					norlysNowService.setErrorOnNorlysNowCase(norlysNowCase, ex.getMessage())
 				);
-				norlysNowCasesToNotify.add(norlysNowCase);
+				processedCases.add(norlysNowCase);
 			}
 		}
 
@@ -151,10 +152,28 @@ public with sharing class NorlysNowCaseStrategy implements INorlysNowIntegration
 			throw new NorlysNowCaseStrategyException('Error when updating NorlysNow_Case__c records: ' + ex.getMessage());
 		}
 
-		// If any cases failed permanently, create follow-up tasks for manual intervention.
-		if (!norlysNowCasesToNotify.isEmpty()) {
+		List<NorlysNow_Case__c> successCases = new List<NorlysNow_Case__c>();
+		List<NorlysNow_Case__c> errorCases = new List<NorlysNow_Case__c>();
+
+		for (NorlysNow_Case__c processedCase : processedCases) {
+			if (processedCase.Sync_Status__c == 'Success') {
+				successCases.add(processedCase);
+			} else {
+				errorCases.add(processedCase);
+			}
+		}
+
+		if (!successCases.isEmpty()) {
+			norlysNowService.sendNotifications(
+				successCases,
+				'NorlysNow Case delivered to NorlysNow',
+				'NorlysNow Case has been successfully synced to NorlysNow'
+			);
+		}
+
+		if (!errorCases.isEmpty()) {
 			norlysNowService.createFollowUpTasks(
-				norlysNowCasesToNotify,
+				errorCases,
 				'NorlysNow Case not delivered to NorlysNow',
 				'Please resent the NorlysNow case by setting Sync Status to Pending',
 				Date.today()
