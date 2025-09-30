@@ -68,6 +68,11 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
 		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
+
 		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
 		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
 		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
@@ -123,6 +128,10 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 
 		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
 		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
+
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
 		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
@@ -189,6 +198,10 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
 		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
 
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
+
 		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
 		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
 		norlysNowServiceMock.spyOn('getFileIdToVersion').whenCalledWith(recordIds).thenReturn(cvMap);
@@ -251,6 +264,11 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 
 		List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>{ testCdl };
 		norlysNowSelectorMock.spyOn('getContentDocumentLinks').whenCalledWith(recordIds).thenReturn(cdlList);
+
+		NorlysNow_Case__c parentCase = scenario.norlysNowCases[0];
+		Set<Id> parentCaseIds = new Set<Id>{ parentCase.Id };
+		Map<Id, NorlysNow_Case__c> caseMap = new Map<Id, NorlysNow_Case__c>{ parentCase.Id => parentCase };
+		norlysNowSelectorMock.spyOn('getNorlysNowCasesMap').whenCalledWith(parentCaseIds).thenReturn(caseMap);
 
 		ContentVersion mockCv = new ContentVersion(VersionData = Blob.valueOf('test data'), PathOnClient = 'test.txt');
 		Map<Id, ContentVersion> cvMap = new Map<Id, ContentVersion>{ testCdl.ContentDocumentId => mockCv };
