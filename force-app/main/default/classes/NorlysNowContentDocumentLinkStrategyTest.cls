@@ -43,6 +43,7 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 	@isTest
 	static void toExecute_OnSuccess_ShouldUpdateCaseAndReturnEmptySet() {
 		// Arrange
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
 		setupMocks();
 		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
@@ -91,11 +92,13 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 			'The databaseService.updateRecords method should have been called once.'
 		);
 		System.assertEquals(1, setSuccessSpy.callLog.size(), 'setSuccessOnNorlysNowCase should have been called once.');
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnHttpException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
 		setupMocks();
 		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
@@ -154,11 +157,13 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
 		);
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnCalloutException_ShouldUpdateCaseAndCreateTask() {
 		// Arrange
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
 		setupMocks();
 		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
@@ -216,11 +221,13 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 			createTasksSpy.callLog.size(),
 			'The createFollowUpTasks method should have been called once.'
 		);
+		TriggerHandler.clearAllBypasses();
 	}
 
 	@isTest
 	static void toExecute_OnHttp500Error_ShouldLogAndRetry() {
 		// Arrange
+		TriggerHandler.bypass('ContentDocumentLinkTriggerHandler');
 		setupMocks();
 		norlysNowServiceMock.spyOn('createFileRequestObject').returns(new NorlysNowClientRequestDTO());
 
@@ -276,5 +283,6 @@ private class NorlysNowContentDocumentLinkStrategyTest {
 		);
 		System.assertEquals(0, setErrorSpy.callLog.size(), 'setErrorOnNorlysNowCase should not be called for a 500 error.');
 		System.assertEquals(0, createTasksSpy.callLog.size(), 'createFollowUpTasks should not be called for a 500 error.');
+		TriggerHandler.clearAllBypasses();
 	}
 }

@@ -16,28 +16,34 @@ private class FeedCommentTriggerHandlerTest {
 	@isTest
 	static void beforeInsert_onNorlysNowCase_shouldAddError() {
 		// Arrange
-		NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
-			.forNorlysNowCaseHandling()
-			.withNorlysNowCases(1)
-			.withFeedItems(1)
-			.build();
+		TriggerHandler.bypass('FeedItemTrigger');
 
-		FeedItem post = scenario.feedItems[0];
-
-		FeedComment comment = new FeedComment(FeedItemId = post.Id, CommentBody = 'This is a test comment');
-
-		// Act
-		Test.startTest();
 		try {
-			insert comment;
-			System.assert(false, 'A DML exception should have been thrown.');
-		} catch (DmlException e) {
-			// Assert
-			System.assert(
-				e.getMessage().contains('It is only possible to create posts and not comments.'),
-				'The error message is not the one expected.'
-			);
+			NorlysTestScenarios.ScenarioResult scenario = NorlysTestScenarios.newBuilder()
+				.forNorlysNowCaseHandling()
+				.withNorlysNowCases(1)
+				.withFeedItems(1)
+				.build();
+
+			FeedItem post = scenario.feedItems[0];
+
+			FeedComment comment = new FeedComment(FeedItemId = post.Id, CommentBody = 'This is a test comment');
+
+			// Act
+			Test.startTest();
+			try {
+				insert comment;
+				System.assert(false, 'A DML exception should have been thrown.');
+			} catch (DmlException e) {
+				// Assert
+				System.assert(
+					e.getMessage().contains('It is only possible to create posts and not comments.'),
+					'The error message is not the one expected.'
+				);
+			}
+			Test.stopTest();
+		} finally {
+			TriggerHandler.clearAllBypasses();
 		}
-		Test.stopTest();
 	}
 }
