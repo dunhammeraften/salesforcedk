@@ -45,7 +45,6 @@ public with sharing class NorlysNowSelector {
 					}
 				)
 				.byId(recordIds)
-				.forView()
 				.run()
 		);
 
