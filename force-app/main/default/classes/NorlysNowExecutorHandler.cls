@@ -75,7 +75,6 @@ public with sharing class NorlysNowExecutorHandler implements IEventExecutableHa
 				retryEventExecutor.LastEventExecutorException__c = 'Events failed try to rerun!';
 				retryEventExecutor.LastEventExecutorUuid__c = event.EventUuid;
 				retryEventExecutor.LastEventExecutorReplayId__c = event.ReplayId;
-
 				eventExecutorService.publish(retryEventExecutor);
 			} else {
 				Logger.logInfo('No recordIds found for retry: ' + recordIds);

@@ -37,11 +37,10 @@ public with sharing class EventExecutorService {
 		for (EventExecutor__e eventToExecute : executors) {
 			EventExecutorQueueable queueableExecutor = new EventExecutorQueueable();
 
-			/*
-            queueableExecutor.setEventToExecute(eventToExecute);
-            queueableJobIds.add(System.enqueueJob(queueableExecutor));
-			*/
-			//TODO TALK ABOUT THIS!
+			if (eventToExecute.RetryCount__c > 5) {
+				Logger.logInfo('RetryCount__c is bigger than 5 we will halt!');
+				continue;
+			}
 			Integer executionDelay = Integer.valueOf(eventToExecute.RetryCount__c);
 			queueableExecutor.setEventToExecute(eventToExecute);
 			system.debug('khp adding queueable ' + queueableExecutor);
