@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Contact_field_Active_Community_User_false</name>
+        <label>Contact field Active Community User false</label>
+        <locationX>314</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>ActiveCommunityUser</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Contact_field_Active_Community_User_true</name>
+        <label>Contact field Active Community User true</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <assignmentItems>
+            <assignToReference>ActiveCommunityUser</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Contact</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Is_this_a_community_user</name>
+        <label>Is this a community user ?</label>
+        <locationX>380</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Not Community user</defaultConnectorLabel>
+        <rules>
+            <name>Community_user</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Profile.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Telia Onboarding Portal User</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_user_active</targetReference>
+            </connector>
+            <label>Community user</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_user_active</name>
+        <label>Is user active ?</label>
+        <locationX>182</locationX>
+        <locationY>455</locationY>
+        <defaultConnector>
+            <targetReference>Clear_case_feed_notification</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not active</defaultConnectorLabel>
+        <rules>
+            <name>Active_user</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contact_field_Active_Community_User_true</targetReference>
+            </connector>
+            <label>Active user</label>
+        </rules>
+    </decisions>
+    <description>When a onboarding portal user is created or inactivated, this must be visible on the related contact.</description>
+    <formulas>
+        <name>varClearDateTime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(&quot;&quot;)</expression>
+    </formulas>
+    <interviewLabel>User Created for Portal must be visible on Contact {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>User Created for Portal must be visible on Contact</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>When a community user is inactivated, the case field Community User Feed is cleared on all cases related to that user.</description>
+        <name>Clear_case_feed_notification</name>
+        <label>Clear case feed notification</label>
+        <locationX>314</locationX>
+        <locationY>575</locationY>
+        <connector>
+            <targetReference>Contact_field_Active_Community_User_false</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ContactId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Portal_User_Note_Date__c</field>
+            <value>
+                <elementReference>varClearDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Portal_User_Note__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Contact</name>
+        <label>Update Contact</label>
+        <locationX>182</locationX>
+        <locationY>911</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ContactId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Active_Portal_User__c</field>
+            <value>
+                <elementReference>ActiveCommunityUser</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_this_a_community_user</targetReference>
+        </connector>
+        <object>User</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>ActiveCommunityUser</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

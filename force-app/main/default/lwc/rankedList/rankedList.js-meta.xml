@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>rankedList</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Ranked List</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" type="String" label="Current Account Id" description="Id of the current record"/>
+            <property name="ProductPreferences" type="String[]" label='IGNORE' description="IGNORE" role="outputOnly"/>
+            <property name="ProductPreferencesNew" type="String" label='Home Office Product Preferences' description="Home Office Product Preferences"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

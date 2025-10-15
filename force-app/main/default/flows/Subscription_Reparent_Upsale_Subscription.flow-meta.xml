@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Add both the triggering Subscription and the &apos;new container&apos; Subscription to the collection to be updated.</description>
+        <name>Add_Subscriptions_to_Collection</name>
+        <label>Add Subscriptions to Collection</label>
+        <locationX>182</locationX>
+        <locationY>1781</locationY>
+        <assignmentItems>
+            <assignToReference>subscriptionsToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Subscriptions</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set both Root Id and Required By Id to point to the &apos;old container&apos; Subscription.</description>
+        <name>Set_both_Root_Id_and_Required_By_Id</name>
+        <label>Set both Root Id and Required By Id</label>
+        <locationX>50</locationX>
+        <locationY>1589</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.SBQQ__RootId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>oldContainerSubscriptionRecord.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.SBQQ__RequiredById__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>oldContainerSubscriptionRecord.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Subscriptions_to_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set New Container Record newContainerSubscriptionRecord, and Flag it for deletion, and add it to subscriptionsToUpdate.</description>
+        <name>Set_New_Container_Record</name>
+        <label>Set New Container Record</label>
+        <locationX>1216</locationX>
+        <locationY>755</locationY>
+        <assignmentItems>
+            <assignToReference>newContainerSubscriptionRecord</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Find_Container_Subscriptions</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Find_Container_Subscriptions.To_Delete__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isNewContainerSubscriptionFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>subscriptionsToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Find_Container_Subscriptions</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Are_both_Old_and_New_Container_Subscriptions_Found</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set Old Container Record variable oldContainerSubscriptionRecord.</description>
+        <name>Set_Old_Container_Record</name>
+        <label>Set Old Container Record</label>
+        <locationX>776</locationX>
+        <locationY>755</locationY>
+        <assignmentItems>
+            <assignToReference>oldContainerSubscriptionRecord</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Find_Container_Subscriptions</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isOldContainerSubscriptionFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Are_both_Old_and_New_Container_Subscriptions_Found</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set only Root Id to point to the &apos;old container&apos; Subscription. We don&apos;t want to change the Required By Id when it differs from the Root Id.</description>
+        <name>Set_only_Root_Id</name>
+        <label>Set only Root Id</label>
+        <locationX>314</locationX>
+        <locationY>1589</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.SBQQ__RootId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>oldContainerSubscriptionRecord.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Subscriptions_to_Collection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Already_Found_New_Container</name>
+        <label>Already Found New Container</label>
+        <locationX>1128</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>Set_New_Container_Record</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Already_Found_New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isNewContainerSubscriptionFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Are_both_Old_and_New_Container_Subscriptions_Found</targetReference>
+            </connector>
+            <label>Already Found New</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Already_Found_Old_Container</name>
+        <label>Already Found Old Container</label>
+        <locationX>688</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>Set_Old_Container_Record</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Already_Found_Old</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isOldContainerSubscriptionFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Are_both_Old_and_New_Container_Subscriptions_Found</targetReference>
+            </connector>
+            <label>Already Found Old</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Are_both_Old_and_New_Container_Subscriptions_Found</name>
+        <label>Are both Old and New Container Subscriptions Found</label>
+        <locationX>1084</locationX>
+        <locationY>1031</locationY>
+        <defaultConnector>
+            <targetReference>Find_Container_Subscriptions</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Both_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isOldContainerSubscriptionFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>isNewContainerSubscriptionFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <isGoTo>true</isGoTo>
+                <targetReference>Was_old_container_found</targetReference>
+            </connector>
+            <label>Both Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the loop item Subscription -&gt; Product&apos;s Container value matches the value on the triggering Subscription record. If Root Id on the triggering Subscription record doesn&apos;t match the Id of the loop item, then we found &apos;old container&apos;. If Root Id on the triggering Subscription record matches the Id of the loop item, then we found &apos;new container&apos;.</description>
+        <name>Does_Container_Match</name>
+        <label>Does Container Match</label>
+        <locationX>1084</locationX>
+        <locationY>539</locationY>
+        <defaultConnector>
+            <targetReference>Are_both_Old_and_New_Container_Subscriptions_Found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>Old_Container_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Product__r.Container__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Find_Container_Subscriptions.SBQQ__Product__r.Container__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__RootId__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>Find_Container_Subscriptions.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Already_Found_Old_Container</targetReference>
+            </connector>
+            <label>Old Container Match</label>
+        </rules>
+        <rules>
+            <name>New_Container_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Product__r.Container__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Find_Container_Subscriptions.SBQQ__Product__r.Container__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__RootId__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Find_Container_Subscriptions.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Already_Found_New_Container</targetReference>
+            </connector>
+            <label>New Container Match</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>We check if Root Id matches Required By Id. If yes, then we assign the &apos;old container&apos; Subscription Id to both fields. Else, we only assign to the Root Id.</description>
+        <name>Does_Root_Id_match_Required_By_Id</name>
+        <label>Does Root Id match Required By Id</label>
+        <locationX>182</locationX>
+        <locationY>1481</locationY>
+        <defaultConnector>
+            <targetReference>Set_only_Root_Id</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__RootId__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.SBQQ__RequiredById__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_both_Root_Id_and_Required_By_Id</targetReference>
+            </connector>
+            <label>Match</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_old_container_found</name>
+        <label>Was &apos;old container&apos; found</label>
+        <locationX>512</locationX>
+        <locationY>1373</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isOldContainerSubscriptionFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Does_Root_Id_match_Required_By_Id</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <description>Upsale Subscription records are reparented to point to the &apos;old container&apos; Subscription.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Formula with text to display in the error body for a System Log record.</description>
+        <name>errorBodyFormula</name>
+        <dataType>String</dataType>
+        <expression>&apos;Update failed. Triggering Subscription Id &apos; + {!$Record.Id} + &apos; and its related container Subscription Id &apos; + {!newContainerSubscriptionRecord.Id}</expression>
+    </formulas>
+    <interviewLabel>Subscription: Reparent Upsale Subscription {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Subscription: Reparent Upsale Subscription</label>
+    <loops>
+        <description>We need to look at the one where  subscription.product.container matches and store the Id of the record.</description>
+        <name>Find_Container_Subscriptions</name>
+        <label>Find Container Subscriptions</label>
+        <locationX>512</locationX>
+        <locationY>431</locationY>
+        <collectionReference>Get_Container_Subscriptions_Siblings</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Does_Container_Match</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Was_old_container_found</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Update of Subscriptions failed, we create a System Log record.</description>
+        <name>Create_System_Log</name>
+        <label>Create System Log</label>
+        <locationX>578</locationX>
+        <locationY>1997</locationY>
+        <inputAssignments>
+            <field>Additional_Information__c</field>
+            <value>
+                <stringValue>Subscription_Reparent_Upsale_Subscription</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Error_Body__c</field>
+            <value>
+                <elementReference>errorBodyFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Origin__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <object>System_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Get Subscription siblings on the Contract, but only if they are containers, i.e. MOBILE, FIXED, ACE. 
+Sort the records by CreatedDate ASC so we get the oldest first.
+If Product Option is null, then it is a container subscription.</description>
+        <name>Get_Container_Subscriptions_Siblings</name>
+        <label>Get Container Subscriptions Siblings</label>
+        <locationX>512</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Find_Container_Subscriptions</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__Contract__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SBQQ__Contract__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__ProductOption__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>SBQQ__Subscription__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Subscriptions held in the collection subscriptionsToUpdate.</description>
+        <name>Update_Subscriptions</name>
+        <label>Update Subscriptions</label>
+        <locationX>182</locationX>
+        <locationY>1889</locationY>
+        <faultConnector>
+            <targetReference>Create_System_Log</targetReference>
+        </faultConnector>
+        <inputReference>subscriptionsToUpdate</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>386</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Container_Subscriptions_Siblings</targetReference>
+        </connector>
+        <filterFormula>
+AND(
+NOT(ISBLANK({!$Record.SBQQ__ProductOption__c})),
+{!$Record.Upsale__c}=true,
+NOT(ISBLANK({!$Record.SBQQ__QuoteLine__r.SBQQ__Quote__r.SBQQ__MasterContract__c})),
+ISBLANK({!$Record__Prior.SBQQ__RootId__c}),
+NOT(ISBLANK({!$Record.SBQQ__RootId__c}))
+)</filterFormula>
+        <object>SBQQ__Subscription__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <triggerOrder>500</triggerOrder>
+    <variables>
+        <name>areBotholdAndNewContainerSubscriptionsFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>isNewContainerSubscriptionFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>isOldContainerSubscriptionFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>newContainerSubscriptionRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SBQQ__Subscription__c</objectType>
+    </variables>
+    <variables>
+        <name>oldContainerSubscriptionRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SBQQ__Subscription__c</objectType>
+    </variables>
+    <variables>
+        <description>To hold both the triggering Subscription record AND the &apos;new container&apos; Subscription sibling.</description>
+        <name>subscriptionsToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SBQQ__Subscription__c</objectType>
+    </variables>
+</Flow>

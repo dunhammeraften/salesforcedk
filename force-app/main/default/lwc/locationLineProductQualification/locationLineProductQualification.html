@@ -1,0 +1,63 @@
+<template>
+	<template if:true={renderFlow}>
+		<template for:each={POQ_Items} for:item="Item">
+			<!-- <h1 key={Item}>{Item.Name}</h1> -->
+			<!-- <h1 key={Item}>{Item.Name}</h1> -->
+			<!-- <h1 key={Item}>{Item.Location_Line__c}</h1> -->
+		</template>
+		<div class="wrapper">
+			<template for:each={wired_LocationLines} for:item="Line">
+				<div class="item slds-grid" key={line}>
+					<template if:false={daLang}>
+						<span class="databox slds-col slds-align_absolute-center slds-size_2-of-8" data-id={Line.Address__c}>{Line.Address__c}</span>
+						<br />
+						<span class="databox slds-col slds-align_absolute-center slds-size_1-of-8" data-id={Line.Employee_ID__c}
+							>{labels.HOEmployeeIDLabel}: {Line.Employee_ID__c}</span
+						>
+						<br />
+
+						<template if:true={Line.ResultsExist}>
+							<span class="databox slds-col slds-align_absolute-center slds-size_3-of-8">
+								<lightning-combobox
+									name="progress"
+									value={Line.priceplanCode__c}
+									options={Line.options}
+									onchange={handleChange}
+									variant="label-hidden"
+									data-id={Line.Id}
+								></lightning-combobox>
+							</span>
+							<br />
+
+							<!-- <span class="tech databox slds-col slds-align_absolute-center slds-size_1-of-8" data-id={Line.Id}>Technician:&nbsp;<lightning-input type="checkbox" name="tech" onchange={checkboxChangeTech} data-id={Line.Id}></lightning-input></span> -->
+
+							<br />
+
+							<span class="static databox slds-col slds-align_absolute-center slds-size_1-of-8" data-id={Line.Id}
+								>{labels.HOFixedIP}:&nbsp;<lightning-input
+									type="checkbox"
+									name="static"
+									onchange={checkboxChangeStatic}
+									data-id={Line.Id}
+								></lightning-input
+							></span>
+
+							<br />
+							<br />
+						</template>
+						<template if:false={Line.ResultsExist}>
+							<span class="databox slds-col slds-align_absolute-center slds-size_5-of-8"> {labels.HONoResultsFound} </span>
+						</template>
+					</template>
+					<template if:true={daLang}>
+						<span data-id={Line.Address__c}>{Line.Address__c}</span>
+					</template>
+				</div>
+			</template>
+		</div>
+	</template>
+
+	<template if:false={renderFlow}>
+		<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+	</template>
+</template>

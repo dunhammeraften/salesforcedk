@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>Upload Tool</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Upload Tool v0.1</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="ParentID" type="String" label="Parent ID" description="ID of the Parent"/>
+            <property name="Lines" type="@salesforce/schema/Activation_line__c[]" label="Lines" description="Lines"/>
+            <property name="labels" type="String" label="Labels" description="Labels"/>
+            <property name="names" type="String" label="Names" description="Names"/>
+            <property name="OpportunityID" type="String" label="Ignore this" description="Names"/>
+            <property name="AllowInsertNewLines" type="Boolean" label="Allow new lines to be inserted" description="If True, users can add new lines"/>
+        </targetConfig>
+    </targetConfigs>    
+</LightningComponentBundle>

@@ -1,0 +1,15 @@
+<template>
+    <lightning-layout class="slds-var-p-top_medium slds-var-p-bottom_medium">
+        <lightning-layout-item>
+            <div class="slds-var-p-around_x-small">
+                <c-excel-export></c-excel-export>
+                    <lightning-button
+                    variant="brand"
+                    label="Download Template"
+                    onclick={handleDownloadTemplateClick}
+                ></lightning-button>
+                
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

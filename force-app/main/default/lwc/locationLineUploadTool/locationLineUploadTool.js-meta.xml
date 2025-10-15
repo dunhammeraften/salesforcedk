@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>Location Line Upload Tool</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Location Line Upload Tool</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="OpportunityID" type="String" label="Opportuntity ID" description="ID of the Opportunity"/>
+            <property name="LocationLines" type="@salesforce/schema/Location_Line__c[]" label="Location Lines" description="Location Lines"/>
+            <property name="labels" type="String" label="Labels" description="Labels"/>
+            <property name="names" type="String" label="Names" description="Names"/>
+            <property name="importIgnoreFields" type="String" label="Fields to ignore" description="Read only in import but exported"/>
+        </targetConfig>
+    </targetConfigs>    
+</LightningComponentBundle>

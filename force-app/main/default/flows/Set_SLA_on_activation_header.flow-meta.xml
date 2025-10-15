@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Increase_SLA_if_holiday_is_within_timeframe</name>
+        <label>Increase SLA if holiday is within timeframe</label>
+        <locationX>313</locationX>
+        <locationY>712</locationY>
+        <assignmentItems>
+            <assignToReference>Activation.SLA_due_date__c</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Add_holidays_to_SLA</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_through_all_holidays</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_SLA</name>
+        <label>Set SLA</label>
+        <locationX>163</locationX>
+        <locationY>368</locationY>
+        <assignmentItems>
+            <assignToReference>Activation.SLA_due_date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Calculate_SLA</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_all_holidays</targetReference>
+        </connector>
+    </assignments>
+    <formulas>
+        <name>Add_holidays_to_SLA</name>
+        <dataType>Number</dataType>
+        <expression>IF({!Activation.SLA_due_date__c}&gt;={!Current_holiday.Date__c},1,0)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>Calculate_SLA</name>
+        <dataType>Date</dataType>
+        <expression>CASE(
+	MOD(DATEVALUE({!Activation.CreatedDate}) - DATE(1900, 1, 7), 7),
+	0, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + FLOOR(({!SLA_days}-1)/5)*2,
+	1, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + FLOOR(({!SLA_days})/5)*2,
+	2, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + FLOOR(({!SLA_days}+1)/5)*2,
+	3, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + FLOOR(({!SLA_days}+2)/5)*2,
+	4, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + FLOOR(({!SLA_days}+3)/5)*2,
+	5, DATEVALUE({!Activation.CreatedDate}) + {!SLA_days} + CEILING(({!SLA_days})/5)*2,
+	6, DATEVALUE({!Activation.CreatedDate}) - IF({!SLA_days}&gt;0,1,0) + {!SLA_days} + CEILING(({!SLA_days})/5)*2,
+	NULL)</expression>
+    </formulas>
+    <interviewLabel>Set SLA on activation header {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Set SLA on activation header</label>
+    <loops>
+        <name>Loop_through_all_holidays</name>
+        <label>Loop through all holidays</label>
+        <locationX>314</locationX>
+        <locationY>526</locationY>
+        <assignNextValueToReference>Current_holiday</assignNextValueToReference>
+        <collectionReference>Allholidays</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Increase_SLA_if_holiday_is_within_timeframe</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_activation</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_all_holidays</name>
+        <label>Get all holidays</label>
+        <locationX>314</locationX>
+        <locationY>366</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_through_all_holidays</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Date__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <object>Business_holiday__c</object>
+        <outputReference>Allholidays</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Date__c</queriedFields>
+        <sortField>Date__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_activation</name>
+        <label>Update activation</label>
+        <locationX>513</locationX>
+        <locationY>532</locationY>
+        <inputReference>Activation</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>32</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Set_SLA</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>Activation</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Activation__c</objectType>
+    </variables>
+    <variables>
+        <name>Allholidays</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Business_holiday__c</objectType>
+    </variables>
+    <variables>
+        <name>Current_holiday</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Business_holiday__c</objectType>
+    </variables>
+    <variables>
+        <name>SLA_days</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>

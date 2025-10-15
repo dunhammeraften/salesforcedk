@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>When a Voice Activation&apos;s Phone Number Reservation Status is changed from &apos;INPROGRESS&apos; or &apos;&apos; to &apos;SUCCESS&apos; or &apos;ERROR&apos; while the &apos;Progress&apos; is Reserve Numbers&apos;, then we immediately move the &apos;Progress&apos; into &apos;Manual Handling&apos;.</description>
+    <environments>Default</environments>
+    <interviewLabel>Phone Number - Progress to Manual Handling {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Phone Number - Progress to Manual Handling</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>When a Voice Activation&apos;s Phone Number Reservation Status is changed from &apos;INPROGRESS&apos; or &apos;&apos; to &apos;SUCCESS&apos; or &apos;ERROR&apos; while the &apos;Progress&apos; is Reserve Numbers&apos;, then we immediately move the &apos;Progress&apos; into &apos;Manual Handling&apos;.</description>
+        <name>Progress_to_Manual_Handling</name>
+        <label>Progress to Manual Handling</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Activation_progress__c</field>
+            <value>
+                <stringValue>Manual Handling</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Progress_to_Manual_Handling</targetReference>
+        </connector>
+        <filterFormula>AND (
+	{!$Record.RecordType.DeveloperName} = &apos;Voice_activation&apos;,
+        ISCHANGED({!$Record.Phone_Number_Reservation_Status_Txt__c}),
+        OR(
+                {!$Record.Phone_Number_Reservation_Status_Txt__c} = &apos;SUCCESS&apos;,
+                {!$Record.Phone_Number_Reservation_Status_Txt__c} = &apos;ERROR&apos;
+        ),
+	ISPICKVAL({!$Record.Activation_progress__c}, &apos;Reserve Numbers&apos;)        
+)</filterFormula>
+        <object>Activation__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

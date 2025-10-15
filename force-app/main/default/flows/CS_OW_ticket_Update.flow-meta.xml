@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>myRule_11_A1</name>
@@ -771,23 +771,27 @@ When OW system updates Oneworkflow record</description>
     <formulas>
         <name>formula_2_myRule_7_A2_1670343359</name>
         <dataType>String</dataType>
-        <expression>IF( TEXT({!$Record.Update_Type__c}) = &apos;Closed&apos;, &apos;Closed&apos;, IF( TEXT({!$Record.Update_Type__c}) = &apos;Withdrawn&apos;, &apos;Withdrawn&apos;, &apos;In Progress&apos;) )</expression>
+        <expression
+		>IF( TEXT({!$Record.Update_Type__c}) = &apos;Closed&apos;, &apos;Closed&apos;, IF( TEXT({!$Record.Update_Type__c}) = &apos;Withdrawn&apos;, &apos;Withdrawn&apos;, &apos;In Progress&apos;) )</expression>
     </formulas>
     <formulas>
         <name>formula_3_myRule_13_A4_7658250360</name>
         <dataType>Number</dataType>
-        <expression>IF (ISPICKVAL({!$Record.Update_Type__c} , &quot;Closed&quot;), {!$Record.Case__r.OW_tickets__c}  -1 , {!$Record.Case__r.OW_tickets__c})</expression>
+        <expression
+		>IF (ISPICKVAL({!$Record.Update_Type__c} , &quot;Closed&quot;), {!$Record.Case__r.OW_tickets__c}  -1 , {!$Record.Case__r.OW_tickets__c})</expression>
         <scale>18</scale>
     </formulas>
     <formulas>
         <name>InformTheAckMessage</name>
         <dataType>String</dataType>
-        <expression>&apos;OW system has created the case in their system with the following ticketId: &apos;+ {!$Record.TicketId__c}</expression>
+        <expression
+		>&apos;OW system has created the case in their system with the following ticketId: &apos;+ {!$Record.TicketId__c}</expression>
     </formulas>
     <formulas>
         <name>InformTheNotificationMessage</name>
         <dataType>String</dataType>
-        <expression>&apos;OW system updated the case with an error notification &apos;+{!$Record.OWDescription__c}</expression>
+        <expression
+		>&apos;OW system updated the case with an error notification &apos;+{!$Record.OWDescription__c}</expression>
     </formulas>
     <formulas>
         <name>NotificationUpdateOWBody</name>
@@ -797,12 +801,14 @@ When OW system updates Oneworkflow record</description>
     <formulas>
         <name>NotificationUpdateOWTitle</name>
         <dataType>String</dataType>
-        <expression>{!$Record.Case__r.CaseNumber} + &apos; has been updated with an error notification from OW &apos;+ {!$Record.OWDescription__c}</expression>
+        <expression
+		>{!$Record.Case__r.CaseNumber} + &apos; has been updated with an error notification from OW &apos;+ {!$Record.OWDescription__c}</expression>
     </formulas>
     <formulas>
         <name>PostUpdateOWMessage</name>
         <dataType>String</dataType>
-        <expression>TEXT($Record.Update_Type__c) &amp; &quot; operation has been sent to One Workflow with the following details:&quot; &amp; BR() &amp;
+        <expression
+		>TEXT($Record.Update_Type__c) &amp; &quot; operation has been sent to One Workflow with the following details:&quot; &amp; BR() &amp;
 $Record.Description__c &amp; BR() &amp;
 TEXT($Record.ReasonForWithdrawal__c) &amp; BR() &amp;
 $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</expression>
@@ -832,7 +838,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -922,7 +928,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -941,7 +947,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -966,7 +972,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -982,7 +988,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1001,7 +1007,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1020,7 +1026,7 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1042,13 +1048,13 @@ $Record.Resolution__c &amp; &quot; - &quot; &amp; $Record.ResolutionCode__c</exp
         <inputAssignments>
             <field>Description__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>OWDescription__c</field>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </inputAssignments>
         <inputAssignments>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Assign Id from triggering Opportunity to the Record (Single) Variable OpportunityToUpdate.</description>
+        <name>Assign_Id_from_triggering_Opportunity</name>
+        <label>Assign Id from triggering Opportunity</label>
+        <locationX>50</locationX>
+        <locationY>731</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityToUpdate.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Renewal_Amendment_Scope_Change</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set the Opportunity &apos;Technical Decision Maker NOT found&apos; field to FALSE</description>
+        <name>Set_Decision_Maker_flag</name>
+        <label>Set Decision Maker flag</label>
+        <locationX>50</locationX>
+        <locationY>1331</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityToUpdate.DecisionMakerNotFound__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shallWeUpdateOpportunity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Sales_Specialist_Changed_and_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set the Opportunity Name field by assigning the value from the OpportunityName formula.</description>
+        <name>Set_Opportunity_Name_Value</name>
+        <label>Set Opportunity Name Value</label>
+        <locationX>50</locationX>
+        <locationY>1031</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityToUpdate.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OpportunityName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shallWeUpdateOpportunity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Decision_Maker_Changed_and_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set the Opportunity &apos;Sales Specialist NOT needed&apos; field to FALSE.</description>
+        <name>Set_Sales_Specialist_flag</name>
+        <label>Set Sales Specialist flag</label>
+        <locationX>50</locationX>
+        <locationY>1631</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityToUpdate.SalesSpecialistNOTneeded__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shallWeUpdateOpportunity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Need_to_Update_the_Opportunity</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Check that it is an Opportunity of Record Type &apos;Sales&apos;, and that the &apos;Contact Role DecisionMaker Count&apos; was changed and that the value is greater than zero, and that the &apos;Technical Decision Maker NOT found&apos; is ticked. If conditions are met, we switch the &apos;Technical Decision Maker NOT found&apos; flag.</description>
+        <name>Decision_Maker_Changed_and_0</name>
+        <label>Decision Maker Changed and &gt; 0</label>
+        <locationX>182</locationX>
+        <locationY>1223</locationY>
+        <defaultConnector>
+            <targetReference>Sales_Specialist_Changed_and_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Decision_Maker_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sales</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Contact_Role_DecisionMaker_Count__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Contact_Role_DecisionMaker_Count__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.DecisionMakerNotFound__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Decision_Maker_flag</targetReference>
+            </connector>
+            <label>Decision Maker Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the flag shallWeUpdateOpportunity has been flipped to TRUE.</description>
+        <name>Need_to_Update_the_Opportunity</name>
+        <label>Need to Update the Opportunity?</label>
+        <locationX>182</locationX>
+        <locationY>1823</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>shallWeUpdateOpportunity</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_the_Opportunity</targetReference>
+            </connector>
+            <label>Yes Update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>&apos;Products in scope&apos; changed for an Renewal/Amendment Opportunity</description>
+        <name>Renewal_Amendment_Scope_Change</name>
+        <label>Renewal/Amendment Scope Change</label>
+        <locationX>182</locationX>
+        <locationY>923</locationY>
+        <defaultConnector>
+            <targetReference>Decision_Maker_Changed_and_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Renewal_Amendment_Scope_Changed</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product_s_in_scope__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Renewal__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Master_Contract__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Opportunity_Name_Value</targetReference>
+            </connector>
+            <label>Renewal/Amendment Scope Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check that it is an Opportunity of Record Type &apos;Sales&apos;, and that the &apos;Team Member SalesSpecialist Count&apos; was changed and that the value is greater than zero, and that the &apos;Sales Specialist NOT needed&apos; is ticked, and the Complexity is not &apos;1 - Very easy&apos;. If conditions aremet, we switch the &apos;Sales Specialist NOT needed&apos; flag.</description>
+        <name>Sales_Specialist_Changed_and_0</name>
+        <label>Sales Specialist Changed and &gt;0</label>
+        <locationX>182</locationX>
+        <locationY>1523</locationY>
+        <defaultConnector>
+            <targetReference>Need_to_Update_the_Opportunity</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Sales_Specialist_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sales</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Team_Member_SalesSpecialist_Count__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Team_Member_SalesSpecialist_Count__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SalesSpecialistNOTneeded__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Complexity__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>1</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Sales_Specialist_flag</targetReference>
+            </connector>
+            <label>Sales Specialist Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Opportunity Type is changed and the Opportunity is Open.</description>
+        <name>Type_Change_on_Open_Opportunity</name>
+        <label>Type Change on Open Opportunity</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Update_or_Create2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Type_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Type_on_Primary_Quote</targetReference>
+            </connector>
+            <label>Type Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Update_or_Create2</name>
+        <label>Update or Create</label>
+        <locationX>182</locationX>
+        <locationY>623</locationY>
+        <defaultConnector>
+            <targetReference>Renewal_Amendment_Scope_Change</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Create</defaultConnectorLabel>
+        <rules>
+            <name>Update2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Id_from_triggering_Opportunity</targetReference>
+            </connector>
+            <label>Update</label>
+        </rules>
+    </decisions>
+    <description>Migrated logic from Process Builder processes into the flow (https://jira-ks.norlys.dk/browse/DKT-45569 and https://jira-ks.norlys.dk/browse/DKT-45601)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>OpportunityName</name>
+        <dataType>String</dataType>
+        <expression>IF( {!$Record.SBQQ__RenewedContract__c} = NULL, 
+({!Type} + &quot;. &quot; + LEFT(TRIM(SUBSTITUTE({!$Record.Products_In_Scope_Text__c},&quot;;&quot;, &quot;, &quot;)), LEN(TRIM(SUBSTITUTE({!$Record.Products_In_Scope_Text__c},&quot;;&quot;, &quot;, &quot;)))-1)), 
+({!Type} + &quot;. &quot; + SUBSTITUTE({!$Record.SBQQ__RenewedContract__r.Contract_Type__c},&quot;;&quot;, &quot;, &quot;)))</expression>
+    </formulas>
+    <formulas>
+        <name>OppType</name>
+        <dataType>String</dataType>
+        <expression>CASE(Text({!$Record.Type}), &quot;New_Business&quot;,  &quot;New Business&quot;, &quot;Cross_sale&quot;, &quot;Cross-Sale&quot;, &quot;Cross_Up&quot;, &quot;Cross+Up&quot;, Text({!$Record.Type}))</expression>
+    </formulas>
+    <interviewLabel>Set Renewal and Amendment Opportunity Name {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity: Renewal or Amendment, Set Opportunity Name</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_the_Opportunity</name>
+        <label>Update the Opportunity</label>
+        <locationX>50</locationX>
+        <locationY>1931</locationY>
+        <inputReference>OpportunityToUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update Type on related Primary Quote</description>
+        <name>Update_Type_on_Primary_Quote</name>
+        <label>Update Type on Primary Quote</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <connector>
+            <targetReference>Update_or_Create2</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>SBQQ__Type__c</field>
+            <value>
+                <elementReference>$Record.Type</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.SBQQ__PrimaryQuote__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Type_Change_on_Open_Opportunity</targetReference>
+        </connector>
+        <filterFormula>OR(
+    AND(
+        ISCHANGED({!$Record.Product_s_in_scope__c}),
+        OR(
+			{!$Record.SBQQ__Renewal__c} = TRUE,
+			NOT(ISBLANK({!$Record.Master_Contract__c}))
+        )
+    ),
+    AND(
+		ISCHANGED({!$Record.Type}),
+		NOT(ISPICKVAL({!$Record.StageName}, &apos;Closed Won&apos;)),
+		NOT(ISPICKVAL({!$Record.StageName}, &apos;Closed Lost&apos;))
+    ),
+    AND(
+        {!$Record.RecordType.DeveloperName} = &apos;Sales&apos;,
+        ISCHANGED({!$Record.Contact_Role_DecisionMaker_Count__c}),
+        {!$Record.Contact_Role_DecisionMaker_Count__c} &gt; 0,
+        {!$Record.DecisionMakerNotFound__c} = TRUE
+    ),
+    AND(
+        {!$Record.RecordType.DeveloperName} = &apos;Sales&apos;,
+        ISCHANGED({!$Record.Team_Member_SalesSpecialist_Count__c}),
+        {!$Record.Team_Member_SalesSpecialist_Count__c} &gt; 0,
+        {!$Record.SalesSpecialistNOTneeded__c} = TRUE,
+        NOT(ISPICKVAL({!$Record.Complexity__c}, &apos;1 - Very easy&apos;))
+    )
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>OpportunityToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <name>shallWeUpdateOpportunity</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Type</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>OppType</elementReference>
+        </value>
+    </variables>
+</Flow>

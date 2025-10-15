@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Sometimes SBQQ__Discount__c holds a large number of decimals and this prevent Edit Lines in CPQ to work properly. This flow rounds the discount in order for the Edit Lines in CPQ to work correctly.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>length</name>
+        <dataType>Number</dataType>
+        <expression>LEN(TEXT({!$Record.SBQQ__Discount__c}))</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>RoundDiscountValue</name>
+        <dataType>Number</dataType>
+        <expression>ROUND({!$Record.SBQQ__Discount__c},4)</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>Quote Line: Rounding Issue Fix {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote Line: Rounding Issue Fix</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Round_Discount_Value</name>
+        <label>Round Discount Value</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <inputAssignments>
+            <field>SBQQ__Discount__c</field>
+            <value>
+                <elementReference>RoundDiscountValue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Round_Discount_Value</targetReference>
+        </connector>
+        <filterFormula>LEN(TEXT({!$Record.SBQQ__Discount__c})) &gt;3</filterFormula>
+        <object>SBQQ__QuoteLine__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>bf</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>4</scale>
+    </variables>
+    <variables>
+        <name>test</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>

@@ -1,0 +1,36 @@
+<template><!--
+    Hello, {firstName}! <br>
+    Record id: {_recordId} <br>
+    Data: {quoteLineData} <br>
+    ColumnMap: {columnQuoteLineMapTest} <br>
+    ColumnData: {quoteLineColumnsDataTest} <br>
+    Sections: {sectionsOpened}-->
+    <div if:false={additionalDiscountPreventDisplay}>
+        <div class="slds-p-around--x-small slds-grid slds-gutters">
+            <div class="slds-col slds-size_10-of-12 slds-align_absolute-center">
+
+            </div>
+            <div class="slds-col slds-size_2-of-12 slds-align_absolute-center">
+                <lightning-icon class="pointer" icon-name="utility:deprecate" alternative-text="Full screen off" title="FScreenOff" onclick={handleFullScreen} if:true={fullScreen}></lightning-icon>
+                <lightning-icon class="pointer" icon-name="utility:desktop" alternative-text="Full screen off" title="FScreenOff" onclick={handleFullScreen} if:false={fullScreen}></lightning-icon>
+            </div>
+        </div>
+        <!--<div class="slds-box slds-p-around_medium slds-text-align_center">-->
+            <!--<c-qld-app-settings-configurator display-settings={displaySettings}>--> <!-- https://niksdeveloper.com/salesforce/drag-and-drop-in-lwc-lightning-web-component/ for drag and drop functionality -->
+            <!--</c-qld-app-settings-configurator>--><!-- Commented cause I changed displaySetting variable structre -->
+        <!--</div>
+        <template if:true={quoteLineData}>-->
+        <div class="slds-box slds-p-around_medium slds-text-align_center" if:true={quoteLineData}>
+            <c-quote-lines-list-app
+                                    app-information={appInformation}
+                                    onchildevent={handleChildEvents}>
+            </c-quote-lines-list-app>
+        </div>
+        <!--</template>-->
+    </div>
+    <div class="slds-align_absolute-center slds-text-align_center" if:true={additionalDiscountPreventDisplay}>
+        The quote You are working on is not yet fully configured. <br> Please enter Edit Lines (button above on the right from here) <br> and <br> without making any changes <br> save it <br> so that Price Rules <br> and <br> Discounts could be recalculated <br> Thank You very much and sorry for the trouble.<br> <br> <br>
+        If You have already done that. Please wait 5 seconds and refresh current page.
+    </div>
+    <c-error-panel if:true={error} errors={error}></c-error-panel>
+</template>

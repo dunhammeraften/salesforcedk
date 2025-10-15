@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Add Id of this Closed Amendment Opportunity to list variable.</description>
+        <name>Add_Closed_Opportunity_Id_to_List</name>
+        <label>Add Closed Opportunity Id to List</label>
+        <locationX>732</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>varT_ClosedAmendmentOpportunityIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Go_through_Amendment_Opportunities.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Go_through_Amendment_Opportunities</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set Ongoing Amendment Opportunity; we output this</description>
+        <name>Set_Ongoing_Amendment_Opportunity_Closed</name>
+        <label>Set Ongoing Amendment Opportunity (Closed)</label>
+        <locationX>138</locationX>
+        <locationY>1598</locationY>
+        <assignmentItems>
+            <assignToReference>varR_OngoingAmendmentOpportunity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_to_find_the_specific_Closed_Amendment_Opportunity</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Set Ongoing Amendment Opportunity; we output this</description>
+        <name>Set_Ongoing_Amendment_Opportunity_Open</name>
+        <label>Set Ongoing Amendment Opportunity (Open)</label>
+        <locationX>468</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>varR_OngoingAmendmentOpportunity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Go_through_Amendment_Opportunities</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <collectionProcessors>
+        <name>Closed_Amendment_Opportunities</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Closed Amendment Opportunities</label>
+        <locationX>50</locationX>
+        <locationY>1274</locationY>
+        <assignNextValueToReference>currentItem_Closed_Amendment_Opportunities</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>varR_AmendmentOpportunities</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Closed_Amendment_Opportunities.IsClosed</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <booleanValue>true</booleanValue>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_to_find_the_specific_Closed_Amendment_Opportunity</targetReference>
+        </connector>
+    </collectionProcessors>
+    <decisions>
+        <description>Check for at least one Closed Amendment Opportunity</description>
+        <name>At_least_one_Closed_Amendment_Opportunity_exist</name>
+        <label>At least one Closed Amendment Opportunity exist</label>
+        <locationX>380</locationX>
+        <locationY>842</locationY>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Closed_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varT_ClosedAmendmentOpportunityIds</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Order_Fulfilment_Case_Record_Type</targetReference>
+            </connector>
+            <label>Closed Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Find the match for varT_ClosedAmendmentOpportunityId</description>
+        <name>Does_Id_match_specific_Opportunity_Id</name>
+        <label>Does Id match specific Opportunity Id</label>
+        <locationX>270</locationX>
+        <locationY>1490</locationY>
+        <defaultConnector>
+            <targetReference>Loop_to_find_the_specific_Closed_Amendment_Opportunity</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>Matches</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_to_find_the_specific_Closed_Amendment_Opportunity.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>varT_ClosedAmendmentOpportunityId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Ongoing_Amendment_Opportunity_Closed</targetReference>
+            </connector>
+            <label>Matches</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the Amendment Opportunity Open.</description>
+        <name>Is_Open</name>
+        <label>Is Open</label>
+        <locationX>600</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Add_Closed_Opportunity_Id_to_List</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Closed</defaultConnectorLabel>
+        <rules>
+            <name>Open</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Go_through_Amendment_Opportunities.IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Ongoing_Amendment_Opportunity_Open</targetReference>
+            </connector>
+            <label>Open</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if there is an Open Order Fulfilment Case.</description>
+        <name>Open_Order_Fulfilment_Case_Exists</name>
+        <label>Open Order Fulfilment Case Exists</label>
+        <locationX>182</locationX>
+        <locationY>1166</locationY>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Open_Order_Fulfilment_Case</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Closed_Amendment_Opportunities</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <description>Subflow expecting Contract Id and will return an Ongoing Amendment Opportunity if found.</description>
+    <environments>Default</environments>
+    <interviewLabel>Amendment: Prevent If Ongoing Amendment Exists {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Amendment: Prevent If Ongoing Amendment Exists</label>
+    <loops>
+        <name>Go_through_Amendment_Opportunities</name>
+        <label>Go through Amendment Opportunities</label>
+        <locationX>380</locationX>
+        <locationY>242</locationY>
+        <collectionReference>varR_AmendmentOpportunities</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Is_Open</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>At_least_one_Closed_Amendment_Opportunity_exist</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>There is a specific Closed Amendment Opportunity that has at least one Open Order Fulfilment Case associated. We need this for the output.</description>
+        <name>Loop_to_find_the_specific_Closed_Amendment_Opportunity</name>
+        <label>Loop to find the specific Closed Amendment Opportunity</label>
+        <locationX>50</locationX>
+        <locationY>1382</locationY>
+        <collectionReference>Closed_Amendment_Opportunities</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Does_Id_match_specific_Opportunity_Id</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get Amendment Opportunities, that are associated to the incoming Contract Id.
+To be considered as an Amendment Opportunity, the Type must be either Amendment, Upsale, Cross_Sale, or Cross_Up.</description>
+        <name>Get_Amendment_Opportunities</name>
+        <label>Get Amendment Opportunities</label>
+        <locationX>380</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Go_through_Amendment_Opportunities</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3 OR 4 OR 5)</filterLogic>
+        <filters>
+            <field>Master_Contract__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varT_ContractId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Amendment</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Upsale</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Cross_sale</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Cross_Up</stringValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <outputReference>varR_AmendmentOpportunities</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>IsClosed</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Open Order Fulfilment Case associated to any Closed Amendment Opportunity associated to the incoming Contract Id</description>
+        <name>Get_Open_Order_Fulfilment_Case</name>
+        <label>Get Open Order Fulfilment Case</label>
+        <locationX>182</locationX>
+        <locationY>1058</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Open_Order_Fulfilment_Case_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>varT_ClosedAmendmentOpportunityIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Fulfilment_Case_Record_Type.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsClosed</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <outputAssignments>
+            <assignToReference>varT_ClosedAmendmentOpportunityId</assignToReference>
+            <field>Opportunity__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Case Record Type Id for Order_Fulfilment_Case</description>
+        <name>Get_Order_Fulfilment_Case_Record_Type</name>
+        <label>Get Order Fulfilment Case Record Type</label>
+        <locationX>182</locationX>
+        <locationY>950</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Open_Order_Fulfilment_Case</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Order_Fulfilment_Case</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Amendment_Opportunities</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>currentItem_Closed_Amendment_Opportunities</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <name>varB_IsOpenAmendmentOpportunityFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>List of Amendment Opportunities. Both Open and Closed.</description>
+        <name>varR_AmendmentOpportunities</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <description>Holds the ongoing Amendment Opportunity if any found.</description>
+        <name>varR_OngoingAmendmentOpportunity</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <description>Closed Amendment Opportunity Id that is having at least one Open Order Fulfilment Case associated.
+Variable will be blank if no such found.</description>
+        <name>varT_ClosedAmendmentOpportunityId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>List of Closed Amendment Opportunity Id&apos;s</description>
+        <name>varT_ClosedAmendmentOpportunityIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Contract Id passed into this subflow.</description>
+        <name>varT_ContractId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

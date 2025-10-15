@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>When creating Home Office the Shadow type is updated in another flow</description>
+        <name>Is_is_a_new_record_and_Home_Office</name>
+        <label>Is is a new record and Home Office ?</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <defaultConnector>
+            <targetReference>Update_shadow_Sales_Type</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_this_is_a_new_record_and_Home_Office</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Activation_Record_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Home office</stringValue>
+                </rightValue>
+            </conditions>
+            <label>Yes this is a new record and Home Office</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_record_New_or_SalesType_is_changed</name>
+        <label>Is record New or SalesType is changed ?</label>
+        <locationX>248</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>SalesTypeIsChanged</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_is_a_new_record_and_Home_Office</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the: Sales type is edited workflow rule
+Workflow rule description: Set the Sales type (shadow) field in order to refer to the field on the one-time fee and use a roll-up field on the quote.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>NewRecord</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(ISNEW(),True,False)</expression>
+    </formulas>
+    <formulas>
+        <name>SalesTypeIsChanged</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(({!$Record.Sales_Type__c} = {!$Record.Sales_type_shadow__c}),False,True)</expression>
+    </formulas>
+    <interviewLabel>Quote Line - Sales type is edited {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote Line - Sales type is edited</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_shadow_Sales_Type</name>
+        <label>Update shadow Sales Type</label>
+        <locationX>182</locationX>
+        <locationY>575</locationY>
+        <inputAssignments>
+            <field>Sales_type_shadow__c</field>
+            <value>
+                <elementReference>$Record.Sales_Type__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>122</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_record_New_or_SalesType_is_changed</targetReference>
+        </connector>
+        <object>SBQQ__QuoteLine__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

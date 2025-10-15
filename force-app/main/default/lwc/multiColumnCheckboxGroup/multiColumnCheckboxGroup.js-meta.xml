@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="options" type="String[]" label="Options" role="inputOnly"/>
+            <property name="selectedValues" type="String[]" label="Selected Values" role="outputOnly"/>
+            <property name="numColumns" type="Integer" label="Number of Columns" role="inputOnly" default="5"/>
+            <property name="numRows" type="Integer" label="Number of Rows" role="inputOnly" default="10"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

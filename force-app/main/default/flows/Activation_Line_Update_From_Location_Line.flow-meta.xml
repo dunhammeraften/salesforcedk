@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>If Update of Location Lines fails, then we log it.</description>
+        <name>Copy_1_of_Log_Exception_Update_Fail_Location_Lines</name>
+        <label>Copy 1 of Log Exception - Update Fail Location Lines</label>
+        <locationX>314</locationX>
+        <locationY>2618</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <stringValue>Failed to update Activation Lines</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>apex-HomeOfficeFlowAction. 
+We pass in the Opportunity Record coming in to this Subflow.
+
+Will return several lists: 
+activationLinesToUpdate;
+locationLinesToUpdate;
+quoteLinesToUpdate;
+activationLinesToDelete;
+
+And a single Activation:
+activationToUpdate;</description>
+        <name>Get_Home_Office_related_records_to_act_on2</name>
+        <label>Get Home Office related records to act on</label>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <actionName>HomeOfficeFlowAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Any_Activation_Lines_to_Update</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Apex_Exception</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>inputOpportunity</name>
+            <value>
+                <elementReference>OpportunityInputRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>HomeOfficeFlowAction</nameSegment>
+        <offset>0</offset>
+        <outputParameters>
+            <assignToReference>activationLinesToDelete</assignToReference>
+            <name>activationLinesToDelete</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>activationLinesToUpdate</assignToReference>
+            <name>activationLinesToUpdate</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>activationToUpdate</assignToReference>
+            <name>activationToUpdate</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>locationLinesToUpdate</assignToReference>
+            <name>locationLinesToUpdate</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>quoteLinesToUpdate</assignToReference>
+            <name>quoteLinesToUpdate</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Log Apex Exception if Agreement Type is neither Framework nor Specified</description>
+        <name>Log_Apex_Exception</name>
+        <label>Log Apex Exception</label>
+        <locationX>842</locationX>
+        <locationY>242</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>If Update of Activation fails, then we log it.</description>
+        <name>Log_Exception_Update_Fail_Activation</name>
+        <label>Log Exception - Update Fail Activation</label>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <stringValue>Failed to update Activation</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>If Update of Activation Lines fails, then we log it.</description>
+        <name>Log_Exception_Update_Fail_Activation_Lines</name>
+        <label>Log Exception - Update Fail Activation Lines</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <stringValue>Failed to update Activation Lines</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>If Update of Location Lines fails, then we log it.</description>
+        <name>Log_Exception_Update_Fail_Location_Lines</name>
+        <label>Log Exception - Update Fail Location Lines</label>
+        <locationX>314</locationX>
+        <locationY>1538</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <stringValue>Failed to update Activation Lines</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>If Update of Quote Lines fails, then we log it.</description>
+        <name>Log_Exception_Update_Fail_Quote_Lines</name>
+        <label>Log Exception - Update Fail Quote Lines</label>
+        <locationX>314</locationX>
+        <locationY>2078</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>errorCode</name>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <stringValue>ERROR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <stringValue>Failed to update Quote Lines</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Any_Activation_Lines_to_Delete</name>
+        <label>Any Activation Lines to Delete</label>
+        <locationX>314</locationX>
+        <locationY>2402</locationY>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Has_Activation_Lines_to_Delete</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>activationLinesToDelete</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Activation_Lines</targetReference>
+            </connector>
+            <label>Has Activation Lines to Delete</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Any_Activation_Lines_to_Update</name>
+        <label>Any Activation Lines to Update</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Any_Activation_to_Update</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Has_Activation_Lines_to_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>activationLinesToUpdate</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Activation_Lines</targetReference>
+            </connector>
+            <label>Has Activation Lines to Update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Any_Activation_to_Update</name>
+        <label>Any Activation to Update</label>
+        <locationX>314</locationX>
+        <locationY>782</locationY>
+        <defaultConnector>
+            <targetReference>Any_Location_Lines_to_Update</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Has_Activation_to_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>activationToUpdate.Id</leftValueReference>
+                <operator>NotEqualTo</operator>
+            </conditions>
+            <connector>
+                <targetReference>Update_Activation</targetReference>
+            </connector>
+            <label>Has Activation to Update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Any_Location_Lines_to_Update</name>
+        <label>Any Location Lines to Update</label>
+        <locationX>314</locationX>
+        <locationY>1322</locationY>
+        <defaultConnector>
+            <targetReference>Any_Quote_Lines_to_Update</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Has_Location_Lines_to_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>locationLinesToUpdate</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Location_Lines</targetReference>
+            </connector>
+            <label>Has Location Lines to Update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Any_Quote_Lines_to_Update</name>
+        <label>Any Quote Lines to Update</label>
+        <locationX>314</locationX>
+        <locationY>1862</locationY>
+        <defaultConnector>
+            <targetReference>Any_Activation_Lines_to_Delete</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Has_Quote_Lines_to_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>quoteLinesToUpdate</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Quote_Lines</targetReference>
+            </connector>
+            <label>Has Quote Lines to Update</label>
+        </rules>
+    </decisions>
+    <description>For Home Office Activation Lines that have to be updated with data provided by user in the portal. These data are collected on the Location Line object and need to be passed on to the Activation Line when it has been created.
+Due to Bug DKT-44508 we need to modify the flow and move a lot of the logic into apex code, because we need to operate in bulk and utilise maps.</description>
+    <environments>Default</environments>
+    <interviewLabel>Activation Line Update From Location Line {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Activation Line Update From Location Line</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>Delete the Activation Lines in the list coming back from the Apex Action.</description>
+        <name>Delete_Activation_Lines</name>
+        <label>Delete Activation Lines</label>
+        <locationX>50</locationX>
+        <locationY>2510</locationY>
+        <faultConnector>
+            <targetReference>Copy_1_of_Log_Exception_Update_Fail_Location_Lines</targetReference>
+        </faultConnector>
+        <inputReference>activationLinesToDelete</inputReference>
+    </recordDeletes>
+    <recordUpdates>
+        <description>Update the Activation coming back from the Apex Action.</description>
+        <name>Update_Activation</name>
+        <label>Update Activation</label>
+        <locationX>50</locationX>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>Any_Location_Lines_to_Update</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Exception_Update_Fail_Activation</targetReference>
+        </faultConnector>
+        <inputReference>activationToUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the Activation Lines in the list coming back from the Apex Action.</description>
+        <name>Update_Activation_Lines</name>
+        <label>Update Activation Lines</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <connector>
+            <targetReference>Any_Activation_to_Update</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Exception_Update_Fail_Activation_Lines</targetReference>
+        </faultConnector>
+        <inputReference>activationLinesToUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the Location Lines in the list coming back from the Apex Action.</description>
+        <name>Update_Location_Lines</name>
+        <label>Update Location Lines</label>
+        <locationX>50</locationX>
+        <locationY>1430</locationY>
+        <connector>
+            <targetReference>Any_Quote_Lines_to_Update</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Exception_Update_Fail_Location_Lines</targetReference>
+        </faultConnector>
+        <inputReference>locationLinesToUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the Quote Lines in the list coming back from the Apex Action.</description>
+        <name>Update_Quote_Lines</name>
+        <label>Update Quote Lines</label>
+        <locationX>50</locationX>
+        <locationY>1970</locationY>
+        <connector>
+            <targetReference>Any_Activation_Lines_to_Delete</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Exception_Update_Fail_Quote_Lines</targetReference>
+        </faultConnector>
+        <inputReference>quoteLinesToUpdate</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Home_Office_related_records_to_act_on2</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>This is list of Activation Lines which the Apex Action call outputs. We need to delete records in the list.</description>
+        <name>activationLinesToDelete</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Activation_line__c</objectType>
+    </variables>
+    <variables>
+        <description>This is list of Activation Lines which the Apex Action call outputs. We need to update records in the list.</description>
+        <name>activationLinesToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Activation_line__c</objectType>
+    </variables>
+    <variables>
+        <description>This is list of Activations which the Apex Action call outputs. We need to update records in the list. Theoretically there will always only be max 1 record in the list.</description>
+        <name>activationsToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Activation__c</objectType>
+    </variables>
+    <variables>
+        <description>Activation record to be updated.</description>
+        <name>activationToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Activation__c</objectType>
+    </variables>
+    <variables>
+        <description>This is list of Location Lines which the Apex Action call outputs. We need to update records in the list.</description>
+        <name>locationLinesToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location_Line__c</objectType>
+    </variables>
+    <variables>
+        <description>Opportunity record being passed into this Subflow.</description>
+        <name>OpportunityInputRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <description>This is list of Quote Lines which the Apex Action call outputs. We need to update records in the list.</description>
+        <name>quoteLinesToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SBQQ__QuoteLine__c</objectType>
+    </variables>
+</Flow>

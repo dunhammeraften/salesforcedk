@@ -1,0 +1,33 @@
+.grid-container {
+    display: grid;
+    grid-gap: 10px;
+}
+
+.grid-item {
+    color: black;
+}
+
+.select-all {
+    font-weight: bold;
+    grid-column: 1 / -1;
+}
+
+.slds-form-element__label {
+    font-weight: normal;
+}
+
+.slds-checkbox_on .slds-form-element__label {
+    font-weight: bold;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+.page-number {
+    margin: 0 1rem;
+}

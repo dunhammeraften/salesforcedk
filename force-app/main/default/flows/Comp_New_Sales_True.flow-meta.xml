@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the: Comp New Sales True workflow rule
+Workflow rule description: Used to set the field Comp New Sales True as field is used as filter in roll up summary which cannot use formular field. Field is used for compensation purposes&quot;</description>
+    <environments>Default</environments>
+    <interviewLabel>Quote Line - Comp New Sales True {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote Line - Comp New Sales True</label>
+    <migratedFromWorkflowRuleName>Comp New Sales True</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Used to set the field Comp New Sales True as field is used as filter in roll up summary which cannot use formular field. Field is used for compensation purposes</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <inputAssignments>
+            <field>Comp_New_Sales_True__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>IF(ISPICKVAL({!$Record.SBQQ__Quote__r.SBQQ__Type__c} , &apos;Renewal&apos;) &amp;&amp; ( {!$Record.cross_sale__c} = TRUE  ||  {!$Record.upsale__c} = TRUE), TRUE, FALSE)</filterFormula>
+        <object>SBQQ__QuoteLine__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

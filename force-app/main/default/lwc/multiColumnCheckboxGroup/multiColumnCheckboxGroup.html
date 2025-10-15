@@ -1,0 +1,19 @@
+<template>
+    <template if:true={hasOptions}>
+        <div class="grid-container" style={gridStyle}>
+            <div class="select-all">
+                <lightning-input type="checkbox" label="Select All" onchange={handleSelectAllChange}></lightning-input>
+            </div>
+            <template for:each={processedOptions} for:item="option">
+                <div key={option.value} class="grid-item">
+                    <lightning-input type="checkbox" label={option.label} value={option.value} checked={option.checked} onchange={handleChange}></lightning-input>
+                </div>
+            </template>
+        </div>
+        <div class="pagination-controls">
+            <lightning-button label="Previous" onclick={previousPage} disabled={isFirstPage}></lightning-button>
+            <span class="page-number">Page {currentPage} of {totalPages}</span>
+            <lightning-button label="Next" onclick={nextPage} disabled={isLastPage}></lightning-button>
+        </div>
+    </template>
+</template>

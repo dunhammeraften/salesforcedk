@@ -1,0 +1,15 @@
+<template>
+    <div>
+        <template if:false={inProgress}>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1">.</div>
+                <div class="slds-col slds-size_1-of-1 slds-m-bottom_medium">
+                    <lightning-input type="file" label="" accept=".xls,.xlsx" onchange={handleFileChange}></lightning-input>
+                </div>
+            </div>
+        </template>
+        <template if:true={inProgress}>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+    </div>
+</template>

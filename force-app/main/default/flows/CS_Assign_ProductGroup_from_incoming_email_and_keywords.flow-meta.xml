@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Account_has_ProductGroup</name>
+        <label>Account has ProductGroup?</label>
+        <locationX>2425</locationX>
+        <locationY>1187</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_UC</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Account has ProductGroup?</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Account_has_ProductGroup</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Account.Product_Group__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_17_A1</targetReference>
+            </connector>
+            <label>TRUE_Account has ProductGroup?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>broadband_dk_vestas_com</name>
+        <label>broadband-dk@vestas.com</label>
+        <locationX>1897</locationX>
+        <locationY>971</locationY>
+        <defaultConnector>
+            <targetReference>Contact_Account_has_Product_Group</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_broadband-dk@vestas.com</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_broadband_dk_vestas_com</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SuppliedEmail</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>broadband-dk@vestas.com</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_13_A1</targetReference>
+            </connector>
+            <label>TRUE_broadband-dk@vestas.com</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Contact_Account_has_Product_Group</name>
+        <label>Contact Account has Product Group</label>
+        <locationX>2161</locationX>
+        <locationY>1079</locationY>
+        <defaultConnector>
+            <targetReference>Account_has_ProductGroup</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Contact Account has Product Group</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Contact_Account_has_Product_Group</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Contact.Account.Product_Group__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_15_A1</targetReference>
+            </connector>
+            <label>TRUE_Contact Account has Product Group</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Cross_border</name>
+        <label>Cross border</label>
+        <locationX>577</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>UC_Admin_or_hosting_uc_mobil_norlys_dk</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Cross border</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Cross_border</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:Group.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SERVICE_Cross_Border</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_3_A1</targetReference>
+            </connector>
+            <label>TRUE_Cross border</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>From_servicedesk_mobil_norlys_dk_or_to_Telia_ipa</name>
+        <label>From: servicedesk.mobil@norlys.dk or to: Telia-ipa</label>
+        <locationX>1633</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>broadband_dk_vestas_com</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_From: servicedesk.mobil@norlys.dk or to: Telia-ipa</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_From_servicedesk_mobil_norlys_dk_or_to_Telia_ipa</name>
+            <conditionLogic>(1 OR 4) AND 3 AND 2</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SuppliedEmail</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>servicedesk.mobil@norlys.dk</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Priority</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IPA</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_11_A1</targetReference>
+            </connector>
+            <label>TRUE_From: servicedesk.mobil@norlys.dk or to: Telia-ipa</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Grossist_Fixed</name>
+        <label>Grossist Fixed</label>
+        <locationX>313</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Cross_border</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Grossist Fixed</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Grossist_Fixed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:Group.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SERVICE_Grossist_Fix</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>TRUE_Grossist Fixed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Data</name>
+        <label>Keywords for Data</label>
+        <locationX>3477</locationX>
+        <locationY>1619</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Fixed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Data</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Data</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Data</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_25_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Data</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Firewall</name>
+        <label>Keywords for Firewall</label>
+        <locationX>4241</locationX>
+        <locationY>1943</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_IoT</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Firewall</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Firewall</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Firewall</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_31_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Firewall</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Fixed</name>
+        <label>Keywords for Fixed</label>
+        <locationX>3737</locationX>
+        <locationY>1727</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Hosting</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Fixed</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Fixed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Fixed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_27_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Fixed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Hosting</name>
+        <label>Keywords for Hosting</label>
+        <locationX>3993</locationX>
+        <locationY>1835</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Firewall</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Hosting</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Hosting</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Hosting</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_29_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Hosting</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_IoT</name>
+        <label>Keywords for IoT</label>
+        <locationX>4472</locationX>
+        <locationY>2051</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_SMS_manager</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for IoT</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_IoT</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_IoT</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_33_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for IoT</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Mobile</name>
+        <label>Keywords for Mobile</label>
+        <locationX>2952</locationX>
+        <locationY>1403</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Telia_Home_Office</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Mobile</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Mobile</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Mobile</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_21_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Mobile</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_SMS_manager</name>
+        <label>Keywords for SMS manager</label>
+        <locationX>4670</locationX>
+        <locationY>2159</locationY>
+        <defaultConnectorLabel>FALSE_Keywords for SMS manager</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_SMS_manager</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_SMSManager</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_35_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for SMS manager</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_Telia_Home_Office</name>
+        <label>Keywords for Telia Home Office</label>
+        <locationX>3215</locationX>
+        <locationY>1511</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Data</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for Telia Home Office</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_Telia_Home_Office</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_Home_Office</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_23_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for Telia Home Office</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Keywords_for_UC</name>
+        <label>Keywords for UC</label>
+        <locationX>2689</locationX>
+        <locationY>1295</locationY>
+        <defaultConnector>
+            <targetReference>Keywords_for_Mobile</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Keywords for UC</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Keywords_for_UC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_UC</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_19_A1</targetReference>
+            </connector>
+            <label>TRUE_Keywords for UC</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Priority_FIXED</name>
+        <label>Priority FIXED?</label>
+        <locationX>1369</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>From_servicedesk_mobil_norlys_dk_or_to_Telia_ipa</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Priority FIXED?</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Priority_FIXED</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Priority</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fixed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_9_A1</targetReference>
+            </connector>
+            <label>TRUE_Priority FIXED?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>to_data_enterprise</name>
+        <label>to: data-enterprise</label>
+        <locationX>1105</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>Priority_FIXED</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_to: data-enterprise</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_to_data_enterprise</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Data</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_7_A1</targetReference>
+            </connector>
+            <label>TRUE_to: data-enterprise</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>UC_Admin_or_hosting_uc_mobil_norlys_dk</name>
+        <label>UC Admin or hosting-uc.mobil@norlys.dk</label>
+        <locationX>841</locationX>
+        <locationY>539</locationY>
+        <defaultConnector>
+            <targetReference>to_data_enterprise</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_UC Admin or hosting-uc@telia.dk</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_UC_Admin_or_hosting_uc_mobil_norlys_dk</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Contact.UC_Admin__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Priority</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>UC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_A1</targetReference>
+            </connector>
+            <label>TRUE_UC Admin or hosting-uc.mobil@norlys.dk</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the CS: Assign ProductGroup from incoming email and keywords process using multiple criteria.
+Sets &quot;Product Group&quot; on Case based on keywords in the incoming email</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_TRUE_Data</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS({!$Record.Subject} ,&quot;fiber&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;kobber&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;cloud&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;lan &quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;radiokæde&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mpls&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;lld&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;dsl&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;stofa&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;matkon&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;datanet&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;adsl&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;kredsløb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; fiber&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; kobber&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; cloud&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; lan &quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;radiokæde&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;lld&quot;)||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;dsl&quot;)||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;mpls&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;stofa&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;matkon&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;datanet&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;adsl&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;kredsløb&quot;) )</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_Firewall</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;palo alto&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;managed firewall&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;barrier&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;barrier+&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;stronghold&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;fortress&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;palo alto&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;managed firewall&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; barrier&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; barrier+&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; stronghold&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; fortress&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_Fixed</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;isdn&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;isdn2&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;isdn flex&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;pstn isdn30&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;sip trunk&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;fastnet&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;grossist&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; isdn&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; isdn2&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; isdn flex&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; pstn isdn30&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; sip trunk&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; fastnet&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; grossist&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_Home_Office</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;home office&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;coax&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;adsl&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;vdsl&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;LEGO System A/S Purchase Order&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tb-&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;td-&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tc-&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tn-&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;home office&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;coax&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;adsl&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;vdsl&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;LEGO System A/S Purchase Order&quot;)||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tb-&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;td-&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tc-&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tn-&quot;) )</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_Hosting</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;dns&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;webhotel&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;webmail&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;domæne&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mailhotel&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; dns&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; webhotel&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; webmail&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; domæne&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mailhotel&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_IoT</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;iot&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;fleet management&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;fleet complete&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; iot&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;fleet management&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;fleet complete&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_Mobile</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;mobil&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;corporate&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mobilsurf&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;datakort&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mbb&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;insight&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;simkort&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mobilt bredbånd&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;datapakke&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;4business&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;top&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;mobiz&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;pakke&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;nummerflytning&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;voice&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;gb&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;10gb&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;20gb&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;50gb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mobil&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; corporate&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mobilsurf&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; datakort&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mbb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; overdragelse&quot;)  ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; insight&quot;)  ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; simkort&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mobilt bredbånd&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; datapakke&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; 4business&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; top &quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; mobiz&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; pakke&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; nummerflytning&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; voice&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; gb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; 10gb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; 20gb&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; 50gb&quot;) )</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_SMSManager</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;sms manager&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;sms manager&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_TRUE_UC</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.RecordType.DeveloperName} = &quot;Customer_Service_Case&quot; &amp;&amp;
+ISPICKVAL({!$Record.Origin}, &quot;Email&quot;) &amp;&amp;
+(CONTAINS(Lower ({!$Record.Subject}) ,&quot;touchpoint&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tpx&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tpm&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot; tp &quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;licens&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;touch point&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tp grupper&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;attendant&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;combi&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;softphone&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;ivr&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tastevalg&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;hovednummer&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;ssp&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;opsætning&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;smartphone&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;skyggenummer&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;limited&quot;) ||
+CONTAINS(Lower ({!$Record.Subject}) ,&quot;tpf&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;touchpoint&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tpx&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tpm&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot; tp &quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;licens&quot;)||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;touch point&quot;)||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tp grupper&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;attendant&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;combi&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;softphone&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;ivr&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tastevalg&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;hovednummer&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;ssp&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;opsætning&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;smartphone&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;skyggenummer&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;limited&quot;) ||
+CONTAINS(Lower ({!$Record.Description}) ,&quot;tpf&quot;))</expression>
+    </formulas>
+    <interviewLabel>Case - Customer Service - Assign ProductGroup from incoming email and keywords {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Customer Service - Assign ProductGroup from incoming email and keywords</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>myRule_11_A1</name>
+        <label>Set product to Mobile</label>
+        <locationX>1370</locationX>
+        <locationY>971</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Voice</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_13_A1</name>
+        <label>Set ProductGroup to Home Office</label>
+        <locationX>1634</locationX>
+        <locationY>1079</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Telia Home Office</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_15_A1</name>
+        <label>Set ProductGroup same as Contact&apos;s Account</label>
+        <locationX>1898</locationX>
+        <locationY>1187</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <elementReference>$Record.Contact.Account.Product_Group__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_17_A1</name>
+        <label>Set ProductGroup same as Account</label>
+        <locationX>2162</locationX>
+        <locationY>1295</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <elementReference>$Record.Account.Product_Group__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_19_A1</name>
+        <label>Set ProductGroup to &quot;UC&quot;</label>
+        <locationX>2426</locationX>
+        <locationY>1403</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>UC</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_1_A1</name>
+        <label>Set product group</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Grossist Fixed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_21_A1</name>
+        <label>Set ProductGroup to &quot;Mobile&quot;</label>
+        <locationX>2690</locationX>
+        <locationY>1511</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Voice</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_23_A1</name>
+        <label>Set ProductGroup to &quot;Telia Home Office&quot;</label>
+        <locationX>2954</locationX>
+        <locationY>1619</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Telia Home Office</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_25_A1</name>
+        <label>Set product to Data</label>
+        <locationX>3218</locationX>
+        <locationY>1727</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Data</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_27_A1</name>
+        <label>Set ProductGroup to &quot;Fixed&quot;</label>
+        <locationX>3482</locationX>
+        <locationY>1835</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Fixed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_29_A1</name>
+        <label>Set ProductGroup to &quot;Hosting&quot;</label>
+        <locationX>3746</locationX>
+        <locationY>1943</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Hosting</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_31_A1</name>
+        <label>Set ProductGroup to &quot;Firewall&quot;</label>
+        <locationX>4010</locationX>
+        <locationY>2051</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Firewall</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_33_A1</name>
+        <label>Set ProductGroup to &quot;IoT&quot;</label>
+        <locationX>4274</locationX>
+        <locationY>2159</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>IoT</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_35_A1</name>
+        <label>Set ProductGroup to &quot;SMS manager&quot;</label>
+        <locationX>4538</locationX>
+        <locationY>2267</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>SMS manager</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_3_A1</name>
+        <label>Set product group</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Cross-Border</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_5_A1</name>
+        <label>Set product to UC</label>
+        <locationX>578</locationX>
+        <locationY>647</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>UC</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_7_A1</name>
+        <label>Set product to Data</label>
+        <locationX>842</locationX>
+        <locationY>755</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Data</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_9_A1</name>
+        <label>Set ProductGroup to Fixed</label>
+        <locationX>1106</locationX>
+        <locationY>863</locationY>
+        <inputAssignments>
+            <field>ProductGroup__c</field>
+            <value>
+                <stringValue>Fixed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>187</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Grossist_Fixed</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

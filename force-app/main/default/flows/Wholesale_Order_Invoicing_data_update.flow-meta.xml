@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Is_Status_changed_to_Invoicing</name>
+        <label>Is Status changed ?</label>
+        <locationX>314</locationX>
+        <locationY>311</locationY>
+        <defaultConnectorLabel>Status NOT changed to either</defaultConnectorLabel>
+        <rules>
+            <name>Status_changed_to_Invoicing</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Invoicing</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_sent_to_Invoicing_date</targetReference>
+            </connector>
+            <label>Status changed to Invoicing</label>
+        </rules>
+        <rules>
+            <name>Status_changed_to_Ready_for_Invoice_Review</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Ready for Invoice review</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Ready_for_Invoicing_review_date</targetReference>
+            </connector>
+            <label>Status changed to Ready for Invoice Review</label>
+        </rules>
+    </decisions>
+    <description>When a Wholesale Order is created or updated this trigger will be executed and insert/update values to support the Wholesale process</description>
+    <formulas>
+        <name>varToday</name>
+        <dataType>Date</dataType>
+        <expression>today()</expression>
+    </formulas>
+    <interviewLabel>Wholesale Order Invoicing data update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Wholesale Order Invoicing data update</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Ready_for_Invoicing_review_date</name>
+        <label>Update Ready for Invoicing review date</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Ready_for_Invoice_Review__c</field>
+            <value>
+                <elementReference>varToday</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_sent_to_Invoicing_date</name>
+        <label>Update sent to Invoicing date</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Sent_to_Invoicing__c</field>
+            <value>
+                <elementReference>varToday</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Status_changed_to_Invoicing</targetReference>
+        </connector>
+        <object>Wholesale_Order__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

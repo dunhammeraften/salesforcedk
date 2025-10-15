@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>Redirect_to_Quote</name>
@@ -41,7 +41,7 @@
             <assignToReference>NumberOfValidBusinessInternetActivationLines</assignToReference>
             <operator>AssignCount</operator>
             <value>
-                <elementReference>Get_Activation_Lines</elementReference>
+                <elementReference>Get_All_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -80,7 +80,7 @@
             <assignToReference>Get_Business_Internet_Quote_Line.SBQQ__Quantity__c</assignToReference>
             <operator>AssignCount</operator>
             <value>
-                <elementReference>Get_Activation_Lines</elementReference>
+                <elementReference>Get_All_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -163,7 +163,7 @@
             <assignToReference>QuoteLineSubscription.SBQQ__Quantity__c</assignToReference>
             <operator>AssignCount</operator>
             <value>
-                <elementReference>Get_Activation_Lines</elementReference>
+                <elementReference>Get_All_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -184,14 +184,14 @@
             <assignToReference>QuoteLineSubscription.SBQQ__DynamicOptionId__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>QuoteLineSubscription.SBQQ__OptionType__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -205,14 +205,14 @@
             <assignToReference>QuoteLineSubscription.SBQQ__ProductOption__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>QuoteLineSubscription.Quote_Document_Group__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -240,7 +240,7 @@
             <assignToReference>QuoteLineSubscription.Id</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -276,7 +276,7 @@
         <locationY>1814</locationY>
         <assignNextValueToReference>currentItem_Filter_AL_Without_QL</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_Activation_Lines</collectionReference>
+        <collectionReference>Get_All_Activation_Lines</collectionReference>
         <conditionLogic>or</conditionLogic>
         <conditions>
             <leftValueReference>currentItem_Filter_AL_Without_QL.Quote_line__c</leftValueReference>
@@ -344,7 +344,7 @@
                 <leftValueReference>Get_Opportunity.SBQQ__PrimaryQuote__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue />
                 </rightValue>
             </conditions>
             <connector>
@@ -395,7 +395,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Activation_Lines</targetReference>
+                <targetReference>Get_One_Activation_Line</targetReference>
             </connector>
             <label>Found</label>
         </rules>
@@ -404,8 +404,17 @@
     <formulas>
         <name>ExistingSpecialTermWithAppendedValue</name>
         <dataType>String</dataType>
-        <expression>IF(ISBLANK({!ExistingSpecialTerms}),{!AdditionalSpecialTerms}, SUBSTITUTE(SUBSTITUTE({!ExistingSpecialTerms}, &apos;[&apos; , &apos;&apos; ), 
+        <expression
+		>IF(ISBLANK({!ExistingSpecialTerms}),{!AdditionalSpecialTerms}, SUBSTITUTE(SUBSTITUTE({!ExistingSpecialTerms}, &apos;[&apos; , &apos;&apos; ), 
 &apos;]&apos;, &apos;;&apos; + {!AdditionalSpecialTerms}))</expression>
+    </formulas>
+    <formulas>
+        <name>ProductCode</name>
+        <dataType>String</dataType>
+        <expression>CASE({!Get_One_Activation_Line.Product__c},
+"Business Internet 5G", "37000",
+"Business Internet 5G 1TB", "37001",
+"")</expression>
     </formulas>
     <formulas>
         <name>StartDatePlus30Days</name>
@@ -541,15 +550,15 @@
         <inputReference>QuoteLineSubscription</inputReference>
     </recordCreates>
     <recordLookups>
-        <name>Get_Activation_Lines</name>
-        <label>Get Activation Lines</label>
+        <name>Get_One_Activation_Line</name>
+        <label>Get One Activation Line</label>
         <locationX>182</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Activation_Line_Count</targetReference>
+            <targetReference>Get_All_Activation_Lines</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(1 AND (2 OR 3))</filterLogic>
         <filters>
             <field>Case__c</field>
             <operator>EqualTo</operator>
@@ -562,6 +571,48 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Business Internet 5G</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Product__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Business Internet 5G 1TB</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Activation_line__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_All_Activation_Lines</name>
+        <label>Get All Activation Lines</label>
+        <locationX>182</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Activation_Line_Count</targetReference>
+        </connector>
+        <filterLogic>(1 AND (2 OR 3))</filterLogic>
+        <filters>
+            <field>Case__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Business_Internet_Case.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Product__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Business Internet 5G</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Product__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Business Internet 5G 1TB</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -617,7 +668,7 @@
             <field>ProductCode</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>37000</stringValue>
+                <elementReference>ProductCode</elementReference>
             </value>
         </filters>
         <filters>
@@ -652,7 +703,7 @@
             <field>SBQQ__ProductCode__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>37000</stringValue>
+                <elementReference>ProductCode</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -701,7 +752,7 @@
             <field>ProductCode</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>37000</stringValue>
+                <elementReference>ProductCode</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -817,7 +868,8 @@
         <allowPause>false</allowPause>
         <fields>
             <name>NotSpecified</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;This is not a Specified Opportunity. You are not able to create a Specified Quote&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText
+			>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;This is not a Specified Opportunity. You are not able to create a Specified Quote&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
@@ -950,7 +1002,7 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <stringValue></stringValue>
+            <stringValue />
         </value>
     </variables>
     <variables>
@@ -1075,7 +1127,7 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <stringValue></stringValue>
+            <stringValue />
         </value>
     </variables>
     <variables>
@@ -1134,7 +1186,7 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <stringValue></stringValue>
+            <stringValue />
         </value>
     </variables>
     <variables>

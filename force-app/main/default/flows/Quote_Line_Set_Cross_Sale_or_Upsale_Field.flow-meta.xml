@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>We assign the Container value found on the Quote Line -&gt; Product to the variable containerToFind.</description>
+        <name>Assign_containerToFind</name>
+        <label>Assign containerToFind</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>containerToFind</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.SBQQ__Product__r.Container__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Subscriptions_From_Contract</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Since we found a Container match, we set isUpsale to TRUE.</description>
+        <name>Assign_isUpsale</name>
+        <label>Assign isUpsale</label>
+        <locationX>270</locationX>
+        <locationY>719</locationY>
+        <assignmentItems>
+            <assignToReference>isUpsale</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Is_Upsale</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Does the Container from the Product on the Subscription match the Container from the Product on the Quote Line.</description>
+        <name>Container_Match</name>
+        <label>Container Match</label>
+        <locationX>402</locationX>
+        <locationY>611</locationY>
+        <defaultConnector>
+            <targetReference>Check_Each_Product_On_Subscription_For_Container</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Check_Each_Product_On_Subscription_For_Container.SBQQ__Product__r.Container__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>containerToFind</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_isUpsale</targetReference>
+            </connector>
+            <label>Match</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If not Upsale, then it is Cross-Sale.</description>
+        <name>Is_Upsale</name>
+        <label>Upsale Or Cross-Sale</label>
+        <locationX>182</locationX>
+        <locationY>1061</locationY>
+        <defaultConnector>
+            <targetReference>Mark_as_Cross_Sale</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Cross-Sale</defaultConnectorLabel>
+        <rules>
+            <name>Upsale</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isUpsale</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mark_as_Upsale</targetReference>
+            </connector>
+            <label>Upsale</label>
+        </rules>
+    </decisions>
+    <description>Will determine if the Quote Line (Amendment) is a Cross-Sale or Upsale. We deal with an Amendment when the parent Quote&apos;s Master Contract field is populated. We won&apos;t evaluate top level Container Products such as i.e. MOBILE, ACE and FIXED.
+The triggering Quote Line points to a Product. We want to see if this Product&apos;s Container picklist value matches any existing Products on the Contract.
+We find the Contract via parent Quote. From parent Quote we find the Master Contract. We find Subscriptions under this Master Contract. Check if there are any of these Subscriptions that points to a Product which Container picklist value matches the Container value from the triggering Quote Line&apos;s Product.
+It triggers on Create and on Update. When it triggers on Update, we still only react on an Amendment Quote Line, but in addition we only want to react if the Upsale is changed from True to False, or if Cross-Sale is changed from True to False.</description>
+    <environments>Default</environments>
+    <interviewLabel>Quote Line: Set Cross-Sale or Upsale Field {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote Line: Set Cross-Sale or Upsale Field</label>
+    <loops>
+        <description>For each Subscription record, we check its Product to see if the Product has a Container value that matches the containerToFind.</description>
+        <name>Check_Each_Product_On_Subscription_For_Container</name>
+        <label>Check Each Product On Subscription For Container</label>
+        <locationX>182</locationX>
+        <locationY>503</locationY>
+        <collectionReference>Get_Subscriptions_From_Contract</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Container_Match</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_Upsale</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Via the Quote -&gt; Master Contract, we find the Subscriptions under this Master Contract.</description>
+        <name>Get_Subscriptions_From_Contract</name>
+        <label>Get Subscriptions From Contract</label>
+        <locationX>182</locationX>
+        <locationY>395</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Each_Product_On_Subscription_For_Container</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__Contract__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SBQQ__Quote__r.SBQQ__MasterContract__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>SBQQ__Subscription__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Mark the new Quote Line (amendment) as Upsale.</description>
+        <name>Mark_as_Cross_Sale</name>
+        <label>Mark as Cross-Sale</label>
+        <locationX>314</locationX>
+        <locationY>1169</locationY>
+        <inputAssignments>
+            <field>cross_sale__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Mark the new Quote Line (amendment) as Upsale.</description>
+        <name>Mark_as_Upsale</name>
+        <label>Mark as Upsale</label>
+        <locationX>50</locationX>
+        <locationY>1169</locationY>
+        <inputAssignments>
+            <field>upsale__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assign_containerToFind</targetReference>
+        </connector>
+        <filterFormula>AND (
+	NOT(ISBLANK({!$Record.SBQQ__Quote__r.SBQQ__MasterContract__c})), 
+	NOT(ISBLANK({!$Record.SBQQ__ProductOption__c})),
+	NOT(ISBLANK(TEXT({!$Record.SBQQ__Product__r.Container__c}))),
+	{!$Record.SBQQ__Quote__r.RecordType.DeveloperName}&lt;&gt;&apos;Activation_Quote&apos;,
+	OR(
+		ISNEW(),
+		AND(
+			NOT(ISNEW()),
+			OR(
+				AND(
+					ISCHANGED({!$Record.upsale__c}), {!$Record__Prior.upsale__c} = True
+				),
+				AND(
+					ISCHANGED({!$Record.cross_sale__c}), {!$Record__Prior.cross_sale__c} = True
+				)
+			)
+		)
+	)
+)</filterFormula>
+        <object>SBQQ__QuoteLine__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>atLeastOneSubscriptionFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>If the Quote Line&apos;s Product has a Container value, then we assign it to this variable.</description>
+        <name>containerToFind</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>isExistingContainerFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>isUpsale</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Subscriptions found under the Contract that this Quote Line is trying to amend.</description>
+        <name>listSubscriptions</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SBQQ__Subscription__c</objectType>
+    </variables>
+    <variables>
+        <description>Set this to TRUE if any of the Subscriptions on the Contract points to a Product with a matching Container picklist value.</description>
+        <name>matchingContainerIsFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Re_evaluate_Sergel_Max_Quoted_Amount</name>
+        <label>Account.Re_evaluate_Sergel_Max_Quoted_Amount</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <actionName>Account.Re_evaluate_Sergel_Max_Quoted_Amount</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Account.Re_evaluate_Sergel_Max_Quoted_Amount</nameSegment>
+    </actionCalls>
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the: Re-evaluate Sergel Max Quoted Amount workflow rule
+Workflow rule description: When max amount that this customer can be quoted is already is given however needs to be re-evaluated&quot;</description>
+    <environments>Default</environments>
+    <interviewLabel>Account - Re-evaluate Sergel Max Quoted Amount {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Account - Re-evaluate Sergel Max Quoted Amount</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Re_evaluate_Sergel_Max_Quoted_Amount</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Max_Quote_Amount_re_evaluation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

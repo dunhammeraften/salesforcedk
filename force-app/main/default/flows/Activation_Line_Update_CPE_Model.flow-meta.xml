@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>What_product</name>
+        <label>What product</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>None of the mentioned</defaultConnectorLabel>
+        <rules>
+            <name>DSL</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Norlys Internet DSL</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_CPE_Model_for_DSL</targetReference>
+            </connector>
+            <label>DSL</label>
+        </rules>
+        <rules>
+            <name>Fiber</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Norlys Internet Fiber</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_CPE_Model_for_Fiber</targetReference>
+            </connector>
+            <label>Fiber</label>
+        </rules>
+    </decisions>
+    <description>When an activation line is created CPE Model must be set for specific products</description>
+    <environments>Default</environments>
+    <interviewLabel>Activation Line Update CPE Model {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Activation Line Update CPE Model</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_CPE_Model_for_DSL</name>
+        <label>Set CPE Model for DSL</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>CPE_model__c</field>
+            <value>
+                <stringValue>Technicolor TG799</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_CPE_Model_for_Fiber</name>
+        <label>Set CPE Model for Fiber</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>CPE_model__c</field>
+            <value>
+                <stringValue>Cisco C1111-8P</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>What_product</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Product__c</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>Telia Internet DSL</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Product__c</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>Telia Internet Fiber</stringValue>
+            </value>
+        </filters>
+        <object>Activation_line__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

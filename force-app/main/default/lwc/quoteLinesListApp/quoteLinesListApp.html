@@ -1,0 +1,11 @@
+<template>
+    <ul class="myUL slds-p-left_large">
+    <!-- Test = {test} <br> -->
+        <template for:each={dataDisplayPack} for:item="SingleDataPack">
+            <c-quote-line-record-display display-data-pack={SingleDataPack}
+                                         key={SingleDataPack.quoteLine.Id}
+                                         onchildevent={handleChildEvents}
+            ></c-quote-line-record-display>
+        </template>
+    </ul>
+</template>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the: Set Sergel Credit evaluation exp date workflow rule
+Workflow rule description: This rule set the Credit evaluation expiration date every time the Max Quote Amount is changed to 90 days ahead in time&quot;</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Set_Sergel_Credit_evaluation_exp_dateFormula</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()+92</expression>
+    </formulas>
+    <interviewLabel>Account - Set Sergel Credit evaluation exp date {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Account - Set Sergel Credit evaluation exp date</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Set Sergel Credit evaluation exp date to 90 days from change date</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <inputAssignments>
+            <field>Credit_evaluation_expiration__c</field>
+            <value>
+                <elementReference>Set_Sergel_Credit_evaluation_exp_dateFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>ISCHANGED({!$Record.Max_Quote_Amount__c})</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

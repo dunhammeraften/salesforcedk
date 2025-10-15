@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>When Lead Source is updated from Partner to anything but Partner we need to wipe Partner Management fields (DKT-40840)</description>
+    <environments>Default</environments>
+    <interviewLabel>Opportunity: Wipe Partner Management Fields {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity: Wipe Partner Management Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Wipe Partner Management Fields, i.e. Partner Name and Partner Commission Amount.</description>
+        <name>Wipe_Partner_Management_Fields</name>
+        <label>Wipe Partner Management Fields</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>Partner_Commission_Amount__c</field>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Partner_Name__c</field>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Wipe_Partner_Management_Fields</targetReference>
+        </connector>
+        <filterFormula>AND(
+ISCHANGED({!$Record.LeadSource}),
+ISPICKVAL({!$Record__Prior.LeadSource}, &apos;Partner&apos;)
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

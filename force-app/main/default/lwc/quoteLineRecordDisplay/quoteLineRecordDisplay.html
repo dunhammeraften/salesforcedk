@@ -1,0 +1,159 @@
+<template>
+    <li class="slds-p-vertical_xx-small slds-is-relative">
+        <div if:true={loading} class="slds-is-absolute loading">
+            <lightning-spinner variant="inverse" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+        <div class="slds-box slds-p-around_none slds-text-align_center">
+            <div class="slds-p-around--x-small slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                    <span class="caret" onclick={TreeViewDropDown}></span>
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-align_absolute-center slds-text-heading_medium">
+                    {quoteLineRecord.SBQQ__ProductName__c}
+                    <!-- The records: {quoteLineRecord.Quote_Line_Details__r} <br>
+                    SortingBy: {sortedBy} and sortOrder: {sortDirection} <br>
+                    Display setting test: {displaysettingsTest} <br>-->
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    <lightning-input type="text" placeholder="Search phrase" onchange={searchChangeHandler}></lightning-input>
+                </div>
+                <div class="slds-col slds-size_5-of-12 slds-align_absolute-center">
+                    <!--<lightning-icon class="pointer" icon-name="utility:loop" alternative-text="Refresh Renewal Editor" title="RefreshLWC" onclick={handleComponentRefresh}></lightning-icon>-->
+                    <lightning-button label="Refresh" title="Refresh" onclick={handleComponentRefresh} class="slds-m-left_x-small"></lightning-button><br> <!--1700-->
+                    <lightning-button label="Product Update" title="Product Update" onclick={updateButtonClickHandler} class="slds-m-left_x-small"></lightning-button><br>
+                    <lightning-button label="Product Termination" title="Product Termination" onclick={terminationButtonClickHandler} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+            <div class="nested slds-p-left_large slds-m-top--large slds-box slds-is-relative">
+                <div if:true={upgradeBoxVisiblity} class="slds-is-absolute slds-box updateBox slds-p-horizontal_medium">
+                    <!-- We want to give them a pick list to select to what product they should change it -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12">
+                            <lightning-combobox
+                                                name="ChangeOptions"
+                                                label="Change Options"
+                                                options={changeOptions}
+                                                onchange={handleChangeOptionChange} >
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align_absolute-center slds-p-top_medium slds-p-horizontal_none">
+                            <lightning-helptext content="Please pick to what product would You like to change the selected ones.
+                                                        If You do not see the product You would like to change to, please
+                                                        click on Edit Lines button and add it to quote so it become avaible here.">
+                            </lightning-helptext>
+                        </div>
+                    </div> 
+                    <br>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_3-of-12"></div>
+                        <div class="slds-col slds-size_6-of-12 slds-align_absolute-center">
+                            <lightning-button label="Cancel" title="Cancel Update" onclick={updateButtonClickHandler} class="slds-m-left_x-small"></lightning-button>
+                            <lightning-button label="Save" title="Save Update" onclick={updateButtonSaveClickHandler} class="slds-m-left_x-small"></lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_3-of-12"></div>
+                    </div>
+                </div>
+                <div if:true={terminationBoxVisibility} class="slds-is-absolute slds-box updateBox slds-p-horizontal_medium">
+                    <!-- We want to give them a pick list to select to what product they should change it -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12">
+                            <lightning-input
+                                                label="Termination Date"
+                                                type="date"
+                                                date-style="short"
+                                                value={_dataPack.quoteLine.SBQQ__Quote__r.SBQQ__StartDate__c}
+                                                onchange={terminationDateChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align_absolute-center slds-p-top_medium slds-p-horizontal_none">
+                            <lightning-helptext content="Please pick the date when the products should be terminated. By defoult the date is set to 
+                                                         end date of contract. If a service is already in termination state, using this functionality on it 
+                                                         will make the termination canceled.">
+                            </lightning-helptext>
+                        </div>
+                    </div> 
+                    <br>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_3-of-12"></div>
+                        <div class="slds-col slds-size_6-of-12 slds-align_absolute-center">
+                            <lightning-button label="Cancel" title="Cancel Update" onclick={terminationButtonClickHandler} class="slds-m-left_x-small"></lightning-button>
+                            <lightning-button label="Process" title="Process" onclick={terminateSelectedRecords} class="slds-m-left_x-small"></lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_3-of-12"></div>
+                    </div>
+                </div>
+                <div class="slds-text-align_center" if:true={disabledProduct}>
+                    This product has the option for editing existing subscriptions turned off. <br> Still it is possible to use Additional Quantity and add more subscriptions.
+                </div>
+                <!--1700 Start-->
+                <template if:true={showModalInformation}>
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" >
+                        <!-- Modal/Popup Box LWC header here -->
+                       <!-- <header class="slds-modal__header">-->
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                                <lightning-icon icon-name="utility:close"
+                                   alternative-text="close"
+                                   variant="inverse"
+                                   size="small" ></lightning-icon> 
+                                <span class="slds-assistive-text">Close</span>
+                             </button>
+                           <!--  <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add License</h2> -->
+                       <!-- </header>-->
+                        <!-- Modal/Popup Box LWC body starts here -->
+                        <div class="slds-modal__content slds-p-around_large " id="modal-content-id-1">
+                            <div  style="height: 200px;" >
+                                
+                        <lightning-combobox 
+                                    
+                                            name="progress1"
+                                            value={value}
+                                            options={getUCLicensePicklist}
+                                            onchange={handleChange} ></lightning-combobox>
+                       
+                    </div>
+                    </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+                <!--1700 end-->
+                <lightning-accordion allow-multiple-sections-open
+                        onsectiontoggle={handleSectionToggle}
+                        active-section-name={sectionsOpened}>
+                    <lightning-accordion-section name="existing" label="Existing Products" if:false={disabledProduct}>
+                        <div  style="height: 400px;">
+                            <lightning-datatable key-field = "Id"
+                                                data = {quoteLineRecord.Quote_Line_Details_Filtered}
+                                                columns = {displaySettings.detailsDisplay}
+                                                default-sort-direction = {sortingVar.defaultSortDirection}
+                                                sorted-direction = {sortingVar.sortDirectionEx}
+                                                sorted-by = {sortingVar.sortedByEx}
+                                                onsort = {sortingByColumnEx}
+                                                onsave = {savingProcessExistingLines}
+                                                onrowselection = {rowSelectionHandler}
+                                                oncancel={handleInlineCancelSave} 
+                                                oncellchange={handleInlineCellChange}
+                                                draft-values={draftValues} 
+                                                onrowaction={showPicklist}> <!--1700 above 4lines till oncancel-->
+                            </lightning-datatable>
+                        </div>
+                    </lightning-accordion-section>
+                    <lightning-accordion-section name="additional" label="Additional Products">
+                        <lightning-datatable key-field = "Id"
+                                            data = {addQuoteLineRecord}
+                                            columns = {addDisplaySettings}
+                                            default-sort-direction = {sortingVar.defaultSortDirection}
+                                            sorted-direction = {sortingVar.sortDirectionAd}
+                                            sorted-by = {sortingVar.sortedByAd}
+                                            onsort = {sortingByColumnAd}
+                                            onsave = {savingProcessAdditionalLines}
+                                            onrowselection = {rowSelectionAdditionalHandler}>
+                        </lightning-datatable>
+                    </lightning-accordion-section>
+                </lightning-accordion>  
+            </div>
+        </div>
+    </li>
+</template>

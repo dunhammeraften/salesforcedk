@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Assign_Numbers_To_ActivationLines_Related_to_Case</name>
+        <label>Assign Numbers To ActivationLines Related to Case</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>NumberCaseExecutorAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseId</name>
+            <value>
+                <elementReference>Get_Parent_Case.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>NumberCaseExecutorAction</nameSegment>
+        <offset>0</offset>
+        <outputParameters>
+            <assignToReference>isAssignNumbersToActivationLinesSuccess</assignToReference>
+            <name>isSuccess</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>publishedEvent</assignToReference>
+            <name>publishedEvent</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Check_Toggle</name>
+        <label>Check Toggle</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>FeatureToggleFlowAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Activate_Deactivate</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>featureNames</name>
+            <value>
+                <stringValue>UsePhoneReservation</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FeatureToggleFlowAction</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Activate_Deactivate</name>
+        <label>Activate/Deactivate</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Deactivate</defaultConnectorLabel>
+        <rules>
+            <name>Activate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Check_Toggle</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_Activation_Status_SUCCESS</targetReference>
+            </connector>
+            <label>Activate</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if there are any associated Activation Lines with &apos;Phone no Status&apos; value of &apos;New Number&apos; (Nyt Nummer).
+If there are 1 or more, then we will reserve numbers for them.
+Else, then we update the Activation&apos;s Phone Number Reservation Status to &apos;SUCCESS&apos;.</description>
+        <name>Are_there_any_Activation_Lines_with_New_Number</name>
+        <label>Are there any Activation Lines with New Number</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Set_Status_to_SUCCESS_and_move_to_Manual_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Count_Phone_no_Status_Nyt_Nummer__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Parent_Case</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If the Activation&apos;s &apos;Phone Number Reservation Status&apos; already is SUCCESS then we immediately move the Activation Progress to &apos;Manual Handling&apos;.</description>
+        <name>Is_Activation_Status_SUCCESS</name>
+        <label>Is Activation Status SUCCESS</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Are_there_any_Activation_Lines_with_New_Number</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not SUCCESS</defaultConnectorLabel>
+        <rules>
+            <name>Already_SUCCESS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Phone_Number_Reservation_Status_Txt__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SUCCESS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Move_Progress_to_Manual_Handling</targetReference>
+            </connector>
+            <label>Already SUCCESS</label>
+        </rules>
+    </decisions>
+    <description>When an Activation of Record Type Voice_activation moves the Progress to &apos;Reserve Numbers&apos; we assign numbers (Mobile no) to its Activation Lines.
+NB. If the Activation&apos;s Phone Number Reservation Status already is SUCCESS, then no other action is taken than immediately moving the Activation&apos;s Progress into &apos;Manual Handling&apos;</description>
+    <environments>Default</environments>
+    <interviewLabel>Phone Number - Assign Numbers to Activation Lines {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Phone Number - Assign Numbers to Activation Lines</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>We need parent Case to pass in to Apex Action.</description>
+        <name>Get_Parent_Case</name>
+        <label>Get Parent Case</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Numbers_To_ActivationLines_Related_to_Case</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Case__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Move the Activation&apos;s Progress to &apos;Manual Handling&apos;.</description>
+        <name>Move_Progress_to_Manual_Handling</name>
+        <label>Move Progress to &apos;Manual Handling&apos;</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Activation_progress__c</field>
+            <value>
+                <stringValue>Manual Handling</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Since there are no Activation Lines with &apos;Phone no Status&apos; value of &apos;New Number&apos; we immediately move the Phone Number Reservation Status to &apos;SUCCESS&apos; and the Progress to Manual Handling.</description>
+        <name>Set_Status_to_SUCCESS_and_move_to_Manual_Handling</name>
+        <label>Set Status to SUCCESS and move to Manual Handling</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Activation_progress__c</field>
+            <value>
+                <stringValue>Manual Handling</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Phone_Number_Reservation_Status_Txt__c</field>
+            <value>
+                <stringValue>SUCCESS</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Toggle</targetReference>
+        </connector>
+        <filterFormula>AND (
+	{!$Record.RecordType.DeveloperName} = &apos;Voice_activation&apos;,
+	NOT(ISPICKVAL({!$Record__Prior.Activation_progress__c}, &apos;Fulfilled&apos;)),
+	NOT(ISCHANGED({!$Record.Phone_Number_Reservation_Status_Txt__c})),
+	ISCHANGED({!$Record.Activation_progress__c}),
+	ISPICKVAL({!$Record.Activation_progress__c}, &apos;Reserve Numbers&apos;)
+)</filterFormula>
+        <object>Activation__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <triggerOrder>1300</triggerOrder>
+    <variables>
+        <name>countActivationLinesWithoutMobileNumber</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>countUnlinkedAccountPhoneNumberAssignments</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>isAssignNumbersToActivationLinesSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>outputActivationLineIdToAssignmentIdListApexDefined</name>
+        <apexClass>01pS800000AGAp2__NotFound</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Output from Apex action calling Apex class NumberActivationLinesExecutorAction.assignNumbersToActivationLines</description>
+        <name>outputAssignNumbersToActivationLinesIsSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Output from Apex action calling Apex class NumberActivationLinesExecutorAction.assignNumbersToActivationLines</description>
+        <name>outputAssignNumbersToActivationLinesPublishedEvents</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EventExecutor__e</objectType>
+    </variables>
+    <variables>
+        <name>publishedEvent</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EventExecutor__e</objectType>
+    </variables>
+</Flow>

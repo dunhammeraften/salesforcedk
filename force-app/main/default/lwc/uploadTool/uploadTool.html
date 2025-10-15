@@ -1,0 +1,40 @@
+<template>
+    <template lwc:if={isReadyForUpload}>
+       
+        <lightning-layout class="slds-var-p-top_medium slds-var-p-bottom_medium">
+            <lightning-layout-item>
+                <div class="slds-var-p-around_x-small">
+                    <lightning-button
+                        variant="brand"
+                        label="Download template"
+                        onclick={handleDownloadTemplateClick}
+                    ></lightning-button>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-input
+                    type="file"
+                    label=""
+                    accept=".xls,.xlsx"
+                    onchange={handleFileChange}
+                ></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <template lwc:elseif={isUploadingFile}>
+        <div class="slds-var-p-around_large">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <template lwc:elseif={isDoneUploading}>
+        <div class="slds-align_absolute-center slds-grid slds-grid_vertical">
+            <lightning-icon
+                icon-name="utility:success"
+                alternative-text="Success"
+                title="Success"
+                class="slds-col"
+            ></lightning-icon>
+            <div class="slds-text-heading_medium boldText slds-col slds-var-m-top_small">{theLabels.VTPX_USERS_EXCELUPLOAD_SUCCESS}</div>
+        </div>
+    </template>
+</template>

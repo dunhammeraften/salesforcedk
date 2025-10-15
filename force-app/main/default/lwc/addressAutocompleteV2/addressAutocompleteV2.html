@@ -1,0 +1,74 @@
+<template>
+        <div class="slds-box slds-m-top_small">
+            <div class="slds-text-title_bold">Lookup</div>
+            <div class="slds-m-around_xx-large">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Search address..." 
+                    oninput={handleSearchInput} 
+                    onkeydown={handleKeyPress} 
+                    aria-label="Search Address"
+                    value={query}/>
+                <template if:true={suggestions.length}>
+                    <ul class="suggestions">
+                        <template for:each={suggestions} for:item="suggestion" for:index="index">
+                            <li 
+                                key={suggestion.forslagstekst}
+                                class={suggestion.className} 
+                                data-index={index}
+                                onclick={handleSuggestionClick}>
+                                {suggestion.forslagstekst}
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+        </div>
+
+        <template if:true={selectedAddresses.length}>
+            <div class="slds-box slds-m-top_small">
+                <div class="slds-text-title_bold">Addresses</div>
+                <ul>
+                    <div class="slds-m-top_small slds-grid slds-wrap slds-gutters">
+                        <template for:each={selectedAddresses} for:item="address" for:index="index">
+                            <div key={address.data.id} class="slds-col slds-size_1-of-4 slds-m-bottom_small">
+                                <li>
+                                    <template if:true={address.data.isSelected}>
+                                        {address.forslagstekst}
+                                        Address added to queue...
+                                        <div class="progress-line"></div>
+                                    </template>
+                                    <template if:false={address.data.isSelected}>    
+                                        <!-- <lightning-button-menu icon-name="utility:delete" menu-alignment="right" variant="border-filled" alternative-text="Show menu" class="slds-m-left_xx-small" onselect={handleSelect} value={address.data.id}></lightning-button-menu> -->
+                                        <div>{address.forslagstekst}</div>
+                                        <lightning-record-edit-form object-api-name="Activation_line__c" onsuccess={handleSuccess} onsubmit={handleSubmit} data-id={index}>
+                                            <lightning-messages> </lightning-messages>
+                                            <lightning-combobox
+                                                name="BillingAccount"
+                                                label="Billing Account"
+                                                value={defaultBAN}
+                                                placeholder="Select..."
+                                                options={billingAccounts}
+                                                data-id={index}
+                                                onchange={handleComboboxChange} >
+                                            </lightning-combobox>
+                                            <lightning-input-field field-name="Line_ID__c" required="true"></lightning-input-field>
+                                            <lightning-input-field field-name="First_name__c" required="true"></lightning-input-field>
+                                            <lightning-input-field field-name="Last_name__c" required="true"></lightning-input-field>
+                                            <lightning-input-field field-name="Email__c" required="true"></lightning-input-field>
+                                            <lightning-input-field field-name="Onsite_Contact_Mobile__c" required="true"></lightning-input-field>
+                                            <div class="slds-m-around_small"><lightning-button class="slds-align_absolute-center" variant="brand" type="submit" label="Save"></lightning-button></div>
+                                            <!-- <lightning-button-icon icon-name="utility:delete" menu-alignment="right" variant="border-filled" alternative-text="Delete" class="slds-m-left_xx-small" onselect={handleSelect} value={address.data.id}></lightning-button-icon> -->
+                                        </lightning-record-edit-form>
+                                    </template>
+                                </li>
+                            </div>
+                        </template>
+                    </div>
+                </ul>
+            </div>
+        </template>
+
+
+</template>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the Renewal Opportunity process using Renewal Opportunity criteria.
+Set info when Renewal Opportunity is created by system</description>
+    <environments>Default</environments>
+    <interviewLabel>Renewal Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Renewal Opportunity</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Type</name>
+        <label>Set Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Billing_Frequency__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__RenewedContract__r.Billing_Frequency__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Payment_Terms__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__RenewedContract__r.Payment_Term__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Special_Term__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__RenewedContract__r.SpecialTerms</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subscription_Term__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__RenewedContract__r.ContractTerm</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Renewal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Renewal Opportunity</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Renewal__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

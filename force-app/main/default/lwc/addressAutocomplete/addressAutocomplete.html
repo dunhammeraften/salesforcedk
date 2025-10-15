@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-5">
+            <lightning-input type="text" label={label.HOEmployeeIDLabel} onchange={employeeIdChange} placeholder={label.HOEmployeeIDFieldText} value={employeeID}></lightning-input>
+        </div>
+        <div class="slds-col slds-size_4-of-5">
+            <lightning-input type="text" label={label.HOAutoCompleteAddressLabel} placeholder={label.HOAutoCompleteAddressFieldText} onchange={handleInputChange} value={inputValue}></lightning-input>
+            <template for:each={searchResults} for:item="result">
+                <p key={result.forslagstekst} data-id={result.forslagstekst} data-boolean={result.stormodtagerpostnr} class="searchItem" onclick={handleSearchClick}>{result.forslagstekst}</p>
+            </template>
+        </div>
+    </div>
+          
+
+    <div class="slds-var-m-top_medium">
+        <template for:each={chosenResults} for:item="chosen">
+            <div key={chosen.forslagstekst} class="slds-grid slds-gutters slds-var-m-top_x-small">
+                <div class="slds-col slds-size_1-of-5">
+                    <div data-id={chosen.employeeID} class="chosenItem slds-text-body_regular slds-var-p-left_medium">{chosen.employeeID}</div>
+                </div>
+                <div class="slds-col slds-size_4-of-5">
+                    <div data-id={chosen.forslagstekst} class="chosenItem slds-text-body_regular slds-var-p-left_medium">{chosen.forslagstekst}</div>
+                </div>
+            </div>   
+        </template>
+    </div>
+</template>

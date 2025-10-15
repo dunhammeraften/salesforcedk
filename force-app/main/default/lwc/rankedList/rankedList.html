@@ -1,0 +1,45 @@
+<template>
+    
+    <template if:false={showSpinner}>
+
+        <div class="container">
+
+            <div class="wrapper">
+                <template for:each={ElementList} for:item="Elements">                
+                    <span data-id={Elements.Product_Sequence__c} class="item" key={Elements}>
+                        <template if:false={daLang}>{Elements.Label}</template>
+                        <template if:true={daLang}>{Elements.Product_Da_Translation__c}</template>
+                    </span>
+                </template>
+            </div>
+
+            
+            <div class="saving">
+                <template if:true={daLang}>
+                    <lightning-button variant="brand" label="Gem rækkefølge" title="Gem rækkefølge" onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+                </template>
+                <template if:false={daLang}>
+                    <lightning-button variant="brand" label="Save order" title="Save order" onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+                </template>
+            </div>
+
+            <div class="reset">
+                <template if:true={daLang}>
+                    <lightning-button variant="brand" label="Reset rækkefølge" title="Reset rækkefølge" class="slds-m-left_x-small"></lightning-button>
+                </template>
+                <template if:false={daLang}>
+                    <lightning-button variant="brand" label="Reset order" title="Reset order" class="slds-m-left_x-small"></lightning-button>
+                </template>
+            </div>
+
+                
+        </div>
+
+    </template>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    
+
+</template>

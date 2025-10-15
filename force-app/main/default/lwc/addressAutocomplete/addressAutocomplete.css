@@ -1,0 +1,13 @@
+.searchItem {
+    background-color: #F4E0FF;
+    border-radius: 5px;
+    margin-top: 4px;
+    cursor: pointer;
+    padding-left: 4%;
+}
+
+.chosenItem {
+    background-color: #29003E;
+    border-radius: 5px;
+    color: white;
+}

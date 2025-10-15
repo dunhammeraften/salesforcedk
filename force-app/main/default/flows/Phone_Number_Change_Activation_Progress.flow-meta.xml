@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Log if the update of the Activation record failed</description>
+        <name>Log_Update_Error</name>
+        <label>Log Update Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>level</name>
+            <value>
+                <elementReference>LogLevel</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>messageContent</name>
+            <value>
+                <elementReference>MessageContent</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Logger</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Set Activation Progress variable to &apos;Onboarding Portal&apos;.</description>
+        <name>Assign_Onboarding_Portal</name>
+        <label>Assign &apos;Onboarding Portal&apos;</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>activationProgress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Onboarding Portal</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Should_we_update_Activation_Progress</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set Activation Progress variable to &apos;Reserve Numbers&apos;.</description>
+        <name>Assign_Reserve_Numbers</name>
+        <label>Assign &apos;Reserve Numbers&apos;</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>activationProgress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Reserve Numbers</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Should_we_update_Activation_Progress</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>LogLevel</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>ERROR</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>We only want to do an Update if the activationProgress variable has been set. Meaning not blank.</description>
+        <name>Should_we_update_Activation_Progress</name>
+        <label>Should we update Activation Progress</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes_update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>activationProgress</leftValueReference>
+                <operator>NotEqualTo</operator>
+            </conditions>
+            <connector>
+                <targetReference>Record_Type_Voice_activation</targetReference>
+            </connector>
+            <label>Yes update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Depending on the Status value, we follow different paths.</description>
+        <name>Status_Changed_To</name>
+        <label>Status Changed To</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Should_we_update_Activation_Progress</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Gather_Information</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Gather information</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Onboarding_Portal</targetReference>
+            </connector>
+            <label>Gather Information</label>
+        </rules>
+        <rules>
+            <name>Delivery</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Delivery</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Reserve_Numbers</targetReference>
+            </connector>
+            <label>Delivery</label>
+        </rules>
+    </decisions>
+    <description>When a Case Status changes then the related Activation&apos;s Progress is updated:
+- When the Case Status is moved to &quot;Gather Information&quot; then update the related Activation&apos;s Progress to &quot;Onboarding Portal&quot;.
+- When the Case Status is moved to &quot;Delivery&quot; then update the related Activation&apos;s Progress to &quot;Reserve Numbers&quot; (if eligible).
+NB. only act on Cases of Record Type &apos;Order_Fulfilment_Case&apos; where the Type is either &apos;UC&apos; or &apos;Voice&apos;.
+(Phone Number Reservation feature: DKT-48136)</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Body of the notification we send to Case Owner if the Case is updated to &apos;Delivery&apos; but the related Activation&apos;s Progress cannot be moved to &apos;Reserve Numbers&apos; due to not enough assignments available.</description>
+        <name>caseNotificationBody</name>
+        <dataType>String</dataType>
+        <expression>&quot;The Case Status (&quot; + {!$Record.Type_and_Subject__c} + &quot;) was updated to &apos;Delivery&apos; but the Progress on the related Activation could not be moved to &apos;Reserve Numbers&apos; because there weren&apos;t enough &apos;Account Phone Number Assignments&apos; available.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>MessageContent</name>
+        <dataType>String</dataType>
+        <expression>&quot;Update failed for Activation belonging to Case with Id: &quot; + {!$Record.Id} + &quot; and Case Number: &quot; + {!$Record.CaseNumber}</expression>
+    </formulas>
+    <interviewLabel>Phone Number - Change Activation Progress {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Phone Number - Change Activation Progress</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>We need the Record Type Id.</description>
+        <name>Record_Type_Voice_activation</name>
+        <label>Record Type &apos;Voice_activation&apos;</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_related_Activation</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Voice_activation</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Progress field on the associated Activation, but only if the Activation Record Type is &apos;Voice_activation&apos;.</description>
+        <name>Update_related_Activation</name>
+        <label>Update related Activation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Log_Update_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Record_Type_Voice_activation.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Activation_progress__c</field>
+            <value>
+                <elementReference>activationProgress</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Activations__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Status_Changed_To</targetReference>
+        </connector>
+        <filterFormula>AND(
+	{!$Record.RecordType.DeveloperName} = &apos;Order_Fulfilment_Case&apos;,
+	OR(
+		ISPICKVAL({!$Record.Type} , &apos;UC&apos;),
+		ISPICKVAL({!$Record.Type} , &apos;Voice&apos;)
+	),
+	ISCHANGED({!$Record.Status}),
+	OR(
+		ISPICKVAL({!$Record.Status}, &apos;Gather Information&apos;),
+		ISPICKVAL({!$Record.Status}, &apos;Delivery&apos;)
+	)
+)</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Activation Progress value we want to update the related Activation&apos;s Progress to.</description>
+        <name>activationProgress</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>areThereEnoughPhoneNumberAssignments</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recipientIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

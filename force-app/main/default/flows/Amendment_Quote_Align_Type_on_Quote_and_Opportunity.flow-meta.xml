@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>When selling segmented products (and possibly other scenarios), the Alert Product Rule causes issues with the Type being to set to Amendment on Quote even though a different value should be there. This flow fixes that.</description>
+    <environments>Default</environments>
+    <interviewLabel>Amendment Quote: Align Type on Quote and Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Amendment Quote: Align Type on Quote and Opportunity</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Quote_Type_to_Opportunity_Type</name>
+        <label>Set Quote Type to Opportunity Type</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>SBQQ__Type__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__Opportunity2__r.Type</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_Quote_Type_to_Opportunity_Type</targetReference>
+        </connector>
+        <filterFormula>AND(ISPICKVAL({!$Record.SBQQ__Type__c} , &apos;Amendment&apos;), NOT(ISPICKVAL({!$Record__Prior.SBQQ__Type__c} , &apos;Amendment&apos;)), NOT(ISPICKVAL({!$Record.SBQQ__Opportunity2__r.Type} , &apos;Amendment&apos;)))</filterFormula>
+        <object>SBQQ__Quote__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

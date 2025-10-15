@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>DKT-36850 and DKT-36734</description>
+        <name>Check_Validation</name>
+        <label>Check Validation</label>
+        <locationX>182</locationX>
+        <locationY>731</locationY>
+        <actionName>CheckValidation</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Error_Check</targetReference>
+        </connector>
+        <dataTypeMappings>
+            <typeName>T__inputRecord</typeName>
+            <typeValue>Contract</typeValue>
+        </dataTypeMappings>
+        <dataTypeMappings>
+            <typeName>T__inputCollection</typeName>
+            <typeValue>Contract</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>inputCollection</name>
+            <value>
+                <elementReference>Contracts</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CheckValidation</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Set_Expired_Status</name>
+        <label>Set Expired Status</label>
+        <locationX>270</locationX>
+        <locationY>539</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Contracts.Expired_Contract_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_to_get_expired_status</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Contracts</targetReference>
+        </connector>
+    </assignments>
+    <customErrors>
+        <name>Custom_Error</name>
+        <label>Custom Error</label>
+        <locationX>50</locationX>
+        <locationY>947</locationY>
+        <customErrorMessages>
+            <errorMessage>{!ErrorText}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Error_Check</name>
+        <label>Error Check</label>
+        <locationX>182</locationX>
+        <locationY>839</locationY>
+        <defaultConnector>
+            <targetReference>Update_Contracts</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Error</defaultConnectorLabel>
+        <rules>
+            <name>Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Check_Validation.isError</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Custom_Error</targetReference>
+            </connector>
+            <label>Error</label>
+        </rules>
+    </decisions>
+    <description>-</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>ErrorText</name>
+        <dataType>String</dataType>
+        <expression>MID( 
+    {!Check_Validation.errorMessages}, 
+    FIND(&quot;[&quot;, {!Check_Validation.errorMessages}) + 1, 
+    FIND(&quot;]&quot;, {!Check_Validation.errorMessages}) - FIND(&quot;[&quot;, {!Check_Validation.errorMessages}) - 1
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_to_get_expired_status</name>
+        <dataType>String</dataType>
+        <expression>IF(TEXT({!$Record.StageName}) = &apos;Closed Lost&apos;, ($Label.EC_NotRenegotiated),
+IF(TEXT({!$Record.StageName}) = &apos;Qualification&apos;, ($Label.EC_NotStarted),
+IF(OR((TEXT({!$Record.StageName}) = &apos;Needs Analysis&apos;),(TEXT({!$Record.StageName}) = &apos;Proposal&apos;),(TEXT({!$Record.StageName}) = &apos;Negotiation&apos;),(TEXT({!$Record.StageName}) = &apos;Close Agreement&apos;)) ,($Label.EC_Sales),
+IF(AND((TEXT({!$Record.StageName}) = &apos;Closed Won&apos;),NOT((TEXT({!$Record.Case__r.Status}) = &apos;Closed&apos;))) , ($Label.EC_Delivery),
+IF((TEXT({!$Record.Case__r.Status}) = &apos;Closed&apos;) , ($Label.EC_Renegotiated),&apos;&apos;)))))</expression>
+    </formulas>
+    <interviewLabel>Opportunity: Update Expired Contract Status {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity: Update Expired Contract Status</label>
+    <loops>
+        <name>Loop_Contracts</name>
+        <label>Loop Contracts</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <collectionReference>Contracts</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_Expired_Status</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Validation</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Contracts</name>
+        <label>Get Contracts</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Contracts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__RenewalOpportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <object>Contract</object>
+        <outputReference>Contracts</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Contracts</name>
+        <label>Update Contracts</label>
+        <locationX>314</locationX>
+        <locationY>947</locationY>
+        <inputReference>Contracts</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Contracts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Renewal</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>StageName</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>Contracts</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contract</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Align the owner of the Activation Quote to be the same as the Primary Quote owner.</description>
+    <environments>Default</environments>
+    <interviewLabel>Activation Quote: Created - Assign Owner {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Activation Quote: Created - Assign Owner</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>UpdateOwner</name>
+        <label>UpdateOwner</label>
+        <locationX>429</locationX>
+        <locationY>390</locationY>
+        <inputAssignments>
+            <field>Additional_Special_Terms_on_Contract__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__Opportunity2__r.Original_Primary_Quote__r.Additional_Special_Terms_on_Contract__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Exempt_for_price_index_regulation__c</field>
+            <value>
+                <elementReference>$Record.SBQQ__Opportunity2__r.Original_Primary_Quote__r.Exempt_for_price_index_regulation__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.SBQQ__Opportunity2__r.Original_Primary_Quote__r.OwnerId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>303</locationX>
+        <locationY>58</locationY>
+        <connector>
+            <targetReference>UpdateOwner</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Quote_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Activation Quote</stringValue>
+            </value>
+        </filters>
+        <object>SBQQ__Quote__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

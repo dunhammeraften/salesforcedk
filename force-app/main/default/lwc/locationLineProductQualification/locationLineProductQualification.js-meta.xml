@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>Location Line Product Qualification</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Location Line Product Qualification</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="LocationLines" type="@salesforce/schema/Location_Line__c[]" label="Location Lines" description="Location Lines"/>
+            <property name="POQ_Items" type="@salesforce/schema/POQ_Item__c[]" label="POQ Items" description="POQ Items"/>
+            <property name="HomeOfficeProductOptionsRanking" type="String" label="HomeOffice Product Options Ranking" description="HomeOfficeProductOptionsRanking"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

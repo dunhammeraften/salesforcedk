@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <name>CustomerServiceCaseRecordType</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Customer_Service_Case</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Which_Record_Type</name>
+        <label>Which Record Type?</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <defaultConnector>
+            <targetReference>Get_Activation_Delivery_Queue</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Order Fulfilment</defaultConnectorLabel>
+        <rules>
+            <name>Customer_Service</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer_Service_Case</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Queue_by_Type</targetReference>
+            </connector>
+            <label>Customer Service</label>
+        </rules>
+    </decisions>
+    <description>Change Owner to Queue based on Type change for Customer Service Cases.
+Change Owner to Queue if re-opening a Case with an inactive Owner.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Queue Developer Name is in format: SERVICE_Additional_sales
+Type is in format: Additional Sales
+Formula replaces space with _ and prepends SERVICE_
+
+In case of blank Type value we default to &quot;SERVICE_Other&quot; queue.</description>
+        <name>CustomerServiceQueueDeveloperNameFromCaseType</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!$Record.Type})),
+&quot;SERVICE_Other&quot;,
+&quot;SERVICE_&quot; + SUBSTITUTE(TEXT({!$Record.Type}), &quot; &quot;, &quot;_&quot;))</expression>
+    </formulas>
+    <interviewLabel>Case CS: Route updated case to new queue based on type {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Route updated Case to new Queue based on Type and Record Type</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Activation_Delivery_Queue</name>
+        <label>Get Activation Delivery Queue</label>
+        <locationX>314</locationX>
+        <locationY>395</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Owner_to_Activation_Delivery</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ACTIVATION_Delivery</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Queue_by_Type</name>
+        <label>Get Queue by Type</label>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Owner_to_new_Queue</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CustomerServiceQueueDeveloperNameFromCaseType</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Owner_to_Activation_Delivery</name>
+        <label>Update Owner to Activation Delivery</label>
+        <locationX>314</locationX>
+        <locationY>503</locationY>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>Get_Activation_Delivery_Queue.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Owner_to_new_Queue</name>
+        <label>Update Owner to new Queue</label>
+        <locationX>50</locationX>
+        <locationY>503</locationY>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>Get_Queue_by_Type.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Which_Record_Type</targetReference>
+        </connector>
+        <filterFormula>({!$Record.RecordType.DeveloperName}=&quot;Customer_Service_Case&quot; &amp;&amp;
+(ISCHANGED({!$Record.Type}) &amp;&amp;
+BEGINS({!$Record.OwnerId}, &quot;00G&quot;))
+||
+(({!$Record.RecordType.DeveloperName}=&quot;Customer_Service_Case&quot; ||
+{!$Record.RecordType.DeveloperName}=&quot;Order_Fulfilment_Case&quot;) &amp;&amp;
+TEXT({!$Record__Prior.Status})=&quot;Closed&quot; &amp;&amp;
+ISCHANGED({!$Record.Status}) &amp;&amp;
+NOT({!$Record.Owner:User.IsActive})))</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

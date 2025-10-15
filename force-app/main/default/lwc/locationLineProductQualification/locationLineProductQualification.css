@@ -1,0 +1,28 @@
+.item {
+    background-color: #ED0812;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 50px;
+    width: 100%;
+    align-content: center;
+}
+
+.item span {
+    color: #fff;
+    align-content: center;
+    font-weight: 400;
+}
+
+lightning-combobox {
+    width: 30vw;
+    color: #000;
+}
+
+select {
+    width: 100%;
+    height: 50%;
+}
+:host {
+    --sds-c-checkbox-color-background-checked: #fff;
+    --sds-c-checkbox-mark-color-foreground: #ED0812;
+}
