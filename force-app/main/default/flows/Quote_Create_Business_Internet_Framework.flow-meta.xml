@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>Commit_work</name>
@@ -285,14 +285,14 @@
             <assignToReference>SubscriptionQuoteLine.SBQQ__DynamicOptionId__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>SubscriptionQuoteLine.SBQQ__OptionType__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -306,7 +306,7 @@
             <assignToReference>SubscriptionQuoteLine.Quote_Document_Group__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -320,7 +320,7 @@
             <assignToReference>SubscriptionQuoteLine.Id</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -448,7 +448,7 @@
             <assignToReference>VASQuoteLine.Id</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue />
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -654,7 +654,7 @@
                 <leftValueReference>Get_Opportunity.SBQQ__PrimaryQuote__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue />
                 </rightValue>
             </conditions>
             <connector>
@@ -667,7 +667,8 @@
     <formulas>
         <name>ExistingSpecialTermWithAppendedValue</name>
         <dataType>String</dataType>
-        <expression>IF(ISBLANK({!ExistingSpecialTerms}),{!AdditionalSpecialTerms}, SUBSTITUTE(SUBSTITUTE({!ExistingSpecialTerms}, &apos;[&apos; , &apos;&apos; ), 
+        <expression
+		>IF(ISBLANK({!ExistingSpecialTerms}),{!AdditionalSpecialTerms}, SUBSTITUTE(SUBSTITUTE({!ExistingSpecialTerms}, &apos;[&apos; , &apos;&apos; ), 
 &apos;]&apos;, &apos;;&apos; + {!AdditionalSpecialTerms}))</expression>
     </formulas>
     <formulas>
@@ -951,12 +952,19 @@
         <connector>
             <targetReference>Get_all_OTC_product_options</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>ProductCode</field>
             <operator>StartsWith</operator>
             <value>
                 <stringValue>370</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProductCode</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>37001</stringValue>
             </value>
         </filters>
         <filters>
@@ -1091,7 +1099,8 @@
         <allowPause>false</allowPause>
         <fields>
             <name>NoProductsFound</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(247, 1, 1);&quot;&gt;No products for Framework Agreement found. Contact Product Manager.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText
+			>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(247, 1, 1);&quot;&gt;No products for Framework Agreement found. Contact Product Manager.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
@@ -1116,7 +1125,8 @@
         <allowPause>false</allowPause>
         <fields>
             <name>NotFrameWork</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;This is not a FrameWork Opportunity. You are not able to create a Framework Quote&lt;/strong&gt;.&lt;/p&gt;</fieldText>
+            <fieldText
+			>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;This is not a FrameWork Opportunity. You are not able to create a Framework Quote&lt;/strong&gt;.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
