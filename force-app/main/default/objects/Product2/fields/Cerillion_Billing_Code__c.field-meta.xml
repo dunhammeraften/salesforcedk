@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cerillion_Billing_Code__c</fullName>
+    <description>Holds the Billing Code value from Cerillion. Implemented as part of PoC for new Norlys product Erhvervsinternet.</description>
+    <externalId>false</externalId>
+    <label>Cerillion Billing Code</label>
+    <length>150</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PoA__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter the link to the specific PoA for this number (fuldmagt for nummerportering) which is placed under Files on the Quote. Copy the direct link to the pdf (browser path) in here</inlineHelpText>
+    <label>PoA</label>
+    <length>250</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npstoday__Trending_Pin_Choice__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Trending Pin Choice</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All Time</fullName>
+                <default>true</default>
+                <label>All Time</label>
+            </value>
+            <value>
+                <fullName>Last 6 Months</fullName>
+                <default>false</default>
+                <label>Last 6 Months</label>
+            </value>
+            <value>
+                <fullName>Last 3 Months</fullName>
+                <default>false</default>
+                <label>Last 3 Months</label>
+            </value>
+            <value>
+                <fullName>Last Month</fullName>
+                <default>false</default>
+                <label>Last Month</label>
+            </value>
+            <value>
+                <fullName>Last Week</fullName>
+                <default>false</default>
+                <label>Last Week</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

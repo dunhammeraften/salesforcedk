@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Play_Status__c</fullName>
+    <description>DKT-28929</description>
+    <label>Sales Play Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>🟢</label>
+            </value>
+            <value>
+                <fullName>Recently_Active</fullName>
+                <default>false</default>
+                <label>🟡</label>
+            </value>
+            <value>
+                <fullName>Inactive</fullName>
+                <default>false</default>
+                <label>🔴</label>
+            </value>
+            <value>
+                <fullName>Lost – New Business/Renewal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Lost – New Business/Renewal</label>
+            </value>
+            <value>
+                <fullName>Open - Pending Additional Action</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Open - Pending Additional Action</label>
+            </value>
+            <value>
+                <fullName>Won – New Business</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Won – New Business</label>
+            </value>
+            <value>
+                <fullName>Won – Renewals</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Won – Renewals</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

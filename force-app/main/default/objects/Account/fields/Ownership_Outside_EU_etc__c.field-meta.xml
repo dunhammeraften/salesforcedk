@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ownership_Outside_EU_etc__c</fullName>
+    <description>The customer is owned, partly owned or controlled by persons or companies in countries outside EU, Great Britain, Norway, Faroe Islands, Switzerland, Greenland, North America, Australia and New Zealand</description>
+    <inlineHelpText>The customer is owned, partly owned or controlled by persons or companies in countries outside EU, Great Britain, Norway, Faroe Islands, Switzerland, Greenland, North America, Australia and New Zealand</inlineHelpText>
+    <label>Ownership Outside EU etc</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Yes_No</valueSetName>
+    </valueSet>
+</CustomField>

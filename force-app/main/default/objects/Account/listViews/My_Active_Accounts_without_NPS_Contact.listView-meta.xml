@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Active_Accounts_without_NPS_Contact</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Name_and_Address__c</columns>
+    <columns>Segment__c</columns>
+    <columns>ACCOUNT.EMPLOYEES</columns>
+    <columns>SR_Service_Revenue_L12__c</columns>
+    <columns>CORE.USERS.FIRST_NAME</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Active</value>
+    </filters>
+    <filters>
+        <field>Number_of_NPS_Contacts__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>My Active Accounts without NPS Contact</label>
+</ListView>

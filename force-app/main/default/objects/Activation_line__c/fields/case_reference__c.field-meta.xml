@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>case_reference__c</fullName>
+    <description>The refenrence used by email to case - we use it on activations and activation lines too be able to relate emails sent from these custom objects to the case.</description>
+    <externalId>false</externalId>
+    <formula>Case__r.case_reference__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>case reference</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

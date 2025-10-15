@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UC_Invoicing__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>TSFDK-212 : VS: 2021/06/22 When number is associated with one of the TPX functions activation lines then this field is checked.</description>
+    <label>UC Invoicing</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

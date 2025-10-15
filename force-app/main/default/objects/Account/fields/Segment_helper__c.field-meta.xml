@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Segment_helper__c</fullName>
+    <description>Temporary Helper field to check if the calculated Segment matches the current segment. Used for easy extraction of all Accounts where this is false (needs update).</description>
+    <formula>TEXT(Segment__c) =  Segment_calculated__c</formula>
+    <label>Segment helper</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

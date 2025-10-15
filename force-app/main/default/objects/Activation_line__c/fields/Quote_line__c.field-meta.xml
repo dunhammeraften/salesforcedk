@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quote_line__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The quote line that this activation is a result of</description>
+    <inlineHelpText>The quote line that was sold to initiate activation of this line item.</inlineHelpText>
+    <label>Quote line</label>
+    <referenceTo>SBQQ__QuoteLine__c</referenceTo>
+    <relationshipLabel>Activations lines (Quote line)</relationshipLabel>
+    <relationshipName>Activations_lines</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_has_Touchpoint__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Technical field used to indicate customer that have Touchpoint activated.</description>
+    <label>Customer has Touchpoint</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

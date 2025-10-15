@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_OCCONB__c</fullName>
+    <description>Field is used by Order API and will need to have naming convention as specified in Field Name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Add quantity here</inlineHelpText>
+    <label>Onboarding</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

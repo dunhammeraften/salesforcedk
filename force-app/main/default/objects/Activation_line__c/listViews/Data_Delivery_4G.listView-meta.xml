@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Delivery_4G</fullName>
+    <columns>Local_Company_Name__c</columns>
+    <columns>NAME</columns>
+    <columns>Activation_Owner__c</columns>
+    <columns>Status__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Is_invoiced__c</columns>
+    <columns>Circuit_ID__c</columns>
+    <columns>Vendor_circuit__c</columns>
+    <columns>Planned_delivery_date__c</columns>
+    <columns>Actual_delivery_date__c</columns>
+    <columns>Vendor_delivery_date__c</columns>
+    <columns>Activation__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Activation_line__c.X4G_activation_line</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Fulfilled,Cancelled</value>
+    </filters>
+    <filters>
+        <field>Activation_Owner__c</field>
+        <operation>equals</operation>
+        <value>Marc Darell,Johnni Juul Hansen,Bo Mortensen,Tania Bürki Svarter,Gramstrup,Sanne Hundborg,Jonas Hovmand Jensen,Mads Jensen,Ole Madsen,Willi Prochnow Sletten,Christian Zöllner,Per Stig Jørgensen,Bell Madsen,Jakob Nørgaard</value>
+    </filters>
+    <label>Data Delivery - 4G</label>
+</ListView>

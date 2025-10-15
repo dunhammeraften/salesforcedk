@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_CORWB8G__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field is used by Order API and will need to have naming convention as specified in Field Name</description>
+    <inlineHelpText>Check this field to add this add-on</inlineHelpText>
+    <label>Telia Roaming World Extra 20 GB</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

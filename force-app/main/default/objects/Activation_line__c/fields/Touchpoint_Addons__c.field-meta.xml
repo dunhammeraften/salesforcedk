@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Touchpoint_Addons__c</fullName>
+    <description>Formula field to combine the logic to concatenate the selected Tocuhpoint add ons</description>
+    <externalId>false</externalId>
+    <formula>IF(!ISPICKVAL(Phone_no_Status__c, &apos;Nummer skal porteres&apos;) &amp;&amp; ISBLANK(Activation__r.UC_Activation_Date__c) &amp;&amp;  Activation__r.Case__r.Account.Customer_has_Touchpoint__c,
+IF( Touchpoint_Bruger__c , &apos;TPSUSER,&apos;,&apos;&apos;) &amp; 
+IF( Touchpoint_Receptionist__c , &apos;TPSRECEP,&apos;,&apos;&apos;) &amp; 
+IF( Touchpoint_Softphone__c , &apos;TPSSOFT,&apos;,&apos;&apos;) &amp;
+IF( Touchpoint_Statistik__c , &apos;TPSSTAT,&apos;,&apos;&apos;),
+IF( Touchpoint_Bruger__c , &apos;TPSUSERD,,&apos;,&apos;&apos;) &amp;
+IF( Touchpoint_Receptionist__c , &apos;TPSRECEPD,&apos;,&apos;&apos;) &amp; 
+IF( Touchpoint_Softphone__c , &apos;TPSSOFTD,&apos;,&apos;&apos;) &amp;
+IF( Touchpoint_Statistik__c , &apos;TPSSTATD,&apos;,&apos;&apos;)) &amp;
+IF( Attendant_Agent_login__c, &apos;TPXATTAGT,&apos;,&apos;&apos;) &amp; IF( Supervisor__c, &apos;TPXSUPV,&apos;,&apos;&apos;)</formula>
+    <inlineHelpText>Formula field to combine the logic to concatenate the selected Tocuhpoint add ons</inlineHelpText>
+    <label>Touchpoint Addons</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

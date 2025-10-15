@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_number_must_be_8_digits</fullName>
+    <active>true</active>
+    <description>Mobile number must be 8 digits only</description>
+    <errorConditionFormula>NOT(ISBLANK(  Mobile_no__c  )) &amp;&amp; (LEN( Mobile_no__c) &lt;&gt; 8 || NOT(ISNUMBER( Mobile_no__c )))</errorConditionFormula>
+    <errorDisplayField>Mobile_no__c</errorDisplayField>
+    <errorMessage>The mobile number must be an 8 digit number</errorMessage>
+</ValidationRule>

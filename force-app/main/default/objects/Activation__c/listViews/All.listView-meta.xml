@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Case__c</columns>
+    <columns>Owner_name__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Activation_progress__c</columns>
+    <columns>Order_requested_date__c</columns>
+    <columns>Actual_Delivery_date__c</columns>
+    <columns>SLA_due_date__c</columns>
+    <columns>SLA_breach_days__c</columns>
+    <columns>No_of_Activation_Lines__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Activation_progress__c</field>
+        <operation>equals</operation>
+        <value>New​</value>
+    </filters>
+    <label>All</label>
+</ListView>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X360</fullName>
+    <availability>online</availability>
+    <description>Opens the customer 360 view in a new browser window.</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <hasMenubar>false</hasMenubar>
+    <hasScrollbars>true</hasScrollbars>
+    <hasToolbar>false</hasToolbar>
+    <height>600</height>
+    <isResizable>true</isResizable>
+    <linkType>url</linkType>
+    <masterLabel>360</masterLabel>
+    <openType>newWindow</openType>
+    <position>none</position>
+    <protected>false</protected>
+    <showsLocation>false</showsLocation>
+    <showsStatus>false</showsStatus>
+    <url>https://tmd.eu.qlikcloud.com/sense/app/59f8e2c1-04e9-4bf6-9faf-0984d389eb41/sheet/23625262-d2a1-4df5-9071-fe6f21440a1c/state/analysis</url>
+</WebLink>

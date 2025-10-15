@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_of_Filled_Activation_Lines__c</fullName>
+    <description>Counts the amount of Activation Lines that have been filled in through the Onboarding Portal</description>
+    <label>No. of Filled Activation Lines</label>
+    <summaryFilterItems>
+        <field>Activation_line__c.TOP_Activation_Flow_Step__c</field>
+        <operation>equals</operation>
+        <value>FINISHED</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

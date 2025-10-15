@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Number_Series__c</fullName>
+    <description>Value is based on combo of multiple fields on the object.</description>
+    <formula>AND( 
+ 
+
+ISPICKVAL(Number_Group__c, &apos;P&apos;), 
+ 
+
+ISPICKVAL(Number_Location__c, &apos;EKC&apos; ),
+
+
+ISPICKVAL( Product_Type__c , &apos;GSM&apos; )
+
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Open Number Series</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

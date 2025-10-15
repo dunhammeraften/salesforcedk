@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Home_office_activation_line</fullName>
+    <active>true</active>
+    <label>Home office activation line</label>
+    <picklistValues>
+        <picklist>Access_Method__c</picklist>
+        <values>
+            <fullName>Multi Static</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multi_Dynamic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Address_Wash_Status__c</picklist>
+        <values>
+            <fullName>Not Valid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valid</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Conference_Phones__c</picklist>
+        <values>
+            <fullName>Mitel 6865i</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mitel 6867i</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mitel 6869i</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mitel 6873i</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DHCP_DNS_Primary__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DHCP_DNS_Secondary__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DHCP_server__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Dynamic_Static_Routing__c</picklist>
+        <values>
+            <fullName>BGP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Static</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Dynamic_Static__c</picklist>
+        <values>
+            <fullName>Dynamic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Static</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Erhvervsinternet_SLA__c</picklist>
+        <values>
+            <fullName>Gold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silver</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Exchange__c</picklist>
+        <values>
+            <fullName>Exchange information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exchange synkronisering</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Extra_ACD_k__c</picklist>
+        <values>
+            <fullName>TPX ACD med 100 I kø</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX ACD med 15 I kø</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX ACD med 25 I kø</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX ACD med 40 I kø</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX ACD med 5 I kø</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX ACD med 50 I kø</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Extra_Equipment__c</picklist>
+        <values>
+            <fullName>Antenne Pakke 1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Antenne Pakke 2</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fastnet_no_Type__c</picklist>
+        <values>
+            <fullName>Enkelt_nr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hoved_nr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nummerserie</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fax__c</picklist>
+        <values>
+            <fullName>Fax 2 email Fasnet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fax 2 email Mobil</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Forbrugskontrol_amount__c</picklist>
+        <values>
+            <fullName>100 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1000 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>150 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>200 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>250 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>300 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>350 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>400 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>450 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>500 DKK</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>550 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>600 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>650 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>700 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>750 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>800 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>850 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>900 DKK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>950 DKK</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Funktionsnr__c</picklist>
+        <values>
+            <fullName>FIX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mobile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PBX</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Home_Office_OTC_Product__c</picklist>
+        <values>
+            <fullName>CHXT01</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT02</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT03</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT04</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT05</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT06</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT07</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT08</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT11</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHXT12</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Home_Office_VAS_Product__c</picklist>
+        <values>
+            <fullName>FASTIP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Internet_on_Site__c</picklist>
+        <values>
+            <fullName>Internet on site DSL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet on site Fiber</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Invoice_Type__c</picklist>
+        <values>
+            <fullName>EAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Electronic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PDF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paper</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MultipleVPN__c</picklist>
+        <values>
+            <fullName>Multiple VPN%27s Fiber</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multiple VPNs DSL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Number_of_IP_Addresses__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>More</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>My own IP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Order_Type__c</picklist>
+        <values>
+            <fullName>Cancel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Move</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Phone_Number_Reservation_Status__c</picklist>
+        <values>
+            <fullName>ERROR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INPROGRESS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SUCCESS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Phone_no_Status__c</picklist>
+        <values>
+            <fullName>Aktiver ikke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eksisterende Norlys nummer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Norlys til Norlys transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nummer skal porteres</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nyt nummer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opsigelse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserveret nummer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suspenderet nummer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_or_Secondary__c</picklist>
+        <values>
+            <fullName>Primary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secondary</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Quick_Launch__c</picklist>
+        <values>
+            <fullName>Backup</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Terminate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Redundancy__c</picklist>
+        <values>
+            <fullName>Backup</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diversity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Primary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redundancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single line</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Routing_Type__c</picklist>
+        <values>
+            <fullName>BGP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Static</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SLA_Trigger__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Green</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Red</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yellow</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Service_Type__c</picklist>
+        <values>
+            <fullName>Datanet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Datanet%2FInternet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Services__c</picklist>
+        <values>
+            <fullName>Corporate Fri tale DK til EU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Fri tale USA 5 GB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>F2M Fixed to mobile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flipp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HBO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 100 SMS pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 100MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 10GB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 10MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 1500 SMS pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 1GB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 200 SMS pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 200MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 20MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 400 SMS pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 500MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 50MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 5MB Data pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M 800 SMS pakke</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M roaming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MLA IPsec abonnement %281000-1999 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MLA IPsec abonnement %282000 %2B%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MLA IPsec abonnement %28500-999 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MLA IPsec bruger abonnement %281-99 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MLA IPsec bruger abonnement %28100-499 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MPLS MLA  abonnement %282000 %2B %29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MPLS MLA  abonnement %28500-999 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MPLS MLA abonnement %281000-1999 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MPLS MLA bruger abonnement %281-99 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MPLS MLA bruger abonnement %28100-499 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spotify Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spærring for roaming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Status</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPM one-number</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX Exchange Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX Exchange Synchronisering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPX Skype Presence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Telia Device Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Extra nummer%2C Fastnet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Menuomstilling%2C oprettes på Mobil nr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Menuomstilling%2C oprettet på Fastnet nr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Menuomstilling%2C oprettet på PBX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Receptionist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Svargruppe %28max 20 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil Svargruppe%2C oprettet på PBX %28max 20 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil%2C Extra nummer%2C Mobil</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Mobil%2C Nummerserie%2C Fastnet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Touchpoint Svargruppe%2C oprettet på Fastnet nr%2E %28max 20 brugere%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zetland</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Statistics__c</picklist>
+        <values>
+            <fullName>Advanced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Basic</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fulfilled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fulfilment failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fulfilment in progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending fulfilment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status_x__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suspended</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TPX_Deskphone__c</picklist>
+        <values>
+            <fullName>MITHW1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MITHW9</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Termination_Point__c</picklist>
+        <values>
+            <fullName>Afslutning i ODF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Afslutning i media converter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Afslutning i router</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Trunked_Ports__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>VAS_COR__c</picklist>
+        <values>
+            <fullName>CORAS5G</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CORUSA5G</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CORWA5G</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>VAS_M2M_Data__c</picklist>
+        <values>
+            <fullName>M2M100MB2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M10MB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M1GB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M200MB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M20MB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M500MB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M50MB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M5MB</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>VAS_M2M_SMS__c</picklist>
+        <values>
+            <fullName>M2M100SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M200SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M400SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M2M800SMS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>VAS_UC_License__c</picklist>
+        <values>
+            <fullName>TPXATA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPXATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPXCOMB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPXLIM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPXMOBIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPXSOFTP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>eSim__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

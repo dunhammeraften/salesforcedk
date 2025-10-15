@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Spotify_Premium__c</fullName>
+    <defaultValue>&quot;32300&quot;</defaultValue>
+    <externalId>false</externalId>
+    <label>Spotify Premium</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

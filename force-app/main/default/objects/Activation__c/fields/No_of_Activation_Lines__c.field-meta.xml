@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_of_Activation_Lines__c</fullName>
+    <description>User story 303. Needed in order to have overview on case level to see how many activation lines a specific action has</description>
+    <inlineHelpText>Summarise the number of activation lines for this activation</inlineHelpText>
+    <label>No. of Activation Lines</label>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

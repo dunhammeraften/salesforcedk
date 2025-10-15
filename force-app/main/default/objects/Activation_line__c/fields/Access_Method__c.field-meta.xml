@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Access_Method__c</fullName>
+    <inlineHelpText>Single: 1 VRF on CPE.
+Multi Static: Multiple VRF on same CPE with dedicated bandwidth per VRF.
+Multi Dynamic: Multiple VRF on same CPE with shared bandwidth.</inlineHelpText>
+    <label>Access Method</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Access_Method</valueSetName>
+    </valueSet>
+</CustomField>

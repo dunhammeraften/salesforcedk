@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sort_order__c</fullName>
+    <description>Set the sort order of the printet SIM cards to either Ascending (A-Z or 0-9) or Descending (Z-A or 9-0).</description>
+    <inlineHelpText>Set the sort order of the printet SIM cards to either Ascending (A-Z or 0-9) or Descending (Z-A or 9-0).</inlineHelpText>
+    <label>Sort order</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ascending</fullName>
+                <default>true</default>
+                <label>Ascending</label>
+            </value>
+            <value>
+                <fullName>Descending</fullName>
+                <default>false</default>
+                <label>Descending</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

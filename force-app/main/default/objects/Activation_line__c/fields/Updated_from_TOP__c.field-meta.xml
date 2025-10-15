@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Updated_from_TOP__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>Used to recognize whether any save been done from the TOP</inlineHelpText>
+    <label>Updated from TOP</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

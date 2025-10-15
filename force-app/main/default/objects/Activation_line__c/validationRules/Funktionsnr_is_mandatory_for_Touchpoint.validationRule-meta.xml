@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Funktionsnr_is_mandatory_for_Touchpoint</fullName>
+    <active>false</active>
+    <description>Please select the correct value for Funktionsnr</description>
+    <errorConditionFormula>!ISNEW()&amp;&amp; ((Manual_Product__r.Product_Group__c =&quot;Touchpoint&quot; &amp;&amp; Text(Funktionsnr__c)=&quot;&quot;) || (Manual_Product__r.Name = &quot;Touchpoint Fastnetnummer&quot; &amp;&amp; ISPICKVAL(Funktionsnr__c, &quot;Mobile&quot;))|| (Manual_Product__r.Name = &quot;TPX Corporate Fri Tale&quot; &amp;&amp; Text(Funktionsnr__c)=&quot;&quot;) || (Manual_Product__r.Name = &quot;Touchpoint Fastnetnummer&quot; &amp;&amp; Text(Funktionsnr__c)=&quot;&quot;))</errorConditionFormula>
+    <errorDisplayField>Funktionsnr__c</errorDisplayField>
+    <errorMessage>Please select the correct value for Funktionsnr</errorMessage>
+</ValidationRule>

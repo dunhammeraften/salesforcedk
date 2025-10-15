@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Telia_til_Telia_transfer__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Permission given for transfer within Telia</description>
+    <inlineHelpText>Permission given for transfer within Telia</inlineHelpText>
+    <label>Telia til Telia transfer</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

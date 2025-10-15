@@ -1782,11 +1782,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>NorlysNow_Case__c.Account__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>NorlysNow_Case__c.Category__c</field>
         <readable>true</readable>
     </fieldPermissions>

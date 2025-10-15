@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CPE_ID_existing__c</fullName>
+    <description>To accommodate order form to tech</description>
+    <inlineHelpText>TN number of the old Telia CPE to be moved</inlineHelpText>
+    <label>CPE ID (existing)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR_Long_Description__c</fullName>
+    <description>Fetched from CVR.dk, this is the &quot;Virksomhedsform&quot;. Like Aktieselskab, Anpartselskab, Enkeltmandsfirma, Forening etc.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fetched from CVR.dk, this is the &quot;Virksomhedsform&quot;. Like Aktieselskab, Anpartselskab, Enkeltmandsfirma, Forening etc.</inlineHelpText>
+    <label>CVR Company Form</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>User story ID: 10
+User story: Create new CVR Account</description>
+    <externalId>true</externalId>
+    <inlineHelpText>An 8 digit unique code used to identify a company</inlineHelpText>
+    <label>CVR</label>
+    <length>8</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

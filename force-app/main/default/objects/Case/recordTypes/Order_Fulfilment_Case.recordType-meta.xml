@@ -7,6 +7,17 @@
     <description>A case that is an order fulfilment, e.g. for activating a mobile or data product.</description>
     <label>Order Fulfilment Case</label>
     <picklistValues>
+        <picklist>Activation_Line_Warning_Trigger__c</picklist>
+        <values>
+            <fullName>Green</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Red</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Admin_Priority__c</picklist>
         <values>
             <fullName>1</fullName>

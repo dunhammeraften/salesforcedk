@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test_Voice_Delivery</fullName>
+    <columns>NAME</columns>
+    <columns>Case__c</columns>
+    <columns>Activation_progress__c</columns>
+    <columns>Owner__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>No_of_Activation_Lines__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Owner__c</field>
+        <operation>equals</operation>
+        <value>Jesper Rasmussen,Anders Juul Kristensen</value>
+    </filters>
+    <filters>
+        <field>Activation_progress__c</field>
+        <operation>notEqual</operation>
+        <value>Fulfilled,Cancelled​</value>
+    </filters>
+    <label>Test - Voice Delivery</label>
+</ListView>

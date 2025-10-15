@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fulfilment_requires_Corporate_APN_field</fullName>
+    <active>true</active>
+    <description>Progress cannot be set to fulfilled before the user has filled out the field Corporate_APN_User_billing_code__c on Activation, Voice page Layout, if there&apos;s Corporate APN products.</description>
+    <errorConditionFormula>is_Corporate_APN__c &amp;&amp; ISBLANK(Corporate_APN_User_billing_code__c) &amp;&amp; TEXT(Activation_progress__c) = &quot;Fulfilled&quot;</errorConditionFormula>
+    <errorDisplayField>Corporate_APN_User_billing_code__c</errorDisplayField>
+    <errorMessage>You need to specify the Corporate APN user billing code for Fokus, before setting its progress to fulfilled.</errorMessage>
+</ValidationRule>

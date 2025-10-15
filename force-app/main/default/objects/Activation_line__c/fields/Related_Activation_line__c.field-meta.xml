@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Activation_line__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>To link the mobile activation line to the touchpoint activation line</description>
+    <inlineHelpText>Shows the mobile activation line that the touchpoint activation line is linked to</inlineHelpText>
+    <label>Related Activation line</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Activation__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Activation__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Activation_line__c.Mobile_no__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Activation_line__c</referenceTo>
+    <relationshipLabel>Activation lines</relationshipLabel>
+    <relationshipName>Activation_lines</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

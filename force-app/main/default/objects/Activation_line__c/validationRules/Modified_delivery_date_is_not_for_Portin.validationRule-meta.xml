@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Modified_delivery_date_is_not_for_Portin</fullName>
+    <active>true</active>
+    <description>Modified delivery date field should not be entered for Portin Numbers.</description>
+    <errorConditionFormula>ISPICKVAL(Phone_no_Status__c, &apos;Nummer skal porteres&apos;) &amp;&amp; !(ISNULL(Modified_delivery_date__c ))</errorConditionFormula>
+    <errorMessage>Modified delivery date field should not be entered for Portin Numbers.</errorMessage>
+</ValidationRule>

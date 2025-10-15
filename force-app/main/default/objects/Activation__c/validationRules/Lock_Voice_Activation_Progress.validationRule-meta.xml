@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Voice_Activation_Progress</fullName>
+    <active>true</active>
+    <description>Prevent an Activation of record type Voice_activation to be moved away from Progress &apos;Reserve Numbers&apos; as long as its &apos;Phone Number Reservation Status&apos; is INPROGRESS (DKT-45165)</description>
+    <errorConditionFormula>AND(
+	RecordType.DeveloperName = &apos;Voice_activation&apos;,
+	Phone_Number_Reservation_Status__c = &apos;INPROGRESS&apos;,
+	ISPICKVAL(PRIORVALUE(Activation_progress__c), &apos;Reserve Numbers&apos;),
+	ISCHANGED(Activation_progress__c)	
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to change the Progress while the Phone Number Reservation Status is &apos;INPROGRESS&apos;.</errorMessage>
+</ValidationRule>

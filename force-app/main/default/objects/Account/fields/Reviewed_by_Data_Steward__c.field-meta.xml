@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reviewed_by_Data_Steward__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>User Story ID: 25
+Used to flag that an account has been reviewed by a data steward. When set, a validation rule prevents users from making changes to the account. Owner can be changed by the owner and users above the owner in the role hierarchy</description>
+    <label>Reviewed by Data Steward</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_changes_after_approval</fullName>
+    <active>true</active>
+    <description>Some fields may not be changed by End Users after a Data Steward has approved the Account.
+Fields in the formula can only be edited by Data Stewards.</description>
+    <errorConditionFormula>Reviewed_by_Data_Steward__c = TRUE &amp;&amp;  NOT($Permission.Telia_Data_Steward) &amp;&amp;
+(
+ ISCHANGED( Name )   || 
+ ISCHANGED( BillingAddress )  ||  
+ ISCHANGED( CVR__c )  || 
+ ISCHANGED( ParentId )  || 
+ ISCHANGED( Rationale__c )  || 
+ ISCHANGED( Segment__c )
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to change the details of this Account. Contact your Data Steward to make changes.</errorMessage>
+</ValidationRule>

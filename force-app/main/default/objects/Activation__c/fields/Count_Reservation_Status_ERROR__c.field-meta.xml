@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Count_Reservation_Status_ERROR__c</fullName>
+    <description>Count how many Activation Lines with &apos;Phone Number Reservation Status&apos; ERROR.</description>
+    <inlineHelpText>Count how many Activation Lines with &apos;Phone Number Reservation Status&apos; ERROR.</inlineHelpText>
+    <label>Count Reservation Status ERROR</label>
+    <summaryFilterItems>
+        <field>Activation_line__c.Phone_Number_Reservation_Status__c</field>
+        <operation>equals</operation>
+        <value>Error</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

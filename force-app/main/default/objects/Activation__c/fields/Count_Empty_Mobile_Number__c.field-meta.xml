@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Count_Empty_Mobile_Number__c</fullName>
+    <description>Count how many Activation Lines where Mobile No field is blank</description>
+    <label>Count Empty Mobile Number</label>
+    <summaryFilterItems>
+        <field>Activation_line__c.Mobile_no__c</field>
+        <operation>equals</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

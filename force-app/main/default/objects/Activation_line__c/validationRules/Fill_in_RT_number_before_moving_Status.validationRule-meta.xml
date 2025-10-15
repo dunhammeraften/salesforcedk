@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fill_in_RT_number_before_moving_Status</fullName>
+    <active>true</active>
+    <description>You need to fill out the RT Number field before moving to certain Statuses</description>
+    <errorConditionFormula>AND(
+ISCHANGED( Status__c ),
+
+
+ISBLANK(RT_number__c ),
+
+
+OR(
+ISPICKVAL(Status__c, &quot;Awaiting Documentation&quot;),
+
+ISPICKVAL(Status__c, &quot;Awaiting B2B Design&quot;),
+
+ISPICKVAL(Status__c, &quot;Awaiting NRI&quot;)
+
+
+)
+)</errorConditionFormula>
+    <errorMessage>Please fill out the RT Number field before moving this AL Status</errorMessage>
+</ValidationRule>

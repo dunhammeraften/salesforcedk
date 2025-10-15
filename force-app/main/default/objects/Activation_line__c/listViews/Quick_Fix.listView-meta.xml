@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quick_Fix</fullName>
+    <columns>NAME</columns>
+    <columns>Telia_til_Telia_transfer__c</columns>
+    <columns>Phone_no_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Activation_ID__c</field>
+        <operation>equals</operation>
+        <value>a2I1i000003u1lh</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Activation_line__c.Voice_activation_line</value>
+    </filters>
+    <filters>
+        <field>Phone_no_Status__c</field>
+        <operation>equals</operation>
+        <value>Telia til Telia transfer</value>
+    </filters>
+    <label>Quick Fix</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>Head_of_Delivery</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>Head_of_Mobile_UC_Delivery</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

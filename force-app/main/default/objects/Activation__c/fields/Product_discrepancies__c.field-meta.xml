@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_discrepancies__c</fullName>
+    <description>If there are any products in this field, you are trying to activate either more or fewer of those than have been sold on the original quote.
+Either edit the activation lines or the original quote to avoid these discrepancies.</description>
+    <inlineHelpText>If there are any products in this field, you are trying to activate either more or fewer of those than have been sold on the original quote.
+Either edit the activation lines or the original quote to avoid these discrepancies.</inlineHelpText>
+    <label>Product discrepancies</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

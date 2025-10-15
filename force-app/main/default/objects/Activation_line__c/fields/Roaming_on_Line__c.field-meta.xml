@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Roaming_on_Line__c</fullName>
+    <externalId>false</externalId>
+    <formula>TRIM(
+RIGHT(
+IF(VAS_CORDKTOEU__c=true, &apos;, Fri tale DK to EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORDKTEU4__c=true, &apos;, 1 timers tale DK til EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORDKTEU5__c=true, &apos;, 10 timers tale DK til EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORAS5G__c=true, &apos;, Roaming Asia&apos;, &apos;&apos;) &amp;
+IF(VAS_CORUSA5G__c=true, &apos;, Roaming USA&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA5G__c=true, &apos;, Roaming World 20 GB&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA10G__c=true, &apos;, Roaming World 5 GB&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWB8G__c=true, &apos;, Roaming World Extra&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA9G__c=true, &apos;, Roaming World Flex&apos;, &apos;&apos;)
+, (LEN(
+IF(VAS_CORDKTOEU__c=true, &apos;, Fri tale DK to EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORDKTEU4__c=true, &apos;, 1 timers tale DK til EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORDKTEU5__c=true, &apos;, 10 timers tale DK til EU&apos;, &apos;&apos;) &amp;
+IF(VAS_CORAS5G__c=true, &apos;, Roaming Asia&apos;, &apos;&apos;) &amp;
+IF(VAS_CORUSA5G__c=true, &apos;, Roaming USA&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA5G__c=true, &apos;, Roaming World 20 GB&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA10G__c=true, &apos;, Roaming World 5 GB&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWB8G__c=true, &apos;, Roaming World Extra&apos;, &apos;&apos;) &amp;
+IF(VAS_CORWA9G__c=true, &apos;, Roaming World Flex&apos;, &apos;&apos;)
+) - 2)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Roaming on Line</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

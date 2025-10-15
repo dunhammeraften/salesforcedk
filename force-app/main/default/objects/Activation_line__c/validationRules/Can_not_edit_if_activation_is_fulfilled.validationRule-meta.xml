@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_not_edit_if_activation_is_fulfilled</fullName>
+    <active>true</active>
+    <description>If the Activation record is fulfilled, a user is not allowed to edit the activation lines related to it.</description>
+    <errorConditionFormula>AND( ISPICKVAL( Activation__r.Activation_progress__c, &quot;Fulfilled&quot;), $Profile.Name &lt;&gt; &quot;System Administrator&quot;, NOT(ISNEW()), NOT(ISCHANGED(Activation_Fulfilled__c)) )</errorConditionFormula>
+    <errorMessage>You are not allowed to edit an activation line once the activation is fulfilled.</errorMessage>
+</ValidationRule>

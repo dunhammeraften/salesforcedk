@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fulfilment_requires_actual_delivery_date</fullName>
+    <active>true</active>
+    <description>Progress cannot be set to fulfilled before an actual delivery date has been set.</description>
+    <errorConditionFormula>ISBLANK(Actual_Delivery_date__c) &amp;&amp; TEXT(Activation_progress__c) = &quot;Fulfilled&quot;</errorConditionFormula>
+    <errorDisplayField>Actual_Delivery_date__c</errorDisplayField>
+    <errorMessage>You need to specify when the activation was delivered before setting its progress to fulfilled.</errorMessage>
+</ValidationRule>

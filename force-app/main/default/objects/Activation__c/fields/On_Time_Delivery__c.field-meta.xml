@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Time_Delivery__c</fullName>
+    <description>IF Planned delivery date = Actual delivery date THEN Delivery On Time
+IF Modified Delivery date = Actual delivery date AND Reason for Postponement = Postponed by Customer THEN Delivery On Time
+IF Planned delivery date ≠ Actual delivery date THEN Delivery IS NOT On Time
+IF Postponed Delivery date = Actual delivery date AND Reason for Postponement = Postponed by Telia THEN Delivery IS NOT On Time</description>
+    <formula>IF( Planned_delivery_date__c = Actual_Delivery_date__c ,TRUE,
+IF( (Modified_Delivery_Date__c = Actual_Delivery_date__c) &amp;&amp;  ISPICKVAL(  Reason_for_modification__c  , &quot;Modified by customer&quot;),TRUE,
+IF( Planned_delivery_date__c  &lt;&gt;  Actual_Delivery_date__c ,FALSE,
+IF( (Modified_Delivery_Date__c = Actual_Delivery_date__c) &amp;&amp;  ISPICKVAL(  Reason_for_modification__c  , &quot;Modified by Norlys&quot;),FALSE,
+FALSE))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked by the system if the delivery was on time</inlineHelpText>
+    <label>On Time Delivery</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

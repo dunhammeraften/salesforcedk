@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SR_Service_Revenue_L12__c</fullName>
+    <description>The total service revenue for the last 12 months.</description>
+    <inlineHelpText>The total service revenue for the last 12 months.</inlineHelpText>
+    <label>Service Revenue L12</label>
+    <summarizedField>Service_Revenue_Actual__c.Amount2__c</summarizedField>
+    <summaryForeignKey>Service_Revenue_Actual__c.Account__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

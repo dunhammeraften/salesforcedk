@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Acivation_Check_Result__c</fullName>
+    <description>The Activation Check button will run the check to validate the activation and inform the user about data values to be corrected</description>
+    <inlineHelpText>The Activation Check button will run the check to validate the activation and inform the user about data values to be corrected</inlineHelpText>
+    <label>Acivation Check Result</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

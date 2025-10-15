@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Check_Time__c</fullName>
+    <description>Identify the time when the activation check button is used to store the activation check results</description>
+    <inlineHelpText>Identify the time when the activation check button is used to store the activation check results</inlineHelpText>
+    <label>Activation Check Time</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partner_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Holds the Partner that is involved in the Account. Notice that only Partner Managers should have Edit permission, but this is only enforced on page layout, not on Profiles, as users will edit this field indirectly via Flow Update_Partner_Name_on_Account.</description>
+    <inlineHelpText>This is the Partner that is involved in the Account.</inlineHelpText>
+    <label>Partner Name</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
+        <filterItems>
+            <field>Account.Type</field>
+            <operation>equals</operation>
+            <value>Partner</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Type</field>
+            <operation>equals</operation>
+            <value>Customer + Partner</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Id</field>
+            <operation>notEqual</operation>
+            <valueField>$Source.Id</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Related Customer Accounts</relationshipLabel>
+    <relationshipName>Customer_Accounts</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Attrited_Accounts</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>Status__c</columns>
+    <columns>CVR_Status__c</columns>
+    <columns>Employee_Number__c</columns>
+    <columns>Sales_Canvas_Lead__c</columns>
+    <columns>Latest_Invoice_Date__c</columns>
+    <columns>ACCOUNT.LAST_UPDATE</columns>
+    <columns>Last_Activity_Date2__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Attrited</value>
+    </filters>
+    <label>My Attrited Accounts</label>
+</ListView>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR_number_required_for_CVR_accounts</fullName>
+    <active>true</active>
+    <description>If CVR is selected as Account Source, the Account must have a CVR number</description>
+    <errorConditionFormula>TEXT(AccountSource)=&quot;CVR&quot; &amp;&amp; ISBLANK( CVR__c )</errorConditionFormula>
+    <errorDisplayField>CVR__c</errorDisplayField>
+    <errorMessage>An Account with CVR as Account Source, must have a CVR number</errorMessage>
+</ValidationRule>

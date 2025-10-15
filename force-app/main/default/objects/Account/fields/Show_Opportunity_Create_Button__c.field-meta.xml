@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Show_Opportunity_Create_Button__c</fullName>
+    <formula>if(OR(Owner.Id = $User.Id,  $Permission.Sales_Assistant_Manager ),true,false)</formula>
+    <label>Show Opportunity Create Button</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

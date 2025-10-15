@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>isSIMMandatory__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>A boolean field to determine whether the SIM_number__c is mandatory to fill in in the customer portal solution.
+In the customer portal solution, when the vendor of the selected POA is CBB or Telmore, this field will be set to true by flow on Activation Line.</description>
+    <label>isSIMMandatory</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

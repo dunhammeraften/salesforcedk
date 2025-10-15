@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phone_Number_Reservation_Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+	RecordType.DeveloperName  &lt;&gt; &apos;Voice_activation&apos;, 
+	&apos;&apos;, 
+	IF( 
+		AND(
+			Count_Reservation_Status_INPROGRESS__c = 0, 
+			Count_Reservation_Status_ERROR__c = 0, 
+			Count_Reservation_Status_SUCCESS__c = 0
+		), 
+		&apos;&apos;,
+		IF( 
+			AND(
+				Count_Reservation_Status_INPROGRESS__c = 0, 
+				Count_Reservation_Status_ERROR__c = 0,
+				Count_Reservation_Status_SUCCESS__c &gt; 0,
+				Count_Empty_Mobile_Number__c = 0
+			), 
+			&apos;SUCCESS&apos;,
+			IF(
+				AND(
+					Count_Reservation_Status_SUCCESS__c &gt; 0,
+					Count_Empty_Mobile_Number__c &gt; 0
+				),
+				&apos;&apos;,
+				IF( 
+					Count_Reservation_Status_INPROGRESS__c &gt; 0, 
+					&apos;INPROGRESS&apos;, 
+					&apos;ERROR&apos;
+				)
+			)
+		)
+	)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Phone Number Reservation Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

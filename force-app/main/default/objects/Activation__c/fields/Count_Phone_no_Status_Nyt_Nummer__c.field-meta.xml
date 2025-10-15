@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Count_Phone_no_Status_Nyt_Nummer__c</fullName>
+    <description>Count Activation Lines where Phone no Status is &apos;Nyt Nummer&apos;.</description>
+    <label>Count Phone no Status Nyt Nummer</label>
+    <summaryFilterItems>
+        <field>Activation_line__c.Phone_no_Status__c</field>
+        <operation>equals</operation>
+        <value>New number</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

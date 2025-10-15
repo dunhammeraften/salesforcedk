@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Touchpoint_Statistik__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field is used for data gathering reports and data loader script.</description>
+    <inlineHelpText>Select whether the Touchpoint Statistik is a active SOC or a future SOC</inlineHelpText>
+    <label>Touchpoint Statistik</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

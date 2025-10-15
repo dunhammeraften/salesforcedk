@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_M2M_Data__c</fullName>
+    <description>Field is used by Order API and will need to have naming convention as specified in Field Name</description>
+    <inlineHelpText>Select the M2M data package</inlineHelpText>
+    <label>M2M Data Pakke</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>VAS_M2M_Data</valueSetName>
+    </valueSet>
+</CustomField>

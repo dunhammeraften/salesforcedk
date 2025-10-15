@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Number_Series__c</fullName>
+    <description>Checked if Assignment belongs to an Open Series, else unchecked.</description>
+    <formula>Account_Phone_Number_Series__r.Open_Number_Series__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if Assignment belongs to an Open Series, else unchecked.</inlineHelpText>
+    <label>Open Number Series</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QC_TPX_ACD_med_100_I_k__c</fullName>
+    <externalId>false</externalId>
+    <formula>Activation_Check__r.Quote_TPX_ACD_med_100_I_k__c - Activation_Check__r.Count_TPX_ACD_med_100_I_k__c - Activation_Check__r.Count_Extra_ACD_k_100_Quantity__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>If value is different from 0 it indicates that there is a discrepancy between Quantity sold on Quote and amount implemented on Activation Lines. If +xx you miss to activate products, if -xx then you have activated too many products</inlineHelpText>
+    <label>QC TPX ACD med 100 I kø</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

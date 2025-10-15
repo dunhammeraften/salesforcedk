@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DSLCoax_Fiber_Fixed_Compact_Layout</fullName>
+    <fields>Case__c</fields>
+    <fields>Activation_Owner__c</fields>
+    <fields>Order_Requested_Date__c</fields>
+    <fields>AL_Planned_Delivery_Date__c</fields>
+    <fields>Vendor_delivery_date__c</fields>
+    <fields>Actual_delivery_date__c</fields>
+    <fields>Express_Delivery__c</fields>
+    <label>DSLCoax_Fiber Fixed Compact Layout</label>
+</CompactLayout>

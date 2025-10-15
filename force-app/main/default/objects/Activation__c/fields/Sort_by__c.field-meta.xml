@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sort_by__c</fullName>
+    <description>The printet SIM cards will be sorted by this value when delivered by the print shop.
+Numerical sorts by mobilenumber. Alphabetical sorts by name. Department sort by department.</description>
+    <inlineHelpText>The printet SIM cards will be sorted by this value when delivered by the print shop.
+Numerical sorts by mobilenumber. Alphabetical sorts by name. Department sort by department.</inlineHelpText>
+    <label>Sort by</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Numerical</fullName>
+                <default>true</default>
+                <label>Numerical</label>
+            </value>
+            <value>
+                <fullName>Alphabetical</fullName>
+                <default>false</default>
+                <label>Alphabetical</label>
+            </value>
+            <value>
+                <fullName>Department</fullName>
+                <default>false</default>
+                <label>Department</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

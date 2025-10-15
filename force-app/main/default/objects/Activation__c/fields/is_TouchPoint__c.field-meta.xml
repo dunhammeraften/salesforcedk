@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_TouchPoint__c</fullName>
+    <description>Shows if the Activation contains TouchPoint (TP) Activation Lines.</description>
+    <formula>Case__r.Quote__r.Touchpoint_Product_Group__c &gt; 0</formula>
+    <inlineHelpText>Shows if the Activation contains TouchPoint (TP) Activation Lines.</inlineHelpText>
+    <label>is_TouchPoint</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

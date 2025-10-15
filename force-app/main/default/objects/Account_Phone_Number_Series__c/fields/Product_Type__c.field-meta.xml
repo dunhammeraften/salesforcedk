@@ -13,6 +13,7 @@
             <value>
                 <fullName>FIX</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>FIX</label>
             </value>
             <value>
@@ -23,6 +24,7 @@
             <value>
                 <fullName>MSC</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>MSC</label>
             </value>
         </valueSetDefinition>

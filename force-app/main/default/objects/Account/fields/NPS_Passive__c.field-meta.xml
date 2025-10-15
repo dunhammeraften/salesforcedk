@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NPS_Passive__c</fullName>
+    <description>Used for reporting</description>
+    <formula>IF( NPS__c = 7  || NPS__c = 8,TRUE,FALSE)</formula>
+    <label>NPS Passive</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

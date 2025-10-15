@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SMS_manager_activation</fullName>
+    <active>true</active>
+    <label>SMS manager activation</label>
+    <picklistValues>
+        <picklist>Activation_progress__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fulfilled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason_for_modification__c</picklist>
+        <values>
+            <fullName>Modified by Norlys</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modified by customer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sort_by__c</picklist>
+        <values>
+            <fullName>Alphabetical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Department</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Numerical</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sort_order__c</picklist>
+        <values>
+            <fullName>Ascending</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Descending</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renew Existing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

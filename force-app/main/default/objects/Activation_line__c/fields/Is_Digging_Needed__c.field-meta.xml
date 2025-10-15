@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Digging_Needed__c</fullName>
+    <description>Return true if any of the selected fields inside the OR has the value true</description>
+    <formula>OR( VAS_CHXT02__c ,  VAS_CHXT04__c, VAS_CHXT06__c, VAS_CHXT11__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Digging Needed</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

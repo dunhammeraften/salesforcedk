@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_My_open_activations_FIBER</fullName>
+    <columns>NAME</columns>
+    <columns>Case__c</columns>
+    <columns>Order_requested_date__c</columns>
+    <columns>Activation_progress__c</columns>
+    <columns>No_of_Activation_Lines__c</columns>
+    <columns>Owner_name__c</columns>
+    <columns>WBS_IP__c</columns>
+    <columns>RT_numbers__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Activation_progress__c</field>
+        <operation>notEqual</operation>
+        <value>Fulfilled</value>
+    </filters>
+    <filters>
+        <field>Owner_is_logged_in_user__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Activation__c.Fiber_activation</value>
+    </filters>
+    <label>My open activations - FIBER</label>
+</ListView>

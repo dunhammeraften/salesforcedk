@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Latest_Invoice_Date__c</fullName>
+    <description>The invoice date for the most recent service revenue for this account, see also the related Service Revenue data. Service Revenue is automatically updated once a month, when this data is available.</description>
+    <inlineHelpText>The invoice date for the most recent service revenue for this account, see also the related Service Revenue data. Service Revenue is automatically updated once a month, when this data is available.</inlineHelpText>
+    <label>Latest Invoice Date</label>
+    <summarizedField>Service_Revenue_Actual__c.Invoice_date__c</summarizedField>
+    <summaryForeignKey>Service_Revenue_Actual__c.Account__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

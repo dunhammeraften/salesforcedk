@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CVR_number_must_be_8_digits</fullName>
+    <active>true</active>
+    <description>Checks that CVR number is an 8 digit number.</description>
+    <errorConditionFormula>NOT(ISBLANK( CVR__c )) &amp;&amp; (LEN( CVR__c) &lt;&gt; 8 || NOT(ISNUMBER( CVR__c )))</errorConditionFormula>
+    <errorDisplayField>CVR__c</errorDisplayField>
+    <errorMessage>The CVR number must be an 8 digit number.</errorMessage>
+</ValidationRule>

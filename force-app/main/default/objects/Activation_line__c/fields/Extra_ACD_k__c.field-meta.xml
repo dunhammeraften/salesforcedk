@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Extra_ACD_k__c</fullName>
+    <inlineHelpText>Enter type of extra ACD kø here and indicate the number in the below field. If there are more than 1 type of the extra ACD kø then it needs to be handled manually</inlineHelpText>
+    <label>Extra ACD queue</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>UC_ACD_K</valueSetName>
+    </valueSet>
+</CustomField>

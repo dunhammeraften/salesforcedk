@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_delivery_before_planned_delivery</fullName>
+    <active>true</active>
+    <description>Ensure that we do not have the planned delivery before a vendor is able to deliver</description>
+    <errorConditionFormula>IF(ISBLANK(Modified_delivery_date__c), FALSE, Modified_delivery_date__c &lt; Vendor_delivery_date__c)</errorConditionFormula>
+    <errorMessage>The vendor is unable to deliver the connection in time for the planned delivery date. You should replan the delivery date so that it is later than the vendor&apos;s delivery date.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NUA_Owner_Control__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field is used for data gathering reports and RPA.</description>
+    <inlineHelpText>Select which level of owner control the subsription need.</inlineHelpText>
+    <label>NUA Owner Control</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

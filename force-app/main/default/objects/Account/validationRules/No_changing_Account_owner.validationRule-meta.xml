@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_changing_Account_owner</fullName>
+    <active>true</active>
+    <description>Only sales managers and data stewards are allowed to change account ownership.</description>
+    <errorConditionFormula>ISCHANGED( OwnerId )
+&amp;&amp; 
+(
+NOT($Permission.Telia_Data_Steward ) &amp;&amp;
+NOT($Permission.Telia_Enterprise_sales_manager )
+)</errorConditionFormula>
+    <errorDisplayField>OwnerId</errorDisplayField>
+    <errorMessage>Only sales managers and data stewards are allowed to change account owner.</errorMessage>
+</ValidationRule>

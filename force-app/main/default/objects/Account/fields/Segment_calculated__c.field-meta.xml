@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Segment_calculated__c</fullName>
+    <description>Calculates the account segment based on CVR Employees and Company Type. 
+Do NOT use for reporting! This is a tech field.</description>
+    <externalId>false</externalId>
+    <formula>IF (ISPICKVAL(Segment__c , &apos;Internal Account&apos;) , &quot;Internal Account&quot;, 
+ IF (ISPICKVAL(Segment__c , &apos;Public Account&apos;) , &quot;Public Account&quot;, 
+ IF (ISNULL(NumberOfEmployees), IF( CVR_Short_Description__c = &quot;ENK&quot; || CVR_Short_Description__c = &quot;PMV&quot;, &quot;SoHo Account&quot;, &quot;No Segment&quot;), 
+ IF (NumberOfEmployees &gt;= 0 &amp;&amp; NumberOfEmployees &lt;= 19, &quot;SoHo Account&quot;,
+ IF (NumberOfEmployees &gt;= 20 &amp;&amp; NumberOfEmployees &lt;= 49, &quot;Business Account&quot;,
+ IF (NumberOfEmployees &gt;= 50 &amp;&amp; NumberOfEmployees &lt;= 199, &quot;Managed Account&quot;,
+ IF (NumberOfEmployees &gt;= 200 &amp;&amp; NumberOfEmployees &lt;= 999, &quot;Large Account&quot;,
+ IF (NumberOfEmployees &gt;= 1000, &quot;Key Account&quot;, &quot;No Segment&quot;)
+)))))))</formula>
+    <inlineHelpText>Calculates the account segment based on CVR Employees and Company Type. 
+Do NOT use for reporting! This is a tech field.</inlineHelpText>
+    <label>Segment calculated</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

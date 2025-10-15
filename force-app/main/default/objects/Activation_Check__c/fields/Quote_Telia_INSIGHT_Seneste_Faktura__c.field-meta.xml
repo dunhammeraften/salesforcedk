@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quote_Telia_INSIGHT_Seneste_Faktura__c</fullName>
+    <description>ACTIVATION. Quantity from the quote line for this product. Set automatically by the flow &quot;Create or select activation header&quot; and process &quot;warn about discrepancy on quote line&quot;.</description>
+    <externalId>false</externalId>
+    <label>Quote Telia INSIGHT+ Seneste Faktura</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

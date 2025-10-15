@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_account_creation_from_Sales_Play</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( 
+ISNEW(),
+ Lead_Conversion_Check__c  = TRUE,
+  Sales_Play_Record_Type__c = TRUE
+)</errorConditionFormula>
+    <errorMessage>New Accounts are not allowed to be created from Sales Plays</errorMessage>
+</ValidationRule>

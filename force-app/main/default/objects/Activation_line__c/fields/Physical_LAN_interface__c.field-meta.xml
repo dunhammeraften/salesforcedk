@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Physical_LAN_interface__c</fullName>
+    <defaultValue>&apos;RJ45&apos;</defaultValue>
+    <description>To accommodate order form to tech</description>
+    <inlineHelpText>It defines both the subnet used by the customer and the IP address used as customer&apos;s default gateway</inlineHelpText>
+    <label>Physical LAN interface</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

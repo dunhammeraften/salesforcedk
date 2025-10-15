@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_evaluation_expiration__c</fullName>
+    <description>This field is set by workflow rule &apos;Set Sergel Credit evaluation exp date&apos;</description>
+    <inlineHelpText>Date for when the Sergel Credit evaluation will expire and a new needs to be requested if needed</inlineHelpText>
+    <label>Credit evaluation expiration</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

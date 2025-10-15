@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OPEX_WBS__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <description>User story 405 - a general WBS from time registration that is used on fulfilment cases to register time</description>
+    <inlineHelpText>For Activation teams to use when setting up customer. The WBS number is managed by the salesforce administrator</inlineHelpText>
+    <label>OPEX WBS</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

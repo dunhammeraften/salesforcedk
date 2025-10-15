@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rationale_required_if_no_CVR</fullName>
+    <active>true</active>
+    <description>If no CVR number is entered, the user must provide a rationale for creating the account</description>
+    <errorConditionFormula>AND(ISBLANK( CVR__c ),  ISBLANK( Rationale__c ),  Sales_Play_Record_Type__c = false )</errorConditionFormula>
+    <errorDisplayField>Rationale__c</errorDisplayField>
+    <errorMessage>The account doesn&apos;t have a CVR number. Please describe why the account should be created.</errorMessage>
+</ValidationRule>

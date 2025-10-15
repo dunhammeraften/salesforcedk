@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Modified_Delivery_Date__c</fullName>
+    <inlineHelpText>This field is used for tracking modifications impacting the delivery date due to unforeseen events due to weather conditions, accidents, timing, customer requests ect.</inlineHelpText>
+    <label>Modified Delivery Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

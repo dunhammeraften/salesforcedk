@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Kisby_Customer_Number__c</fullName>
+    <description>User Story 318  - requirements for setting up Fixed in Activation</description>
+    <inlineHelpText>Indicate the customer number in Kisby in order to search easily for the customer</inlineHelpText>
+    <label>Kisby Customer Number</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_Activations</fullName>
+    <columns>NAME</columns>
+    <columns>Status_x__c</columns>
+    <columns>Old_ICC__c</columns>
+    <columns>Operator__c</columns>
+    <columns>First_name__c</columns>
+    <columns>Last_name__c</columns>
+    <columns>New_Dual_card__c</columns>
+    <columns>BAN__c</columns>
+    <columns>Product__c</columns>
+    <columns>TP_Voice__c</columns>
+    <columns>MBB__c</columns>
+    <columns>Kollegakald__c</columns>
+    <columns>Services__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Activation_line__c.Mobile_activation_line</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Fulfilled,Cancelled</value>
+    </filters>
+    <filters>
+        <field>Owner_is_logged_in_user__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>My Open Mobile Activation Lines</label>
+    <sharedTo>
+        <roleAndSubordinates>Customer_Service</roleAndSubordinates>
+    </sharedTo>
+</ListView>

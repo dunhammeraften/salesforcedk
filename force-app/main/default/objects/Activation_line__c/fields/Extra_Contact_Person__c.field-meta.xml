@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Extra_Contact_Person__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Extra &apos;telefoni&apos; ansvarlig på Telia standard service pakke. Add the extra number of phone responsible and add these as contacts on the Account with indication of phone contact</inlineHelpText>
+    <label>Extra Contact Person</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

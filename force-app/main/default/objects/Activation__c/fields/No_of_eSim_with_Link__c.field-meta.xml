@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_of_eSim_with_Link__c</fullName>
+    <description>No of Activation Lines withe eSim = yes and a value in eSim_Lnk</description>
+    <label>No of eSim with Link</label>
+    <summaryFilterItems>
+        <field>Activation_line__c.eSim__c</field>
+        <operation>equals</operation>
+        <value>Yes</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Activation_line__c.eSim_Link__c</field>
+        <operation>notEqual</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Activation_line__c.Activation__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

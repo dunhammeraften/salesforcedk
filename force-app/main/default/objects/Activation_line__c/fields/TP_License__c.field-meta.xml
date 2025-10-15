@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TP_License__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>TP License</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>You must selctr a TPX license product</errorMessage>
+        <filterItems>
+            <field>Product2.ProductCode</field>
+            <operation>equals</operation>
+            <value>12100, 12101, 12102,12103,12106,12107,12220,12221,12215,T12214,T12213</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Activations lines (TP License)</relationshipLabel>
+    <relationshipName>Activations_lines3</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

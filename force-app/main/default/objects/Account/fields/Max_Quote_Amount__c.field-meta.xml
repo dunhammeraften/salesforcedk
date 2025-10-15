@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Quote_Amount__c</fullName>
+    <description>Amount set by Sergel. Sergel receive mail once Opportunity is in Proposal stage and will set Amount</description>
+    <inlineHelpText>Amount set by Sergel - valid for 3 month - if a new evaluation of max amount to be quoted is necessary this can be done by ticking &apos;Request Credit Re-evaluation&apos;</inlineHelpText>
+    <label>Max Quote Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

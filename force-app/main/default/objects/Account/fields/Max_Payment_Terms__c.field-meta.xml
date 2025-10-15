@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Payment_Terms__c</fullName>
+    <defaultValue>&quot;30&quot;</defaultValue>
+    <description>Maximum payment terms approved by Sergel (Default 30).</description>
+    <inlineHelpText>Maximum allowed payment terms set by Sergel - valid for 3 months - if a new evaluation of max payment terms is necessary this can be done by ticking &apos;Request Credit Re-evaluation&apos;</inlineHelpText>
+    <label>Max Payment Terms</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>SBQQ__PaymentTerm</valueSetName>
+    </valueSet>
+</CustomField>

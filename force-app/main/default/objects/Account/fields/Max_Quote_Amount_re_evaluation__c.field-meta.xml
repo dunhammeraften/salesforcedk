@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Quote_Amount_re_evaluation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>If the credit evaluation is expired a new credit evaluation can be requested by Sergel by ticking this box</inlineHelpText>
+    <label>Request Credit Re-evaluation</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

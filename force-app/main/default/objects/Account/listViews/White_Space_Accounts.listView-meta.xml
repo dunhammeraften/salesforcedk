@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>White_Space_Accounts</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Sum_of_Sim_Cards__c</columns>
+    <columns>Owner_segment_del__c</columns>
+    <columns>ACCOUNT.EMPLOYEES</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Prospect,Active,Attrited</value>
+    </filters>
+    <label>1. My White Space Accounts</label>
+</ListView>

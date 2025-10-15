@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Check__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Relates Activation Line to Activation Check in order to run validation on this custom object</description>
+    <label>Activation Check</label>
+    <referenceTo>Activation_Check__c</referenceTo>
+    <relationshipLabel>Activations lines</relationshipLabel>
+    <relationshipName>Activations_lines</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

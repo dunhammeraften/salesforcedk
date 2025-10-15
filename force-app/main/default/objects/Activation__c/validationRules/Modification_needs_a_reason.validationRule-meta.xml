@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Modification_needs_a_reason</fullName>
+    <active>true</active>
+    <errorConditionFormula>!ISNULL(Modified_Delivery_Date__c) &amp;&amp; ISPICKVAL(Reason_for_modification__c,&quot;&quot;)</errorConditionFormula>
+    <errorDisplayField>Reason_for_modification__c</errorDisplayField>
+    <errorMessage>If the delivery date is modified, you must supply a modification reason.</errorMessage>
+</ValidationRule>

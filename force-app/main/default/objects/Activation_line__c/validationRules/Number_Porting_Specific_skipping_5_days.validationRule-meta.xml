@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_Porting_Specific_skipping_5_days</fullName>
+    <active>true</active>
+    <description>Number Porting Specific Date should be at least 5 days in to the future for Porting numbers</description>
+    <errorConditionFormula>ISPICKVAL(Phone_no_Status__c, &apos;Nummer skal porteres&apos;) &amp;&amp; (TODAY() + 5 &gt; Number_Porting_Specific_Date__c)</errorConditionFormula>
+    <errorMessage>Number Porting Specific date should be at least 5 days in to the future for Porting numbers</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Calls_from_DK_to_EU__c</fullName>
+    <description>CALLS_FROM_DK_TO_EUNB_MIN from the Fokus subscriptions</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Displays the number of minutes of calls from DK to EU</inlineHelpText>
+    <label>Calls from DK to EU (MIN)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

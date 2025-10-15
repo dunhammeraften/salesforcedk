@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_SKU__c</fullName>
+    <description>Used on UC invoice report for Activation to have code used in billing system</description>
+    <externalId>false</externalId>
+    <formula>Activation__r.Case__r.Product__r.StockKeepingUnit</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Product SKU as entered on Product - only your administrator has access to update this</inlineHelpText>
+    <label>Product SKU</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

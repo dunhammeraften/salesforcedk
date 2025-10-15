@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_Update_to_Contract_API__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When set to true a Platform Event will be created containing Quote and Quote Line (Product) information which the Contract API subscribes to.</description>
+    <label>Send Update to Contract API</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

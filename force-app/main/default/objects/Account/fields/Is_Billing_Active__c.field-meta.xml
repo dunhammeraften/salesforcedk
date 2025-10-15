@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Billing_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Updated to Salesforce for all active CVR through Customer API (CIM) as part of salesforce migration implementation.</description>
+    <label>Is Billing Active</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

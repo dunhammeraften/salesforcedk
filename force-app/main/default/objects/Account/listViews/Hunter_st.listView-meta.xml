@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hunter_st</fullName>
+    <columns>Status__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>Owner_segment_del__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>SR_Service_Revenue_L12__c</columns>
+    <columns>ACCOUNT.EMPLOYEES</columns>
+    <columns>Name_and_Address__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CORE.USERS.FIRST_NAME</field>
+        <operation>contains</operation>
+        <value>Stefanie,Daniel,Patrick</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.LAST_NAME</field>
+        <operation>contains</operation>
+        <value>Henriksen,Allermand,Jensen</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Prospect</value>
+    </filters>
+    <label>Hunter Øst</label>
+</ListView>
