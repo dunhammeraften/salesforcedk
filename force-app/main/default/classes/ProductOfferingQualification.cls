@@ -32,7 +32,9 @@ public without sharing class ProductOfferingQualification {
 
 	@AuraEnabled(cacheable=false)
 	public static void activationLineQualification(List<Id> activationLineIds) {
-		List<Activation_line__c> activationLines = ActivationLineSelector.getActivationLinesByIds(new Set<Id>(activationLineIds));
+		List<Activation_line__c> activationLines = ActivationLineSelector.getActivationLinesByIds(
+			new Set<Id>(activationLineIds)
+		);
 
 		api = MetadataSelector.getAPISettings('ProductOfferingQualificationAPI');
 		String token = null;
@@ -42,10 +44,14 @@ public without sharing class ProductOfferingQualification {
 		} else {
 			token = AuthorizationWrapper.getAPIToken(api);
 		}
-		
+
 		try {
-			List<List<String>> reqBodiesChunks = generateRequestBodies(activationLines, false, CATEGORY_NAME_BUSINESSINTERNET);
-			
+			List<List<String>> reqBodiesChunks = generateRequestBodies(
+				activationLines,
+				false,
+				CATEGORY_NAME_BUSINESSINTERNET
+			);
+
 			List<POQres> responses = new List<POQres>();
 
 			for (List<String> chunk : reqBodiesChunks) {
@@ -62,25 +68,35 @@ public without sharing class ProductOfferingQualification {
 			parsedResult.batch = responses;
 
 			qualify5G(parsedResult);
-
 		} catch (Exception e) {
 			handleException(e);
 		} finally {
 			insert errorsList;
 		}
-
 	}
 
 	private static void qualify5G(POQresBatch parsedResult) {
 		List<Activation_line__c> activationLinesToBeUpdated = new List<Activation_line__c>();
-		for (POQres poqRes : parsedResult.batch) {	
+		Set<Id> activationLineIds = new Set<Id>();
+		for (POQres poqRes : parsedResult.batch) {
+			activationLineIds.add(poqRes.id);
+		}
+		Map<Id, Activation_line__c> activationLinesMap = new Map<Id, Activation_line__c>(
+			ActivationLineSelector.getActivationLinesByIds(activationLineIds)
+		);
+
+		for (POQres poqRes : parsedResult.batch) {
 			for (ProductOfferingQualificationItem poqItem : poqRes.productOfferingQualificationItem) {
-				if (poqItem.productOffering.priceplanCode == 'FWABIS01') {
+				if (
+					poqItem.productOffering.priceplanCode == 'FWABIS01' &&
+					activationLinesMap.get(poqRes.id)?.Manual_Product__c == null
+				) {
 					Activation_line__c line = new Activation_line__c();
 					line.Id = poqRes.id;
-					line.Manual_Product__c = ProductSelector.getProductByPriceplanCode(poqItem.productOffering.priceplanCode)[0].Id;
+					line.Manual_Product__c = ProductSelector.getProductByPriceplanCode(poqItem.productOffering.priceplanCode)[0]
+						.Id;
 					activationLinesToBeUpdated.add(line);
-				} 
+				}
 			}
 		}
 
@@ -89,12 +105,18 @@ public without sharing class ProductOfferingQualification {
 			for (Database.SaveResult sr : activationLineResults) {
 				if (!sr.isSuccess()) {
 					for (Database.Error err : sr.getErrors()) {
-						String errorMsg = LOCATION_LINES_UPDATE_ERROR + err.getStatusCode() + ': ' + err.getMessage() + ', ' + ERROR_FIELDS + err.getFields();
+						String errorMsg =
+							LOCATION_LINES_UPDATE_ERROR +
+							err.getStatusCode() +
+							': ' +
+							err.getMessage() +
+							', ' +
+							ERROR_FIELDS +
+							err.getFields();
 						errorsList.add(createErrorLog(errorMsg));
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -113,7 +135,7 @@ public without sharing class ProductOfferingQualification {
 
 		List<POQ_Item__c> poqItems = new List<POQ_Item__c>();
 		List<Location_Line__c> locationLinesToBeUpdated = new List<Location_Line__c>();
-		
+
 		try {
 			List<List<String>> reqBodiesChunks = generateRequestBodies(lines[0], fullQualification, CATEGORY_NAME_HOMEOFFICE);
 			List<POQres> responses = new List<POQres>();
@@ -185,7 +207,7 @@ public without sharing class ProductOfferingQualification {
 		address.floor = cleanFloor(String.valueOf(line.get('Floor__c')));
 		address.door = String.valueOf(line.get('Door__c'));
 		address.postDistrict = String.valueOf(line.get('City__c'));
-		address.zip = String.valueOf(line.get('ZIP_Code__c'));	
+		address.zip = String.valueOf(line.get('ZIP_Code__c'));
 
 		return address;
 	}
@@ -361,7 +383,7 @@ public without sharing class ProductOfferingQualification {
 			if (note.type.equals('NetworkProviderProductCatalogIdNote')) {
 				poqItem.VendorProductCatalogId__c = note.catalogId;
 			}
-			
+
 			if (note.type.equals('NetworkProviderProductCodeNote')) {
 				poqItem.VendorProductCode__c = note.code;
 			}
@@ -396,7 +418,10 @@ public without sharing class ProductOfferingQualification {
 	}
 
 	@TestVisible
-	private static void updatePOQItemWithEligibilityReasons(POQ_Item__c poqItem, List<EligibilityUnavailabilityReason> reasons) {
+	private static void updatePOQItemWithEligibilityReasons(
+		POQ_Item__c poqItem,
+		List<EligibilityUnavailabilityReason> reasons
+	) {
 		for (EligibilityUnavailabilityReason reason : reasons) {
 			if (reason.code == 'NETWORK_PROVIDER_NOT_SUPPORTED') {
 				poqItem.NETWORK_PROVIDER_NOT_SUPPORTED__c = true;
@@ -418,7 +443,9 @@ public without sharing class ProductOfferingQualification {
 				boolean diggingNeeded = poqItem.DIGGING_NEEDED__c;
 				boolean hoppDiggingNeeded = Boolean.valueOf(hopp.get('DIGGING_NEEDED__c'));
 
-				if ((diggingNeeded && hoppDiggingNeeded) || (!diggingNeeded && (hoppDiggingNeeded == null || !hoppDiggingNeeded))) {
+				if (
+					(diggingNeeded && hoppDiggingNeeded) || (!diggingNeeded && (hoppDiggingNeeded == null || !hoppDiggingNeeded))
+				) {
 					poqItem.Pseudo_Product__c = String.valueOf(hopp.get('Label'));
 					poqItem.Pseudo_Product_DA__c = String.valueOf(hopp.get('Product_Da_Translation__c'));
 					poqItem.Rank__c = Integer.valueOf(hopp.get('Product_Sequence__c'));
@@ -435,16 +462,21 @@ public without sharing class ProductOfferingQualification {
 		}
 	}
 
-	private static List<List<String>> generateRequestBodies(List<SObject> lines, Boolean fullQualification, String categoryName) {
+	private static List<List<String>> generateRequestBodies(
+		List<SObject> lines,
+		Boolean fullQualification,
+		String categoryName
+	) {
 		List<String> reqBodies = new List<String>();
 
 		for (SObject line : lines) {
 			POQreq request = createPOQRequest(line, fullQualification, categoryName);
-			String reqBody = JSON.serialize(request, true).replace('theType', '@type').replace('theReferredType', '@referredType');
+			String reqBody = JSON.serialize(request, true)
+				.replace('theType', '@type')
+				.replace('theReferredType', '@referredType');
 			System.debug('reqBody = ' + reqBody);
 			reqBodies.add(reqBody);
 		}
-		
 
 		return splitRequestBodiesIntoChunks(reqBodies, fullQualification);
 	}
@@ -517,7 +549,10 @@ public without sharing class ProductOfferingQualification {
 	}
 
 	private static HttpResponse makeRequest(String token, List<String> chunks) {
-		Map<String, String> headers = new Map<String, String>{ AUTHORIZATION_TXT => BEARER_TXT + token, CONTENT_TYPE_TXT => CONTENT_TYPE_VALUE };
+		Map<String, String> headers = new Map<String, String>{
+			AUTHORIZATION_TXT => BEARER_TXT + token,
+			CONTENT_TYPE_TXT => CONTENT_TYPE_VALUE
+		};
 		String endpoint = api.API_PartialEndPoint__c;
 		String requestBody = '[' + String.join(chunks, ',') + ']';
 		HttpResponse res = HttpWrapper.post(endpoint, requestBody, headers);
@@ -537,14 +572,24 @@ public without sharing class ProductOfferingQualification {
 		return ids;
 	}
 
-	private static void updateLocationLinesAndPOQItems(List<POQ_Item__c> poqItems, List<Location_Line__c> locationLinesToBeUpdated) {
+	private static void updateLocationLinesAndPOQItems(
+		List<POQ_Item__c> poqItems,
+		List<Location_Line__c> locationLinesToBeUpdated
+	) {
 		try {
 			Database.SaveResult[] locationLineResults = Database.update(locationLinesToBeUpdated, false);
 			Database.UpsertResult[] poqItemsResults = Database.upsert(poqItems, false);
 			for (Database.SaveResult sr : locationLineResults) {
 				if (!sr.isSuccess()) {
 					for (Database.Error err : sr.getErrors()) {
-						String errorMsg = LOCATION_LINES_UPDATE_ERROR + err.getStatusCode() + ': ' + err.getMessage() + ', ' + ERROR_FIELDS + err.getFields();
+						String errorMsg =
+							LOCATION_LINES_UPDATE_ERROR +
+							err.getStatusCode() +
+							': ' +
+							err.getMessage() +
+							', ' +
+							ERROR_FIELDS +
+							err.getFields();
 						errorsList.add(createErrorLog(errorMsg));
 					}
 				}
@@ -553,7 +598,14 @@ public without sharing class ProductOfferingQualification {
 			for (Database.UpsertResult sr : poqItemsResults) {
 				if (!sr.isSuccess()) {
 					for (Database.Error err : sr.getErrors()) {
-						String errorMsg = POQ_ITEMS_UPDATE_ERROR + err.getStatusCode() + ': ' + err.getMessage() + ', ' + ERROR_FIELDS + err.getFields();
+						String errorMsg =
+							POQ_ITEMS_UPDATE_ERROR +
+							err.getStatusCode() +
+							': ' +
+							err.getMessage() +
+							', ' +
+							ERROR_FIELDS +
+							err.getFields();
 						errorsList.add(createErrorLog(errorMsg));
 					}
 				}
@@ -571,7 +623,11 @@ public without sharing class ProductOfferingQualification {
 	@TestVisible
 	private static System_Log__c createErrorLog(String errorMsg) {
 		System.debug('errorMsg = ' + errorMsg);
-		System_Log__c errorLog = new System_Log__c(Origin__c = ERROR_ORIGIN, Error_Body__c = errorMsg, Additional_Information__c = ERROR_ADDITIONAL_INFO);
+		System_Log__c errorLog = new System_Log__c(
+			Origin__c = ERROR_ORIGIN,
+			Error_Body__c = errorMsg,
+			Additional_Information__c = ERROR_ADDITIONAL_INFO
+		);
 		return errorLog;
 	}
 

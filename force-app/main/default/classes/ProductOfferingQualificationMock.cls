@@ -1,13 +1,41 @@
 @IsTest
 global class ProductOfferingQualificationMock implements HttpCalloutMock {
+	private Boolean isBusinessInternetFlow;
+
+	global ProductOfferingQualificationMock() {
+		this.isBusinessInternetFlow = false;
+	}
+
+	global ProductOfferingQualificationMock(Boolean isBusinessInternetFlow) {
+		this.isBusinessInternetFlow = isBusinessInternetFlow;
+	}
 
 	global HttpResponse respond(HttpRequest req) {
 		HttpResponse res = new HttpResponse();
-
 		res.setHeader('Content-Type', 'application/json');
-		res.setBody(
-			'[{"id":"a1O5r0000003dysEAA","expirationDate":null,"provideAlternative":false,"provideOnlyAvailable":false,"provideUnavailabilityReason":true,"provideAllAvailableItems":true,"qualificationNewResult":"GREEN","qualificationResult":"QUALIFIED","category":{"id":"100000462","href":"","name":"homeoffice","version":null},"channel":{"id":"100000000","href":"","name":"salesForce"},"marketSegment":null,"place":[{"@type":"GeographicAddress","id":null,"href":null,"name":null,"geographicAddress":{"streetName":"Grønholtvej","houseNo":"40","houseLetter":"","floor":"","door":"","postDistrict":"Hvidovre","streetCode":3136,"municipalityCode":167,"kvh":"1673136040","kvhx":"1673136040","zip":"2650"}}],"productOfferingQualificationItem":[{"id":"0df3851a-541c-4646-9c2f-448aa85df296","qualificationItemResult":"QUALIFIED","action":"add","alternateProductOfferingProposal":[],"eligibilityUnavailabilityReason":[],"note":[{"@type":"ConsequenceNote","id":"cf554c05-45ec-483c-8c4d-08ddfea6b12a","author":null,"date":null,"text":"New router is needed to support this offering","@baseType":null,"@schemaLocation":null,"code":"NEW_ROUTER_NEEDED"},{"@type":"LineAttributesNote","id":"f7493ade-658d-411d-a639-3f4eb2b78e24","author":null,"date":null,"text":null,"@baseType":null,"@schemaLocation":null,"lineProvider":"tdc","lineAvailableDate":"2023-09-15","lineMaxUpSpeed":1000000,"lineMaxDownSpeed":1000000,"activeLinePresent":false,"activeLineTerminated":false,"activeLineTerminationDate":null,"plugTechnicianRequired":true,"plugTechnicianRequiredAfterTerminationDate":true,"diggingRequired":true,"diggingDistance":null,"diggingType":null,"partialResponse":false,"plugPresentPositiveValidation":false,"futureAddress":false,"activeBlockingLinePresent":null,"addressId":null,"siteId":null,"lineConnectionStatus":"line_at_hand","orderEarliestRequestNumberOfDays":21,"orderAsapNumberOfDays":21,"changeProviderAsapNumberOfDays":10,"changeProviderEarliestRequestNumberOfDays":10}],"product":null,"productOffering":{"id":"100086506","href":null,"name":"HomeOffice Fiber A 1 Gbit/s","code":null,"priceplanCode":"FIBTML2","campaignCode":"FIB2TML12","promoCode":null,"icimCode":"FIBTML2.FIB2TML12","productOfferingPrice":[{"description":"Activation fee - Telia Home Office 1 Gbit/s 12m","name":"Activation fee - Telia Home Office 1 Gbit/s 12m","code":null,"priceType":"activationFee","recurringChargePeriod":null,"unitOfMeasure":null,"price":{"percentage":0,"taxRate":25,"dutyFreeAmount":{"unit":"DKK","value":0},"taxIncludedAmount":{"unit":"DKK","value":0}}},{"description":"Home Office DONG 1 Gbit/s","name":"Home Office DONG 1 Gbit/s","code":null,"priceType":"recurring","recurringChargePeriod":null,"unitOfMeasure":null,"price":{"percentage":0,"taxRate":25,"dutyFreeAmount":{"unit":"DKK","value":263.2},"taxIncludedAmount":{"unit":"DKK","value":329}}}]},"qualificationItemRelationship":[],"state":"done","terminationError":[],"@type":"AvailableProductOfferingQualificationItem"}],"relatedParty":null,"state":"done","@type":"ProductOfferingQualification"}]'
-		);
+
+		if (isBusinessInternetFlow) {
+			Activation_line__c actLine = [
+				SELECT Id, Manual_Product__r.ProductAPI_Telia_Product_Id__c
+				FROM Activation_line__c
+				WHERE Manual_Product__c != NULL
+				LIMIT 1
+			];
+			String priceplanCode = actLine.Manual_Product__r.ProductAPI_Telia_Product_Id__c;
+
+			res.setBody(
+				'[{"id":"' +
+					actLine.Id +
+					'","productOfferingQualificationItem":[{"productOffering":{"priceplanCode":"' +
+					priceplanCode +
+					'"}}]}]'
+			);
+		} else {
+			res.setBody(
+				'[{"id":"a1O5r0000003dysEAA","expirationDate":null,"provideAlternative":false,"provideOnlyAvailable":false,"provideUnavailabilityReason":true,"provideAllAvailableItems":true,"qualificationNewResult":"GREEN","qualificationResult":"QUALIFIED","category":{"id":"100000462","href":"","name":"homeoffice","version":null},"channel":{"id":"100000000","href":"","name":"salesForce"},"marketSegment":null,"place":[{"@type":"GeographicAddress","id":null,"href":null,"name":null,"geographicAddress":{"streetName":"Grønholtvej","houseNo":"40","houseLetter":"","floor":"","door":"","postDistrict":"Hvidovre","streetCode":3136,"municipalityCode":167,"kvh":"1673136040","kvhx":"1673136040","zip":"2650"}}],"productOfferingQualificationItem":[{"id":"0df3851a-541c-4646-9c2f-448aa85df296","qualificationItemResult":"QUALIFIED","action":"add","alternateProductOfferingProposal":[],"eligibilityUnavailabilityReason":[],"note":[{"@type":"ConsequenceNote","id":"cf554c05-45ec-483c-8c4d-08ddfea6b12a","author":null,"date":null,"text":"New router is needed to support this offering","@baseType":null,"@schemaLocation":null,"code":"NEW_ROUTER_NEEDED"},{"@type":"LineAttributesNote","id":"f7493ade-658d-411d-a639-3f4eb2b78e24","author":null,"date":null,"text":null,"@baseType":null,"@schemaLocation":null,"lineProvider":"tdc","lineAvailableDate":"2023-09-15","lineMaxUpSpeed":1000000,"lineMaxDownSpeed":1000000,"activeLinePresent":false,"activeLineTerminated":false,"activeLineTerminationDate":null,"plugTechnicianRequired":true,"plugTechnicianRequiredAfterTerminationDate":true,"diggingRequired":true,"diggingDistance":null,"diggingType":null,"partialResponse":false,"plugPresentPositiveValidation":false,"futureAddress":false,"activeBlockingLinePresent":null,"addressId":null,"siteId":null,"lineConnectionStatus":"line_at_hand","orderEarliestRequestNumberOfDays":21,"orderAsapNumberOfDays":21,"changeProviderAsapNumberOfDays":10,"changeProviderEarliestRequestNumberOfDays":10}],"product":null,"productOffering":{"id":"100086506","href":null,"name":"HomeOffice Fiber A 1 Gbit/s","code":null,"priceplanCode":"FIBTML2","campaignCode":"FIB2TML12","promoCode":null,"icimCode":"FIBTML2.FIB2TML12","productOfferingPrice":[{"description":"Activation fee - Telia Home Office 1 Gbit/s 12m","name":"Activation fee - Telia Home Office 1 Gbit/s 12m","code":null,"priceType":"activationFee","recurringChargePeriod":null,"unitOfMeasure":null,"price":{"percentage":0,"taxRate":25,"dutyFreeAmount":{"unit":"DKK","value":0},"taxIncludedAmount":{"unit":"DKK","value":0}}},{"description":"Home Office DONG 1 Gbit/s","name":"Home Office DONG 1 Gbit/s","code":null,"priceType":"recurring","recurringChargePeriod":null,"unitOfMeasure":null,"price":{"percentage":0,"taxRate":25,"dutyFreeAmount":{"unit":"DKK","value":263.2},"taxIncludedAmount":{"unit":"DKK","value":329}}}]},"qualificationItemRelationship":[],"state":"done","terminationError":[],"@type":"AvailableProductOfferingQualificationItem"}],"relatedParty":null,"state":"done","@type":"ProductOfferingQualification"}]'
+			);
+		}
+
 		res.setStatusCode(200);
 		return res;
 	}

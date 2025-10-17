@@ -6,12 +6,9 @@ private class ProductOfferingQualificationTest {
 		chunkValues.Full_Qualification_Batch_Size__c = 50;
 		chunkValues.Basic_Qualification_Batch_Size__c = 5;
 		insert chunkValues;
-		Account acc = new Account(
-				Name = 'Test Account POQ',
-				Rationale__c = 'Testing'
-		);
+		Account acc = new Account(Name = 'Test Account POQ', Rationale__c = 'Testing');
 		insert acc;
-	
+
 		Opportunity opp = new Opportunity();
 		opp.Name = 'Test Opportunity POQ';
 		opp.StageName = 'Qualification';
@@ -38,17 +35,12 @@ private class ProductOfferingQualificationTest {
 		insert p;
 		System.debug(p);
 
-		Case c = new Case(
-			Subject = 'TestCase'
-		);
+		Case c = new Case(Subject = 'TestCase');
 		insert c;
-		Activation__c a = new Activation__c(
-			Name = 'TestActivation',
-			Case__c = c.Id
-		);
+		Activation__c a = new Activation__c(Name = 'TestActivation', Case__c = c.Id);
 		insert a;
-		
-		Activation_line__c  al = new Activation_line__c();
+
+		Activation_line__c al = new Activation_line__c();
 		al.Street_Name__c = 'street';
 		al.Number__c = '1';
 		al.ZIP_Code__c = '1000';
@@ -115,19 +107,11 @@ private class ProductOfferingQualificationTest {
 	@isTest
 	static void callThePOQTest() {
 		Opportunity opp = [SELECT Id FROM Opportunity WHERE Name = 'Test Opportunity POQ' LIMIT 1];
-		Case c = new Case(
-			Subject = 'TestCase'
-		);
+		Case c = new Case(Subject = 'TestCase');
 		insert c;
-		Activation__c a = new Activation__c(
-			Name = 'TestActivation',
-			Case__c = c.Id
-		);
+		Activation__c a = new Activation__c(Name = 'TestActivation', Case__c = c.Id);
 		insert a;
-		Activation_line__c al = new Activation_line__c(
-			Activation__c = a.Id,
-			Number__c = '1'
-		);
+		Activation_line__c al = new Activation_line__c(Activation__c = a.Id, Number__c = '1');
 		insert al;
 		Location_Line__c line = [
 			SELECT
@@ -324,7 +308,11 @@ private class ProductOfferingQualificationTest {
 
 		for (Location_Line__c line : result) {
 			String expectedStatus = expectedStatuses.get(line.Id);
-			System.assertEquals(expectedStatus, line.Address_Wash_Status__c, 'Address wash status should match the expected value');
+			System.assertEquals(
+				expectedStatus,
+				line.Address_Wash_Status__c,
+				'Address wash status should match the expected value'
+			);
 		}
 	}
 
@@ -378,5 +366,55 @@ private class ProductOfferingQualificationTest {
 		Test.startTest();
 		ProductOfferingQualification.activationLineQualification(activationIds);
 		Test.stopTest();
+	}
+
+	@isTest
+	static void testQualify5G_PreservesManualProduct() {
+		// 1. Setup: Create a specific product and an activation line referencing it
+		Product2 manualProduct = new Product2(
+			Name = 'Business Internet 5G 1TB',
+			ProductCode = '37001',
+			ProductAPI_Telia_Product_Id__c = 'FWABIS02',
+			IsActive = true
+		);
+		insert manualProduct;
+
+		Product2 defaultProduct = new Product2(
+			Name = 'Business Internet 5G',
+			ProductCode = '37000',
+			ProductAPI_Telia_Product_Id__c = 'FWABIS01',
+			IsActive = true
+		);
+		insert defaultProduct;
+
+		Activation_line__c actLine = [SELECT Id FROM Activation_line__c LIMIT 1];
+		actLine.Manual_Product__c = manualProduct.Id;
+		update actLine;
+
+		// 2. Create mock API response that would normally cause an overwrite
+		ProductOfferingQualification.POQresBatch batch = new ProductOfferingQualification.POQresBatch();
+		batch.batch = new List<ProductOfferingQualification.POQres>();
+		ProductOfferingQualification.POQres poqRes = new ProductOfferingQualification.POQres();
+		poqRes.id = actLine.Id;
+		poqRes.productOfferingQualificationItem = new List<ProductOfferingQualification.ProductOfferingQualificationItem>();
+		ProductOfferingQualification.ProductOfferingQualificationItem poqItem = new ProductOfferingQualification.ProductOfferingQualificationItem();
+		poqItem.productOffering = new ProductOfferingQualification.ProductOffering();
+		poqItem.productOffering.priceplanCode = 'FWABIS01'; // This is the code that triggers the overwrite logic
+		poqRes.productOfferingQualificationItem.add(poqItem);
+		batch.batch.add(poqRes);
+
+		// 3. Execute: Call the method
+		Test.startTest();
+		Test.setMock(HttpCalloutMock.class, new ProductOfferingQualificationMock(true));
+		ProductOfferingQualification.activationLineQualification(new List<Id>{ actLine.Id });
+		Test.stopTest();
+
+		// 4. Assert: Verify that the Manual_Product__c was NOT overwritten
+		Activation_line__c updatedActLine = [SELECT Manual_Product__c FROM Activation_line__c WHERE Id = :actLine.Id];
+		System.assertEquals(
+			manualProduct.Id,
+			updatedActLine.Manual_Product__c,
+			'The Manual_Product__c field should not be overwritten by the qualify5G method.'
+		);
 	}
 }

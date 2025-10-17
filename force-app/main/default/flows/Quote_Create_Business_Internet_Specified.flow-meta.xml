@@ -33,6 +33,38 @@
     <apiVersion>58.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
+        <name>Add_to_5G_Collection</name>
+        <label>Add to 5G Collection</label>
+        <locationX>528</locationX>
+        <locationY>782</locationY>
+        <assignmentItems>
+            <assignToReference>BusinessInternet5G_Count</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Activation_Lines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_to_5G_1TB_Collection</name>
+        <label>Add to 5G 1TB Collection</label>
+        <locationX>737</locationX>
+        <locationY>782</locationY>
+        <assignmentItems>
+            <assignToReference>BusinessInternet5G1TB_Count</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Activation_Lines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Activation_Line_Count</name>
         <label>Assign Activation Line Count</label>
         <locationX>182</locationX>
@@ -41,80 +73,64 @@
             <assignToReference>NumberOfValidBusinessInternetActivationLines</assignToReference>
             <operator>AssignCount</operator>
             <value>
-                <elementReference>Get_All_Activation_Lines</elementReference>
+                <elementReference>Get_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Primary_Quote_on_Opportunity</targetReference>
+            <targetReference>Loop_Activation_Lines</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_QL_Relation</name>
-        <label>Assign QL Relation</label>
-        <locationX>270</locationX>
-        <locationY>2030</locationY>
+        <name>Assign_5G_1TB_Quote_Line_ID_to_Activation</name>
+        <label>Assign 5G 1TB Quote Line ID to Activation</label>
+        <locationX>495</locationX>
+        <locationY>2486</locationY>
         <assignmentItems>
-            <assignToReference>Loop_Filtered_AL_Collection.Quote_line__c</assignToReference>
+            <assignToReference>Loop_to_Link_Activation_Lines.Quote_line__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>BusinessInternetQuoteLineId</elementReference>
+                <elementReference>BusinessInternet5G1TBQuoteLineId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ActivationLinesToUpdate</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Loop_Filtered_AL_Collection</elementReference>
+                <elementReference>Loop_to_Link_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Loop_Filtered_AL_Collection</targetReference>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Quantity</name>
-        <label>Assign Quantity</label>
-        <locationX>50</locationX>
-        <locationY>1190</locationY>
+        <name>Assign_5G_Quote_Line_ID_to_Activation</name>
+        <label>Assign 5G Quote Line ID to Activation</label>
+        <locationX>45</locationX>
+        <locationY>2486</locationY>
         <assignmentItems>
-            <assignToReference>Get_Business_Internet_Quote_Line.SBQQ__Quantity__c</assignToReference>
-            <operator>AssignCount</operator>
+            <assignToReference>Loop_to_Link_Activation_Lines.Quote_line__c</assignToReference>
+            <operator>Assign</operator>
             <value>
-                <elementReference>Get_All_Activation_Lines</elementReference>
+                <elementReference>BusinessInternet5GQuoteLineId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>BusinessInternetQuoteLineId</assignToReference>
-            <operator>Assign</operator>
+            <assignToReference>ActivationLinesToUpdate</assignToReference>
+            <operator>Add</operator>
             <value>
-                <elementReference>Get_Business_Internet_Quote_Line.Id</elementReference>
+                <elementReference>Loop_to_Link_Activation_Lines</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_Quantity_On_Quote_Line</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Quote_Line_Id_From_New_Quote_Line</name>
-        <label>Assign Quote Line Id From New Quote Line</label>
-        <locationX>314</locationX>
-        <locationY>1622</locationY>
-        <assignmentItems>
-            <assignToReference>BusinessInternetQuoteLineId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>QuoteLineSubscription.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Filter_AL_Without_QL</targetReference>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Save_existing_Primary_Quote_ID</name>
         <label>Save existing Primary Quote ID</label>
         <locationX>50</locationX>
-        <locationY>782</locationY>
+        <locationY>1002</locationY>
         <assignmentItems>
             <assignToReference>QuoteId</assignToReference>
             <operator>Assign</operator>
@@ -123,209 +139,236 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Business_Internet_Quote_Line</targetReference>
+            <targetReference>Create_5G_Quote_Line</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Save_QuoteLineSubscription_data</name>
-        <label>Save QuoteLineSubscription data</label>
-        <locationX>314</locationX>
-        <locationY>1406</locationY>
+        <name>Assign_BI5G_Quote_Line_Id</name>
+        <label>Assign BI 5G Quote Line Id</label>
+        <locationX>270</locationX>
+        <locationY>1514</locationY>
         <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Quote_Type__c</assignToReference>
+            <assignToReference>BusinessInternet5GQuoteLineId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>New_Business</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__PricebookEntryId__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Price_Book_Entry.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__Product__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Business_Internet_Product.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__ProductName__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Business_Internet_Product.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__Quantity__c</assignToReference>
-            <operator>AssignCount</operator>
-            <value>
-                <elementReference>Get_All_Activation_Lines</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__Quote__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>QuoteId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Activate_with_other_products__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__DynamicOptionId__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue />
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__OptionType__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue />
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__OptionLevel__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <numberValue>0.0</numberValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__ProductOption__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue />
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Quote_Document_Group__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue />
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__NonDiscountable__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__Bundle__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Sales_type_shadow__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>New Business</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue />
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Comp_Product_Gearing__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Business_Internet_Product.Product_Gearing__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.Created_by_Automation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>QuoteLineSubscription.SBQQ__Incomplete__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>Get_BI5G_Quote_Line.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Subscription_QuoteLine</targetReference>
+            <targetReference>Create_5G_1TB_Quote_Line</targetReference>
         </connector>
     </assignments>
-    <collectionProcessors>
-        <name>Filter_AL_Without_QL</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter AL Without QL</label>
-        <locationX>182</locationX>
-        <locationY>1814</locationY>
-        <assignNextValueToReference>currentItem_Filter_AL_Without_QL</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_All_Activation_Lines</collectionReference>
-        <conditionLogic>or</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_AL_Without_QL.Quote_line__c</leftValueReference>
-            <operator>IsNull</operator>
-            <rightValue>
-                <booleanValue>true</booleanValue>
-            </rightValue>
-        </conditions>
-        <conditions>
-            <leftValueReference>currentItem_Filter_AL_Without_QL.Quote_line__c</leftValueReference>
-            <operator>IsBlank</operator>
-            <rightValue>
-                <booleanValue>true</booleanValue>
-            </rightValue>
-        </conditions>
+    <assignments>
+        <name>Assign_BI5G1TB_Quote_Line_Id</name>
+        <label>Assign BI 5G 1TB Quote Line Id</label>
+        <locationX>270</locationX>
+        <locationY>2054</locationY>
+        <assignmentItems>
+            <assignToReference>BusinessInternet5G1TBQuoteLineId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_BI5G1TB_Quote_Line.Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Loop_Filtered_AL_Collection</targetReference>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
         </connector>
-    </collectionProcessors>
+    </assignments>
     <decisions>
-        <name>Business_Internet_Quote_Line_Exists</name>
-        <label>Business Internet Quote Line Exists?</label>
-        <locationX>182</locationX>
-        <locationY>1082</locationY>
+        <name>Check_Product_Type_for_Linking</name>
+        <label>Check Product Type for Linking</label>
+        <locationX>270</locationX>
+        <locationY>2378</locationY>
         <defaultConnector>
-            <targetReference>Get_Business_Internet_Product</targetReference>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Quote_Line_Exists</name>
+            <name>Is_5G</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Business_Internet_Quote_Line.Id</leftValueReference>
+                <leftValueReference>Loop_to_Link_Activation_Lines.Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Business Internet 5G</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_5G_Quote_Line_ID_to_Activation</targetReference>
+            </connector>
+            <label>Is 5G</label>
+        </rules>
+        <rules>
+            <name>Is_5G_1TB</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_to_Link_Activation_Lines.Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Business Internet 5G 1TB</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_5G_1TB_Quote_Line_ID_to_Activation</targetReference>
+            </connector>
+            <label>Is 5G 1TB</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Business_Internet_5G</name>
+        <label>Is Business Internet 5G?</label>
+        <locationX>616</locationX>
+        <locationY>674</locationY>
+        <defaultConnector>
+            <targetReference>Is_Business_Internet_5G_1TB</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Is_BI_5G</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Activation_Lines.Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Business Internet 5G</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_to_5G_Collection</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Create_5G_1TB_Quote_Line</name>
+        <label>Create 5G 1TB Quote Line?</label>
+        <locationX>182</locationX>
+        <locationY>1622</locationY>
+        <defaultConnector>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Create_5G_1TB_Quote_Line</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>BusinessInternet5G1TB_Count</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_BI5G1TB_Quote_Line</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>BI5G1TB_Quote_Line_Exists</name>
+        <label>BI 5G 1TB Quote Line Exists?</label>
+        <locationX>182</locationX>
+        <locationY>1838</locationY>
+        <defaultConnector>
+            <targetReference>Get_BI5G1TB_Product</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes_BI5G1TB_Quote_Line_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_BI5G1TB_Quote_Line</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Quantity</targetReference>
+                <targetReference>Update_BI5G1TB_Quantity</targetReference>
             </connector>
-            <label>Quote Line Exists</label>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Business_Internet_5G_1TB</name>
+        <label>Is Business Internet 5G 1TB?</label>
+        <locationX>825</locationX>
+        <locationY>674</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Activation_Lines</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Is_BI_5G_1TB</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Activation_Lines.Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Business Internet 5G 1TB</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_to_5G_1TB_Collection</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Create_5G_Quote_Line</name>
+        <label>Create 5G Quote Line?</label>
+        <locationX>182</locationX>
+        <locationY>1082</locationY>
+        <defaultConnector>
+            <targetReference>Create_5G_1TB_Quote_Line</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Create_5G_Quote_Line</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>BusinessInternet5G_Count</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_BI5G_Quote_Line</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>BI5G_Quote_Line_Exists</name>
+        <label>BI 5G Quote Line Exists?</label>
+        <locationX>182</locationX>
+        <locationY>1306</locationY>
+        <defaultConnector>
+            <targetReference>Get_BI5G_Product</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes_BI5G_Quote_Line_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_BI5G_Quote_Line</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_BI5G_Quantity</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
         <name>Primary_Quote_on_Opportunity</name>
         <label>Primary Quote on Opportunity ?</label>
         <locationX>182</locationX>
-        <locationY>674</locationY>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>Create_Quote</targetReference>
         </defaultConnector>
@@ -395,7 +438,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_One_Activation_Line</targetReference>
+                <targetReference>Get_Activation_Lines</targetReference>
             </connector>
             <label>Found</label>
         </rules>
@@ -409,14 +452,6 @@
 &apos;]&apos;, &apos;;&apos; + {!AdditionalSpecialTerms}))</expression>
     </formulas>
     <formulas>
-        <name>ProductCode</name>
-        <dataType>String</dataType>
-        <expression>CASE({!Get_One_Activation_Line.Product__c},
-"Business Internet 5G", "37000",
-"Business Internet 5G 1TB", "37001",
-"")</expression>
-    </formulas>
-    <formulas>
         <name>StartDatePlus30Days</name>
         <dataType>Date</dataType>
         <expression>TODAY() + 30</expression>
@@ -424,17 +459,31 @@
     <interviewLabel>Quote Create Business Internet (Specified) {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Quote Create Business Internet (Specified)</label>
     <loops>
-        <name>Loop_Filtered_AL_Collection</name>
-        <label>Loop Filtered AL Collection</label>
-        <locationX>182</locationX>
-        <locationY>1922</locationY>
-        <collectionReference>Filter_AL_Without_QL</collectionReference>
+        <name>Loop_Activation_Lines</name>
+        <label>Loop Activation Lines</label>
+        <locationX>528</locationX>
+        <locationY>566</locationY>
+        <collectionReference>Get_Activation_Lines</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Assign_QL_Relation</targetReference>
+            <targetReference>Is_Business_Internet_5G</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_Activation_Lines_From_Loop</targetReference>
+            <targetReference>Primary_Quote_on_Opportunity</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_to_Link_Activation_Lines</name>
+        <label>Loop to Link Activation Lines</label>
+        <locationX>182</locationX>
+        <locationY>2270</locationY>
+        <collectionReference>Get_Activation_Lines</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Product_Type_for_Linking</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Activation_Lines</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -540,55 +589,80 @@
         <object>SBQQ__Quote__c</object>
     </recordCreates>
     <recordCreates>
-        <name>Create_Subscription_QuoteLine</name>
-        <label>Create Subscription QuoteLine</label>
-        <locationX>314</locationX>
-        <locationY>1514</locationY>
+        <name>Create_BI5G_Quote_Line</name>
+        <label>Create BI 5G Quote Line</label>
+        <locationX>50</locationX>
+        <locationY>1622</locationY>
+        <assignRecordIdToReference>BusinessInternet5GQuoteLineId</assignRecordIdToReference>
         <connector>
-            <targetReference>Assign_Quote_Line_Id_From_New_Quote_Line</targetReference>
+            <targetReference>Create_5G_1TB_Quote_Line</targetReference>
         </connector>
-        <inputReference>QuoteLineSubscription</inputReference>
+        <inputAssignments>
+            <field>SBQQ__PricebookEntryId__c</field>
+            <value>
+                <elementReference>Get_BI5G_Price_Book_Entry.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Product__c</field>
+            <value>
+                <elementReference>Get_BI5G_Product.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Quantity__c</field>
+            <value>
+                <elementReference>BusinessInternet5G_Count</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Quote__c</field>
+            <value>
+                <elementReference>QuoteId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>SBQQ__QuoteLine__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_BI5G1TB_Quote_Line</name>
+        <label>Create BI 5G 1TB Quote Line</label>
+        <locationX>50</locationX>
+        <locationY>2162</locationY>
+        <assignRecordIdToReference>BusinessInternet5G1TBQuoteLineId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Loop_to_Link_Activation_Lines</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>SBQQ__PricebookEntryId__c</field>
+            <value>
+                <elementReference>Get_BI5G1TB_Price_Book_Entry.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Product__c</field>
+            <value>
+                <elementReference>Get_BI5G1TB_Product.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Quantity__c</field>
+            <value>
+                <elementReference>BusinessInternet5G1TB_Count</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SBQQ__Quote__c</field>
+            <value>
+                <elementReference>QuoteId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>SBQQ__QuoteLine__c</object>
     </recordCreates>
     <recordLookups>
-        <name>Get_One_Activation_Line</name>
-        <label>Get One Activation Line</label>
+        <name>Get_Activation_Lines</name>
+        <label>Get Activation Lines</label>
         <locationX>182</locationX>
         <locationY>458</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_All_Activation_Lines</targetReference>
-        </connector>
-        <filterLogic>(1 AND (2 OR 3))</filterLogic>
-        <filters>
-            <field>Case__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Business_Internet_Case.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Product__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Business Internet 5G</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Product__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Business Internet 5G 1TB</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Activation_line__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_All_Activation_Lines</name>
-        <label>Get All Activation Lines</label>
-        <locationX>182</locationX>
-        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Activation_Line_Count</targetReference>
@@ -617,6 +691,62 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Activation_line__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_BI5G_Product</name>
+        <label>Get BI 5G Product</label>
+        <locationX>50</locationX>
+        <locationY>1190</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_BI5G_Price_Book_Entry</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductCode</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>37000</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_BI5G1TB_Product</name>
+        <label>Get BI 5G 1TB Product</label>
+        <locationX>50</locationX>
+        <locationY>1730</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_BI5G1TB_Price_Book_Entry</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductCode</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>37001</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -655,55 +785,55 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Business_Internet_Product</name>
-        <label>Get Business Internet Product</label>
-        <locationX>314</locationX>
-        <locationY>1190</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_Price_Book_Entry</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>ProductCode</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ProductCode</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>IsActive</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Product2</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Business_Internet_Quote_Line</name>
-        <label>Get Business Internet Quote Line</label>
+        <name>Get_BI5G_Quote_Line</name>
+        <label>Get BI 5G Quote Line</label>
         <locationX>50</locationX>
-        <locationY>890</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <locationY>1190</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Business_Internet_Quote_Line_Exists</targetReference>
+            <targetReference>BI5G_Quote_Line_Exists</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>SBQQ__Quote__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Opportunity.SBQQ__PrimaryQuote__c</elementReference>
+                <elementReference>QuoteId</elementReference>
             </value>
         </filters>
         <filters>
             <field>SBQQ__ProductCode__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ProductCode</elementReference>
+                <stringValue>37000</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>SBQQ__QuoteLine__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_BI5G1TB_Quote_Line</name>
+        <label>Get BI 5G 1TB Quote Line</label>
+        <locationX>50</locationX>
+        <locationY>1730</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>BI5G1TB_Quote_Line_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__Quote__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QuoteId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__ProductCode__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>37001</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -732,13 +862,13 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Price_Book_Entry</name>
-        <label>Get Price Book Entry</label>
-        <locationX>314</locationX>
-        <locationY>1298</locationY>
+        <name>Get_BI5G_Price_Book_Entry</name>
+        <label>Get BI 5G Price Book Entry</label>
+        <locationX>50</locationX>
+        <locationY>1406</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Save_QuoteLineSubscription_data</targetReference>
+            <targetReference>Create_BI5G_Quote_Line</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -752,7 +882,35 @@
             <field>ProductCode</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ProductCode</elementReference>
+                <stringValue>37000</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>PricebookEntry</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_BI5G1TB_Price_Book_Entry</name>
+        <label>Get BI 5G 1TB Price Book Entry</label>
+        <locationX>50</locationX>
+        <locationY>1946</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_BI5G1TB_Quote_Line</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Pricebook2Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>01s1i000001LXqLAAW</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProductCode</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>37001</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -760,10 +918,58 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
-        <name>Update_Activation_Lines_From_Loop</name>
-        <label>Update Activation Lines From Loop</label>
+        <name>Update_BI5G_Quantity</name>
+        <label>Update BI 5G Quantity</label>
+        <locationX>270</locationX>
+        <locationY>1406</locationY>
+        <connector>
+            <targetReference>Assign_BI5G_Quote_Line_Id</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_BI5G_Quote_Line.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>SBQQ__Quantity__c</field>
+            <value>
+                <elementReference>BusinessInternet5G_Count</elementReference>
+            </value>
+        </inputAssignments>
+        <object>SBQQ__QuoteLine__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_BI5G1TB_Quantity</name>
+        <label>Update BI 5G 1TB Quantity</label>
+        <locationX>270</locationX>
+        <locationY>1946</locationY>
+        <connector>
+            <targetReference>Assign_BI5G1TB_Quote_Line_Id</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_BI5G1TB_Quote_Line.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>SBQQ__Quantity__c</field>
+            <value>
+                <elementReference>BusinessInternet5G1TB_Count</elementReference>
+            </value>
+        </inputAssignments>
+        <object>SBQQ__QuoteLine__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Activation_Lines</name>
+        <label>Update Activation Lines</label>
         <locationX>182</locationX>
-        <locationY>2222</locationY>
+        <locationY>3134</locationY>
         <connector>
             <targetReference>Update_Ready_for_Calculation_on_Quote</targetReference>
         </connector>
@@ -797,9 +1003,9 @@
         <name>Update_Primary_Quote_on_Opportunity</name>
         <label>Update Primary Quote on Opportunity</label>
         <locationX>314</locationX>
-        <locationY>890</locationY>
+        <locationY>1002</locationY>
         <connector>
-            <targetReference>Business_Internet_Quote_Line_Exists</targetReference>
+            <targetReference>Create_5G_Quote_Line</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -822,16 +1028,6 @@
             </value>
         </inputAssignments>
         <object>Opportunity</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_Quantity_On_Quote_Line</name>
-        <label>Update Quantity On Quote Line</label>
-        <locationX>50</locationX>
-        <locationY>1298</locationY>
-        <connector>
-            <targetReference>Filter_AL_Without_QL</targetReference>
-        </connector>
-        <inputReference>Get_Business_Internet_Quote_Line</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Ready_for_Calculation_on_Quote</name>
@@ -908,35 +1104,40 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>BusinessInternetQuoteLineId</name>
+        <name>BusinessInternet5G1TB_Count</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>BusinessInternet5G1TBQuoteLineId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>BusinessInternetQuoteLineQuantity</name>
+        <name>BusinessInternet5G_Count</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
-        <name>currentItem_Filter_AL_Without_QL</name>
-        <dataType>SObject</dataType>
+        <name>BusinessInternet5GQuoteLineId</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-        <objectType>Activation_line__c</objectType>
-    </variables>
-    <variables>
-        <name>EmptyQouteLine</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>SBQQ__QuoteLine__c</objectType>
     </variables>
     <variables>
         <name>ExistingSpecialTerms</name>
@@ -1077,14 +1278,6 @@
         <name>QuoteLineOTCCollection</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>SBQQ__QuoteLine__c</objectType>
-    </variables>
-    <variables>
-        <name>QuoteLineSubscription</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>SBQQ__QuoteLine__c</objectType>
