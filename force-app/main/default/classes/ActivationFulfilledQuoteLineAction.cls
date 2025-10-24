@@ -30,11 +30,9 @@ global class ActivationFulfilledQuoteLineAction {
 		//Some quotelines have products which are activated with other products or
 		//an Activation_Record_Type__c that indicates that no avtivation is needed.
 		//In both cases no activation lines are created, but we still need to add a quantity.
-		List<Product2> listOfProductsWithActivateInfo = [
-			SELECT Id, Activate_with_other_products__c, Activation_Record_Type__c
-			FROM Product2
-			WHERE Id IN :listOfUsedQuoteLineProducts
-		];
+		List<Product2> listOfProductsWithActivateInfo = ProductSelector.getProductsWithActivationInfoByIds(
+			listOfUsedQuoteLineProducts
+		);
 
 		//Create a list of products that activates with other products, or where no activation is needed, and therefore do not have activation lines.
 		//We should not update the quantity of quotelines with these products as it is already correct.
@@ -50,12 +48,9 @@ global class ActivationFulfilledQuoteLineAction {
 			}
 		}
 
-		List<AggregateResult> listOfActivationLineCountsPrQuoteLine = [
-			SELECT Manual_Product__c, COUNT(Id) quantity
-			FROM activation_line__c
-			WHERE Quote_line__c IN :listOfAllQuoteLines
-			GROUP BY Manual_Product__c
-		];
+		List<AggregateResult> listOfActivationLineCountsPrQuoteLine = ActivationLineSelector.getActivationLineCountsByQuoteLineIds(
+			new List<Id>(new Map<Id, SObject>(listOfAllQuoteLines).keySet())
+		);
 
 		Map<Id, Integer> mapOfActivationLineCounts = new Map<Id, Integer>();
 		for (AggregateResult ar : listOfActivationLineCountsPrQuoteLine) {

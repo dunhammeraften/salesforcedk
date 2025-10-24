@@ -1,6 +1,6 @@
 public without sharing class OpportunitySelector {
 	public List<Location_Line__c> getLocationLinesByOpportunityIds(List<String> opportunityIds) {
-        Logger.logInfo(String.format('getLocationLinesByOpportunityIds( {0} )', new List<Object>{opportunityIds}));
+		Logger.logInfo(String.format('getLocationLinesByOpportunityIds( {0} )', new List<Object>{ opportunityIds }));
 
 		return [
 			SELECT Id
@@ -53,5 +53,13 @@ public without sharing class OpportunitySelector {
 			WHERE AccountId IN :accounts AND (IsClosed = FALSE OR (IsClosed = TRUE AND CloseDate > :filterDate))
 			ORDER BY IsClosed, IsWon DESC
 		];
+	}
+
+	public static Opportunity getOpportunityWithPrimaryQuoteById(Id oppId) {
+		return (Opportunity) new Query('Opportunity')
+			.selectFields(new List<String>{ 'Id', 'SBQQ__PrimaryQuote__c' })
+			.addConditionEq('Id', oppId)
+			.setLimit(1)
+			.fetch();
 	}
 }

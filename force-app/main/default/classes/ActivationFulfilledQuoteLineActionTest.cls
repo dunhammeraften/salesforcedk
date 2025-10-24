@@ -112,7 +112,7 @@ public with sharing class ActivationFulfilledQuoteLineActionTest {
 		opp.SBQQ__PrimaryQuote__c = quote.Id;
 		update opp;
 
-		opp = [SELECT Id, SBQQ__PrimaryQuote__c FROM Opportunity WHERE Id = :opp.Id LIMIT 1][0];
+		opp = OpportunitySelector.getOpportunityWithPrimaryQuoteById(opp.Id);
 
 		Integer numberOfDifferentProducts = 2;
 		Integer numberOfNoActionProducts = 1;
@@ -138,25 +138,9 @@ public with sharing class ActivationFulfilledQuoteLineActionTest {
 
 		Test.startTest();
 
-		List<SBQQ__QuoteLine__c> listOfQuoteLines = [
-			SELECT
-				Id,
-				SBQQ__Quote__c,
-				SBQQ__Product__c,
-				SBQQ__PricebookEntryId__c,
-				SBQQ__Quantity__c,
-				SBQQ__NetPrice__c,
-				Activation_Record_Type__c,
-				Activation__c,
-				SBQQ__Quote__r.SBQQ__BillingCity__c,
-				Original_Quote_Line__c,
-				SBQQ__RequiredBy__c,
-				Additional_Quantity__c,
-				cross_sale__c,
-				upsale__c
-			FROM SBQQ__QuoteLine__c
-			WHERE Id IN :listOfQuoteLinesTmp
-		];
+		List<SBQQ__QuoteLine__c> listOfQuoteLines = QuoteLineSelector.getQuoteLinesWithDetailsByIds(
+			new List<Id>(new Map<Id, SObject>(listOfQuoteLinesTmp).keySet())
+		);
 
 		//create case on account
 		Case quoteCase = TDF_CaseUtils.createCaseOnQuote(quote);
